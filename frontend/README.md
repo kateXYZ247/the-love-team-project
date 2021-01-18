@@ -1,14 +1,14 @@
-# The Love Team Frontend
+# The Love Team Web Application Fontend
 
 ## IDE setup
 
-* Install Prettier plugin, enable Settings &rarr; Languages & Frameworks &rarr; JavaScript &rarr; Prettier:
-    1. select Prettier package
-    1. check "On code reformat"
-    1. check "On save"
-* Settings &rarr; Other Settings &rarr; Save Actions:
-    1. check "Activate save actions on save"
-    1. check "Reformat file"
+- Install Prettier plugin, enable Settings &rarr; Languages & Frameworks &rarr; JavaScript &rarr; Prettier:
+  1. select Prettier package
+  1. check "On code reformat"
+  1. check "On save"
+- Settings &rarr; Other Settings &rarr; Save Actions:
+  1. check "Activate save actions on save"
+  1. check "Reformat file"
 
 ## Usage
 
