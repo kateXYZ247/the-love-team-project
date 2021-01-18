@@ -16,7 +16,7 @@
 
 ### Intellij IDE Setup
 
-- DevTool: [stackoverflow link](https://stackoverflow.com/questions/33869606/intellij-15-springboot-devtools-livereload-not-working)
+- DevTool: [how to](https://stackoverflow.com/a/46630517/14973616)
 - Reformat on save, in settings:
   1. check "Activate save actions on save"
   2. check "Reformat file"
@@ -41,4 +41,5 @@
 ### Usage
 - Maven: reload/clean/install
 - run `WebApplication`
-- open [localhost:8080](http://localhost:8080/), login with username = "user", password = {GENERATED SECURITY PASSWORD IN CONSOLE}, and you should be redirected to the default error page
+- `GET` request to `/hello` should return `"Hello, this is The Love Team."`.
+- `POST` request to `/hello` with JSON body `{"username": "TLT", "message": "hello, this is TLT"}` should return JSON `{"response": "Received from TLT: hello, this is TLT"}`.
