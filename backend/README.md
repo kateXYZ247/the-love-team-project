@@ -2,7 +2,7 @@
 
 ## Project Setup
 
-### Selected dependencies from Spring Boot
+### Selected dependencies from Spring Boot (already added in pom.xml)
 
 - Spring Boot DevTools: automatically rebuild project
 - Spring Web
@@ -17,6 +17,7 @@
 ### Intellij IDE Setup
 
 - DevTool: [how to](https://stackoverflow.com/a/46630517/14973616)
+- Install lombok plugin: [instruction](https://projectlombok.org/setup/intellij)
 - Reformat on save, in settings:
   1. check "Activate save actions on save"
   2. check "Reformat file"
