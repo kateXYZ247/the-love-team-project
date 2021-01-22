@@ -13,3 +13,7 @@
         flex-flow: row;
     }
 }
+
+.NavigationItem {
+    color: white;
+}

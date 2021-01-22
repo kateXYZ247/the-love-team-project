@@ -1,0 +1,38 @@
+.container {
+    width: 1400px;
+    display: flex;
+    margin: auto;
+}
+
+.illustration {
+    width: 800px;
+    height: 800px;
+}
+
+.left {
+    width: 600px;
+    height: 800px;
+}
+
+.beautyAnywhere {
+    height: 160px;
+    color: #1B429A;
+    font-family: "Bodoni 72 Oldstyle", serif;
+    font-size: 64px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 80px;
+    margin-top: 200px;
+}
+
+.needToLook {
+    height: 72px;
+    width: 500px;
+    color: #FFA05A;
+    font-family: ".SF NS Display", sans-serif;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 36px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
