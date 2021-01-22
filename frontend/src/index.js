@@ -7,6 +7,8 @@ import { combineReducers, compose, createStore } from "redux";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
 
+import authReducer from "./store/reducers/auth";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -23,7 +25,7 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null) || compose;
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ authReducer });
 
 const store = createStore(rootReducer, composeEnhancers());
 
