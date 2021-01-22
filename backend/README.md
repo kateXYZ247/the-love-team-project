@@ -25,7 +25,7 @@
 ### Database setup
 
 - install local [PostgreSQL](https://www.postgresql.org/download/) or setup AWS RDS with PostgresSQL
-- add system environment variable: jdbcurl, dbuser, dbpasswd
+- add system environment variable: tlt_jdbcurl, tlt_dbuser, tlt_dbpasswd, tlt_jwt_secret_key (secret key for generating JWT tokens)
 
 ### Folder Structures
 - [/src/main/java/com/theloveteam/web](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web) - main source folder
