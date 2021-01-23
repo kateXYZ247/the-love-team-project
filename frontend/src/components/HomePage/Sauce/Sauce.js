@@ -5,6 +5,7 @@ import SaucePlace from "../../../assets/images/sauce_place.svg";
 import SauceReputation from "../../../assets/images/sauce_reputation.svg";
 import SauceFamouse from "../../../assets/images/sauce_famous.svg";
 import SauceCard from "./SauceCard/SauceCard";
+import { Button } from "@material-ui/core";
 
 const sauceList = [
   {
@@ -20,7 +21,7 @@ const sauceList = [
       "On - demand, on - location beauty services that match your request with our expert beauty professional in your area in as little as an hour’s notice or up to 3 months in advance.",
   },
   {
-    image: SauceReputation,
+    image: SauceFamouse,
     title: "Work only with experts",
     content:
       "Every beauty professional is put through rigorous testing before being accepted into our network.",
@@ -38,8 +39,13 @@ function Sauce(props) {
       />
       <div className={classes.container}>
         {sauceList.map((item) => (
-          <SauceCard item={item} />
+          <SauceCard item={item} key={item.title} />
         ))}
+      </div>
+      <div className={classes.button}>
+        <Button variant="contained" color="primary" size="large">
+          Get Started
+        </Button>
       </div>
     </div>
   );
