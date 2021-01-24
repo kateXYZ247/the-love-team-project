@@ -8,8 +8,10 @@ function ProcessCard(props) {
     <div className={classes.container} style={{ backgroundColor: bgColor }}>
       <div className={classes.title}>{title}</div>
       <div className={classes.content}>
-        {content.split("\n").map((line) => (
-          <p className={classes.line}>{line}</p>
+        {content.split("\n").map((line, index) => (
+          <p className={classes.line} key={index}>
+            {line}
+          </p>
         ))}
       </div>
     </div>
