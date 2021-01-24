@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar } from "@material-ui/core";
 
 import classes from "./NavBar.module.css";
 import NavigationItems from "../NavigationItems/NavigationItems";

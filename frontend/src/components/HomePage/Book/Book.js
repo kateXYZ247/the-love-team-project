@@ -7,8 +7,8 @@ function Book(props) {
   return (
     <div className={classes.container}>
       <div className={classes.left}>
-        <div className={classes.beautyAnywhere}>Beauty, Anywhere, Anytime!</div>
-        <div className={classes.needToLook}>
+        <div className={classes.title}>Beauty, Anywhere, Anytime!</div>
+        <div className={classes.subtitle}>
           Need to look fabulous, fast? Search. Book. Enjoy. Instantly book your
           next beauty or wellness experience.
         </div>

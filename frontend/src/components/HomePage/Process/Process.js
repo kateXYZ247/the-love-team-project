@@ -4,34 +4,7 @@ import classes from "./Process.module.css";
 import ProcessCard from "./ProcessCard/ProcessCard";
 import { useTheme } from "@material-ui/core/styles";
 import ProcessTop from "../../../assets/images/process_top.svg";
-
-const processList = [
-  {
-    title: "Choose Your Services",
-    content: `
-LoveTeam is here for weekly blowouts, a fun night out, or just because!
-  
-Browsing and select your desired services from our service menu.
-`,
-  },
-  {
-    title: "Tell us When & Where",
-    content: `
-Kick back in your bathrobe and let us do the work to match you with one of our expert Beauty Professionals.
-  
-Choose a preferred date, time and location, and let our team come to you               
-                      - anytime, anywhere.
-`,
-  },
-  {
-    title: "Book and Relax",
-    content: `
-Confirm your appointment details and payments will handled online - No need for cash on hand.
-  
-That’s it! Sit back and relax, LoveTeam professionals will be there shortly.
-`,
-  },
-];
+import { processList } from "../../../constant/homepage";
 
 function Process(props) {
   const theme = useTheme();

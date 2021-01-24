@@ -14,8 +14,8 @@
     height: 800px;
 }
 
-.beautyAnywhere {
-    height: 160px;
+.title {
+    height: 240px;
     color: #1B429A;
     font-family: "Bodoni 72 Oldstyle", serif;
     font-size: 64px;
@@ -25,7 +25,7 @@
     margin-top: 200px;
 }
 
-.needToLook {
+.subtitle {
     height: 72px;
     width: 500px;
     color: #FFA05A;
