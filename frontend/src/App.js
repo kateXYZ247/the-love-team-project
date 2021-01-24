@@ -6,11 +6,13 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import CustomerLogin from "./containers/CustomerLogin/CustomerLogin";
+import SampleContainer from "./containers/Sample/SampleContainer";
 
 function App(props) {
   let routes = (
     <Switch>
       <Route path="/login" render={(props) => <CustomerLogin {...props} />} />
+      <Route path="/test" render={(props) => <SampleContainer {...props} />} />
       <Route path="/" exact component={Home} />
       <Redirect to="/" />
     </Switch>
@@ -19,6 +21,10 @@ function App(props) {
     routes = (
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route
+          path="/test"
+          render={(props) => <SampleContainer {...props} />}
+        />
         <Route path="/login" render={(props) => <CustomerLogin {...props} />} />
         <Redirect to="/" />
       </Switch>
