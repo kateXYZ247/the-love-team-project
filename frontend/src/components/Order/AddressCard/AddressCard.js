@@ -35,22 +35,19 @@ function AddressCard(props) {
                   <Grid item xs={12}>
                     <TextField
                       id="main-address"
-                      label="Your Address"
+                      label="Your Full Address"
                       defaultValue={address}
                       onChange={(event) =>
                         addressChangedHandler(event.target.value)
                       }
                       fullWidth
                       variant="outlined"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
                       id="apartment-input"
-                      label="Apartment, unit, room #"
+                      label="Apartment, Unit, Room #"
                       defaultValue={apartment}
                       onChange={(event) =>
                         apartmentChangedHandler(event.target.value)
@@ -62,7 +59,7 @@ function AddressCard(props) {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       id="pet-input"
-                      label="Any pets? (dog or cat?)"
+                      label="Any Pets? (Dog or Cat?)"
                       defaultValue={pet}
                       onChange={(event) =>
                         petChangedHandler(event.target.value)
@@ -74,7 +71,7 @@ function AddressCard(props) {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       id="direction-input"
-                      label="Any special directions?"
+                      label="Any Special Directions?"
                       defaultValue={direction}
                       onChange={(event) =>
                         directionChangedHandler(event.target.value)
@@ -87,7 +84,7 @@ function AddressCard(props) {
                     <TextField
                       id="type-input"
                       select
-                      label="Type of location"
+                      label="Type of Location"
                       value={locationType}
                       onChange={(event) =>
                         locationTypeChangedHandler(event.target.value)
