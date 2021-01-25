@@ -1,20 +1,14 @@
-import React, {useState} from "react";
+import React from "react";
 import Sample from "../../components/Sample/Sample";
-import {Chip} from "@material-ui/core";
-import DateTimePicker from "../../components/Order/DateTimePicker/DateTimePicker";
+import { Chip } from "@material-ui/core";
+import OrderInfo from "../Order/OrderInfo/OrderInfo";
 
 function SampleContainer(props) {
-  const [date, setDate] = useState(new Date());
-  console.log(date);
-  const onDateChanged = (updatedDate) => {
-    setDate(updatedDate);
-  }
-
   return (
     <div>
-      <Chip color="primary" label="This is a Sample Container"/>
-      <Sample clicked={props.clicked}/>
-      <DateTimePicker date={date} DateChangeHandler={onDateChanged}/>
+      <Chip color="primary" label="This is a Sample Container" />
+      <Sample clicked={props.clicked} />
+      <OrderInfo />
     </div>
   );
 }
