@@ -7,13 +7,16 @@ import { combineReducers, compose, createStore } from "redux";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
 
+import authReducer from "./store/reducers/auth";
+import { BrowserRouter } from "react-router-dom";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#E64398",
+      main: "#B57AD2",
     },
     secondary: {
-      main: "#F0EBF4",
+      main: "#3490cf",
     },
   },
 });
@@ -23,16 +26,20 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null) || compose;
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ auth: authReducer });
 
 const store = createStore(rootReducer, composeEnhancers());
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </ThemeProvider>,
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
