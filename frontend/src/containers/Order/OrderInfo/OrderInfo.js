@@ -37,7 +37,7 @@ function OrderInfo(props) {
   };
 
   return (
-    <Grid direction="column" spacing={8}>
+    <Grid container direction="column" spacing={8}>
       <Box mt={8}>
         <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
       </Box>

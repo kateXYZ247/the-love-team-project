@@ -25,7 +25,7 @@ function AddressCard(props) {
   } = props;
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6} justify="center">
+      <Grid item xs={10} lg={6}>
         <Card>
           <CardContent>
             <CardTitle>Finish some details on your address</CardTitle>
