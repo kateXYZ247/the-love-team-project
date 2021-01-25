@@ -1,6 +1,12 @@
 import React from "react";
-import { Card, CardContent, MenuItem, TextField } from "@material-ui/core";
-import classes from "./AddressCard.module.css";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  MenuItem,
+  TextField,
+} from "@material-ui/core";
 import CardTitle from "../CardTitle/CardTitle";
 import { locationTypes } from "../../../constant/order";
 
@@ -18,68 +24,91 @@ function AddressCard(props) {
     locationTypeChangedHandler,
   } = props;
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <CardTitle>Finish some details on your address</CardTitle>
-        <form noValidate autoComplete="off">
-          <div className={classes.addressForm}>
-            <TextField
-              style={{ margin: "20px 25px", width: "600px" }}
-              id="main-address"
-              label="Your Address"
-              defaultValue={address}
-              onChange={(event) => addressChangedHandler(event.target.value)}
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              style={{ margin: "20px 25px", width: "275px" }}
-              id="apartment-input"
-              label="Apartment, unit, room #"
-              defaultValue={apartment}
-              onChange={(event) => apartmentChangedHandler(event.target.value)}
-              variant="outlined"
-            />
-            <TextField
-              style={{ margin: "20px 25px", width: "275px" }}
-              id="pet-input"
-              label="Any pets? (dog or cat?)"
-              defaultValue={pet}
-              onChange={(event) => petChangedHandler(event.target.value)}
-              variant="outlined"
-            />
-            <TextField
-              style={{ margin: "20px 25px", width: "275px" }}
-              id="direction-input"
-              label="Any special directions?"
-              defaultValue={direction}
-              onChange={(event) => directionChangedHandler(event.target.value)}
-              variant="outlined"
-            />
-            <TextField
-              style={{ margin: "20px 25px", width: "275px" }}
-              id="type-input"
-              select
-              label="Type of location"
-              value={locationType}
-              onChange={(event) =>
-                locationTypeChangedHandler(event.target.value)
-              }
-              variant="outlined"
-            >
-              {locationTypes.map((op) => (
-                <MenuItem key={op.value} value={op.value}>
-                  {op.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+    <Grid container justify="center">
+      <Grid item xs={10} lg={6} justify="center">
+        <Card>
+          <CardContent>
+            <CardTitle>Finish some details on your address</CardTitle>
+            <form noValidate autoComplete="off">
+              <Box p={5}>
+                <Grid container justify="space-around" spacing={3}>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="main-address"
+                      label="Your Address"
+                      defaultValue={address}
+                      onChange={(event) =>
+                        addressChangedHandler(event.target.value)
+                      }
+                      fullWidth
+                      variant="outlined"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      id="apartment-input"
+                      label="Apartment, unit, room #"
+                      defaultValue={apartment}
+                      onChange={(event) =>
+                        apartmentChangedHandler(event.target.value)
+                      }
+                      fullWidth
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      id="pet-input"
+                      label="Any pets? (dog or cat?)"
+                      defaultValue={pet}
+                      onChange={(event) =>
+                        petChangedHandler(event.target.value)
+                      }
+                      fullWidth
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      id="direction-input"
+                      label="Any special directions?"
+                      defaultValue={direction}
+                      onChange={(event) =>
+                        directionChangedHandler(event.target.value)
+                      }
+                      fullWidth
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      id="type-input"
+                      select
+                      label="Type of location"
+                      value={locationType}
+                      onChange={(event) =>
+                        locationTypeChangedHandler(event.target.value)
+                      }
+                      variant="outlined"
+                      fullWidth
+                    >
+                      {locationTypes.map((op) => (
+                        <MenuItem key={op.value} value={op.value}>
+                          {op.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                </Grid>
+              </Box>
+            </form>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 

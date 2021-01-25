@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { locationTypes } from "../../../constant/order";
 import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePicker";
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
-import classes from "./OrderInfo.module.css";
+import { Box, Grid } from "@material-ui/core";
 
 function OrderInfo(props) {
   const [date, setDate] = useState(new Date());
@@ -37,21 +37,25 @@ function OrderInfo(props) {
   };
 
   return (
-    <div className={classes.container}>
-      <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
-      <AddressCard
-        address={address}
-        addressChangedHandler={addressChangedHandler}
-        apartment={apartment}
-        apartmentChangedHandler={apartmentChangedHandler}
-        pet={pet}
-        petChangedHandler={petChangedHandler}
-        direction={direction}
-        directionChangedHandler={directionChangedHandler}
-        locationType={locationType}
-        locationTypeChangedHandler={locationTypeChangedHandler}
-      />
-    </div>
+    <Grid direction="column" spacing={8}>
+      <Box mt={8}>
+        <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
+      </Box>
+      <Box mt={8}>
+        <AddressCard
+          address={address}
+          addressChangedHandler={addressChangedHandler}
+          apartment={apartment}
+          apartmentChangedHandler={apartmentChangedHandler}
+          pet={pet}
+          petChangedHandler={petChangedHandler}
+          direction={direction}
+          directionChangedHandler={directionChangedHandler}
+          locationType={locationType}
+          locationTypeChangedHandler={locationTypeChangedHandler}
+        />
+      </Box>
+    </Grid>
   );
 }
 
