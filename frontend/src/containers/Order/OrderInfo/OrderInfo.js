@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { locationTypes } from "../../../constant/order";
+import { addressTypes } from "../../../constant/order";
 import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePicker";
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
 import { Box, Grid } from "@material-ui/core";
@@ -10,7 +10,7 @@ function OrderInfo(props) {
   const [apartment, setApartment] = useState("");
   const [pet, setPet] = useState("");
   const [direction, setDirection] = useState("");
-  const [locationType, setLocationType] = useState(locationTypes[0].value);
+  const [addressType, setAddressType] = useState(addressTypes[0].value);
 
   const dateChangedHandler = (updatedDate) => {
     setDate(updatedDate);
@@ -32,8 +32,8 @@ function OrderInfo(props) {
     setDirection(updatedDirection);
   };
 
-  const locationTypeChangedHandler = (updatedType) => {
-    setLocationType(updatedType);
+  const addressTypeChangedHandler = (updatedType) => {
+    setAddressType(updatedType);
   };
 
   return (
@@ -51,8 +51,8 @@ function OrderInfo(props) {
           petChangedHandler={petChangedHandler}
           direction={direction}
           directionChangedHandler={directionChangedHandler}
-          locationType={locationType}
-          locationTypeChangedHandler={locationTypeChangedHandler}
+          addressType={addressType}
+          addressTypeChangedHandler={addressTypeChangedHandler}
         />
       </Box>
     </Grid>

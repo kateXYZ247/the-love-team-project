@@ -1,4 +1,4 @@
-export const locationTypes = [
+export const addressTypes = [
   { value: "Home", label: "Home" },
   { value: "Hotel", label: "Hotel" },
   {

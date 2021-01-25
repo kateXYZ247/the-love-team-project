@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import CardTitle from "../CardTitle/CardTitle";
-import { locationTypes } from "../../../constant/order";
+import { addressTypes } from "../../../constant/order";
 
 function AddressCard(props) {
   const {
@@ -20,8 +20,8 @@ function AddressCard(props) {
     petChangedHandler,
     direction,
     directionChangedHandler,
-    locationType,
-    locationTypeChangedHandler,
+    addressType,
+    addressTypeChangedHandler,
   } = props;
   return (
     <Grid container justify="center">
@@ -84,15 +84,15 @@ function AddressCard(props) {
                     <TextField
                       id="type-input"
                       select
-                      label="Type of Location"
-                      value={locationType}
+                      label="Type of Address"
+                      value={addressType}
                       onChange={(event) =>
-                        locationTypeChangedHandler(event.target.value)
+                        addressTypeChangedHandler(event.target.value)
                       }
                       variant="outlined"
                       fullWidth
                     >
-                      {locationTypes.map((op) => (
+                      {addressTypes.map((op) => (
                         <MenuItem key={op.value} value={op.value}>
                           {op.label}
                         </MenuItem>
