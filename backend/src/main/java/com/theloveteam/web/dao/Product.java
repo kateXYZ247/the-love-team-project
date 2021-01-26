@@ -2,6 +2,7 @@ package com.theloveteam.web.dao;
 
 import java.util.UUID;
 
+
 public class Product {
     private final UUID id;
 
