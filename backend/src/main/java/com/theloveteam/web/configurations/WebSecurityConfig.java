@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // Entry points
     http.authorizeRequests()//
         .antMatchers("/hello").permitAll()//
+        .antMatchers("/products").permitAll()
         .antMatchers("/users/login").permitAll()//
         .antMatchers("/users/register").permitAll()//
         .antMatchers("/gs-guide-websocket/**", "/topic/**", "/app/**", "/user/**").permitAll()
