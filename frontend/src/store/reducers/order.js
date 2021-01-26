@@ -8,11 +8,24 @@ const initialState = {
 };
 
 const addToCard = (state, action) => {
-  return updateObject(state, [...state.order, action.product]);
+  return updateObject(state, { order: [...state.order, action.product] });
 };
 
 const updateServiceTimeAddress = (state, action) => {
-  return state;
+  console.log(action);
+  const oldOrder = state.order;
+  const updatedOrder = oldOrder.map((service) =>
+    updateObject(service, {
+      startTime: action.time.startTime,
+      endTime: action.time.endTime,
+      address: action.address.address,
+      apartment: action.address.apartment,
+      pet: action.address.pet,
+      direction: action.address.direction,
+      addressType: action.address.addressType,
+    })
+  );
+  return updateObject(state, { order: updatedOrder });
 };
 
 const reducer = (state = initialState, action) => {

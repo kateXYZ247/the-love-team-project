@@ -6,3 +6,4 @@ export const addressTypes = [
     label: "Office",
   },
 ];
+export const orderTimeAddressPageButtonText = "Account Details";

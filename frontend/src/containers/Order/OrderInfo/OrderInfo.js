@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { addressTypes } from "../../../constant/order";
+import {
+  addressTypes,
+  orderTimeAddressPageButtonText,
+} from "../../../constant/order";
 import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePicker";
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
 import { Box } from "@material-ui/core";
+import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 
 function OrderInfo(props) {
+  const { serviceInfoUpdateHandler } = props;
+
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
   const [apartment, setApartment] = useState("");
@@ -36,6 +42,17 @@ function OrderInfo(props) {
     setAddressType(updatedType);
   };
 
+  const nextButtonClickedHandler = () => {
+    const addressObject = {
+      address: address,
+      apartment: apartment,
+      pet: pet,
+      direction: direction,
+      addressType: addressType,
+    };
+    serviceInfoUpdateHandler(date, addressObject);
+  };
+
   return (
     <React.Fragment>
       <Box mt={5}>
@@ -55,6 +72,11 @@ function OrderInfo(props) {
           addressTypeChangedHandler={addressTypeChangedHandler}
         />
       </Box>
+      <BottomAction
+        buttonText={orderTimeAddressPageButtonText}
+        numServices={3}
+        editCartHandler={nextButtonClickedHandler}
+      />
     </React.Fragment>
   );
 }
