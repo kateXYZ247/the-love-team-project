@@ -5,7 +5,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 function BottomAction(props) {
-  const { numServices, editCartHandler, buttonText } = props;
+  const { numServices, onEditCart, buttonText, onClickNext } = props;
 
   return (
     <Box>
@@ -13,18 +13,28 @@ function BottomAction(props) {
       <Grid container justify="space-around">
         <Box>
           <Button
+            size="large"
+            onClick={onEditCart}
             startIcon={
-              <Badge badgeContent={numServices} color="primary">
+              <Badge
+                badgeContent={numServices}
+                color="primary"
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+              >
                 <ShoppingCartIcon />
               </Badge>
             }
           >
-            Edit Cart
+            My Appointments
           </Button>
         </Box>
         <Box>
           <Button
-            onClick={editCartHandler}
+            size="large"
+            onClick={onClickNext}
             variant="contained"
             color="primary"
             endIcon={<ArrowForwardIcon />}

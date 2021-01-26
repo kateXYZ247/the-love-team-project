@@ -7,6 +7,7 @@ import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePic
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
 import { Box } from "@material-ui/core";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
+import TopAction from "../../../components/Order/TopAction/TopAction";
 
 function OrderInfo(props) {
   const { serviceInfoUpdateHandler } = props;
@@ -55,27 +56,31 @@ function OrderInfo(props) {
 
   return (
     <React.Fragment>
-      <Box mt={5}>
+      <Box mt={2}>
+        <TopAction />
+      </Box>
+      <Box mt={3}>
         <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
       </Box>
       <Box mt={5}>
         <AddressCard
           address={address}
-          addressChangedHandler={addressChangedHandler}
+          onAddressChange={addressChangedHandler}
           apartment={apartment}
-          apartmentChangedHandler={apartmentChangedHandler}
+          onApartmentChange={apartmentChangedHandler}
           pet={pet}
-          petChangedHandler={petChangedHandler}
+          onPetChange={petChangedHandler}
           direction={direction}
-          directionChangedHandler={directionChangedHandler}
+          onDirectionChange={directionChangedHandler}
           addressType={addressType}
-          addressTypeChangedHandler={addressTypeChangedHandler}
+          onAddressTypeChange={addressTypeChangedHandler}
         />
       </Box>
       <BottomAction
         buttonText={orderTimeAddressPageButtonText}
         numServices={3}
-        editCartHandler={nextButtonClickedHandler}
+        onEditCart={nextButtonClickedHandler}
+        onClickNext={nextButtonClickedHandler}
       />
     </React.Fragment>
   );

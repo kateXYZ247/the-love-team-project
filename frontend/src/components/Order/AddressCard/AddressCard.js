@@ -13,15 +13,15 @@ import { addressTypes } from "../../../constant/order";
 function AddressCard(props) {
   const {
     address,
-    addressChangedHandler,
+    onAddressChange,
     apartment,
-    apartmentChangedHandler,
+    onApartmentChange,
     pet,
-    petChangedHandler,
+    onPetChange,
     direction,
-    directionChangedHandler,
+    onDirectionChange,
     addressType,
-    addressTypeChangedHandler,
+    onAddressTypeChange,
   } = props;
   return (
     <Grid container justify="center">
@@ -37,9 +37,7 @@ function AddressCard(props) {
                       id="main-address"
                       label="Your Full Address"
                       defaultValue={address}
-                      onChange={(event) =>
-                        addressChangedHandler(event.target.value)
-                      }
+                      onChange={(event) => onAddressChange(event.target.value)}
                       fullWidth
                       variant="outlined"
                     />
@@ -50,7 +48,7 @@ function AddressCard(props) {
                       label="Apartment, Unit, Room #"
                       defaultValue={apartment}
                       onChange={(event) =>
-                        apartmentChangedHandler(event.target.value)
+                        onApartmentChange(event.target.value)
                       }
                       fullWidth
                       variant="outlined"
@@ -61,9 +59,7 @@ function AddressCard(props) {
                       id="pet-input"
                       label="Any Pets? (Dog or Cat?)"
                       defaultValue={pet}
-                      onChange={(event) =>
-                        petChangedHandler(event.target.value)
-                      }
+                      onChange={(event) => onPetChange(event.target.value)}
                       fullWidth
                       variant="outlined"
                     />
@@ -74,7 +70,7 @@ function AddressCard(props) {
                       label="Any Special Directions?"
                       defaultValue={direction}
                       onChange={(event) =>
-                        directionChangedHandler(event.target.value)
+                        onDirectionChange(event.target.value)
                       }
                       fullWidth
                       variant="outlined"
@@ -87,7 +83,7 @@ function AddressCard(props) {
                       label="Type of Address"
                       value={addressType}
                       onChange={(event) =>
-                        addressTypeChangedHandler(event.target.value)
+                        onAddressTypeChange(event.target.value)
                       }
                       variant="outlined"
                       fullWidth
