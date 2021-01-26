@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { addressTypes } from "../../../constant/order";
 import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePicker";
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
-import { Box, Grid } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 
 function OrderInfo(props) {
   const [date, setDate] = useState(new Date());
@@ -37,11 +37,11 @@ function OrderInfo(props) {
   };
 
   return (
-    <Grid container direction="column" spacing={8}>
-      <Box mt={8}>
+    <React.Fragment>
+      <Box mt={5}>
         <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
       </Box>
-      <Box mt={8}>
+      <Box mt={5}>
         <AddressCard
           address={address}
           addressChangedHandler={addressChangedHandler}
@@ -55,7 +55,7 @@ function OrderInfo(props) {
           addressTypeChangedHandler={addressTypeChangedHandler}
         />
       </Box>
-    </Grid>
+    </React.Fragment>
   );
 }
 
