@@ -15,8 +15,8 @@ function DateTimePicker(props) {
     <Grid container justify="center">
       <Grid item xs={10} lg={6}>
         <Card>
+          <CardTitle title="When do you want to book?" />
           <CardContent>
-            <CardTitle>When do you want to book?</CardTitle>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Box p={5}>
                 <Grid container justify="space-around" spacing={3}>

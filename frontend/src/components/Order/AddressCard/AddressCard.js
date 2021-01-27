@@ -27,10 +27,10 @@ function AddressCard(props) {
     <Grid container justify="center">
       <Grid item xs={10} lg={6}>
         <Card>
+          <CardTitle title="Finish some details on your address" />
           <CardContent>
-            <CardTitle>Finish some details on your address</CardTitle>
             <form noValidate autoComplete="off">
-              <Box p={5}>
+              <Box p={3}>
                 <Grid container justify="space-around" spacing={3}>
                   <Grid item xs={12}>
                     <TextField
