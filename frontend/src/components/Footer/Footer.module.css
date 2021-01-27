@@ -1,26 +1,56 @@
 .container {
-    height: 320px;
-    margin-top: 40px;
+    height: 360px;
+    margin-top:40px;
     text-align: center;
 }
-
-.content {
-    height: 270px;
-    width: 1000px;
+.container1{
     display: flex;
-    margin: 20px auto;
+    align-items: flex-start;
+    padding-top:40px;
+    height: 200px;
+    width: 100vw;
+
 }
 
 .copyright {
-    height: 15px;
-    width: 400px;
+    padding: 20px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
     opacity: 0.64;
     color: #FFFFFF;
     font-family: "Helvetica Neue", sans-serif;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0;
-    line-height: 15px;
-    text-align: center;
-    margin: 10px auto;
+
+}
+
+.left{
+    margin-left: 360px;
+}
+
+.middle{
+    margin-left: 400px;
+}
+
+.right{
+    margin-left: 350px;
+}
+
+.bigLetter{
+    color: #FFFFFF;
+    font-family: "Helvetica Neue Bold", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+
+
+}
+
+.sLetter{
+    color: #FFFFFF;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
 }
