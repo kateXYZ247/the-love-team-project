@@ -26,7 +26,7 @@ function OrderSummary(props) {
                 <OrderSummaryItem
                   label={item[0]}
                   value={"$ " + item[1].toFixed(2)}
-                  fontSize="body"
+                  fontSize="body1"
                   textColor="textPrimary"
                   key={item[0]}
                 />
@@ -37,13 +37,13 @@ function OrderSummary(props) {
               <OrderSummaryItem
                 label="Subtotal"
                 value={"$ " + orderSubTotal.toFixed(2)}
-                fontSize="body"
+                fontSize="body1"
                 textColor="textSecondary"
               />
               <OrderSummaryItem
                 label="Tax"
                 value={"$ " + (orderSubTotal * orderTaxRate).toFixed(2)}
-                fontSize="body"
+                fontSize="body1"
                 textColor="textSecondary"
               />
               <OrderSummaryItem
@@ -56,7 +56,7 @@ function OrderSummary(props) {
                     orderGratuityRate
                   ).toFixed(2)
                 }
-                fontSize="body"
+                fontSize="body1"
                 textColor="textSecondary"
               />
               <Box my={1}>
