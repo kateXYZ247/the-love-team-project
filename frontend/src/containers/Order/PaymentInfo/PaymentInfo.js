@@ -14,7 +14,7 @@ import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import { orderCreditCardPageButtonText } from "../../../constant/order";
 
 function PaymentInfo(props) {
-  const { onUpdatePaymentInfo } = props;
+  const { order, orderServicesCount, onUpdatePaymentInfo } = props;
 
   const [creditCard, setCreditCard] = useState({
     cvc: "",
@@ -64,12 +64,12 @@ function PaymentInfo(props) {
           />
         </Grid>
         <Grid item xs={10} lg={4}>
-          <OrderSummary />
+          <OrderSummary order={order} />
         </Grid>
       </Grid>
       <BottomAction
         buttonText={orderCreditCardPageButtonText}
-        numServices={3}
+        numServices={orderServicesCount}
         onEditCart={nextButtonClickedHandler}
         onClickNext={nextButtonClickedHandler}
       />

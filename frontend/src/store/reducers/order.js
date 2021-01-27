@@ -1,20 +1,31 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
+import {
+  sampleOrderServices,
+  sampleOrderTotalPrice,
+  orderTaxRate,
+  orderGratuityRate,
+} from "../../constant/order";
 
 const initialState = {
   error: null,
   loading: false,
   order: {
-    services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
+    services: sampleOrderServices,
+    totalPrice: sampleOrderTotalPrice,
+    // services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
+    // totalPrice: 0,
   },
 };
 
 const addToCard = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
-  const oldPrice = state.order.price;
+  const oldTotalPrice = state.order.totalPrice;
   const updatedOrder = updateObject(state.order, {
     services: updatedServices,
-    price: oldPrice + action.product.price,
+    totalPrice:
+      oldTotalPrice +
+      action.product.price * (1 + orderTaxRate) * (1 + orderGratuityRate),
   });
   return updateObject(state, { order: updatedOrder });
 };

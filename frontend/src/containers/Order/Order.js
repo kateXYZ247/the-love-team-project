@@ -7,12 +7,19 @@ import PaymentInfo from "./PaymentInfo/PaymentInfo";
 function Order(props) {
   const { order, loading } = props;
   const { onUpdateServiceInfo, onUpdatePaymentInfo } = props;
-  console.log(onUpdatePaymentInfo);
+  let orderServicesCount = order.services.length;
 
   return (
     <React.Fragment>
-      <OrderInfo onUpdateServiceInfo={onUpdateServiceInfo} />
-      <PaymentInfo onUpdatePaymentInfo={onUpdatePaymentInfo} />
+      <OrderInfo
+        onUpdateServiceInfo={onUpdateServiceInfo}
+        orderServicesCount={orderServicesCount}
+      />
+      <PaymentInfo
+        onUpdatePaymentInfo={onUpdatePaymentInfo}
+        orderServicesCount={orderServicesCount}
+        order={order}
+      />
     </React.Fragment>
   );
 }

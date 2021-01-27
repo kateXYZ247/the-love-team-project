@@ -10,7 +10,7 @@ import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
 
 function OrderInfo(props) {
-  const { onUpdateServiceInfo } = props;
+  const { orderServicesCount, onUpdateServiceInfo } = props;
 
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
@@ -78,7 +78,7 @@ function OrderInfo(props) {
       </Box>
       <BottomAction
         buttonText={orderTimeAddressPageButtonText}
-        numServices={3}
+        numServices={orderServicesCount}
         onEditCart={nextButtonClickedHandler}
         onClickNext={nextButtonClickedHandler}
       />
