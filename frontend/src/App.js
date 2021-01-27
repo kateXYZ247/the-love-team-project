@@ -11,8 +11,10 @@ import SampleContainer from "./containers/Sample/SampleContainer";
 function App(props) {
   let routes = (
     <Switch>
+        <Route path="/register" render={(props) => <SampleContainer {...props} />} />
       <Route path="/login" render={(props) => <CustomerLogin {...props} />} />
       <Route path="/test" render={(props) => <SampleContainer {...props} />} />
+
       <Route path="/" exact component={Home} />
       <Redirect to="/" />
     </Switch>
