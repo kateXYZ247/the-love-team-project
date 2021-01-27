@@ -1,16 +1,23 @@
 import React, { useState } from "react";
-import { locationTypes } from "../../../constant/order";
+import {
+  addressTypes,
+  orderTimeAddressPageButtonText,
+} from "../../../constant/order";
 import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePicker";
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
-import { Box, Grid } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import BottomAction from "../../../components/Order/BottomAction/BottomAction";
+import TopAction from "../../../components/Order/TopAction/TopAction";
 
 function OrderInfo(props) {
+  const { serviceInfoUpdateHandler } = props;
+
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
   const [apartment, setApartment] = useState("");
   const [pet, setPet] = useState("");
   const [direction, setDirection] = useState("");
-  const [locationType, setLocationType] = useState(locationTypes[0].value);
+  const [addressType, setAddressType] = useState(addressTypes[0].value);
 
   const dateChangedHandler = (updatedDate) => {
     setDate(updatedDate);
@@ -32,30 +39,50 @@ function OrderInfo(props) {
     setDirection(updatedDirection);
   };
 
-  const locationTypeChangedHandler = (updatedType) => {
-    setLocationType(updatedType);
+  const addressTypeChangedHandler = (updatedType) => {
+    setAddressType(updatedType);
+  };
+
+  const nextButtonClickedHandler = () => {
+    const addressObject = {
+      address: address,
+      apartment: apartment,
+      pet: pet,
+      direction: direction,
+      addressType: addressType,
+    };
+    serviceInfoUpdateHandler(date, addressObject);
   };
 
   return (
-    <Grid direction="column" spacing={8}>
-      <Box mt={8}>
+    <React.Fragment>
+      <Box mt={2}>
+        <TopAction />
+      </Box>
+      <Box mt={3}>
         <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
       </Box>
-      <Box mt={8}>
+      <Box mt={5}>
         <AddressCard
           address={address}
-          addressChangedHandler={addressChangedHandler}
+          onAddressChange={addressChangedHandler}
           apartment={apartment}
-          apartmentChangedHandler={apartmentChangedHandler}
+          onApartmentChange={apartmentChangedHandler}
           pet={pet}
-          petChangedHandler={petChangedHandler}
+          onPetChange={petChangedHandler}
           direction={direction}
-          directionChangedHandler={directionChangedHandler}
-          locationType={locationType}
-          locationTypeChangedHandler={locationTypeChangedHandler}
+          onDirectionChange={directionChangedHandler}
+          addressType={addressType}
+          onAddressTypeChange={addressTypeChangedHandler}
         />
       </Box>
-    </Grid>
+      <BottomAction
+        buttonText={orderTimeAddressPageButtonText}
+        numServices={3}
+        onEditCart={nextButtonClickedHandler}
+        onClickNext={nextButtonClickedHandler}
+      />
+    </React.Fragment>
   );
 }
 

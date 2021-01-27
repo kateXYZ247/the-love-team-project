@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { combineReducers, compose, createStore } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 
 import authReducer from "./store/reducers/auth";
+import productsReducer from "./store/reducers/products";
+import orderReducer from "./store/reducers/order";
 import { BrowserRouter } from "react-router-dom";
 
 const theme = createMuiTheme({
@@ -26,9 +29,16 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null) || compose;
 
-const rootReducer = combineReducers({ auth: authReducer });
+const rootReducer = combineReducers({
+  auth: authReducer,
+  products: productsReducer,
+  order: orderReducer,
+});
 
-const store = createStore(rootReducer, composeEnhancers());
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
   <React.StrictMode>

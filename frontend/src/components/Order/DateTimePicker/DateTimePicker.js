@@ -13,7 +13,7 @@ function DateTimePicker(props) {
   const { date, dateChangedHandler } = props;
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6} justify="center">
+      <Grid item xs={10} lg={6}>
         <Card>
           <CardContent>
             <CardTitle>When do you want to book?</CardTitle>

@@ -8,24 +8,24 @@ import {
   TextField,
 } from "@material-ui/core";
 import CardTitle from "../CardTitle/CardTitle";
-import { locationTypes } from "../../../constant/order";
+import { addressTypes } from "../../../constant/order";
 
 function AddressCard(props) {
   const {
     address,
-    addressChangedHandler,
+    onAddressChange,
     apartment,
-    apartmentChangedHandler,
+    onApartmentChange,
     pet,
-    petChangedHandler,
+    onPetChange,
     direction,
-    directionChangedHandler,
-    locationType,
-    locationTypeChangedHandler,
+    onDirectionChange,
+    addressType,
+    onAddressTypeChange,
   } = props;
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6} justify="center">
+      <Grid item xs={10} lg={6}>
         <Card>
           <CardContent>
             <CardTitle>Finish some details on your address</CardTitle>
@@ -35,25 +35,20 @@ function AddressCard(props) {
                   <Grid item xs={12}>
                     <TextField
                       id="main-address"
-                      label="Your Address"
+                      label="Your Full Address"
                       defaultValue={address}
-                      onChange={(event) =>
-                        addressChangedHandler(event.target.value)
-                      }
+                      onChange={(event) => onAddressChange(event.target.value)}
                       fullWidth
                       variant="outlined"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
                       id="apartment-input"
-                      label="Apartment, unit, room #"
+                      label="Apartment, Unit, Room #"
                       defaultValue={apartment}
                       onChange={(event) =>
-                        apartmentChangedHandler(event.target.value)
+                        onApartmentChange(event.target.value)
                       }
                       fullWidth
                       variant="outlined"
@@ -62,11 +57,9 @@ function AddressCard(props) {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       id="pet-input"
-                      label="Any pets? (dog or cat?)"
+                      label="Any Pets? (Dog or Cat?)"
                       defaultValue={pet}
-                      onChange={(event) =>
-                        petChangedHandler(event.target.value)
-                      }
+                      onChange={(event) => onPetChange(event.target.value)}
                       fullWidth
                       variant="outlined"
                     />
@@ -74,10 +67,10 @@ function AddressCard(props) {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       id="direction-input"
-                      label="Any special directions?"
+                      label="Any Special Directions?"
                       defaultValue={direction}
                       onChange={(event) =>
-                        directionChangedHandler(event.target.value)
+                        onDirectionChange(event.target.value)
                       }
                       fullWidth
                       variant="outlined"
@@ -87,15 +80,15 @@ function AddressCard(props) {
                     <TextField
                       id="type-input"
                       select
-                      label="Type of location"
-                      value={locationType}
+                      label="Type of Address"
+                      value={addressType}
                       onChange={(event) =>
-                        locationTypeChangedHandler(event.target.value)
+                        onAddressTypeChange(event.target.value)
                       }
                       variant="outlined"
                       fullWidth
                     >
-                      {locationTypes.map((op) => (
+                      {addressTypes.map((op) => (
                         <MenuItem key={op.value} value={op.value}>
                           {op.label}
                         </MenuItem>

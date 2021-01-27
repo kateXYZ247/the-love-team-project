@@ -1,1 +1,3 @@
-import * as actionTypes from "./actionTypes";
+export { addToCart, updateServiceTimeAddress } from "./order";
+
+export { fetchProducts } from "./products";

@@ -1,4 +1,4 @@
-export const locationTypes = [
+export const addressTypes = [
   { value: "Home", label: "Home" },
   { value: "Hotel", label: "Hotel" },
   {
@@ -6,3 +6,4 @@ export const locationTypes = [
     label: "Office",
   },
 ];
+export const orderTimeAddressPageButtonText = "Account Details";
