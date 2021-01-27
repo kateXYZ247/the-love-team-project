@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
 import Sample from "../../components/Sample/Sample";
 import { Chip } from "@material-ui/core";
+
+import OrderInfo from "../Order/OrderInfo/OrderInfo";
+import Register from "../Register/Register";
+
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import PaymentInfo from "../Order/PaymentInfo/PaymentInfo";
+
 
 function SampleContainer(props) {
   const { onFetchProducts } = props;
@@ -14,9 +19,20 @@ function SampleContainer(props) {
 
   return (
     <div>
+
+      {/*<Chip color="primary" label="This is a Sample Container" />*/}
+      {/*<Sample clicked={props.clicked} />*/}
+      <Register />
+      <OrderInfo />
+
+
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
+
       <PaymentInfo />
+
+
+
     </div>
   );
 }
