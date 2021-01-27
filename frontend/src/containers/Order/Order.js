@@ -2,18 +2,17 @@ import React from "react";
 import OrderInfo from "./OrderInfo/OrderInfo";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
+import PaymentInfo from "./PaymentInfo/PaymentInfo";
 
 function Order(props) {
   const { order, loading } = props;
-  const { onUpdateServiceInfo } = props;
-
-  const serviceInfoUpdateHandler = (time, address) => {
-    onUpdateServiceInfo(time, address);
-  };
+  const { onUpdateServiceInfo, onUpdatePaymentInfo } = props;
+  console.log(onUpdatePaymentInfo);
 
   return (
     <React.Fragment>
-      <OrderInfo serviceInfoUpdateHandler={serviceInfoUpdateHandler} />
+      <OrderInfo onUpdateServiceInfo={onUpdateServiceInfo} />
+      <PaymentInfo onUpdatePaymentInfo={onUpdatePaymentInfo} />
     </React.Fragment>
   );
 }
@@ -29,6 +28,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateServiceInfo: (time, address) =>
       dispatch(actions.updateServiceTimeAddress(time, address)),
+    onUpdatePaymentInfo: (creditCard) =>
+      dispatch(actions.updatePaymentInfo(creditCard)),
   };
 };
 

@@ -3,15 +3,19 @@ import { updateObject } from "../../../shared/utility";
 import "react-credit-cards/es/styles-compiled.css";
 import OrderSummary from "../../../components/Order/OrderSummary/OrderSummary";
 import CreditCardInfo from "../../../components/Order/CreditCardInfo/CreditCardInfo";
-import { Box } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import TopAction from "../../../components/Order/TopAction/TopAction";
 import {
   formatCreditCardNumber,
   formatCVC,
   formatExpirationDate,
 } from "../../../shared/creditCardFormat";
+import BottomAction from "../../../components/Order/BottomAction/BottomAction";
+import { orderCreditCardPageButtonText } from "../../../constant/order";
 
 function PaymentInfo(props) {
+  const { onUpdatePaymentInfo } = props;
+
   const [creditCard, setCreditCard] = useState({
     cvc: "",
     expiry: "",
@@ -41,17 +45,34 @@ function PaymentInfo(props) {
     );
   };
 
+  const nextButtonClickedHandler = () => {
+    const card = `${creditCard.number},${creditCard.cvc},${creditCard.expiry},${creditCard.name}`;
+    onUpdatePaymentInfo(card);
+  };
+
   return (
     <React.Fragment>
-      <Box mt={2}>
+      <Box my={2}>
         <TopAction />
       </Box>
-      <CreditCardInfo
-        creditCard={creditCard}
-        onFocusChange={focusChangeHandler}
-        onInputChange={creditCardInputChangeHandler}
+      <Grid container justify="center" spacing={2}>
+        <Grid item xs={10} lg={6}>
+          <CreditCardInfo
+            creditCard={creditCard}
+            onFocusChange={focusChangeHandler}
+            onInputChange={creditCardInputChangeHandler}
+          />
+        </Grid>
+        <Grid item xs={10} lg={4}>
+          <OrderSummary />
+        </Grid>
+      </Grid>
+      <BottomAction
+        buttonText={orderCreditCardPageButtonText}
+        numServices={3}
+        onEditCart={nextButtonClickedHandler}
+        onClickNext={nextButtonClickedHandler}
       />
-      <OrderSummary />
     </React.Fragment>
   );
 }

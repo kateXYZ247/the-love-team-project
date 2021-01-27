@@ -10,7 +10,7 @@ import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
 
 function OrderInfo(props) {
-  const { serviceInfoUpdateHandler } = props;
+  const { onUpdateServiceInfo } = props;
 
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
@@ -51,7 +51,7 @@ function OrderInfo(props) {
       direction: direction,
       addressType: addressType,
     };
-    serviceInfoUpdateHandler(date, addressObject);
+    onUpdateServiceInfo(date, addressObject);
   };
 
   return (

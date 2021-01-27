@@ -14,3 +14,10 @@ export const updateServiceTimeAddress = (time, address) => {
     address: address,
   };
 };
+
+export const updatePaymentInfo = (creditCard) => {
+  return {
+    type: actionTypes.ORDER_UPDATE_PAYMENT_INFO,
+    creditCard: creditCard,
+  };
+};

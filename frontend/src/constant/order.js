@@ -7,3 +7,4 @@ export const addressTypes = [
   },
 ];
 export const orderTimeAddressPageButtonText = "Account Details";
+export const orderCreditCardPageButtonText = "Book Now";

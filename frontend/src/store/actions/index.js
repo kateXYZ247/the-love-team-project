@@ -1,3 +1,7 @@
-export { addToCart, updateServiceTimeAddress } from "./order";
+export {
+  addToCart,
+  updateServiceTimeAddress,
+  updatePaymentInfo,
+} from "./order";
 
 export { fetchProducts } from "./products";

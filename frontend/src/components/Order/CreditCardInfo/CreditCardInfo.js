@@ -8,7 +8,7 @@ function CreditCardInfo(props) {
 
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6}>
+      <Grid item xs={12}>
         <Card>
           <CardTitle
             title="Add Your Payment Method"

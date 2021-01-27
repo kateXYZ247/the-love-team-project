@@ -5,7 +5,7 @@ import { Box, Card, CardContent, Grid } from "@material-ui/core";
 function OrderSummary(props) {
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6}>
+      <Grid item xs={12}>
         <Card>
           <CardTitle
             title="Appointment Summary"

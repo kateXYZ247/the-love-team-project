@@ -4,17 +4,24 @@ import { updateObject } from "../../shared/utility";
 const initialState = {
   error: null,
   loading: false,
-  order: [],
+  order: {
+    services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
+  },
 };
 
 const addToCard = (state, action) => {
-  return updateObject(state, { order: [...state.order, action.product] });
+  const updatedServices = [...state.order.services, action.product];
+  const oldPrice = state.order.price;
+  const updatedOrder = updateObject(state.order, {
+    services: updatedServices,
+    price: oldPrice + action.product.price,
+  });
+  return updateObject(state, { order: updatedOrder });
 };
 
 const updateServiceTimeAddress = (state, action) => {
-  console.log(action);
-  const oldOrder = state.order;
-  const updatedOrder = oldOrder.map((service) =>
+  const oldServices = state.order.services;
+  const updatedServices = oldServices.map((service) =>
     updateObject(service, {
       startTime: action.time.startTime,
       endTime: action.time.endTime,
@@ -25,7 +32,15 @@ const updateServiceTimeAddress = (state, action) => {
       addressType: action.address.addressType,
     })
   );
-  return updateObject(state, { order: updatedOrder });
+  return updateObject(state, {
+    order: updateObject(state.order, { services: updatedServices }),
+  });
+};
+
+const updatePaymentInfo = (state, action) => {
+  return updateObject(state, {
+    order: updateObject(state.order, { credit: action.creditCard }),
+  });
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +49,8 @@ const reducer = (state = initialState, action) => {
       return addToCard(state, action);
     case actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS:
       return updateServiceTimeAddress(state, action);
+    case actionTypes.ORDER_UPDATE_PAYMENT_INFO:
+      return updatePaymentInfo(state, action);
     default:
       return state;
   }
