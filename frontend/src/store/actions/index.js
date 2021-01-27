@@ -1,5 +1,6 @@
 export {
   addToCart,
+  deleteFromCart,
   updateServiceTimeAddress,
   updatePaymentInfo,
 } from "./order";

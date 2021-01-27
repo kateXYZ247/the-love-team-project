@@ -14,7 +14,12 @@ import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import { orderCreditCardPageButtonText } from "../../../constant/order";
 
 function PaymentInfo(props) {
-  const { order, orderServicesCount, onUpdatePaymentInfo } = props;
+  const {
+    order,
+    orderServicesCount,
+    onUpdatePaymentInfo,
+    onAppointmentModalOpen,
+  } = props;
 
   const [creditCard, setCreditCard] = useState({
     cvc: "",
@@ -70,7 +75,7 @@ function PaymentInfo(props) {
       <BottomAction
         buttonText={orderCreditCardPageButtonText}
         numServices={orderServicesCount}
-        onEditCart={nextButtonClickedHandler}
+        onEditCart={onAppointmentModalOpen}
         onClickNext={nextButtonClickedHandler}
       />
     </React.Fragment>

@@ -1,10 +1,8 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updateObject } from "../../shared/utility";
+import { calculateTotalPrice, updateObject } from "../../shared/utility";
 import {
   sampleOrderServices,
   sampleOrderTotalPrice,
-  orderTaxRate,
-  orderGratuityRate,
 } from "../../constant/order";
 
 const initialState = {
@@ -18,16 +16,29 @@ const initialState = {
   },
 };
 
-const addToCard = (state, action) => {
+const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
-  const oldTotalPrice = state.order.totalPrice;
+  const updatedTotalPrice = calculateTotalPrice(updatedServices);
   const updatedOrder = updateObject(state.order, {
     services: updatedServices,
-    totalPrice:
-      oldTotalPrice +
-      action.product.price * (1 + orderTaxRate) * (1 + orderGratuityRate),
+    totalPrice: updatedTotalPrice,
   });
   return updateObject(state, { order: updatedOrder });
+};
+
+const deleteFromCart = (state, action) => {
+  const oldServices = state.order.services;
+  const updatedServices = [
+    ...oldServices.slice(0, action.deleteIndex),
+    ...oldServices.slice(action.deleteIndex + 1),
+  ];
+  const updatedTotalPrice = calculateTotalPrice(updatedServices);
+  return updateObject(state, {
+    order: updateObject(state.order, {
+      services: updatedServices,
+      totalPrice: updatedTotalPrice,
+    }),
+  });
 };
 
 const updateServiceTimeAddress = (state, action) => {
@@ -57,7 +68,9 @@ const updatePaymentInfo = (state, action) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ORDER_ADD_TO_CART:
-      return addToCard(state, action);
+      return addToCart(state, action);
+    case actionTypes.ORDER_DELETE_FROM_CART:
+      return deleteFromCart(state, action);
     case actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS:
       return updateServiceTimeAddress(state, action);
     case actionTypes.ORDER_UPDATE_PAYMENT_INFO:

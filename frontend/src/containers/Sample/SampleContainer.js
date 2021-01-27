@@ -10,7 +10,7 @@ function SampleContainer(props) {
 
   useEffect(() => {
     onFetchProducts();
-  }, []);
+  });
 
   return (
     <div>

@@ -7,6 +7,13 @@ export const addToCart = (product) => {
   };
 };
 
+export const deleteFromCart = (productIndex) => {
+  return {
+    type: actionTypes.ORDER_DELETE_FROM_CART,
+    deleteIndex: productIndex,
+  };
+};
+
 export const updateServiceTimeAddress = (time, address) => {
   return {
     type: actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS,

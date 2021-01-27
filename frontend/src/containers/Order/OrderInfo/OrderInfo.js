@@ -10,7 +10,11 @@ import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
 
 function OrderInfo(props) {
-  const { orderServicesCount, onUpdateServiceInfo } = props;
+  const {
+    orderServicesCount,
+    onUpdateServiceInfo,
+    onAppointmentModalOpen,
+  } = props;
 
   const [date, setDate] = useState(new Date());
   const [address, setAddress] = useState("");
@@ -79,7 +83,7 @@ function OrderInfo(props) {
       <BottomAction
         buttonText={orderTimeAddressPageButtonText}
         numServices={orderServicesCount}
-        onEditCart={nextButtonClickedHandler}
+        onEditCart={onAppointmentModalOpen}
         onClickNext={nextButtonClickedHandler}
       />
     </React.Fragment>
