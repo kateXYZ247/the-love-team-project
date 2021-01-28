@@ -17,27 +17,27 @@ function ProductsGrid(props) {
     <div className={classes.container}>
       <Grid container container direction="row" justify="center" alignItems="flex-start">
         <Grid item>
-          <CategoryCard title={"BLOWOUTS"}/>
+          <CategoryCard title={"BLOWOUTS"} />
           {productList.filter(item => item.category === "Blowouts").map((item) => (
-          <ProductCard item={item} key={item.name} />
+            <ProductCard item={item} key={item.name} />
           ))}
         </Grid>
         <Grid item>
-          <CategoryCard title={"HAIRCUTS"}/>
+          <CategoryCard title={"HAIRCUTS"} />
           {productList.filter(item => item.category === "Haircuts").map((item) => (
-          <ProductCard item={item} key={item.name} />
-          ))}         
-          </Grid>
-        <Grid item>
-          <CategoryCard title={"MAKEUP"}/>
-          {productList.filter(item => item.category === "Makeup").map((item) => (
-          <ProductCard item={item} key={item.name} />
+            <ProductCard item={item} key={item.name} />
           ))}
         </Grid>
         <Grid item>
-          <CategoryCard title={"NAILS"}/>
+          <CategoryCard title={"MAKEUP"} />
+          {productList.filter(item => item.category === "Makeup").map((item) => (
+            <ProductCard item={item} key={item.name} />
+          ))}
+        </Grid>
+        <Grid item>
+          <CategoryCard title={"NAILS"} />
           {productList.filter(item => item.category === "Nails").map((item) => (
-          <ProductCard item={item} key={item.name} />
+            <ProductCard item={item} key={item.name} />
           ))}
         </Grid>
       </Grid>

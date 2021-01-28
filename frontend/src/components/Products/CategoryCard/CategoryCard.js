@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    border: "none", 
+    border: "none",
     boxShadow: "none"
   },
   container: {
@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     color: '#2B292D',
     fontWeight: 600,
     fontFamily: [
-      'Helvetica Neue Bold', 
+      'Helvetica Neue Bold',
       'sans-serif',].join(','),
     fontSize: 24,
-  }, 
+  },
 }));
 
 function CategoryCard(props) {
@@ -27,11 +27,11 @@ function CategoryCard(props) {
 
   return (
     <div className={classes.container}>
-        <Card className={classes.card}>
-          {props.title ? (
-          <div className={classes.title}>{props.title}</div>) 
+      <Card className={classes.card}>
+        {props.title ? (
+          <div className={classes.title}>{props.title}</div>)
           : null}
-        </Card>
+      </Card>
     </div>
   );
 }

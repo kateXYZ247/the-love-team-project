@@ -11,8 +11,8 @@ theme.typography.h3 = {
   color: '#2B292D',
   fontWeight: 600,
   fontFamily: [
-      'Helvetica Neue Bold', 
-      'sans-serif',].join(','),
+    'Helvetica Neue Bold',
+    'sans-serif',].join(','),
   fontSize: '1.2rem',
   '@media (min-width:600px)': {
     fontSize: '1.5rem',
@@ -25,17 +25,17 @@ theme.typography.h3 = {
 function Products(props) {
   return (
     <React.Fragment>
-      <Grid container container direction="column" justify="space-around" alignItems="center">   
-        <Grid item  xs={12}> 
+      <Grid container container direction="column" justify="space-around" alignItems="center">
+        <Grid item xs={12}>
           <ThemeProvider theme={theme}>
             <Typography variant="h3">
               Select one or multiple services to start booking
             </Typography>
           </ThemeProvider>
-        </Grid>    
-        <Grid item > 
+        </Grid>
+        <Grid item >
           <ProductsGrid />
-        </Grid>  
+        </Grid>
       </Grid>
     </React.Fragment>
 
