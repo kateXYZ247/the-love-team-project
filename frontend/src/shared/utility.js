@@ -1,8 +1,15 @@
+import { orderGratuityRate, orderTaxRate } from "../constant/order";
+
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
     ...updatedProperties,
   };
+};
+
+export const calculateTotalPrice = (services) => {
+  const subTotal = services.reduce((acc, s) => acc + s.price, 0);
+  return subTotal * (1 + orderTaxRate) * (1 + orderGratuityRate);
 };
 
 export const checkValidity = (value, rules) => {
