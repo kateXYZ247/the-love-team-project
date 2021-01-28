@@ -4,9 +4,9 @@ import ProductsComponent from "../../components/Products/Products";
 
 function Products(props) {
   return (
-    <div className={classes.container}>
+    <React.Fragment>
       <ProductsComponent />
-    </div>
+    </React.Fragment>
   );
 }
 
