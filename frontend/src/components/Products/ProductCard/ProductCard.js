@@ -36,16 +36,16 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  card: {
+  productCard: {
     width: 333,
-    height: 150,
+    height: 155,
     margin: 20,
   },
   cardActionArea: {
     width: 333,
-    height: 150,
+    height: 155,
   },
-  paper: {
+  starBar: {
     backgroundColor: "#B57AD2",
     width: 333,
     height: 5,
@@ -60,18 +60,29 @@ function ProductCard(props) {
     productDescription,
     productPrice,
     duration,
+    star,
+    image_url,
   } = props.item;
 
   return (
-    <Card className={classes.card}>
-      <Paper className={classes.paper} />
+    <Card className={classes.productCard}>
+      {star ?
+        < Paper className={classes.starBar} /> : null
+      }
       <CardActionArea className={classes.cardActionArea}>
         <CardContent>
           <ThemeProvider theme={theme}>
-            <Grid container spacing={1} direction="column">
+            <Grid
+              container
+              spacing={2}
+              direction="column"
+              justify="flex-start"
+            >
               <Grid item>
                 <Typography variant="h2">
-                  <FavoriteOutlinedIcon /> {productName}
+                  {star ?
+                    <div> <FavoriteOutlinedIcon />  {productName} </div> : productName
+                  }
                 </Typography>
               </Grid>
               <Grid
