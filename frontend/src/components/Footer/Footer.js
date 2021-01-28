@@ -3,6 +3,11 @@ import classes from "./Footer.module.css";
 import { useTheme } from "@material-ui/core/styles";
 
 import Bitmap from "../../assets/images/Bitmap.svg";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+import { grey } from "@material-ui/core/colors";
 
 function Footer(props) {
   const theme = useTheme();
@@ -27,7 +32,11 @@ function Footer(props) {
         </div>
         <div className={classes.right}>
           <p className={classes.bigLetter}>Follow Us</p>
-          <img src={Bitmap} className="image" alt="image" />
+
+          <InstagramIcon style={{ color: grey[50], fontSize: 35 }} />
+          <FacebookIcon style={{ color: grey[50], fontSize: 35 }} />
+          <TwitterIcon style={{ color: grey[50], fontSize: 35 }} />
+          <WhatsAppIcon style={{ color: grey[50], fontSize: 35 }} />
         </div>
       </div>
       <div className={classes.copyright}>
