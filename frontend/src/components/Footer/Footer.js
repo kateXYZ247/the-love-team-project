@@ -1,8 +1,6 @@
 import React from "react";
 import classes from "./Footer.module.css";
 import { useTheme } from "@material-ui/core/styles";
-
-import Bitmap from "../../assets/images/Bitmap.svg";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -32,7 +30,6 @@ function Footer(props) {
         </div>
         <div className={classes.right}>
           <p className={classes.bigLetter}>Follow Us</p>
-
           <InstagramIcon style={{ color: grey[50], fontSize: 35 }} />
           <FacebookIcon style={{ color: grey[50], fontSize: 35 }} />
           <TwitterIcon style={{ color: grey[50], fontSize: 35 }} />
