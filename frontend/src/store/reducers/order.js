@@ -49,8 +49,7 @@ const updateServiceTimeAddress = (state, action) => {
   const oldServices = state.order.services;
   const updatedServices = oldServices.map((service) =>
     updateObject(service, {
-      startTime: action.time.startTime,
-      endTime: action.time.endTime,
+      startTime: action.time,
       address: action.address.address,
       apartment: action.address.apartment,
       pet: action.address.pet,

@@ -16,7 +16,7 @@ function CreditCardInfo(props) {
           />
           <CardContent>
             <Grid container justify="center" alignItems="center">
-              <Grid item xs={10} md={6}>
+              <Grid item xs={12} md={6}>
                 <Cards
                   cvc={creditCard.cvc}
                   expiry={creditCard.expiry}
@@ -25,7 +25,7 @@ function CreditCardInfo(props) {
                   number={creditCard.number}
                 />
               </Grid>
-              <Grid item xs={10} md={6}>
+              <Grid item xs={12} md={6}>
                 <form>
                   <Box p={3}>
                     <Grid container justify="space-around" spacing={3}>

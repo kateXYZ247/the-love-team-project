@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PaymentInfo from "./PaymentInfo/PaymentInfo";
 import AppointmentsModal from "../../components/Order/AppointmentsModal/AppointmentsModal";
 import { ORDER_STATUS } from "../../constant/order";
+import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderConfirmation";
 
 function Order(props) {
   const { order, orderStatus, loading } = props;
@@ -15,6 +16,8 @@ function Order(props) {
     onSetBackStatus,
     onResetStatus,
   } = props;
+  const orderTime =
+    order.services.length === 0 ? new Date() : order.services[0].startTime;
   let orderServicesCount = order.services.length;
 
   const [showAppointments, setShowAppointments] = useState(false);
@@ -33,7 +36,6 @@ function Order(props) {
   };
 
   let content = <div>Products</div>;
-  console.log(orderStatus);
   switch (orderStatus) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
       content = (
@@ -57,6 +59,9 @@ function Order(props) {
           order={order}
         />
       );
+      break;
+    case ORDER_STATUS.CONFIRMED:
+      content = <OrderConfirmation orderTime={orderTime} />;
       break;
     case ORDER_STATUS.ADD_TO_CART:
     default:
