@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 function ProductCard(props) {
   const classes = useStyles();
-  const { category, name, content, price, duration } = props.item;
+  const { productId, productName, productDescription, productPrice, duration } = props.item;
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
@@ -36,13 +36,13 @@ function ProductCard(props) {
         <Button size="small">
           <CardContent>
             <Typography variant="h5" component="h2">
-              <FavoriteOutlinedIcon /> {name}
+              <FavoriteOutlinedIcon /> {productName}
             </Typography>
             <Typography variant="body2" component="p">
-              {content}
+              {productDescription}
             </Typography>
             <Typography variant="body2" component="p">
-              ${price.toFixed(0)}
+              ${productPrice.toFixed(0)}
             </Typography>
             <Typography variant="body2" component="p">
               <AccessAlarmIcon /> {duration} mins
