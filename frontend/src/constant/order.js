@@ -22,22 +22,27 @@ export const orderCreditCardPageButtonText = "Book Now";
 export const sampleOrderServices = [
   {
     name: "Blowout",
+    duration: 46,
     price: 55,
   },
   {
     name: "Pedicure",
+    duration: 47,
     price: 65,
   },
   {
     name: "Blowout",
+    duration: 48,
     price: 55,
   },
   {
     name: "Kids Haircut",
+    duration: 49,
     price: 60,
   },
   {
     name: "Kids Haircut",
+    duration: 2000,
     price: 60,
   },
 ];

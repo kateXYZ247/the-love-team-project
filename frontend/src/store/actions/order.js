@@ -14,10 +14,10 @@ export const deleteFromCart = (productIndex) => {
   };
 };
 
-export const updateServiceTimeAddress = (time, address) => {
+export const updateServiceTimeAddress = (startTime, address) => {
   return {
     type: actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS,
-    time: time,
+    startTime: startTime,
     address: address,
   };
 };

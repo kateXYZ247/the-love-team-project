@@ -47,16 +47,19 @@ const deleteFromCart = (state, action) => {
 
 const updateServiceTimeAddress = (state, action) => {
   const oldServices = state.order.services;
-  const updatedServices = oldServices.map((service) =>
-    updateObject(service, {
-      startTime: action.time,
+  const updatedServices = oldServices.map((service) => {
+    let endTime = new Date(action.startTime);
+    endTime.setMinutes(endTime.getMinutes() + service.duration);
+    return updateObject(service, {
+      startTime: action.startTime,
+      endTime: endTime,
       address: action.address.address,
       apartment: action.address.apartment,
       pet: action.address.pet,
       direction: action.address.direction,
       addressType: action.address.addressType,
-    })
-  );
+    });
+  });
   return updateObject(state, {
     order: updateObject(state.order, { services: updatedServices }),
     status: ORDER_STATUS.FILL_PAYMENT,

@@ -6,7 +6,6 @@ import Spa from "../../../assets/images/spa.svg";
 
 function OrderConfirmation(props) {
   const { orderTime } = props;
-  console.log(orderTime);
 
   return (
     <Box>

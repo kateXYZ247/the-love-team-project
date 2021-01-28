@@ -35,7 +35,7 @@ function Order(props) {
     setShowAppointments(false);
   };
 
-  let content = <div>Products</div>;
+  let content;
   switch (orderStatus) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
       content = (
@@ -92,8 +92,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateServiceInfo: (time, address) =>
-      dispatch(actions.updateServiceTimeAddress(time, address)),
+    onUpdateServiceInfo: (startTime, address) =>
+      dispatch(actions.updateServiceTimeAddress(startTime, address)),
     onUpdatePaymentInfo: (creditCard) =>
       dispatch(actions.updatePaymentInfo(creditCard)),
     onDeleteFromCart: (productIndex) =>
