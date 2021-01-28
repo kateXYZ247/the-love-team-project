@@ -10,6 +10,13 @@ export const addressTypes = [
 export const orderTaxRate = 0.05;
 export const orderGratuityRate = 0.2;
 
+export const ORDER_STATUS = {
+  ADD_TO_CART: "add to cart",
+  FILL_DATE_ADDRESS: "fill date address",
+  FILL_PAYMENT: "fill payment",
+  CONFIRMED: "confirm",
+};
+
 export const orderTimeAddressPageButtonText = "Account Details";
 export const orderCreditCardPageButtonText = "Book Now";
 export const sampleOrderServices = [

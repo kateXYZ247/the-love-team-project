@@ -28,3 +28,15 @@ export const updatePaymentInfo = (creditCard) => {
     creditCard: creditCard,
   };
 };
+
+export const setBackStatus = () => {
+  return {
+    type: actionTypes.ORDER_SET_BACK_STATUS,
+  };
+};
+
+export const resetStatus = () => {
+  return {
+    type: actionTypes.ORDER_RESET_STATUS,
+  };
+};

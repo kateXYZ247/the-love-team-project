@@ -14,6 +14,8 @@ function OrderInfo(props) {
     orderServicesCount,
     onUpdateServiceInfo,
     onAppointmentModalOpen,
+    onSetBackStatus,
+    onResetStatus,
   } = props;
 
   const [date, setDate] = useState(new Date());
@@ -61,7 +63,10 @@ function OrderInfo(props) {
   return (
     <React.Fragment>
       <Box mt={2}>
-        <TopAction />
+        <TopAction
+          onClickBack={onSetBackStatus}
+          onClickCancel={onResetStatus}
+        />
       </Box>
       <Box mt={3}>
         <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />

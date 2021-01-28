@@ -4,10 +4,17 @@ import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import PaymentInfo from "./PaymentInfo/PaymentInfo";
 import AppointmentsModal from "../../components/Order/AppointmentsModal/AppointmentsModal";
+import { ORDER_STATUS } from "../../constant/order";
 
 function Order(props) {
-  const { order, loading } = props;
-  const { onUpdateServiceInfo, onUpdatePaymentInfo, onDeleteFromCart } = props;
+  const { order, orderStatus, loading } = props;
+  const {
+    onUpdateServiceInfo,
+    onUpdatePaymentInfo,
+    onDeleteFromCart,
+    onSetBackStatus,
+    onResetStatus,
+  } = props;
   let orderServicesCount = order.services.length;
 
   const [showAppointments, setShowAppointments] = useState(false);
@@ -21,8 +28,40 @@ function Order(props) {
   };
 
   const newServicesClickedHandler = () => {
+    onResetStatus();
     setShowAppointments(false);
   };
+
+  let content = <div>Products</div>;
+  console.log(orderStatus);
+  switch (orderStatus) {
+    case ORDER_STATUS.FILL_DATE_ADDRESS:
+      content = (
+        <OrderInfo
+          onUpdateServiceInfo={onUpdateServiceInfo}
+          orderServicesCount={orderServicesCount}
+          onAppointmentModalOpen={appointmentModalOpenedHandler}
+          onSetBackStatus={onSetBackStatus}
+          onResetStatus={onResetStatus}
+        />
+      );
+      break;
+    case ORDER_STATUS.FILL_PAYMENT:
+      content = (
+        <PaymentInfo
+          onUpdatePaymentInfo={onUpdatePaymentInfo}
+          orderServicesCount={orderServicesCount}
+          onAppointmentModalOpen={appointmentModalOpenedHandler}
+          onSetBackStatus={onSetBackStatus}
+          onResetStatus={onResetStatus}
+          order={order}
+        />
+      );
+      break;
+    case ORDER_STATUS.ADD_TO_CART:
+    default:
+      content = <div>Products</div>;
+  }
 
   return (
     <React.Fragment>
@@ -33,23 +72,14 @@ function Order(props) {
         onDeleteItem={onDeleteFromCart}
         order={order}
       />
-      <OrderInfo
-        onUpdateServiceInfo={onUpdateServiceInfo}
-        orderServicesCount={orderServicesCount}
-        onAppointmentModalOpen={appointmentModalOpenedHandler}
-      />
-      <PaymentInfo
-        onUpdatePaymentInfo={onUpdatePaymentInfo}
-        orderServicesCount={orderServicesCount}
-        onAppointmentModalOpen={appointmentModalOpenedHandler}
-        order={order}
-      />
+      {content}
     </React.Fragment>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
+    orderStatus: state.order.status,
     order: state.order.order,
     loading: state.order.loading,
   };
@@ -63,6 +93,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.updatePaymentInfo(creditCard)),
     onDeleteFromCart: (productIndex) =>
       dispatch(actions.deleteFromCart(productIndex)),
+    onSetBackStatus: () => dispatch(actions.setBackStatus()),
+    onResetStatus: () => dispatch(actions.resetStatus()),
   };
 };
 

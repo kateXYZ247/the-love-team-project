@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import { calculateTotalPrice, updateObject } from "../../shared/utility";
 import {
+  ORDER_STATUS,
   sampleOrderServices,
   sampleOrderTotalPrice,
 } from "../../constant/order";
@@ -8,6 +9,7 @@ import {
 const initialState = {
   error: null,
   loading: false,
+  status: ORDER_STATUS.FILL_DATE_ADDRESS,
   order: {
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
@@ -15,7 +17,6 @@ const initialState = {
     // totalPrice: 0,
   },
 };
-
 const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
   const updatedTotalPrice = calculateTotalPrice(updatedServices);
@@ -33,11 +34,14 @@ const deleteFromCart = (state, action) => {
     ...oldServices.slice(action.deleteIndex + 1),
   ];
   const updatedTotalPrice = calculateTotalPrice(updatedServices);
+  const updatedStatus =
+    updatedServices.length === 0 ? ORDER_STATUS.ADD_TO_CART : state.status;
   return updateObject(state, {
     order: updateObject(state.order, {
       services: updatedServices,
       totalPrice: updatedTotalPrice,
     }),
+    status: updatedStatus,
   });
 };
 
@@ -56,12 +60,31 @@ const updateServiceTimeAddress = (state, action) => {
   );
   return updateObject(state, {
     order: updateObject(state.order, { services: updatedServices }),
+    status: ORDER_STATUS.FILL_PAYMENT,
   });
 };
 
 const updatePaymentInfo = (state, action) => {
   return updateObject(state, {
     order: updateObject(state.order, { credit: action.creditCard }),
+    status: ORDER_STATUS.CONFIRMED,
+  });
+};
+
+const setBackStatus = (state, action) => {
+  const oldStatus = state.status;
+  let updatedStatus = ORDER_STATUS.ADD_TO_CART;
+  if (oldStatus === ORDER_STATUS.FILL_PAYMENT) {
+    updatedStatus = ORDER_STATUS.FILL_DATE_ADDRESS;
+  }
+  return updateObject(state, {
+    status: updatedStatus,
+  });
+};
+
+const resetStatus = (state, action) => {
+  return updateObject(state, {
+    status: ORDER_STATUS.ADD_TO_CART,
   });
 };
 
@@ -75,6 +98,10 @@ const reducer = (state = initialState, action) => {
       return updateServiceTimeAddress(state, action);
     case actionTypes.ORDER_UPDATE_PAYMENT_INFO:
       return updatePaymentInfo(state, action);
+    case actionTypes.ORDER_SET_BACK_STATUS:
+      return setBackStatus(state, action);
+    case actionTypes.ORDER_RESET_STATUS:
+      return resetStatus(state, action);
     default:
       return state;
   }
