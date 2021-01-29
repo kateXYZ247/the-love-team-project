@@ -1,6 +1,7 @@
 export {
   addToCart,
   deleteFromCart,
+  updateCart,
   updateServiceTimeAddress,
   updatePaymentInfo,
   setBackStatus,

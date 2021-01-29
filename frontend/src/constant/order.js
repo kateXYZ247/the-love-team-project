@@ -17,6 +17,7 @@ export const ORDER_STATUS = {
   CONFIRMED: "confirm",
 };
 
+export const orderProductsPageButtonText = "Select Date & Time";
 export const orderTimeAddressPageButtonText = "Account Details";
 export const orderCreditCardPageButtonText = "Book Now";
 export const sampleOrderServices = [

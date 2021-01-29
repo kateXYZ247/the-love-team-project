@@ -14,6 +14,12 @@ export const deleteFromCart = (productIndex) => {
   };
 };
 
+export const updateCart = () => {
+  return {
+    type: actionTypes.ORDER_UPDATE_CART,
+  };
+};
+
 export const updateServiceTimeAddress = (startTime, address) => {
   return {
     type: actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS,

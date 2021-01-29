@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
-import Products from "./containers/Products/Products";
 import CustomerLogin from "./containers/CustomerLogin/CustomerLogin";
 import SampleContainer from "./containers/Sample/SampleContainer";
 import OrderHistory from "./containers/OrderHistory/OrderHistory";
@@ -16,7 +15,6 @@ function App(props) {
     <Switch>
       <Route path="/order" exact component={Order} />
       <Route path="/history" exact component={OrderHistory} />
-      <Route path="/products" exact component={Products} />
       <Route path="/login" render={(props) => <CustomerLogin {...props} />} />
       <Route path="/test" render={(props) => <SampleContainer {...props} />} />
       <Route path="/" exact component={Home} />
@@ -28,7 +26,6 @@ function App(props) {
       <Switch>
         <Route path="/order" exact component={Order} />
         <Route path="/history" exact component={OrderHistory} />
-        <Route path="/products" exact component={Products} />
         <Route path="/" exact component={Home} />
         <Route
           path="/test"

@@ -6,6 +6,7 @@ import PaymentInfo from "./PaymentInfo/PaymentInfo";
 import AppointmentsModal from "../../components/Order/AppointmentsModal/AppointmentsModal";
 import { ORDER_STATUS } from "../../constant/order";
 import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderConfirmation";
+import Products from "./Products/Products";
 
 function Order(props) {
   const { order, orderStatus, loading } = props;
@@ -15,6 +16,7 @@ function Order(props) {
     onDeleteFromCart,
     onSetBackStatus,
     onResetStatus,
+    onUpdateCart,
   } = props;
   const orderTime =
     order.services.length === 0 ? new Date() : order.services[0].startTime;
@@ -65,7 +67,13 @@ function Order(props) {
       break;
     case ORDER_STATUS.ADD_TO_CART:
     default:
-      content = <div>Products</div>;
+      content = (
+        <Products
+          onUpdateCart={onUpdateCart}
+          orderServicesCount={orderServicesCount}
+          onAppointmentModalOpen={appointmentModalOpenedHandler}
+        />
+      );
   }
 
   return (
@@ -92,6 +100,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onUpdateCart: () => dispatch(actions.updateCart()),
     onUpdateServiceInfo: (startTime, address) =>
       dispatch(actions.updateServiceTimeAddress(startTime, address)),
     onUpdatePaymentInfo: (creditCard) =>

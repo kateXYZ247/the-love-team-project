@@ -9,7 +9,7 @@ import {
 const initialState = {
   error: null,
   loading: false,
-  status: ORDER_STATUS.FILL_DATE_ADDRESS,
+  status: ORDER_STATUS.ADD_TO_CART,
   order: {
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
@@ -42,6 +42,12 @@ const deleteFromCart = (state, action) => {
       totalPrice: updatedTotalPrice,
     }),
     status: updatedStatus,
+  });
+};
+
+const updateCart = (state, action) => {
+  return updateObject(state, {
+    status: ORDER_STATUS.FILL_DATE_ADDRESS,
   });
 };
 
@@ -96,6 +102,8 @@ const reducer = (state = initialState, action) => {
       return addToCart(state, action);
     case actionTypes.ORDER_DELETE_FROM_CART:
       return deleteFromCart(state, action);
+    case actionTypes.ORDER_UPDATE_CART:
+      return updateCart(state, action);
     case actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS:
       return updateServiceTimeAddress(state, action);
     case actionTypes.ORDER_UPDATE_PAYMENT_INFO:

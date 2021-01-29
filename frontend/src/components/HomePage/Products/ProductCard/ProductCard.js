@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./ProductCard.module.css";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 function ProductCard(props) {
   const { name, description, price } = props.item;
@@ -10,6 +11,8 @@ function ProductCard(props) {
       <div className={classes.description}>{description}</div>
       <div className={classes.button}>
         <Button
+          component={Link}
+          to={"/order"}
           size="large"
           className={classes.button}
           color="primary"
