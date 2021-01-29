@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
 import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
 import HairDryer from "../../../assets/images/hair-dryer.svg";
 import Spa from "../../../assets/images/spa.svg";
 
 function OrderConfirmation(props) {
-  const { orderTime } = props;
+  const { orderTime, onUnmount } = props;
+
+  useEffect(() => {
+    return () => {
+      onUnmount();
+    };
+  }, []);
 
   return (
     <Box>

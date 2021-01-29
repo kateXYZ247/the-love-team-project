@@ -63,7 +63,9 @@ function Order(props) {
       );
       break;
     case ORDER_STATUS.CONFIRMED:
-      content = <OrderConfirmation orderTime={orderTime} />;
+      content = (
+        <OrderConfirmation orderTime={orderTime} onUnmount={onResetStatus} />
+      );
       break;
     case ORDER_STATUS.ADD_TO_CART:
     default:
