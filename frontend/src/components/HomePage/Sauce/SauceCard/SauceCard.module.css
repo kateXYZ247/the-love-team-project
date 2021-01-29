@@ -1,0 +1,36 @@
+.container {
+    width: 400px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 185px;
+    width: 185px
+}
+
+.title {
+    color: #2B292D;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 30px;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.content {
+    width: 350px;
+    color: #2B292D;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin: 20px auto;
+}
+

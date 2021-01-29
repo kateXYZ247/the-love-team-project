@@ -51,11 +51,11 @@ public class User {
     private String role;
 
     // for enabling a new user
-    private Boolean enabled = false;
+//    private Boolean enabled = false;
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
+//    public void setEnabled(Boolean enabled) {
+//        this.enabled = enabled;
+//    }
 
     public User(String firstName, String lastName, String email, String password, String phone) {
         this.firstName = firstName;

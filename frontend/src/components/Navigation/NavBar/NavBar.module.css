@@ -1,0 +1,10 @@
+.Logo {
+    height: 80%;
+    flex: 1;
+    align-content: center;
+    margin: 10px;
+}
+
+.Container {
+    display: flex;
+}
