@@ -25,12 +25,13 @@ public class User {
 
     private String account;
 
+    @Column(nullable = false)
     private String password;
 
-    @Column(name="first_name")
+    @Column(name="first_name", nullable = false)
     private String firstName;
 
-    @Column(name="last_name")
+    @Column(name="last_name", nullable = false)
     private String lastName;
 
     private String address;
@@ -40,13 +41,15 @@ public class User {
     @Column(name="geohash")
     private String geoHash;
 
+    @Column(nullable = false)
     private String email;
 
-    private String phone;
+    private String phone;//is phone necessary when register?
 
     @Column(name="last_logged_in")
     private Timestamp lastLoggedInTime;
 
-    private String role;
+    @Column(nullable = false)
+    private String role; //user is default to be user when register
 
 }

@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OrderController {
-
-    @GetMapping(UrlConstants.ORDERS)
-    public ResponseEntity<String> pareTokenTest(@RequestHeader String authorization, @RequestBody LoginRequestBody requestBody) throws JsonProcessingException {
-        TokenSubject tokenSubject = JsonUtils.convertJsonStringToObject(JWTUtils.parseSubjectFromToken(authorization), TokenSubject.class);
-        return ResponseEntity.ok().body(tokenSubject.toString());
-    }
+    //this is for testing security API//
+//    @GetMapping(UrlConstants.ORDERS)
+//    public ResponseEntity<String> pareTokenTest(@RequestHeader String authorization, @RequestBody LoginRequestBody requestBody) throws JsonProcessingException {
+//        TokenSubject tokenSubject = JsonUtils.convertJsonStringToObject(JWTUtils.parseSubjectFromToken(authorization), TokenSubject.class);
+//        return ResponseEntity.ok().body(tokenSubject.toString());
+//    }
+    //end//
 }
