@@ -31,10 +31,10 @@ export const fetchProducts = (token, userId) => {
         let fetchedProducts = [...productList];
         if (
           response.hasOwnProperty("data") &&
-          response.data.hasOwnProperty("productList") &&
-          response.data.productList.length > 0
+          response.data.hasOwnProperty("products") &&
+          response.data.products.length > 0
         ) {
-          fetchedProducts = [...response.data.productList];
+          fetchedProducts = [...response.data.products];
         }
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
