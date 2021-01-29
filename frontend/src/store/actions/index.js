@@ -1,4 +1,4 @@
-export { login, loginStart, loginSuccess, loginFail } from "./auth";
+export { login, loginStart, loginSuccess, loginFail, logout } from "./auth";
 
 export {
   addToCart,

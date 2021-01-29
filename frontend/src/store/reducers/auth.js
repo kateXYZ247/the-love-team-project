@@ -19,7 +19,6 @@ function loginStart(state, action) {
 }
 
 function loginSuccess(state, action) {
-  console.log(action.token);
   localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
   return updateObject(state, {
     userId: action.userId,

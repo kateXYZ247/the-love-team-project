@@ -14,7 +14,6 @@ function App(props) {
   let routes = (
     <Switch>
       <Route path="/order" exact component={Order} />
-      <Route path="/history" exact component={OrderHistory} />
       <Route path="/login" render={(props) => <CustomerLogin {...props} />} />
       <Route path="/test" render={(props) => <SampleContainer {...props} />} />
       <Route path="/" exact component={Home} />
@@ -50,8 +49,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
