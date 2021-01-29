@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import Checkbox from "@material-ui/core/Checkbox";
 import {
   Box,
   Card,
@@ -10,12 +10,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import classes from "./CustomerLogin.module.css";
-import {
-  createMuiTheme,
-  withStyles,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { grey, blue } from "@material-ui/core/colors";
 
 const ColorButton = withStyles((theme) => ({
@@ -38,27 +33,32 @@ const ColorButton2 = withStyles((theme) => ({
 }))(Button);
 
 function CustomerLogin(props) {
-  const {
-    userName,
-    userNameChangedHandler,
-    password,
-    passwordChangedHandler,
-  } = props;
-
   const [state, setState] = React.useState({
     checked: true,
   });
-
+  const { userName, password } = props;
+  const [value, setValue] = useState("");
   const handleChange = (event) => {
+    setValue(event.target.value);
+    console.log(`name =>`, event.target.value);
+  };
+  const handleChange2 = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+  // const [name, setName] = useState("");
+  // const [password, setPassword] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log("dada:", event.toString());
+  }
 
   return (
     <Grid container justify="center">
       <Grid item xs={10} lg={6} justify="center">
         <Card>
           <CardContent>
-            <form noValidate autoComplete="off">
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <Box p={5}>
                 <Grid container justify="space-around" spacing={3}>
                   <Grid item xs={12}>
@@ -80,10 +80,8 @@ function CustomerLogin(props) {
                       className={classes.textBox}
                       id="userName"
                       label="UserName"
-                      defaultValue={userName}
-                      onChange={(event) =>
-                        userNameChangedHandler(event.target.value)
-                      }
+                      value={userName}
+                      onChange={handleChange}
                       variant="outlined"
                     />
                   </Grid>
@@ -101,10 +99,8 @@ function CustomerLogin(props) {
                       className={classes.textBox}
                       id="Password"
                       label="Password"
-                      defaultValue={password}
-                      onChange={(event) =>
-                        passwordChangedHandler(event.target.value)
-                      }
+                      value={password}
+                      onChange={handleChange}
                       variant="outlined"
                     />
                   </Grid>
@@ -116,7 +112,7 @@ function CustomerLogin(props) {
                       control={
                         <Checkbox
                           checked={state.check}
-                          onChange={handleChange}
+                          onChange2={handleChange2}
                           name="check"
                         />
                       }
@@ -137,7 +133,7 @@ function CustomerLogin(props) {
                       variant="contained"
                       color="primary"
                       component="span"
-                      htmlType="submit"
+                      type="submit"
                       className={classes.LoginButton}
                     >
                       LOG IN
