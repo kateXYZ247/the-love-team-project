@@ -1,5 +1,6 @@
 package com.theloveteam.web.controllers;
 
+import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dao.Product;
 import com.theloveteam.web.dto.ProductsResponseBody;
 import com.theloveteam.web.repositories.ProductRepository;
@@ -20,7 +21,7 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("/products")
+    @GetMapping(UrlConstants.PRODUCTS)
     public ResponseEntity<ProductsResponseBody> getProductsIds() {
         List<Product> productList = productRepository.findAll();
         System.out.println(productList);
