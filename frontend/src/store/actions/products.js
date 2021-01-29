@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
+import { productList } from "../../constant/homepage";
 
 export const fetchProductsSuccess = (products) => {
   return {
@@ -27,13 +28,18 @@ export const fetchProducts = (token, userId) => {
     axios
       .get("/products")
       .then((response) => {
-        console.log(response);
-        const fetchedProducts = [];
-        // for (let key in response.data) {
-        //   fetchedProducts.push({ ...response.data[key], id: key });
-        // }
+        let fetchedProducts = [...productList];
+        if (
+          response.hasOwnProperty("data") &&
+          response.data.hasOwnProperty("productList") &&
+          response.data.productList.length > 0
+        ) {
+          fetchedProducts = [...response.data.productList];
+        }
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
-      .catch((error) => dispatch(fetchProductsFail(error)));
+      .catch((error) => {
+        dispatch(fetchProductsFail(error));
+      });
   };
 };

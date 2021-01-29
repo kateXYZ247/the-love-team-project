@@ -9,7 +9,7 @@ import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderCon
 import Products from "./Products/Products";
 
 function Order(props) {
-  const { order, orderStatus, loading } = props;
+  const { order, orderStatus } = props;
   const {
     onUpdateServiceInfo,
     onUpdatePaymentInfo,
@@ -94,7 +94,6 @@ const mapStateToProps = (state) => {
   return {
     orderStatus: state.order.status,
     order: state.order.order,
-    loading: state.order.loading,
   };
 };
 
