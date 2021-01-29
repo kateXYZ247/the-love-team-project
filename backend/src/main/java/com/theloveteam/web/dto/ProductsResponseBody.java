@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ProductsResponseBody {
-    private List<Product> productList;
+    private List<Product> products;
 }
