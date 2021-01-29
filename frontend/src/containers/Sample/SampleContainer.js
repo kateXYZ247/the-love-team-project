@@ -22,7 +22,7 @@ function SampleContainer(props) {
 
       {/*<Chip color="primary" label="This is a Sample Container" />*/}
       {/*<Sample clicked={props.clicked} />*/}
-      <Register />
+      {/*<Register />*/}
       {/*<OrderInfo />*/}
 
 

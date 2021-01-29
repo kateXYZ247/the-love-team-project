@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     Box,
     Card,
@@ -16,13 +16,46 @@ import Divider from "../Divider/DividerText.js";
 import Button from '@material-ui/core/Button';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import CheckboxLabels from "../CheckBox/CheckBox.js";
+import {register} from '../../../store/actions/register';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from "react-router-dom";
 
 function RegisterForm(props) {
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        password: ''
+    });
+    // const [firstName, setFirstName] = useState("");
+    // const firstNameChangedHandler = (updatedFirstName) => {
+    //     setFirstName(updatedFirstName);
+    // };
+    const [submitted, setSubmitted] = useState(false);
+    const registering = useSelector(state => state.register.registering);
+    const dispatch = useDispatch();
 
+    function handleChange(e) {
+        const { name, value } = e.target;
+        // console.log(name);
+        // console.log(value);
+        setUser(user => ({ ...user, [name]: value }));
+    }
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        if (user.firstName && user.lastName && user.phone && user.email && user.password) {
+            dispatch(register(user));
+            setSubmitted(!submitted);
+        }
+    }
     return (
+        <div>
+        <form name="form" >
         <Grid container justify="center">
 
-            <Grid item xs={10} lg={6} justify="center">
+            <Grid className="form-group" item xs={10} lg={6}>
                 <Card>
                     <CardContent>
                         <RegisterFormTitle>Finish setting up your account</RegisterFormTitle>
@@ -35,8 +68,9 @@ function RegisterForm(props) {
                                     <TextField
                                         id="First-Name"
                                         label="First Name"
-                                        // defaultValue={"First Name"}
-
+                                        defaultValue={user.firstName}
+                                        name="firstName"
+                                        onChange={(event) => handleChange(event)}
                                         fullWidth
                                         variant="outlined"
                                     />
@@ -45,8 +79,9 @@ function RegisterForm(props) {
                                     <TextField
                                         id="Last-Name"
                                         label="Last Name"
-                                        // defaultValue={"Last Name"}
-
+                                        name="lastName"
+                                        defaultValue={user.lastName}
+                                        onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
                                     />
@@ -59,7 +94,9 @@ function RegisterForm(props) {
                                     <TextField
                                         id="Phone-Number"
                                         label="Phone Number"
-
+                                        name="phone"
+                                        defaultValue={user.phone}
+                                        onChange={handleChange}
 
                                         fullWidth
                                         variant="outlined"
@@ -73,7 +110,9 @@ function RegisterForm(props) {
                                     <TextField
                                         id="Email-Address"
                                         label="Email Address"
-
+                                        name="email"
+                                        defaultValue={user.email}
+                                        onChange={handleChange}
 
                                         fullWidth
                                         variant="outlined"
@@ -87,8 +126,9 @@ function RegisterForm(props) {
                                     <TextField
                                         id="Password"
                                         label="Create a Password"
-
-
+                                        name="password"
+                                        defaultValue={user.password}
+                                        onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
                                     />
@@ -100,9 +140,9 @@ function RegisterForm(props) {
                                 <Box textAlign='center'>
                                     <Button
                                         variant="outlined"
-                                        color="secondary"
+                                        color = "primary"
                                         className={classes.button}
-                                        endIcon={<FacebookIcon/>}
+                                        endIcon={<FacebookIcon color={"secondary"}/> }
                                     >
                                         Continue with Facebook
                                     </Button>
@@ -116,16 +156,24 @@ function RegisterForm(props) {
                                 </Grid>
                             </Box>
                             <Box textAlign='center'>
-                                <Button variant="contained" color="primary">
+                                <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+                                    {/*{registering && <span className="spinner-border spinner-border-sm mr-1"></span>}*/}
                                     Continue
                                 </Button>
                             </Box>
+                            {/*if (submitted) {*/}
+
+                            {/*    <Redirect to='/login'/>*/}
+                            {/*}*/}
 
                         </Box>
                     </CardContent>
                 </Card>
             </Grid>
+
         </Grid>
+            </form>
+        </div>
     );
 }
 export default RegisterForm;

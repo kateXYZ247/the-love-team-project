@@ -11,6 +11,7 @@ import thunk from "redux-thunk";
 import authReducer from "./store/reducers/auth";
 import productsReducer from "./store/reducers/products";
 import orderReducer from "./store/reducers/order";
+import registerReducer from "./store/reducers/register";
 import { BrowserRouter } from "react-router-dom";
 
 const theme = createMuiTheme({
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   products: productsReducer,
   order: orderReducer,
+  register: registerReducer,
 });
 
 const store = createStore(
