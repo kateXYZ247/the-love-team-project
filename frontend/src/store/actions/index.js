@@ -1,3 +1,5 @@
+export { login, loginStart, loginSuccess, loginFail } from "./auth";
+
 export {
   addToCart,
   deleteFromCart,
