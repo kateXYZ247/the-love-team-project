@@ -25,6 +25,7 @@ public class User {
 
     private String account;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(name="first_name", nullable = false)
@@ -40,29 +41,15 @@ public class User {
     @Column(name="geohash")
     private String geoHash;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String email;
 
-    private String phone;
+    private String phone;//is phone necessary when register?
 
     @Column(name="last_logged_in")
     private Timestamp lastLoggedInTime;
 
-    private String role;
-
-    // for enabling a new user
-//    private Boolean enabled = false;
-
-//    public void setEnabled(Boolean enabled) {
-//        this.enabled = enabled;
-//    }
-
-    public User(String firstName, String lastName, String email, String password, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-    }
+    @Column(nullable = false)
+    private String role; //user is default to be user when register
 
 }
