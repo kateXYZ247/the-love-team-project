@@ -6,6 +6,7 @@ import { connect, useSelector, useDispatch} from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
+import Products from "./containers/Products/Products";
 import CustomerLogin from "./containers/CustomerLogin/CustomerLogin";
 import SampleContainer from "./containers/Sample/SampleContainer";
 import Register from "./containers/Register/Register";
@@ -19,6 +20,10 @@ function App(props) {
 
       <Route path="/order" exact component={Order} />
 
+
+
+      <Route path="/products" exact component={Products} />
+
       <Route path="/login" render={(props) => <CustomerLogin {...props} />} />
       <Route path="/test" render={(props) => <SampleContainer {...props} />} />
 
@@ -30,6 +35,7 @@ function App(props) {
     routes = (
       <Switch>
         <Route path="/order" exact component={Order} />
+        <Route path="/products" exact component={Products} />
         <Route path="/" exact component={Home} />
         <Route
           path="/test"
