@@ -33,30 +33,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Entry points
         http.authorizeRequests()//
-                .antMatchers(UrlConstants.HELLO).permitAll()//
-                .antMatchers(UrlConstants.PRODUCTS).permitAll()
-                .antMatchers(UrlConstants.USERS_REGISTER).permitAll()//
-                .antMatchers("/gs-guide-websocket/**", "/topic/**", "/app/**", "/user/**").permitAll()
-                .antMatchers("/test").authenticated()
-                // Disallow everything else..
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                // No session will be created or used by spring security
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .antMatchers(UrlConstants.HELLO).permitAll()//
+            .antMatchers(UrlConstants.PRODUCTS).permitAll()
+            .antMatchers(UrlConstants.USERS_REGISTER).permitAll()//
+            .antMatchers("/gs-guide-websocket/**", "/topic/**", "/app/**", "/user/**").permitAll()
+            .antMatchers("/test").authenticated()
+            // Disallow everything else..
+            .anyRequest().authenticated()
+            .and()
+            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+            // No session will be created or used by spring security
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(securityService).passwordEncoder(bCryptPasswordEncoder);
     }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;//open to requests from any source
-    }
-
 }

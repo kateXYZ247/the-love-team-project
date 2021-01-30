@@ -1,22 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Sample from "../../components/Sample/Sample";
 import { Chip } from "@material-ui/core";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
-import PaymentInfo from "../Order/PaymentInfo/PaymentInfo";
 
 function SampleContainer(props) {
-  const { onFetchProducts } = props;
-
-  useEffect(() => {
-    onFetchProducts();
-  });
-
   return (
     <div>
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
-      <PaymentInfo />
     </div>
   );
 }
