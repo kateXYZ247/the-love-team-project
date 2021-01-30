@@ -7,7 +7,7 @@ import {
   MenuItem,
   TextField,
 } from "@material-ui/core";
-import CardTitle from "../CardTitle/CardTitle";
+import CardTitle from "../../UI/CardTitle/CardTitle";
 import { addressTypes } from "../../../constant/order";
 
 function AddressCard(props) {
