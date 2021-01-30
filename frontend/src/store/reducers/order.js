@@ -73,8 +73,10 @@ const updateServiceTimeAddress = (state, action) => {
 };
 
 const updatePaymentInfo = (state, action) => {
+  const updatedOrder = updateObject(state.order, { credit: action.creditCard });
+  console.log(updatedOrder);
   return updateObject(state, {
-    order: updateObject(state.order, { credit: action.creditCard }),
+    order: updatedOrder,
     status: ORDER_STATUS.CONFIRMED,
   });
 };

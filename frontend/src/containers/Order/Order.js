@@ -8,7 +8,7 @@ import { ORDER_STATUS } from "../../constant/order";
 import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderConfirmation";
 import Products from "./Products/Products";
 import { Redirect } from "react-router-dom";
-import { PATH_ORDER } from "../../constant/path";
+import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
 
 function Order(props) {
   const { order, orderStatus, isAuthenticated } = props;
@@ -27,9 +27,18 @@ function Order(props) {
     onSetRedirectPath(PATH_ORDER);
   }, [onSetRedirectPath]);
 
-  const orderTime =
-    order.services.length === 0 ? new Date() : order.services[0].startTime;
-  let orderServicesCount = order.services.length;
+  // get order information from store and pass to child
+  const orderServicesCount = order.services.length;
+  const oldOrderDate =
+    orderServicesCount === 0 ? new Date() : order.services[0].startTime;
+  const oldAddress = orderServicesCount === 0 ? "" : order.services[0].address;
+  const oldApartment =
+    orderServicesCount === 0 ? "" : order.services[0].apartment;
+  const oldPet = orderServicesCount === 0 ? "" : order.services[0].pet;
+  const oldDirection =
+    orderServicesCount === 0 ? "" : order.services[0].direction;
+  const oldAddressType =
+    orderServicesCount === 0 ? "" : order.services[0].addressType;
 
   const [showAppointments, setShowAppointments] = useState(false);
 
@@ -51,6 +60,12 @@ function Order(props) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
       content = (
         <OrderInfo
+          oldOrderDate={oldOrderDate}
+          oldAddress={oldAddress}
+          oldApartment={oldApartment}
+          oldPet={oldPet}
+          oldDirection={oldDirection}
+          oldAddressType={oldAddressType}
           onUpdateServiceInfo={onUpdateServiceInfo}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
@@ -60,8 +75,9 @@ function Order(props) {
       );
       break;
     case ORDER_STATUS.FILL_PAYMENT:
+      // TODO: redirect back to "FILL_DATE_ADDRESS" if user doesn't login
       if (!isAuthenticated) {
-        content = <Redirect to="/login" />;
+        content = <Redirect to={PATH_LOGIN} />;
       } else {
         content = (
           <PaymentInfo
@@ -77,7 +93,7 @@ function Order(props) {
       break;
     case ORDER_STATUS.CONFIRMED:
       content = (
-        <OrderConfirmation orderTime={orderTime} onUnmount={onResetStatus} />
+        <OrderConfirmation orderTime={oldOrderDate} onUnmount={onResetStatus} />
       );
       break;
     case ORDER_STATUS.ADD_TO_CART:
