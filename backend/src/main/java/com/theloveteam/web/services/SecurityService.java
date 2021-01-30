@@ -38,7 +38,7 @@ public class SecurityService implements UserDetailsService {
         }
         System.out.println("Encrypted password: " + bCryptPasswordEncoder.encode(user.getPassword()));
         TokenSubject tokenSubject = TokenSubject.builder()
-                .userId(String.valueOf(user.getUserId()))
+                .userId(String.valueOf(user.getUserId()))//userId is user_id
                 .role(Role.valueOf(user.getRole()))
                 .build();
         return new LoginDetails(tokenSubject, user.getPassword(), emptyList());
