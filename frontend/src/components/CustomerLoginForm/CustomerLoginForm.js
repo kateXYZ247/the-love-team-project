@@ -11,6 +11,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import CardTitle from "../UI/CardTitle/CardTitle";
 import FacebookIcon from "@material-ui/icons/Facebook";
+import { Link } from "react-router-dom";
+import { PATH_REGISTER } from "../../constant/path";
 
 function CustomerLoginForm(props) {
   const {
@@ -30,7 +32,7 @@ function CustomerLoginForm(props) {
           <CardTitle title="Sign in to access your account" />
           <CardContent>
             <Grid container justify="space-around">
-              <Grid item xs={10} md={5}>
+              <Grid item xs={11} md={5}>
                 <form noValidate autoComplete="off" onSubmit={onSubmit}>
                   <Grid container justify="center">
                     <Grid item xs={12}>
@@ -94,9 +96,9 @@ function CustomerLoginForm(props) {
                   </Grid>
                 </form>
               </Grid>
-              <Grid item xs={10} md={5}>
+              <Grid item xs={11} md={5}>
                 <Box p={2} height="20px" align="center" fontSize={18}>
-                  Click the button below to register Now
+                  Click the button below to register now
                 </Box>
                 <Box p={2} height="40px">
                   <Button
@@ -104,6 +106,8 @@ function CustomerLoginForm(props) {
                     color="primary"
                     fullWidth
                     size="large"
+                    component={Link}
+                    to={PATH_REGISTER}
                   >
                     Create Account
                   </Button>
