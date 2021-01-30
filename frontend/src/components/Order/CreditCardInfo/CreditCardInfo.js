@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Card, CardContent, Grid, TextField } from "@material-ui/core";
-import CardTitle from "../CardTitle/CardTitle";
+import CardTitle from "../../UI/CardTitle/CardTitle";
 import Cards from "react-credit-cards";
 
 function CreditCardInfo(props) {
