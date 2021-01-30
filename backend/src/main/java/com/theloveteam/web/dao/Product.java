@@ -31,4 +31,5 @@ public class Product {
     private double productPrice;
 
     private int duration;
+
 }
