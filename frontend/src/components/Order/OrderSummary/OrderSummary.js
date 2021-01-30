@@ -1,5 +1,5 @@
 import React from "react";
-import CardTitle from "../CardTitle/CardTitle";
+import CardTitle from "../../UI/CardTitle/CardTitle";
 import { Box, Card, CardContent, Divider, Grid } from "@material-ui/core";
 import { orderTaxRate, orderGratuityRate } from "../../../constant/order";
 import OrderSummaryItem from "./OrderSummaryItem/OrderSummaryItem";

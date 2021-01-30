@@ -35,7 +35,7 @@ const theme = createMuiTheme({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   productCard: {
     width: 333,
     height: 155,
@@ -66,23 +66,20 @@ function ProductCard(props) {
 
   return (
     <Card className={classes.productCard}>
-      {star ?
-        < Paper className={classes.starBar} /> : null
-      }
+      {star ? <Paper className={classes.starBar} /> : null}
       <CardActionArea className={classes.cardActionArea}>
         <CardContent>
           <ThemeProvider theme={theme}>
-            <Grid
-              container
-              spacing={2}
-              direction="column"
-              justify="flex-start"
-            >
+            <Grid container spacing={2} direction="column" justify="flex-start">
               <Grid item>
                 <Typography variant="h2">
-                  {star ?
-                    <div> <FavoriteOutlinedIcon />  {productName} </div> : productName
-                  }
+                  {star ? (
+                    <div>
+                      <FavoriteOutlinedIcon /> {productName}{" "}
+                    </div>
+                  ) : (
+                    productName
+                  )}
                 </Typography>
               </Grid>
               <Grid
@@ -94,22 +91,23 @@ function ProductCard(props) {
                 <Grid item xs={8}>
                   <Typography variant="body1">{productDescription}</Typography>
                 </Grid>
-                <Grid
-                  xs={4}
-                  container
-                  direction="column"
-                  justify="space-evenly"
-                  alignItems="flex-end"
-                >
-                  <Grid item>
-                    <Typography variant="h1">
-                      ${productPrice.toFixed(0)}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body2">
-                      <AccessAlarmIcon /> {duration} mins
-                    </Typography>
+                <Grid item xs={4}>
+                  <Grid
+                    container
+                    direction="column"
+                    justify="space-evenly"
+                    alignItems="flex-end"
+                  >
+                    <Grid item>
+                      <Typography variant="h1">
+                        ${productPrice.toFixed(0)}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2">
+                        <AccessAlarmIcon /> {duration} mins
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>

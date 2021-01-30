@@ -19,6 +19,8 @@ function PaymentInfo(props) {
     orderServicesCount,
     onUpdatePaymentInfo,
     onAppointmentModalOpen,
+    onSetBackStatus,
+    onResetStatus,
   } = props;
 
   const [creditCard, setCreditCard] = useState({
@@ -58,17 +60,20 @@ function PaymentInfo(props) {
   return (
     <React.Fragment>
       <Box my={2}>
-        <TopAction />
+        <TopAction
+          onClickBack={onSetBackStatus}
+          onClickCancel={onResetStatus}
+        />
       </Box>
       <Grid container justify="center" spacing={2}>
-        <Grid item xs={10} lg={6}>
+        <Grid item xs={11} lg={6}>
           <CreditCardInfo
             creditCard={creditCard}
             onFocusChange={focusChangeHandler}
             onInputChange={creditCardInputChangeHandler}
           />
         </Grid>
-        <Grid item xs={10} lg={4}>
+        <Grid item xs={11} lg={4}>
           <OrderSummary order={order} />
         </Grid>
       </Grid>
