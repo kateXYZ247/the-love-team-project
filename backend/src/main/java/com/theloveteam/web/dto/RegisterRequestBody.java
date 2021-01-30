@@ -9,19 +9,20 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class RegisterRequestBody {
-    @NotBlank(message = "Enter you first name")
+    @NotBlank(message = "Please enter your first name")
     private String firstName;
 
-    @NotBlank(message = "Enter you last name")
+    @NotBlank(message = "Please enter your last name")
     private String lastName;
 
+    @NotBlank(message = "Please enter your email")
     @Email(message = "Enter a valid email address")
     private String email;
 
-    @NotBlank(message = "Enter you password")
+    @NotBlank(message = "Please enter your password")
     private String password;
 
-    @NotBlank(message = "Enter you phone number")
+    @NotBlank(message = "Please enter your phone number")
     private String phone;
 
 
