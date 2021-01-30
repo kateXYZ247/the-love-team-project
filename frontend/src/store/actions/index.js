@@ -12,6 +12,7 @@ export {
   deleteFromCart,
   updateCart,
   updateServiceTimeAddress,
+  switchToPayment,
   updatePaymentInfo,
   setBackStatus,
   resetStatus,

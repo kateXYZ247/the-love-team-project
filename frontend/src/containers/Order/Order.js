@@ -8,13 +8,14 @@ import { ORDER_STATUS } from "../../constant/order";
 import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderConfirmation";
 import Products from "./Products/Products";
 import { Redirect } from "react-router-dom";
-import { PATH_ORDER } from "../../constant/path";
+import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
 
 function Order(props) {
   const { order, orderStatus, isAuthenticated } = props;
   const {
     onSetRedirectPath,
     onUpdateServiceInfo,
+    onSwitchToPayment,
     onUpdatePaymentInfo,
     onDeleteFromCart,
     onSetBackStatus,
@@ -27,9 +28,14 @@ function Order(props) {
     onSetRedirectPath(PATH_ORDER);
   }, [onSetRedirectPath]);
 
-  const orderTime =
-    order.services.length === 0 ? new Date() : order.services[0].startTime;
-  let orderServicesCount = order.services.length;
+  // get order information from store and pass to child
+  const orderServicesCount = order.services.length;
+  const oldOrderDate = order.startTime;
+  const oldAddress = order.address;
+  const oldApartment = order.apartment;
+  const oldPet = order.pet;
+  const oldDirection = order.direction;
+  const oldAddressType = order.addressType;
 
   const [showAppointments, setShowAppointments] = useState(false);
 
@@ -46,12 +52,28 @@ function Order(props) {
     setShowAppointments(false);
   };
 
+  // always save user input, but only switch to payment page if user is authenticated
+  const dateAddressUpdatedHandler = (date, addressObject) => {
+    onUpdateServiceInfo(date, addressObject);
+    if (isAuthenticated) {
+      onSwitchToPayment();
+    } else {
+      props.history.push(PATH_LOGIN);
+    }
+  };
+
   let content;
   switch (orderStatus) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
       content = (
         <OrderInfo
-          onUpdateServiceInfo={onUpdateServiceInfo}
+          oldOrderDate={oldOrderDate}
+          oldAddress={oldAddress}
+          oldApartment={oldApartment}
+          oldPet={oldPet}
+          oldDirection={oldDirection}
+          oldAddressType={oldAddressType}
+          onUpdateServiceInfo={dateAddressUpdatedHandler}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
           onSetBackStatus={onSetBackStatus}
@@ -61,7 +83,7 @@ function Order(props) {
       break;
     case ORDER_STATUS.FILL_PAYMENT:
       if (!isAuthenticated) {
-        content = <Redirect to="/login" />;
+        content = <Redirect to={PATH_LOGIN} />;
       } else {
         content = (
           <PaymentInfo
@@ -77,7 +99,7 @@ function Order(props) {
       break;
     case ORDER_STATUS.CONFIRMED:
       content = (
-        <OrderConfirmation orderTime={orderTime} onUnmount={onResetStatus} />
+        <OrderConfirmation orderTime={oldOrderDate} onUnmount={onResetStatus} />
       );
       break;
     case ORDER_STATUS.ADD_TO_CART:
@@ -119,6 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateCart: () => dispatch(actions.updateCart()),
     onUpdateServiceInfo: (startTime, address) =>
       dispatch(actions.updateServiceTimeAddress(startTime, address)),
+    onSwitchToPayment: () => dispatch(actions.switchToPayment()),
     onUpdatePaymentInfo: (creditCard) =>
       dispatch(actions.updatePaymentInfo(creditCard)),
     onDeleteFromCart: (productIndex) =>

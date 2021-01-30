@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  addressTypes,
-  orderTimeAddressPageButtonText,
-} from "../../../constant/order";
+import { orderTimeAddressPageButtonText } from "../../../constant/order";
 import DateTimePicker from "../../../components/Order/DateTimePicker/DateTimePicker";
 import AddressCard from "../../../components/Order/AddressCard/AddressCard";
 import { Box } from "@material-ui/core";
@@ -11,6 +8,12 @@ import TopAction from "../../../components/Order/TopAction/TopAction";
 
 function OrderInfo(props) {
   const {
+    oldOrderDate,
+    oldAddress,
+    oldApartment,
+    oldPet,
+    oldDirection,
+    oldAddressType,
     orderServicesCount,
     onUpdateServiceInfo,
     onAppointmentModalOpen,
@@ -18,12 +21,12 @@ function OrderInfo(props) {
     onResetStatus,
   } = props;
 
-  const [date, setDate] = useState(new Date());
-  const [address, setAddress] = useState("");
-  const [apartment, setApartment] = useState("");
-  const [pet, setPet] = useState("");
-  const [direction, setDirection] = useState("");
-  const [addressType, setAddressType] = useState(addressTypes[0].value);
+  const [date, setDate] = useState(oldOrderDate);
+  const [address, setAddress] = useState(oldAddress);
+  const [apartment, setApartment] = useState(oldApartment);
+  const [pet, setPet] = useState(oldPet);
+  const [direction, setDirection] = useState(oldDirection);
+  const [addressType, setAddressType] = useState(oldAddressType);
 
   const dateChangedHandler = (updatedDate) => {
     setDate(updatedDate);
