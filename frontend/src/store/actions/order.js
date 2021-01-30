@@ -28,6 +28,12 @@ export const updateServiceTimeAddress = (startTime, address) => {
   };
 };
 
+export const switchToPayment = () => {
+  return {
+    type: actionTypes.ORDER_SWITCH_TO_PAYMENT,
+  };
+};
+
 export const updatePaymentInfo = (creditCard) => {
   return {
     type: actionTypes.ORDER_UPDATE_PAYMENT_INFO,

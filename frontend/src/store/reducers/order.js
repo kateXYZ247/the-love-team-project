@@ -68,6 +68,11 @@ const updateServiceTimeAddress = (state, action) => {
       direction: action.address.direction,
       addressType: action.address.addressType,
     }),
+  });
+};
+
+const switchToPayment = (state, action) => {
+  return updateObject(state, {
     status: ORDER_STATUS.FILL_PAYMENT,
   });
 };
@@ -132,6 +137,8 @@ const reducer = (state = initialState, action) => {
       return updateCart(state, action);
     case actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS:
       return updateServiceTimeAddress(state, action);
+    case actionTypes.ORDER_SWITCH_TO_PAYMENT:
+      return switchToPayment(state, action);
     case actionTypes.ORDER_UPDATE_PAYMENT_INFO:
       return updatePaymentInfo(state, action);
     case actionTypes.ORDER_SET_BACK_STATUS:

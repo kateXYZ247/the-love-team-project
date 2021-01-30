@@ -15,6 +15,7 @@ function Order(props) {
   const {
     onSetRedirectPath,
     onUpdateServiceInfo,
+    onSwitchToPayment,
     onUpdatePaymentInfo,
     onDeleteFromCart,
     onSetBackStatus,
@@ -51,6 +52,16 @@ function Order(props) {
     setShowAppointments(false);
   };
 
+  // always save user input, but only switch to payment page if user is authenticated
+  const dateAddressUpdatedHandler = (date, addressObject) => {
+    onUpdateServiceInfo(date, addressObject);
+    if (isAuthenticated) {
+      onSwitchToPayment();
+    } else {
+      props.history.push(PATH_LOGIN);
+    }
+  };
+
   let content;
   switch (orderStatus) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
@@ -62,7 +73,7 @@ function Order(props) {
           oldPet={oldPet}
           oldDirection={oldDirection}
           oldAddressType={oldAddressType}
-          onUpdateServiceInfo={onUpdateServiceInfo}
+          onUpdateServiceInfo={dateAddressUpdatedHandler}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
           onSetBackStatus={onSetBackStatus}
@@ -71,7 +82,6 @@ function Order(props) {
       );
       break;
     case ORDER_STATUS.FILL_PAYMENT:
-      // TODO: redirect back to "FILL_DATE_ADDRESS" if user doesn't login
       if (!isAuthenticated) {
         content = <Redirect to={PATH_LOGIN} />;
       } else {
@@ -131,6 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateCart: () => dispatch(actions.updateCart()),
     onUpdateServiceInfo: (startTime, address) =>
       dispatch(actions.updateServiceTimeAddress(startTime, address)),
+    onSwitchToPayment: () => dispatch(actions.switchToPayment()),
     onUpdatePaymentInfo: (creditCard) =>
       dispatch(actions.updatePaymentInfo(creditCard)),
     onDeleteFromCart: (productIndex) =>
