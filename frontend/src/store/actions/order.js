@@ -14,11 +14,23 @@ export const deleteFromCart = (productIndex) => {
   };
 };
 
-export const updateServiceTimeAddress = (time, address) => {
+export const updateCart = () => {
+  return {
+    type: actionTypes.ORDER_UPDATE_CART,
+  };
+};
+
+export const updateServiceTimeAddress = (startTime, address) => {
   return {
     type: actionTypes.ORDER_UPDATE_SERVICE_TIME_ADDRESS,
-    time: time,
+    startTime: startTime,
     address: address,
+  };
+};
+
+export const switchToPayment = () => {
+  return {
+    type: actionTypes.ORDER_SWITCH_TO_PAYMENT,
   };
 };
 
@@ -26,5 +38,23 @@ export const updatePaymentInfo = (creditCard) => {
   return {
     type: actionTypes.ORDER_UPDATE_PAYMENT_INFO,
     creditCard: creditCard,
+  };
+};
+
+export const setBackStatus = () => {
+  return {
+    type: actionTypes.ORDER_SET_BACK_STATUS,
+  };
+};
+
+export const resetStatus = () => {
+  return {
+    type: actionTypes.ORDER_RESET_STATUS,
+  };
+};
+
+export const clearCart = () => {
+  return {
+    type: actionTypes.ORDER_CLEAR_CART,
   };
 };

@@ -1,23 +1,52 @@
 import React, { useState } from "react";
-import SampleContainer from "../Sample/SampleContainer";
-import Modal from "../../components/UI/Modal/Modal";
+import * as actions from "../../store/actions";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import CustomerLoginForm from "../../components/CustomerLoginForm/CustomerLoginForm";
+import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 
 function CustomerLogin(props) {
-  const [sampleState, setSampleState] = useState(true);
-  const modalClosedHandler = () => {
-    setSampleState(!sampleState);
+  const { loading, onLogin, isAuthenticated, redirectPath } = props;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [keepSignedIn, setKeepSignedIn] = useState(false);
+
+  const submittedHandler = (e) => {
+    e.preventDefault();
+    onLogin(username, password);
   };
 
-  return (
+  return isAuthenticated ? (
+    <Redirect to={redirectPath} />
+  ) : (
     <React.Fragment>
-      <div>Customer Login</div>
-      {sampleState ? (
-        <Modal show={true} modalClosed={modalClosedHandler}>
-          {<SampleContainer clicked={modalClosedHandler} />}
-        </Modal>
-      ) : null}
+      <BackdropProgressCircle open={loading} />
+      <CustomerLoginForm
+        onSubmit={submittedHandler}
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+        keepSignedIn={keepSignedIn}
+        setKeepSignedIn={setKeepSignedIn}
+      />
     </React.Fragment>
   );
 }
 
-export default CustomerLogin;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+    loading: state.auth.loading,
+    redirectPath: state.auth.authRedirectPath,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogin: (username, password) =>
+      dispatch(actions.login(username, password)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerLogin);

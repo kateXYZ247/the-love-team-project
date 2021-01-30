@@ -11,37 +11,41 @@ function BottomAction(props) {
     <Box>
       <BottomDivider />
       <Grid container justify="space-around">
-        <Box>
-          <Button
-            size="large"
-            onClick={onEditCart}
-            startIcon={
-              <Badge
-                badgeContent={numServices}
-                color="primary"
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-              >
-                <ShoppingCartIcon />
-              </Badge>
-            }
-          >
-            My Appointments
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            size="large"
-            onClick={onClickNext}
-            variant="contained"
-            color="primary"
-            endIcon={<ArrowForwardIcon />}
-          >
-            {buttonText}
-          </Button>
-        </Box>
+        <Grid item xs={10} md={5} align="center">
+          <Box>
+            <Button
+              size="large"
+              onClick={onEditCart}
+              startIcon={
+                <Badge
+                  badgeContent={numServices}
+                  color="primary"
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <ShoppingCartIcon />
+                </Badge>
+              }
+            >
+              My Appointments
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={10} md={5} align="center">
+          <Box>
+            <Button
+              size="large"
+              onClick={onClickNext}
+              variant="contained"
+              color="primary"
+              endIcon={<ArrowForwardIcon />}
+            >
+              {buttonText}
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

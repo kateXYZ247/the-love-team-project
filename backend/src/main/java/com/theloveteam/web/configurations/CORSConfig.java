@@ -7,12 +7,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CORSConfig implements WebMvcConfigurer {
-  @Value("${CORS_CFG_ALLOWED}")
-  String origins;
+    @Value("${CORS_CFG_ALLOWED}")
+    String origins;
 
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-        .allowedOrigins(origins.split(",")).allowedMethods("GET", "POST");
-  }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+            .allowedOrigins(origins.split(",")).allowedMethods("*").exposedHeaders("Content-Type", "Access" +
+                "-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin", "Authorization", "X-Requested-With",
+            "requestId", "Correlation-Id");
+    }
 }
