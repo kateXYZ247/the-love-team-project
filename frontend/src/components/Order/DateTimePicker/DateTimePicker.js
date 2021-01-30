@@ -7,7 +7,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import CardTitle from "../CardTitle/CardTitle";
+import CardTitle from "../../UI/CardTitle/CardTitle";
 
 function DateTimePicker(props) {
   const { date, dateChangedHandler } = props;

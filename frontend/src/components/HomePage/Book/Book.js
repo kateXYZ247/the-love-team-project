@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Book.module.css";
 import ServiceIllustration from "../../../assets/images/service_illustration.svg";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 function Book(props) {
   return (
@@ -12,7 +13,13 @@ function Book(props) {
           Need to look fabulous, fast? Search. Book. Enjoy. Instantly book your
           next beauty or wellness experience.
         </div>
-        <Button variant="contained" color="primary" size="large">
+        <Button
+          component={Link}
+          to={"/order"}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
           Book Now
         </Button>
       </div>

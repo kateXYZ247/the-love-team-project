@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
+import { productList } from "../../constant/products";
 
 const initialState = {
   error: null,
@@ -16,7 +17,7 @@ function fetchProductsSuccess(state, action) {
 }
 
 function fetchProductsFail(state, action) {
-  return updateObject(state, { loading: false });
+  return updateObject(state, { products: [...productList], loading: false });
 }
 
 const reducer = (state = initialState, action) => {

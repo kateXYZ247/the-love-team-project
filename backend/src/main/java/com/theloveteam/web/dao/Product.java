@@ -31,4 +31,9 @@ public class Product {
     private double productPrice;
 
     private int duration;
+
+    private boolean star;
+
+    @Column(name = "image_url")
+    private String imageURL;
 }

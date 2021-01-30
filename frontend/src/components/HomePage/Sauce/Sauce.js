@@ -4,6 +4,7 @@ import SectionTitle from "../SectionTitle/SectionTitle";
 import SauceCard from "./SauceCard/SauceCard";
 import { Button } from "@material-ui/core";
 import { sauceList } from "../../../constant/homepage";
+import { Link } from "react-router-dom";
 
 function Sauce(props) {
   return (
@@ -20,7 +21,13 @@ function Sauce(props) {
         ))}
       </div>
       <div className={classes.button}>
-        <Button variant="contained" color="primary" size="large">
+        <Button
+          component={Link}
+          to={"/order"}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
           Get Started
         </Button>
       </div>
