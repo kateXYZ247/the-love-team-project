@@ -1,23 +1,61 @@
 import React, { useState } from "react";
-import SampleContainer from "../Sample/SampleContainer";
-import Modal from "../../components/UI/Modal/Modal";
+import Grid from "@material-ui/core/Grid";
+import { Button, TextField } from "@material-ui/core";
+import * as actions from "../../store/actions";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 function CustomerLogin(props) {
-  const [sampleState, setSampleState] = useState(true);
-  const modalClosedHandler = () => {
-    setSampleState(!sampleState);
-  };
+  const { onLogin, isAuthenticated, redirectPath } = props;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  return (
+  const submittedHandler = (e) => {
+    e.preventDefault();
+    onLogin(username, password);
+  };
+  console.log(redirectPath);
+  return isAuthenticated ? (
+    <Redirect to={redirectPath} />
+  ) : (
     <React.Fragment>
-      <div>Customer Login</div>
-      {sampleState ? (
-        <Modal show={true} modalClosed={modalClosedHandler}>
-          {<SampleContainer clicked={modalClosedHandler} />}
-        </Modal>
-      ) : null}
+      <Grid container alignItems="center">
+        <form noValidate autoComplete="off" onSubmit={submittedHandler}>
+          <TextField
+            label="Username"
+            defaultValue={username}
+            variant="outlined"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            type="password"
+            label="Password"
+            defaultValue={password}
+            variant="outlined"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button color="primary" type="submit" variant="contained">
+            Login
+          </Button>
+        </form>
+      </Grid>
     </React.Fragment>
   );
 }
 
-export default CustomerLogin;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+    loading: state.auth.loading,
+    redirectPath: state.auth.authRedirectPath,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogin: (username, password) =>
+      dispatch(actions.login(username, password)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerLogin);

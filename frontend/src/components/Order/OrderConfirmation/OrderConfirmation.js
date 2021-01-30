@@ -11,7 +11,7 @@ function OrderConfirmation(props) {
     return () => {
       onUnmount();
     };
-  }, []);
+  }, [onUnmount]);
 
   return (
     <Box>

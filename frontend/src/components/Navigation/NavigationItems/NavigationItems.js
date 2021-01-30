@@ -4,21 +4,22 @@ import { Link } from "react-router-dom";
 import classes from "./NavigationItems.module.css";
 
 function NavigationItems(props) {
+  const { isAuthenticated, onLogout } = props;
   return (
     <div>
       <Button className={classes.NavigationItem} component={Link} to={"/"}>
         Home
       </Button>
-      {props.isAuthenticated ? (
+      {isAuthenticated ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
-          to={"/orders"}
+          to={"/history"}
         >
           Orders
         </Button>
       ) : null}
-      {!props.isAuthenticated ? (
+      {!isAuthenticated ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -27,11 +28,7 @@ function NavigationItems(props) {
           Login
         </Button>
       ) : (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={"/logout"}
-        >
+        <Button className={classes.NavigationItem} onClick={onLogout}>
           Logout
         </Button>
       )}

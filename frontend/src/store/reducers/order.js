@@ -96,6 +96,10 @@ const resetStatus = (state, action) => {
   });
 };
 
+const clearCart = (state, action) => {
+  return updateObject(state, initialState);
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ORDER_ADD_TO_CART:
@@ -112,6 +116,8 @@ const reducer = (state = initialState, action) => {
       return setBackStatus(state, action);
     case actionTypes.ORDER_RESET_STATUS:
       return resetStatus(state, action);
+    case actionTypes.ORDER_CLEAR_CART:
+      return clearCart(state, action);
     default:
       return state;
   }

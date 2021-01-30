@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import { productList } from "../../constant/homepage";
+import { API_PATH_FETCH_PRODUCTS } from "../../constant/api";
 
 export const fetchProductsSuccess = (products) => {
   return {
@@ -26,7 +27,7 @@ export const fetchProducts = (token, userId) => {
   return (dispatch) => {
     dispatch(fetchProductsStart());
     axios
-      .get("/products")
+      .get(API_PATH_FETCH_PRODUCTS)
       .then((response) => {
         let fetchedProducts = [...productList];
         if (
