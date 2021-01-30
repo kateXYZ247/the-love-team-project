@@ -18,7 +18,8 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import CheckboxLabels from "../CheckBox/CheckBox.js";
 import {register} from '../../../store/actions/register';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+
 
 function RegisterForm(props) {
     const [user, setUser] = useState({
@@ -35,7 +36,7 @@ function RegisterForm(props) {
     const [submitted, setSubmitted] = useState(false);
     const registering = useSelector(state => state.register.registering);
     const dispatch = useDispatch();
-
+    const history = useHistory();
     function handleChange(e) {
         const { name, value } = e.target;
         // console.log(name);
@@ -44,11 +45,13 @@ function RegisterForm(props) {
     }
     function handleSubmit(e) {
         e.preventDefault();
-
+        setSubmitted(true);
         if (user.firstName && user.lastName && user.phone && user.email && user.password) {
             dispatch(register(user));
-            setSubmitted(!submitted);
+
         }
+        history.push('/login')
+
     }
     return (
         <div>
@@ -161,12 +164,8 @@ function RegisterForm(props) {
                                     Continue
                                 </Button>
                             </Box>
-                            {/*if (submitted) {*/}
-
-                            {/*    <Redirect to='/login'/>*/}
-                            {/*}*/}
-
                         </Box>
+
                     </CardContent>
                 </Card>
             </Grid>
@@ -174,6 +173,7 @@ function RegisterForm(props) {
         </Grid>
             </form>
         </div>
+
     );
 }
 export default RegisterForm;

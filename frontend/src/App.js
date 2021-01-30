@@ -13,9 +13,9 @@ import Register from "./containers/Register/Register";
 
 
 function App(props) {
+
   let routes = (
     <Switch>
-
         <Route path="/register" render={(props) => <Register {...props} />} />
 
       <Route path="/order" exact component={Order} />

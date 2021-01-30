@@ -27,7 +27,7 @@ export const fetchProducts = (token, userId) => {
     axios
       .get("/products")
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         const fetchedProducts = [];
         // for (let key in response.data) {
         //   fetchedProducts.push({ ...response.data[key], id: key });
