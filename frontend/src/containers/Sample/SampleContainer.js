@@ -21,14 +21,7 @@ function SampleContainer(props) {
 
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
-<<<<<<< HEAD
 
-      {/*<PaymentInfo />*/}
-
-
-
-=======
->>>>>>> refs/remotes/origin/XH_frontend_order
     </div>
   );
 }

@@ -29,13 +29,7 @@ export const fetchProducts = (token, userId) => {
     axios
       .get(API_PATH_FETCH_PRODUCTS)
       .then((response) => {
-<<<<<<< HEAD
-        // console.log(response);
-        const fetchedProducts = [];
-        // for (let key in response.data) {
-        //   fetchedProducts.push({ ...response.data[key], id: key });
-        // }
-=======
+
         let fetchedProducts = [...productList];
         if (
           response.hasOwnProperty("data") &&
@@ -44,7 +38,7 @@ export const fetchProducts = (token, userId) => {
         ) {
           fetchedProducts = [...response.data.products];
         }
->>>>>>> XH_frontend_order
+
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
       .catch((error) => {
