@@ -3,9 +3,10 @@ import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import CustomerLoginForm from "../../components/CustomerLoginForm/CustomerLoginForm";
+import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 
 function CustomerLogin(props) {
-  const { onLogin, isAuthenticated, redirectPath } = props;
+  const { loading, onLogin, isAuthenticated, redirectPath } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
@@ -18,15 +19,18 @@ function CustomerLogin(props) {
   return isAuthenticated ? (
     <Redirect to={redirectPath} />
   ) : (
-    <CustomerLoginForm
-      onSubmit={submittedHandler}
-      username={username}
-      setUsername={setUsername}
-      password={password}
-      setPassword={setPassword}
-      keepSignedIn={keepSignedIn}
-      setKeepSignedIn={setKeepSignedIn}
-    />
+    <React.Fragment>
+      <BackdropProgressCircle open={loading} />
+      <CustomerLoginForm
+        onSubmit={submittedHandler}
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+        keepSignedIn={keepSignedIn}
+        setKeepSignedIn={setKeepSignedIn}
+      />
+    </React.Fragment>
   );
 }
 
