@@ -25,26 +25,31 @@ export const sampleOrderServices = [
     name: "Blowout",
     duration: 46,
     price: 55,
+    addressType: "Home",
   },
   {
     name: "Pedicure",
     duration: 47,
     price: 65,
+    addressType: "Home",
   },
   {
     name: "Blowout",
     duration: 48,
     price: 55,
+    addressType: "Home",
   },
   {
     name: "Kids Haircut",
     duration: 49,
     price: 60,
+    addressType: "Home",
   },
   {
     name: "Kids Haircut",
     duration: 2000,
     price: 60,
+    addressType: "Home",
   },
 ];
 export const sampleOrderTotalPrice = 371.7;

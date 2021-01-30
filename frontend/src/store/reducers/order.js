@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import { calculateTotalPrice, updateObject } from "../../shared/utility";
 import {
+  addressTypes,
   ORDER_STATUS,
   sampleOrderServices,
   sampleOrderTotalPrice,
@@ -11,6 +12,12 @@ const initialState = {
   loading: false,
   status: ORDER_STATUS.ADD_TO_CART,
   order: {
+    startTime: new Date(),
+    address: "",
+    apartment: "",
+    pet: "",
+    direction: "",
+    addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
     // services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
@@ -52,28 +59,41 @@ const updateCart = (state, action) => {
 };
 
 const updateServiceTimeAddress = (state, action) => {
-  const oldServices = state.order.services;
-  const updatedServices = oldServices.map((service) => {
-    let endTime = new Date(action.startTime);
-    endTime.setMinutes(endTime.getMinutes() + service.duration);
-    return updateObject(service, {
+  return updateObject(state, {
+    order: updateObject(state.order, {
       startTime: action.startTime,
-      endTime: endTime,
       address: action.address.address,
       apartment: action.address.apartment,
       pet: action.address.pet,
       direction: action.address.direction,
       addressType: action.address.addressType,
-    });
-  });
-  return updateObject(state, {
-    order: updateObject(state.order, { services: updatedServices }),
+    }),
     status: ORDER_STATUS.FILL_PAYMENT,
   });
 };
 
+// update payment info and book
 const updatePaymentInfo = (state, action) => {
-  const updatedOrder = updateObject(state.order, { credit: action.creditCard });
+  const oldOrder = state.order;
+  const oldServices = oldOrder.services;
+  const startTime = oldOrder.startTime;
+  const updatedServices = oldServices.map((service) => {
+    let endTime = new Date(startTime);
+    endTime.setMinutes(endTime.getMinutes() + service.duration);
+    return updateObject(service, {
+      startTime: startTime,
+      endTime: endTime,
+      address: oldOrder.address,
+      apartment: oldOrder.apartment,
+      pet: oldOrder.pet,
+      direction: oldOrder.direction,
+      addressType: oldOrder.addressType,
+    });
+  });
+  const updatedOrder = updateObject(state.order, {
+    credit: action.creditCard,
+    services: updatedServices,
+  });
   console.log(updatedOrder);
   return updateObject(state, {
     order: updatedOrder,

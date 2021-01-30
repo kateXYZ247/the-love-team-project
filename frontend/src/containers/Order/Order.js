@@ -29,16 +29,12 @@ function Order(props) {
 
   // get order information from store and pass to child
   const orderServicesCount = order.services.length;
-  const oldOrderDate =
-    orderServicesCount === 0 ? new Date() : order.services[0].startTime;
-  const oldAddress = orderServicesCount === 0 ? "" : order.services[0].address;
-  const oldApartment =
-    orderServicesCount === 0 ? "" : order.services[0].apartment;
-  const oldPet = orderServicesCount === 0 ? "" : order.services[0].pet;
-  const oldDirection =
-    orderServicesCount === 0 ? "" : order.services[0].direction;
-  const oldAddressType =
-    orderServicesCount === 0 ? "" : order.services[0].addressType;
+  const oldOrderDate = order.startTime;
+  const oldAddress = order.address;
+  const oldApartment = order.apartment;
+  const oldPet = order.pet;
+  const oldDirection = order.direction;
+  const oldAddressType = order.addressType;
 
   const [showAppointments, setShowAppointments] = useState(false);
 
