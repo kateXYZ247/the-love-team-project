@@ -3,9 +3,10 @@ import Grid from "@material-ui/core/Grid";
 import { Button, TextField } from "@material-ui/core";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 function CustomerLogin(props) {
-  const { onLogin } = props;
+  const { onLogin, isAuthenticated, redirectPath } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,8 +14,10 @@ function CustomerLogin(props) {
     e.preventDefault();
     onLogin(username, password);
   };
-
-  return (
+  console.log(redirectPath);
+  return isAuthenticated ? (
+    <Redirect to={redirectPath} />
+  ) : (
     <React.Fragment>
       <Grid container alignItems="center">
         <form noValidate autoComplete="off" onSubmit={submittedHandler}>
@@ -42,7 +45,9 @@ function CustomerLogin(props) {
 
 const mapStateToProps = (state) => {
   return {
+    isAuthenticated: state.auth.token !== null,
     loading: state.auth.loading,
+    redirectPath: state.auth.authRedirectPath,
   };
 };
 

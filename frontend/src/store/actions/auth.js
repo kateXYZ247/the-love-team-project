@@ -1,7 +1,15 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
-import { PATH_USER_LOGIN } from "../../constant/api";
+import { API_PATH_USER_LOGIN } from "../../constant/api";
 import { TOKEN_PREFIX } from "../../constant/auth";
+import { clearCart } from "./order";
+
+export const setRedirectPath = (path) => {
+  return {
+    type: actionTypes.AUTH_SET_REDIRECT_PATH,
+    path: path,
+  };
+};
 
 export const loginSuccess = (token) => {
   return {
@@ -32,9 +40,8 @@ export const login = (username, password) => {
       loginType: "BY_EMAIL",
       password: password,
     };
-    console.log(data);
     axios
-      .post(PATH_USER_LOGIN, data)
+      .post(API_PATH_USER_LOGIN, data)
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("Login failed");
@@ -54,6 +61,13 @@ export const login = (username, password) => {
       .catch((error) => {
         dispatch(loginFail(error));
       });
+  };
+};
+
+export const logoutAndCleanCart = () => {
+  return (dispatch) => {
+    dispatch(logout());
+    dispatch(clearCart());
   };
 };
 

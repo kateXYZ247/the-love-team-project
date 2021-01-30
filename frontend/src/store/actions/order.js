@@ -46,3 +46,9 @@ export const resetStatus = () => {
     type: actionTypes.ORDER_RESET_STATUS,
   };
 };
+
+export const clearCart = () => {
+  return {
+    type: actionTypes.ORDER_CLEAR_CART,
+  };
+};

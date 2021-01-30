@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 import { productList } from "../../constant/products";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
+import { PATH_HOME } from "../../constant/path";
 
 const initialState = {
   token: null,
@@ -14,11 +15,15 @@ const initialState = {
   authRedirectPath: "/",
 };
 
-function loginStart(state, action) {
-  return updateObject(state, { loading: true });
-}
+const setRedirectPath = (state, action) => {
+  return updateObject(state, { authRedirectPath: action.path });
+};
 
-function loginSuccess(state, action) {
+const loginStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
+const loginSuccess = (state, action) => {
   localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
   return updateObject(state, {
     userId: action.userId,
@@ -28,13 +33,13 @@ function loginSuccess(state, action) {
     token: action.token,
     loading: false,
   });
-}
+};
 
-function loginFail(state, action) {
+const loginFail = (state, action) => {
   return updateObject(state, { products: [...productList], loading: false });
-}
+};
 
-function logout(state, action) {
+const logout = (state, action) => {
   localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
   return updateObject(state, {
     token: null,
@@ -43,8 +48,9 @@ function logout(state, action) {
     lastName: null,
     role: null,
     loading: false,
+    authRedirectPath: PATH_HOME,
   });
-}
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -56,6 +62,8 @@ const reducer = (state = initialState, action) => {
       return loginFail(state, action);
     case actionTypes.AUTH_LOGOUT:
       return logout(state, action);
+    case actionTypes.AUTH_SET_REDIRECT_PATH:
+      return setRedirectPath(state, action);
     default:
       return state;
   }

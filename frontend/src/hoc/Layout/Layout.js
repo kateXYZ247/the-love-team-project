@@ -25,7 +25,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogout: () => dispatch(actions.logout()),
+    onLogout: () => dispatch(actions.logoutAndCleanCart()),
   };
 };
 

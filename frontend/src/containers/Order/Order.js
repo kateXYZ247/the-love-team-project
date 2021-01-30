@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderInfo from "./OrderInfo/OrderInfo";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
@@ -7,10 +7,13 @@ import AppointmentsModal from "../../components/Order/AppointmentsModal/Appointm
 import { ORDER_STATUS } from "../../constant/order";
 import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderConfirmation";
 import Products from "./Products/Products";
+import { Redirect } from "react-router-dom";
+import { PATH_ORDER } from "../../constant/path";
 
 function Order(props) {
-  const { order, orderStatus } = props;
+  const { order, orderStatus, isAuthenticated } = props;
   const {
+    onSetRedirectPath,
     onUpdateServiceInfo,
     onUpdatePaymentInfo,
     onDeleteFromCart,
@@ -18,6 +21,12 @@ function Order(props) {
     onResetStatus,
     onUpdateCart,
   } = props;
+
+  // set redirect path to <Order>
+  useEffect(() => {
+    onSetRedirectPath(PATH_ORDER);
+  }, [onSetRedirectPath]);
+
   const orderTime =
     order.services.length === 0 ? new Date() : order.services[0].startTime;
   let orderServicesCount = order.services.length;
@@ -51,16 +60,20 @@ function Order(props) {
       );
       break;
     case ORDER_STATUS.FILL_PAYMENT:
-      content = (
-        <PaymentInfo
-          onUpdatePaymentInfo={onUpdatePaymentInfo}
-          orderServicesCount={orderServicesCount}
-          onAppointmentModalOpen={appointmentModalOpenedHandler}
-          onSetBackStatus={onSetBackStatus}
-          onResetStatus={onResetStatus}
-          order={order}
-        />
-      );
+      if (!isAuthenticated) {
+        content = <Redirect to="/login" />;
+      } else {
+        content = (
+          <PaymentInfo
+            onUpdatePaymentInfo={onUpdatePaymentInfo}
+            orderServicesCount={orderServicesCount}
+            onAppointmentModalOpen={appointmentModalOpenedHandler}
+            onSetBackStatus={onSetBackStatus}
+            onResetStatus={onResetStatus}
+            order={order}
+          />
+        );
+      }
       break;
     case ORDER_STATUS.CONFIRMED:
       content = (
@@ -94,6 +107,7 @@ function Order(props) {
 
 const mapStateToProps = (state) => {
   return {
+    isAuthenticated: state.auth.token !== null,
     orderStatus: state.order.status,
     order: state.order.order,
   };
@@ -101,6 +115,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onUpdateCart: () => dispatch(actions.updateCart()),
     onUpdateServiceInfo: (startTime, address) =>
       dispatch(actions.updateServiceTimeAddress(startTime, address)),

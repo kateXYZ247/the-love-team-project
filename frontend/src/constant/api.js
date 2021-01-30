@@ -1,2 +1,2 @@
-export const PATH_USER_LOGIN = "/users/login";
-export const PATH_FETCH_PRODUCTS = "/products";
+export const API_PATH_USER_LOGIN = "/users/login";
+export const API_PATH_FETCH_PRODUCTS = "/products";
