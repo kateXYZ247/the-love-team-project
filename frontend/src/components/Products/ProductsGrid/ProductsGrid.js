@@ -38,7 +38,16 @@ function ProductsGrid(props) {
         {productList
           .filter((product) => product.category === "Haircuts")
           .map((product) => (
-            <ProductCard product={product} key={product.productId} />
+            <ProductCard
+              product={product}
+              key={product.productId}
+              productDetailOpen={productDetailOpen}
+              productDetailClose={productDetailClose}
+              onUpdateCart={onUpdateCart}
+              orderServicesCount={orderServicesCount}
+              onAppointmentModalOpen={onAppointmentModalOpen}
+              onSetProduct={onSetProduct}
+            />
           ))}
       </Grid>
       <Grid item>
@@ -46,7 +55,16 @@ function ProductsGrid(props) {
         {productList
           .filter((product) => product.category === "Makeup")
           .map((product) => (
-            <ProductCard product={product} key={product.productId} />
+            <ProductCard
+              product={product}
+              key={product.productId}
+              productDetailOpen={productDetailOpen}
+              productDetailClose={productDetailClose}
+              onUpdateCart={onUpdateCart}
+              orderServicesCount={orderServicesCount}
+              onAppointmentModalOpen={onAppointmentModalOpen}
+              onSetProduct={onSetProduct}
+            />
           ))}
       </Grid>
       <Grid item>
@@ -54,7 +72,16 @@ function ProductsGrid(props) {
         {productList
           .filter((product) => product.category === "Nails")
           .map((product) => (
-            <ProductCard product={product} key={product.productId} />
+            <ProductCard
+              product={product}
+              key={product.productId}
+              productDetailOpen={productDetailOpen}
+              productDetailClose={productDetailClose}
+              onUpdateCart={onUpdateCart}
+              orderServicesCount={orderServicesCount}
+              onAppointmentModalOpen={onAppointmentModalOpen}
+              onSetProduct={onSetProduct}
+            />
           ))}
       </Grid>
     </Grid>

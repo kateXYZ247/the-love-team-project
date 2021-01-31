@@ -11,7 +11,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 const useStyles = makeStyles(() => ({
   productDetail: {
-    minHeight: '55vh',
+    minHeight: '43vh',
   },
   grid: {
     marginTop: 40,
@@ -67,7 +67,10 @@ function ProductDetail(props) {
       <Dialog
         open={open}
         onClose={handleClose}
-        maxWidth="md">
+        maxWidth="md"
+        keepMounted
+        fullWidth={true}
+      >
         <DialogContent className={classes.productDetail}>
           <Grid
             container
@@ -127,14 +130,14 @@ function ProductDetail(props) {
                 direction="row"
                 justify="center"
                 alignItems="center"
-                spacing={5}
+                spacing={4}
               >
-                <Grid item >
+                <Grid item xs={9}>
                   <Typography className={classes.clients}>
                     How many clients?
                   </Typography>
                 </Grid>
-                <Grid item >
+                <Grid item xs={3}>
                   <ButtonGroup size="small" aria-label="small outlined button group">
                     {displayCounter && <Button onClick={clientCounterDecrement}>-</Button>}
                     {displayCounter && <Button disabled>{clientsCounter}</Button>}

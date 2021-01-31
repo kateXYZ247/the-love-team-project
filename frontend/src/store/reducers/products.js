@@ -3,8 +3,6 @@ import { updateObject } from "../../shared/utility";
 import { productList } from "../../constant/products";
 
 const initialState = {
-  error: false,
-  message: null,
   loading: false,
   products: [],
 };
@@ -21,13 +19,7 @@ const fetchProductsFail = (state, action) => {
   return updateObject(state, {
     products: [...productList],
     loading: false,
-    error: true,
-    message: action.message,
   });
-};
-
-const clearMessage = (state, action) => {
-  return updateObject(state, { error: false, message: null });
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,8 +30,6 @@ const reducer = (state = initialState, action) => {
       return fetchProductsSuccess(state, action);
     case actionTypes.FETCH_PRODUCTS_FAIL:
       return fetchProductsFail(state, action);
-    case actionTypes.FETCH_PRODUCTS_CLEAR_MESSAGE:
-      return clearMessage(state, action);
     default:
       return state;
   }

@@ -23,31 +23,31 @@ export const orderCreditCardPageButtonText = "Book Now";
 export const sampleOrderServices = [
   {
     productId: 5,
-    name: "Blowout",
+    productName: "Blowout",
     duration: 46,
     price: 55,
   },
   {
     productId: 15,
-    name: "Pedicure",
+    productName: "Pedicure",
     duration: 47,
     price: 65,
   },
   {
     productId: 5,
-    name: "Blowout",
+    productName: "Blowout",
     duration: 48,
     price: 55,
   },
   {
     productId: 11,
-    name: "Kids Haircut",
+    productName: "Kids Haircut",
     duration: 49,
     price: 60,
   },
   {
     productId: 11,
-    name: "Kids Haircut",
+    productName: "Kids Haircut",
     duration: 2000,
     price: 60,
   },

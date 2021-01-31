@@ -38,7 +38,6 @@ function Order(props) {
   const oldPets = order.pets;
   const oldDirection = order.direction;
   const oldAddressType = order.addressType;
-
   const [showAppointments, setShowAppointments] = useState(false);
 
   const appointmentModalOpenedHandler = () => {
@@ -61,14 +60,6 @@ function Order(props) {
     console.log("add: " + product.productId)
     console.log("cart size: " + cart.size)
   };
-
-  const removeProductFromCart = (product) => {
-    cart.delete(product.productId);
-    console.log("delete: " + product.productId)
-  };
-
-
-
 
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
