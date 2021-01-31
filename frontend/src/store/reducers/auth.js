@@ -9,6 +9,10 @@ const initialState = {
   firstName: null,
   lastName: null,
   role: null,
+  address: "",
+  zip: "",
+  email: "",
+  lastLoggedInTime: new Date(),
   error: null,
   loading: false,
   authRedirectPath: "/",
@@ -26,10 +30,20 @@ const loginSuccess = (state, action) => {
   localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
   return updateObject(state, {
     userId: action.userId,
-    firstName: action.firstName,
-    lastName: action.lastName,
-    role: action.role,
     token: action.token,
+  });
+};
+
+const setUserDetail = (state, action) => {
+  const { userDetail } = action;
+  return updateObject(state, {
+    firstName: userDetail.firstName,
+    lastName: userDetail.lastName,
+    role: userDetail.role,
+    address: userDetail.address,
+    zip: userDetail.zip,
+    email: userDetail.email,
+    lastLoggedInTime: new Date(userDetail.lastLoggedInTime),
     loading: false,
   });
 };
@@ -46,6 +60,10 @@ const logout = (state, action) => {
     firstName: null,
     lastName: null,
     role: null,
+    address: "",
+    zip: "",
+    email: "",
+    lastLoggedInTime: new Date(),
     loading: false,
     authRedirectPath: PATH_HOME,
   });
@@ -59,6 +77,8 @@ const reducer = (state = initialState, action) => {
       return loginSuccess(state, action);
     case actionTypes.AUTH_LOGIN_FAIL:
       return loginFail(state, action);
+    case actionTypes.AUTH_SET_USER_DETAIL:
+      return setUserDetail(state, action);
     case actionTypes.AUTH_LOGOUT:
       return logout(state, action);
     case actionTypes.AUTH_SET_REDIRECT_PATH:

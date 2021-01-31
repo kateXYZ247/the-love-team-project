@@ -1,6 +1,10 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
-import { API_PATH_USER_LOGIN, HTTP_STATUS_OK } from "../../constant/api";
+import {
+  API_PATH_USER_DETAIL,
+  API_PATH_USER_LOGIN,
+  HTTP_STATUS_OK,
+} from "../../constant/api";
 import { TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
 
@@ -11,10 +15,18 @@ export const setRedirectPath = (path) => {
   };
 };
 
-export const loginSuccess = (token) => {
+export const loginSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     token: token,
+    userId: userId,
+  };
+};
+
+export const setUserDetail = (userDetail) => {
+  return {
+    type: actionTypes.AUTH_SET_USER_DETAIL,
+    userDetail: userDetail,
   };
 };
 
@@ -46,7 +58,9 @@ export const login = (username, password) => {
         if (response.status !== HTTP_STATUS_OK) {
           throw new Error("Login failed");
         }
-        const { headers } = response;
+        // data = userId
+        const { headers, data } = response;
+        console.log(data);
         if (
           headers === null ||
           !headers.hasOwnProperty("authorization") ||
@@ -55,8 +69,17 @@ export const login = (username, password) => {
           throw new Error("bad response");
         }
         dispatch(
-          loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length))
+          loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length), data)
         );
+        return axios.get(API_PATH_USER_DETAIL + data);
+      })
+      .then((response) => {
+        if (response.status !== HTTP_STATUS_OK) {
+          throw new Error("Get user info failed");
+        }
+        // data = userId
+        const { data } = response;
+        dispatch(setUserDetail(data));
       })
       .catch((error) => {
         dispatch(loginFail(error.message));
