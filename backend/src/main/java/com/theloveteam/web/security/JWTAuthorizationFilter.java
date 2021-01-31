@@ -1,6 +1,8 @@
 package com.theloveteam.web.security;
 
+import com.theloveteam.web.model.TokenSubject;
 import com.theloveteam.web.utils.JWTUtils;
+import com.theloveteam.web.utils.JsonUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,12 +47,15 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             String tokenSubjectJson;
             try {
                 tokenSubjectJson = JWTUtils.parseSubjectFromToken(token);
+                if (tokenSubjectJson != null) {
+                    return new UsernamePasswordAuthenticationToken(
+                            JsonUtils.convertJsonStringToObject(tokenSubjectJson, TokenSubject.class),
+                            null,
+                            new ArrayList<>());
+                }
             } catch(Exception e) {
                 e.printStackTrace();
                 return null;
-            }
-            if (tokenSubjectJson != null) {
-                return new UsernamePasswordAuthenticationToken(tokenSubjectJson, null, new ArrayList<>());
             }
             return null;
         }
