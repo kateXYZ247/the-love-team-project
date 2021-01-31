@@ -59,7 +59,7 @@ export const login = (username, password) => {
         );
       })
       .catch((error) => {
-        dispatch(loginFail(error));
+        dispatch(loginFail(error.message));
       });
   };
 };

@@ -92,6 +92,6 @@ export const placeOrder = (order) => {
           throw new Error(response.statusText);
         }
       })
-      .catch((error) => dispatch(placeOrderFail(error)));
+      .catch((error) => dispatch(placeOrderFail(error.message)));
   };
 };

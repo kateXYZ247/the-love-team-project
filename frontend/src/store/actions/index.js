@@ -20,4 +20,4 @@ export {
   clearCart,
 } from "./order";
 
-export { fetchProducts } from "./products";
+export { fetchProducts, clearMessage } from "./products";
