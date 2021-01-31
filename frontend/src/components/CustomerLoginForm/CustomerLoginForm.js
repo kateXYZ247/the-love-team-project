@@ -13,6 +13,27 @@ import CardTitle from "../UI/CardTitle/CardTitle";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import { Link } from "react-router-dom";
 import { PATH_REGISTER } from "../../constant/path";
+import { grey, blue } from "@material-ui/core/colors";
+import { withStyles } from "@material-ui/core/styles";
+
+const ColorButtonBlack = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(grey[900]),
+    backgroundColor: grey[900],
+    "&:hover": {
+      backgroundColor: grey[900],
+    },
+  },
+}))(Button);
+const ColorButtonDarkBlue = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(blue[900]),
+    backgroundColor: blue[900],
+    "&:hover": {
+      backgroundColor: blue[900],
+    },
+  },
+}))(Button);
 
 function CustomerLoginForm(props) {
   const {
@@ -101,7 +122,7 @@ function CustomerLoginForm(props) {
                   Click the button below to register now
                 </Box>
                 <Box p={2} height="40px">
-                  <Button
+                  <ColorButtonBlack
                     variant="contained"
                     color="primary"
                     fullWidth
@@ -110,25 +131,24 @@ function CustomerLoginForm(props) {
                     to={PATH_REGISTER}
                   >
                     Create Account
-                  </Button>
+                  </ColorButtonBlack>
                 </Box>
                 <Box p={2} height="30px" align="center" fontSize={18}>
                   OR
                 </Box>
                 <Box p={2} height="30px">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
+                  <ColorButtonDarkBlue
+                    variant="contained"
                     fullWidth
                     size="large"
                     endIcon={<FacebookIcon />}
                   >
                     Sign in with Facebook
-                  </Button>
+                  </ColorButtonDarkBlue>
                 </Box>
                 <Box p={2} height="30px">
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     fullWidth
                     size="large"
