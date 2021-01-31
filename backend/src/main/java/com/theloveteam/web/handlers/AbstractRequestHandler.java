@@ -20,7 +20,7 @@ public abstract class AbstractRequestHandler<RequestBody, ResponseBody> {
 
         ResponseBody response = processRequest(requestBody);
 
-        validatePermissionAfterProcess(requestBody, response);
+        validatePermissionAndResponseAfterProcess(requestBody, response);
 
         return ResponseEntity.ok().body(response);
     }
@@ -43,11 +43,12 @@ public abstract class AbstractRequestHandler<RequestBody, ResponseBody> {
 
     /**
      * After main logic method finished, based on the return result check the permission
+     * and update result based on the permission
      * FOR EXAMPLE: when we get Orders info of a given User ID, after we process the request, get the Orders info,
      * before sending back, check if the orders real User ID is match the User ID in request body.
      * The default behavior is passing this validation
      */
-    protected  void validatePermissionAfterProcess(RequestBody requestBody, ResponseBody responseBody){
+    protected  void validatePermissionAndResponseAfterProcess(RequestBody requestBody, ResponseBody responseBody){
 
     }
 }
