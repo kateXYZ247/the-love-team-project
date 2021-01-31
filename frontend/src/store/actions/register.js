@@ -1,57 +1,59 @@
-import { alertActions } from './alert';
-import {Redirect, useHistory} from "react-router-dom";
-import axios from "axios";
-import React from "react";
+import axios from 'axios';
 import {registerConstants} from "./actionTypes";
+// import axios from "../../shared/axios_instance";
+import {API_PATH_USER_REGISTER} from "../../constant/api";
 
-function service(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+
+
+export const registerSuccess = () => {
+    return {
+        type: registerConstants.REGISTER_SUCCESS,
     };
-    console.log(requestOptions);
-    return fetch('http://localhost:8080/users/register', requestOptions).then(handleResponse);
-}
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
+};
 
-        return data;
-    });
-}
+export const registerFail = (error) => {
+    return {
+        type: registerConstants.REGISTER_FAILURE,
+        error: error,
+    };
+};
+
+export const registerStart = () => {
+    return {
+        type: registerConstants.REGISTER_REQUEST,
+    };
+};
 export const register =(user) => {
-    return dispatch => {
-        dispatch(request(user));
+    return (dispatch) => {
+        dispatch(registerStart());
         console.log("send request")
-        // service(user)
-        axios({
-            method: 'post',
-            url: 'http://localhost:8080/users/register',
-            data: JSON.stringify(user),
-            headers: {'Content-Type': 'application/json' }
-        })
+
+        const data = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: user.phone,
+            email: user.email,
+            password: user.password,
+        };
+        axios
+            // .post(API_PATH_USER_REGISTER, data)
+            .post("http://localhost:8080/users/register", data)
             .then((response) => {
-                    dispatch(success());
-                    // const history = useHistory();
-                    // history.push('/login');
-                    console.log("response");
-                    dispatch(alertActions.success('Registration successful'));
-                    // <Redirect to="/login"/>
-                    console.log("success2");
+
+                    if (response.status !== 200) {
+
+                        throw new Error("Register failed");
+                    }
+
+                    dispatch(registerSuccess());
                 },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
+
+            )
+            .catch((error) => {
+                console.log(error.response.data);
+            dispatch(registerFail(error));
+        });
     };
 
-    function request(user) { return { type: registerConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: registerConstants.REGISTER_SUCCESS, user } }
-    function failure(error) { return { type: registerConstants.REGISTER_FAILURE, error } }
+
 }

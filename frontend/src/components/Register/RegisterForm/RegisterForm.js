@@ -16,6 +16,7 @@ import Divider from "../Divider/DividerText.js";
 import Button from '@material-ui/core/Button';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import CheckboxLabels from "../CheckBox/CheckBox.js";
+import CardTitle from "../../UI/CardTitle/CardTitle";
 // import {register} from '../../../store/actions/register';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { Redirect, useHistory } from "react-router-dom";
@@ -25,37 +26,11 @@ function RegisterForm(props) {
     const {
         user,
         handleChange,
-        handleSubmit
+        handleSubmit,
+        submitted,
+        checkEmail,
     } = props;
-    // const [user, setUser] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     phone: '',
-    //     email: '',
-    //     password: ''
-    // });
-    // const [firstName, setFirstName] = useState("");
-    // const firstNameChangedHandler = (updatedFirstName) => {
-    //     setFirstName(updatedFirstName);
-    // };
-    // const [submitted, setSubmitted] = useState(false);
 
-    // const dispatch = useDispatch();
-    // const history = useHistory();
-    // function handleChange(e) {
-    //     const { name, value } = e.target;
-    //     setUser(user => ({ ...user, [name]: value }));
-    // }
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-    //     setSubmitted(true);
-    //     if (user.firstName && user.lastName && user.phone && user.email && user.password) {
-    //         dispatch(register(user));
-    //
-    //     }
-    //     history.push('/login')
-    //
-    // }
     return (
         <div>
         <form name="form" >
@@ -65,6 +40,7 @@ function RegisterForm(props) {
                 <Card>
                     <CardContent>
                         <RegisterFormTitle>Finish setting up your account</RegisterFormTitle>
+
                         <Box p={5}>
                             <Grid container justify="space-around" spacing={3}>
                                 <Grid item xs={2} sm={2}>
@@ -80,6 +56,7 @@ function RegisterForm(props) {
                                         fullWidth
                                         variant="outlined"
                                     />
+
                                 </Grid>
                                 <Grid item xs={5} sm={5}>
                                     <TextField
@@ -123,6 +100,11 @@ function RegisterForm(props) {
                                         fullWidth
                                         variant="outlined"
                                     />
+                                    <div>
+                                    {submitted  &&
+                                    <div>email already in use</div>
+                                    }
+                                    </div>
                                 </Grid>
 
                                 <Grid item xs={2} sm={2}>

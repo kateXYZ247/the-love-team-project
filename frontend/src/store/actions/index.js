@@ -20,3 +20,5 @@ export {
 } from "./order";
 
 export { fetchProducts } from "./products";
+
+export {register} from "./register";

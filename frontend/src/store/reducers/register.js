@@ -1,13 +1,42 @@
-import { registerConstants } from '../../constant/registerConstant';
+import { registerConstants } from '../actions/actionTypes';
+import {updateObject} from "../../shared/utility";
 
-const reducer = (state = {}, action) => {
+
+
+const initialState = {
+    firstName: null,
+    lastName: null,
+    phone: null,
+    email: null,
+    error: null,
+    loading: false,
+    flag: false,
+};
+
+const registerStart = (state, action) => {
+    return updateObject(state, { loading: true,});
+};
+const registerSuccess = (state, action) => {
+    return updateObject(state, {
+        firstName: action.firstName,
+        lastName: action.lastName,
+        phone: action.phone,
+        email: action.email,
+        loading: false,
+        flag: true,
+    });
+};
+const registerFail = (state, action) => {
+    return updateObject(state, { loading: false});
+};
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case registerConstants.REGISTER_REQUEST:
-            return { registering: true };
+            return registerStart(state, action);
         case registerConstants.REGISTER_SUCCESS:
-            return {};
+            return registerSuccess(state, action);
         case registerConstants.REGISTER_FAILURE:
-            return {};
+            return registerFail(state, action);
         default:
             return state
     }
