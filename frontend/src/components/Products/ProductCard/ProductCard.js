@@ -8,114 +8,130 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  typography: {
-    color: "#2B292D",
-    h2: {
-      fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
-      fontWeight: 600,
-      fontSize: 18,
-    },
-    body1: {
-      fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
-      fontSize: 16,
-    },
-    h1: {
-      fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
-      fontWeight: 600,
-      fontSize: 24,
-    },
-    body2: {
-      fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
-      fontSize: 16,
-      color: "#B57AD2",
-    },
-  },
-});
 
 const useStyles = makeStyles(() => ({
   productCard: {
-    width: 333,
-    height: 155,
     margin: 20,
   },
   cardActionArea: {
     width: 333,
     height: 155,
+    "&:hover $focusHighlight": {
+      opacity: 0
+    },
   },
   starBar: {
     backgroundColor: "#B57AD2",
     width: 333,
     height: 5,
+    zIndex: "tooltip",
+  },
+  productName: {
+    fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
+    fontWeight: 600,
+    fontSize: 18,
+  },
+  productDescription: {
+    fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
+    fontSize: 16,
+  },
+  productPrice: {
+    fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
+    fontWeight: 600,
+    fontSize: 24,
+  },
+  duration: {
+    fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
+    fontSize: 16,
+    color: "#B57AD2",
   },
 }));
 
 function ProductCard(props) {
   const classes = useStyles();
   const {
-    productId,
-    productName,
-    productDescription,
-    productPrice,
-    duration,
-    star,
-    image_url,
-  } = props.item;
+    product,
+    productList,
+    onUpdateCart,
+    orderServicesCount,
+    onAppointmentModalOpen,
+    productDetailOpen,
+    productDetailClose,
+    onSetProduct,
+  } = props;
 
   return (
-    <Card className={classes.productCard}>
-      {star ? <Paper className={classes.starBar} /> : null}
-      <CardActionArea className={classes.cardActionArea}>
-        <CardContent>
-          <ThemeProvider theme={theme}>
-            <Grid container spacing={2} direction="column" justify="flex-start">
-              <Grid item>
-                <Typography variant="h2">
-                  {star ? (
-                    <div>
-                      <FavoriteOutlinedIcon /> {productName}{" "}
-                    </div>
-                  ) : (
-                    productName
-                  )}
-                </Typography>
-              </Grid>
-              <Grid
-                container
-                direction="row"
-                justify="flex-start"
-                alignItems="center"
-              >
-                <Grid item xs={8}>
-                  <Typography variant="body1">{productDescription}</Typography>
+    <Grid
+      container
+      direction="column"
+      justify="flex-start"
+      alignItems="center"
+      spacing={0}
+      className={classes.productCard}
+    >
+      <Grid item>
+        {product.star ? <Paper className={classes.starBar} /> : null}
+      </Grid>
+
+      <Grid item>
+        <Card >
+          <CardActionArea className={classes.cardActionArea}
+            onClick={() => {
+              onSetProduct(product);
+              productDetailOpen();
+            }}>
+
+            <CardContent>
+              <Grid container spacing={2} direction="column" justify="flex-start">
+                <Grid item>
+                  <Typography className={classes.productName}>
+                    {product.star ? (
+                      <div>
+                        <FavoriteOutlinedIcon />
+                        {product.productName}
+                      </div>
+                    ) : (
+                        product.productName
+                      )}
+                  </Typography>
                 </Grid>
-                <Grid item xs={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    justify="space-evenly"
-                    alignItems="flex-end"
-                  >
-                    <Grid item>
-                      <Typography variant="h1">
-                        ${productPrice.toFixed(0)}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="body2">
-                        <AccessAlarmIcon /> {duration} mins
-                      </Typography>
+                <Grid
+                  container
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <Grid item xs={8}>
+                    <Typography className={classes.productDescription}>{product.productDescription}</Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Grid
+                      container
+                      direction="column"
+                      justify="space-evenly"
+                      alignItems="flex-end"
+                    >
+                      <Grid item>
+                        <Typography className={classes.productPrice}>
+                          ${product.productPrice.toFixed(0)}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography className={classes.duration}>
+                          <div>
+                            <AccessAlarmIcon />  {product.duration} mins</div>
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </ThemeProvider>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+            </CardContent>
+          </CardActionArea>
+        </Card >
+      </Grid>
+    </Grid >
+
   );
 }
 

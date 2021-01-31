@@ -8,6 +8,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import AppointmentsItem from "./AppointmentsItem/AppointmentsItem";
+import { SystemUpdate } from "@material-ui/icons";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,12 +18,11 @@ function AppointmentsModal(props) {
   const { order, open, onClose, onDeleteItem, onAddServices } = props;
 
   let items = "You haven't add any services";
-
   if (order.services.length > 0) {
     items = order.services.map((item, idx) => (
       <AppointmentsItem
         key={idx}
-        label={item.name}
+        label={item.productName}
         onDelete={() => {
           onDeleteItem(idx);
         }}

@@ -17,6 +17,7 @@ function Products(props) {
     onAppointmentModalOpen,
     onUpdateCart,
     onMessageClose,
+    addProductToCart,
   } = props;
 
   useEffect(() => {
@@ -30,23 +31,26 @@ function Products(props) {
   return loading ? (
     <ProgressCircle label={"Loading Product List ..."} />
   ) : (
-    <React.Fragment>
-      {message !== null ? (
-        <SnackbarMessage
-          level="warning"
-          message={message}
-          onClose={onMessageClose}
+      <React.Fragment>
+        {message !== null ? (
+          <SnackbarMessage
+            level="warning"
+            message={message}
+            onClose={onMessageClose}
+          />
+        ) : null}
+        <ProductsComponent
+          productList={productList}
+          addProductToCart={addProductToCart}
         />
-      ) : null}
-      <ProductsComponent productList={productList} />
-      <BottomAction
-        buttonText={orderProductsPageButtonText}
-        numServices={orderServicesCount}
-        onEditCart={onAppointmentModalOpen}
-        onClickNext={nextButtonClickedHandler}
-      />
-    </React.Fragment>
-  );
+        <BottomAction
+          buttonText={orderProductsPageButtonText}
+          numServices={orderServicesCount}
+          onEditCart={onAppointmentModalOpen}
+          onClickNext={nextButtonClickedHandler}
+        />
+      </React.Fragment>
+    );
 }
 
 const mapStateToProps = (state) => {

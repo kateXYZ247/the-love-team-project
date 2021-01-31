@@ -19,6 +19,7 @@ function Order(props) {
     onUpdatePaymentInfo,
     onPlaceOrder,
     onDeleteFromCart,
+    onAddToCart,
     onSetBackStatus,
     onResetStatus,
     onUpdateCart,
@@ -52,6 +53,22 @@ function Order(props) {
     onResetStatus();
     setShowAppointments(false);
   };
+
+  const [cart, setCart] = useState(new Map());
+
+  const addProductToCart = (product) => {
+    cart.set(product.productId, product);
+    console.log("add: " + product.productId)
+    console.log("cart size: " + cart.size)
+  };
+
+  const removeProductFromCart = (product) => {
+    cart.delete(product.productId);
+    console.log("delete: " + product.productId)
+  };
+
+
+
 
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
@@ -111,6 +128,9 @@ function Order(props) {
           onUpdateCart={onUpdateCart}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
+          cart={cart}
+          addProductToCart={onAddToCart}
+          removeProductFromCart={onDeleteFromCart}
         />
       );
   }
@@ -149,6 +169,8 @@ const mapDispatchToProps = (dispatch) => {
     onPlaceOrder: (order) => dispatch(actions.placeOrder(order)),
     onDeleteFromCart: (productIndex) =>
       dispatch(actions.deleteFromCart(productIndex)),
+    onAddToCart: (product) =>
+      dispatch(actions.addToCart(product)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),
     onResetStatus: () => dispatch(actions.resetStatus()),
   };
