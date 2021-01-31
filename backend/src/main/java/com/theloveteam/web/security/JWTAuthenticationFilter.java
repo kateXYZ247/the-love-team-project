@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dto.LoginRequestBody;
 import com.theloveteam.web.utils.JsonUtils;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -56,7 +58,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
-                                            Authentication auth) {
+                                            Authentication auth) throws IOException {
         String tokenSubjectJson = "";
         try {
             tokenSubjectJson = JsonUtils.convertObjectToJsonString(
@@ -69,5 +71,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        res.getWriter().append( ((LoginDetails) auth.getPrincipal()).getTokenSubject().getUserId());
     }
 }

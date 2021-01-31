@@ -13,8 +13,8 @@ public class CORSConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins(origins.split(",")).allowedMethods("*").exposedHeaders("Content-Type", "Access" +
-                "-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin", "Authorization", "X-Requested-With",
-            "requestId", "Correlation-Id");
+            .allowedOrigins(origins.split(",")).allowedMethods("*").exposedHeaders("Content-Type",
+                "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin", "Authorization",
+                "X-Requested-With", "requestId", "Correlation-Id");
     }
 }
