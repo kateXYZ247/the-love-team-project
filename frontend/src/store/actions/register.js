@@ -1,8 +1,8 @@
 import { alertActions } from './alert';
-import {registerConstants} from '../../constant/registerConstant';
 import {Redirect, useHistory} from "react-router-dom";
 import axios from "axios";
 import React from "react";
+import {registerConstants} from "./actionTypes";
 
 function service(user) {
     const requestOptions = {
