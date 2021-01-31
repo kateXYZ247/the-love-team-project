@@ -10,12 +10,13 @@ import SnackbarMessage from "../../../components/UI/SnackbarMessage/SnackbarMess
 function Products(props) {
   const {
     loading,
-    message,
     productList,
     onFetchProducts,
     orderServicesCount,
     onAppointmentModalOpen,
     onUpdateCart,
+    message,
+    messageType,
     onMessageClose,
   } = props;
 
@@ -33,7 +34,7 @@ function Products(props) {
     <React.Fragment>
       {message !== null ? (
         <SnackbarMessage
-          level="warning"
+          type={messageType}
           message={message}
           onClose={onMessageClose}
         />
@@ -52,7 +53,8 @@ function Products(props) {
 const mapStateToProps = (state) => {
   return {
     loading: state.products.loading,
-    message: state.products.message,
+    message: state.message.message,
+    messageType: state.message.messageType,
     productList: state.products.products,
   };
 };

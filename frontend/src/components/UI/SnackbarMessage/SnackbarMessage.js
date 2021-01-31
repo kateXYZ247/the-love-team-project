@@ -7,10 +7,10 @@ function Alert(props) {
 }
 
 function SnackbarMessage(props) {
-  const { level, message, onClose } = props;
+  const { type, message, onClose } = props;
   return (
     <Snackbar open autoHideDuration={3000} onClose={onClose}>
-      <Alert onClose={onClose} severity={level}>
+      <Alert onClose={onClose} severity={type}>
         {message}
       </Alert>
     </Snackbar>

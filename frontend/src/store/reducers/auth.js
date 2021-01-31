@@ -6,14 +6,17 @@ import { PATH_HOME } from "../../constant/path";
 const initialState = {
   token: null,
   userId: null,
-  firstName: null,
-  lastName: null,
-  role: null,
-  address: "",
-  zip: "",
-  email: "",
-  lastLoggedInTime: new Date(),
-  error: null,
+  userDetail: {
+    firstName: null,
+    lastName: null,
+    role: null,
+    address: "",
+    zip: "",
+    email: "",
+    lastLoggedInTime: new Date(),
+  },
+  message: "", // display Snackbar message
+  error: false,
   loading: false,
   authRedirectPath: "/",
 };
@@ -37,13 +40,9 @@ const loginSuccess = (state, action) => {
 const setUserDetail = (state, action) => {
   const { userDetail } = action;
   return updateObject(state, {
-    firstName: userDetail.firstName,
-    lastName: userDetail.lastName,
-    role: userDetail.role,
-    address: userDetail.address,
-    zip: userDetail.zip,
-    email: userDetail.email,
-    lastLoggedInTime: new Date(userDetail.lastLoggedInTime),
+    userDetail: updateObject(userDetail, {
+      lastLoggedInTime: new Date(userDetail.lastLoggedInTime),
+    }),
     loading: false,
   });
 };
@@ -57,13 +56,7 @@ const logout = (state, action) => {
   return updateObject(state, {
     token: null,
     userId: null,
-    firstName: null,
-    lastName: null,
-    role: null,
-    address: "",
-    zip: "",
-    email: "",
-    lastLoggedInTime: new Date(),
+    userDetail: null,
     loading: false,
     authRedirectPath: PATH_HOME,
   });
