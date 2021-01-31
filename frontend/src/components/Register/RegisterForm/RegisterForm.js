@@ -16,43 +16,46 @@ import Divider from "../Divider/DividerText.js";
 import Button from '@material-ui/core/Button';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import CheckboxLabels from "../CheckBox/CheckBox.js";
-import {register} from '../../../store/actions/register';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from "react-router-dom";
+// import {register} from '../../../store/actions/register';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { Redirect, useHistory } from "react-router-dom";
 
 
 function RegisterForm(props) {
-    const [user, setUser] = useState({
-        firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        password: ''
-    });
+    const {
+        user,
+        handleChange,
+        handleSubmit
+    } = props;
+    // const [user, setUser] = useState({
+    //     firstName: '',
+    //     lastName: '',
+    //     phone: '',
+    //     email: '',
+    //     password: ''
+    // });
     // const [firstName, setFirstName] = useState("");
     // const firstNameChangedHandler = (updatedFirstName) => {
     //     setFirstName(updatedFirstName);
     // };
-    const [submitted, setSubmitted] = useState(false);
-    const registering = useSelector(state => state.register.registering);
-    const dispatch = useDispatch();
-    const history = useHistory();
-    function handleChange(e) {
-        const { name, value } = e.target;
-        // console.log(name);
-        // console.log(value);
-        setUser(user => ({ ...user, [name]: value }));
-    }
-    function handleSubmit(e) {
-        e.preventDefault();
-        setSubmitted(true);
-        if (user.firstName && user.lastName && user.phone && user.email && user.password) {
-            dispatch(register(user));
+    // const [submitted, setSubmitted] = useState(false);
 
-        }
-        history.push('/login')
-
-    }
+    // const dispatch = useDispatch();
+    // const history = useHistory();
+    // function handleChange(e) {
+    //     const { name, value } = e.target;
+    //     setUser(user => ({ ...user, [name]: value }));
+    // }
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+    //     setSubmitted(true);
+    //     if (user.firstName && user.lastName && user.phone && user.email && user.password) {
+    //         dispatch(register(user));
+    //
+    //     }
+    //     history.push('/login')
+    //
+    // }
     return (
         <div>
         <form name="form" >
@@ -160,7 +163,7 @@ function RegisterForm(props) {
                             </Box>
                             <Box textAlign='center'>
                                 <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-                                    {/*{registering && <span className="spinner-border spinner-border-sm mr-1"></span>}*/}
+
                                     Continue
                                 </Button>
                             </Box>
