@@ -15,8 +15,6 @@ const initialState = {
     email: "",
     lastLoggedInTime: new Date(),
   },
-  message: "", // display Snackbar message
-  error: false,
   loading: false,
   authRedirectPath: "/",
 };
@@ -48,7 +46,7 @@ const setUserDetail = (state, action) => {
 };
 
 const loginFail = (state, action) => {
-  return updateObject(state, { error: action.error, loading: false });
+  return updateObject(state, { loading: false });
 };
 
 const logout = (state, action) => {

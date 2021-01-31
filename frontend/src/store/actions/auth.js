@@ -7,6 +7,8 @@ import {
 } from "../../constant/api";
 import { TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
+import { setMessage } from "./message";
+import { MESSAGE_TYPE } from "../../constant/message";
 
 export const setRedirectPath = (path) => {
   return {
@@ -77,12 +79,18 @@ export const login = (username, password) => {
         if (response.status !== HTTP_STATUS_OK) {
           throw new Error("Get user info failed");
         }
-        // data = userId
+        // data = userDetail
         const { data } = response;
         dispatch(setUserDetail(data));
+        if (data !== null && data.hasOwnProperty("firstName")) {
+          dispatch(
+            setMessage(MESSAGE_TYPE.info, "Welcome back, " + data.firstName)
+          );
+        }
       })
       .catch((error) => {
-        dispatch(loginFail(error.message));
+        dispatch(loginFail());
+        dispatch(setMessage(MESSAGE_TYPE.error, error.message));
       });
   };
 };
@@ -91,6 +99,7 @@ export const logoutAndCleanCart = () => {
   return (dispatch) => {
     dispatch(logout());
     dispatch(clearCart());
+    dispatch(setMessage(MESSAGE_TYPE.info, "See you next time!"));
   };
 };
 

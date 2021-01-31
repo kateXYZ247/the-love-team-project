@@ -5,7 +5,6 @@ import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
 import ProgressCircle from "../../../components/UI/ProgressCircle/ProgressCircle";
-import SnackbarMessage from "../../../components/UI/SnackbarMessage/SnackbarMessage";
 
 function Products(props) {
   const {
@@ -15,9 +14,6 @@ function Products(props) {
     orderServicesCount,
     onAppointmentModalOpen,
     onUpdateCart,
-    message,
-    messageType,
-    onMessageClose,
   } = props;
 
   useEffect(() => {
@@ -32,13 +28,6 @@ function Products(props) {
     <ProgressCircle label={"Loading Product List ..."} />
   ) : (
     <React.Fragment>
-      {message !== null ? (
-        <SnackbarMessage
-          type={messageType}
-          message={message}
-          onClose={onMessageClose}
-        />
-      ) : null}
       <ProductsComponent productList={productList} />
       <BottomAction
         buttonText={orderProductsPageButtonText}
@@ -53,8 +42,6 @@ function Products(props) {
 const mapStateToProps = (state) => {
   return {
     loading: state.products.loading,
-    message: state.message.message,
-    messageType: state.message.messageType,
     productList: state.products.products,
   };
 };
@@ -62,7 +49,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchProducts: () => dispatch(actions.fetchProducts()),
-    onMessageClose: () => dispatch(actions.clearMessage()),
   };
 };
 
