@@ -10,7 +10,6 @@ import {
 const initialState = {
   error: false,
   loading: false,
-  message: "",
   status: ORDER_STATUS.ADD_TO_CART,
   order: {
     startTime: new Date(),
