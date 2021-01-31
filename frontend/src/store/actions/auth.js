@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
-import { API_PATH_USER_LOGIN } from "../../constant/api";
+import { API_PATH_USER_LOGIN, HTTP_STATUS_OK } from "../../constant/api";
 import { TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
 
@@ -43,7 +43,7 @@ export const login = (username, password) => {
     axios
       .post(API_PATH_USER_LOGIN, data)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== HTTP_STATUS_OK) {
           throw new Error("Login failed");
         }
         const { headers } = response;
@@ -59,7 +59,7 @@ export const login = (username, password) => {
         );
       })
       .catch((error) => {
-        dispatch(loginFail(error));
+        dispatch(loginFail(error.message));
       });
   };
 };

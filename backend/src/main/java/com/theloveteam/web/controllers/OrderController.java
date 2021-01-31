@@ -23,27 +23,28 @@ public class OrderController {
     private ServiceService serviceService;
 
     @PostMapping("/orders")
-    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest){
-        Long userId = 1l;
+    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+        Long userId = 2L;
         Order order = new Order();
         order.setUserId(userId);
         order.setStatus("requested");
         order.setCard(orderRequest.getCredit());
+        order.setTotalPrice(orderRequest.getTotalPrice());
         long orderId = orderService.placeOrder(order);
         for (int i = 0; i < orderRequest.getServices().size(); i++) {
             Service service = Service.builder().orderId(orderId)
-                                               .userId(userId)
-                                               .startTime(orderRequest.getServices().get(i).getStartTime())
-                                               .endTime(orderRequest.getServices().get(i).getEndTime())
-                                               .productId(orderRequest.getServices().get(i).getProductId())
-                                               .subprice(orderRequest.getServices().get(i).getSubprice())
-                                               .address(orderRequest.getServices().get(i).getAddress())
-                                               .status("requested")
-                                               .apartment(orderRequest.getServices().get(i).getAddress())
-                                               .pets(orderRequest.getServices().get(i).getPets())
-                                               .direction(orderRequest.getServices().get(i).getDirection())
-                                               .addressType(orderRequest.getServices().get(i).getAddressType())
-                                               .build();
+                .userId(userId)
+                .startTime(orderRequest.getServices().get(i).getStartTime())
+                .endTime(orderRequest.getServices().get(i).getEndTime())
+                .productId(orderRequest.getServices().get(i).getProductId())
+                .subprice(orderRequest.getServices().get(i).getSubprice())
+                .address(orderRequest.getServices().get(i).getAddress())
+                .status("requested")
+                .apartment(orderRequest.getServices().get(i).getAddress())
+                .pets(orderRequest.getServices().get(i).getPets())
+                .direction(orderRequest.getServices().get(i).getDirection())
+                .addressType(orderRequest.getServices().get(i).getAddressType())
+                .build();
             serviceService.createService(service);
         }
         return ResponseEntity.ok().body("Order is Successfully Placed!");
@@ -52,8 +53,9 @@ public class OrderController {
     @GetMapping("/orders")
     public ResponseEntity<List<OrderHistory>> gerOrderByUserId() {
 //        TO be replaced by id from token
-//        TokenSubject tokenSubject = JsonUtils.convertJsonStringToObject(JWTUtils.parseSubjectFromToken(authorization), TokenSubject.class);
-        List<OrderHistory> orderHistory = orderService.gerOrderByUserId(1l);
+//        TokenSubject tokenSubject = JsonUtils.convertJsonStringToObject(JWTUtils.parseSubjectFromToken
+//        (authorization), TokenSubject.class);
+        List<OrderHistory> orderHistory = orderService.gerOrderByUserId(2l);
         return ResponseEntity.ok().body(orderHistory);
     }
 }

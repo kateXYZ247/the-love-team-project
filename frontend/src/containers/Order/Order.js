@@ -17,6 +17,7 @@ function Order(props) {
     onUpdateServiceInfo,
     onSwitchToPayment,
     onUpdatePaymentInfo,
+    onPlaceOrder,
     onDeleteFromCart,
     onSetBackStatus,
     onResetStatus,
@@ -33,7 +34,7 @@ function Order(props) {
   const oldOrderDate = order.startTime;
   const oldAddress = order.address;
   const oldApartment = order.apartment;
-  const oldPet = order.pet;
+  const oldPets = order.pets;
   const oldDirection = order.direction;
   const oldAddressType = order.addressType;
 
@@ -70,7 +71,7 @@ function Order(props) {
           oldOrderDate={oldOrderDate}
           oldAddress={oldAddress}
           oldApartment={oldApartment}
-          oldPet={oldPet}
+          oldPets={oldPets}
           oldDirection={oldDirection}
           oldAddressType={oldAddressType}
           onUpdateServiceInfo={dateAddressUpdatedHandler}
@@ -88,6 +89,7 @@ function Order(props) {
         content = (
           <PaymentInfo
             onUpdatePaymentInfo={onUpdatePaymentInfo}
+            onPlaceOrder={onPlaceOrder}
             orderServicesCount={orderServicesCount}
             onAppointmentModalOpen={appointmentModalOpenedHandler}
             onSetBackStatus={onSetBackStatus}
@@ -144,6 +146,7 @@ const mapDispatchToProps = (dispatch) => {
     onSwitchToPayment: () => dispatch(actions.switchToPayment()),
     onUpdatePaymentInfo: (creditCard) =>
       dispatch(actions.updatePaymentInfo(creditCard)),
+    onPlaceOrder: (order) => dispatch(actions.placeOrder(order)),
     onDeleteFromCart: (productIndex) =>
       dispatch(actions.deleteFromCart(productIndex)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),

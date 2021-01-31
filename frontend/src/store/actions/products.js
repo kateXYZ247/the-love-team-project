@@ -3,6 +3,12 @@ import axios from "../../shared/axios_instance";
 import { productList } from "../../constant/homepage";
 import { API_PATH_FETCH_PRODUCTS } from "../../constant/api";
 
+export const clearMessage = () => {
+  return {
+    type: actionTypes.FETCH_PRODUCTS_CLEAR_MESSAGE,
+  };
+};
+
 export const fetchProductsSuccess = (products) => {
   return {
     type: actionTypes.FETCH_PRODUCTS_SUCCESS,
@@ -10,10 +16,10 @@ export const fetchProductsSuccess = (products) => {
   };
 };
 
-export const fetchProductsFail = (error) => {
+export const fetchProductsFail = (message) => {
   return {
     type: actionTypes.FETCH_PRODUCTS_FAIL,
-    error: error,
+    message: message,
   };
 };
 
@@ -40,7 +46,7 @@ export const fetchProducts = (token, userId) => {
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
       .catch((error) => {
-        dispatch(fetchProductsFail(error));
+        dispatch(fetchProductsFail(error.message));
       });
   };
 };

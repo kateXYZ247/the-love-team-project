@@ -8,14 +8,15 @@ import {
 } from "../../constant/order";
 
 const initialState = {
-  error: null,
+  error: false,
   loading: false,
+  message: "",
   status: ORDER_STATUS.ADD_TO_CART,
   order: {
     startTime: new Date(),
     address: "",
     apartment: "",
-    pet: "",
+    pets: "",
     direction: "",
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
@@ -64,7 +65,7 @@ const updateServiceTimeAddress = (state, action) => {
       startTime: action.startTime,
       address: action.address.address,
       apartment: action.address.apartment,
-      pet: action.address.pet,
+      pets: action.address.pets,
       direction: action.address.direction,
       addressType: action.address.addressType,
     }),
@@ -90,7 +91,7 @@ const updatePaymentInfo = (state, action) => {
       endTime: endTime,
       address: oldOrder.address,
       apartment: oldOrder.apartment,
-      pet: oldOrder.pet,
+      pets: oldOrder.pets,
       direction: oldOrder.direction,
       addressType: oldOrder.addressType,
     });
@@ -99,10 +100,8 @@ const updatePaymentInfo = (state, action) => {
     credit: action.creditCard,
     services: updatedServices,
   });
-  console.log(updatedOrder);
   return updateObject(state, {
     order: updatedOrder,
-    status: ORDER_STATUS.CONFIRMED,
   });
 };
 
@@ -127,6 +126,23 @@ const clearCart = (state, action) => {
   return updateObject(state, initialState);
 };
 
+export const placeOrderSuccess = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+    message: action.message,
+    status: ORDER_STATUS.CONFIRMED,
+  });
+};
+
+// TODO: display error message
+export const placeOrderFail = (state, action) => {
+  return updateObject(state, { error: action.error, loading: false });
+};
+
+export const placeOrderStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ORDER_ADD_TO_CART:
@@ -147,6 +163,12 @@ const reducer = (state = initialState, action) => {
       return resetStatus(state, action);
     case actionTypes.ORDER_CLEAR_CART:
       return clearCart(state, action);
+    case actionTypes.ORDER_PLACE_ORDER_START:
+      return placeOrderStart(state, action);
+    case actionTypes.ORDER_PLACE_ORDER_SUCCESS:
+      return placeOrderSuccess(state, action);
+    case actionTypes.ORDER_PLACE_ORDER_FAIL:
+      return placeOrderFail(state, action);
     default:
       return state;
   }

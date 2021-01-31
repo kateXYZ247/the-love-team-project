@@ -16,8 +16,8 @@ function AddressCard(props) {
     onAddressChange,
     apartment,
     onApartmentChange,
-    pet,
-    onPetChange,
+    pets,
+    onPetsChange,
     direction,
     onDirectionChange,
     addressType,
@@ -56,10 +56,10 @@ function AddressCard(props) {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      id="pet-input"
+                      id="pets-input"
                       label="Any Pets? (Dog or Cat?)"
-                      defaultValue={pet}
-                      onChange={(event) => onPetChange(event.target.value)}
+                      defaultValue={pets}
+                      onChange={(event) => onPetsChange(event.target.value)}
                       fullWidth
                       variant="outlined"
                     />

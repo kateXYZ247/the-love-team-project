@@ -14,9 +14,10 @@ export {
   updateServiceTimeAddress,
   switchToPayment,
   updatePaymentInfo,
+  placeOrder,
   setBackStatus,
   resetStatus,
   clearCart,
 } from "./order";
 
-export { fetchProducts } from "./products";
+export { fetchProducts, clearMessage } from "./products";

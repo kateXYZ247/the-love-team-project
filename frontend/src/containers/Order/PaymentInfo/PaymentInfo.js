@@ -12,12 +12,14 @@ import {
 } from "../../../shared/creditCardFormat";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import { orderCreditCardPageButtonText } from "../../../constant/order";
+import OrderConfirmationDialog from "../../../components/Order/OrderConfirmationDialog/OrderConfirmationDialog";
 
 function PaymentInfo(props) {
   const {
     order,
     orderServicesCount,
     onUpdatePaymentInfo,
+    onPlaceOrder,
     onAppointmentModalOpen,
     onSetBackStatus,
     onResetStatus,
@@ -30,6 +32,8 @@ function PaymentInfo(props) {
     name: "",
     number: "",
   });
+
+  const [openConfirmation, setOpenConfirmation] = useState(false);
 
   const creditCardInputChangeHandler = (e) => {
     const { name } = e.target;
@@ -55,6 +59,16 @@ function PaymentInfo(props) {
   const nextButtonClickedHandler = () => {
     const card = `${creditCard.number},${creditCard.cvc},${creditCard.expiry},${creditCard.name}`;
     onUpdatePaymentInfo(card);
+    setOpenConfirmation(true);
+  };
+
+  const dialogClosedHandler = () => {
+    setOpenConfirmation(false);
+  };
+
+  const orderPlacedHandler = () => {
+    setOpenConfirmation(false);
+    onPlaceOrder(order);
   };
 
   return (
@@ -65,6 +79,12 @@ function PaymentInfo(props) {
           onClickCancel={onResetStatus}
         />
       </Box>
+      <OrderConfirmationDialog
+        open={openConfirmation}
+        onClose={dialogClosedHandler}
+        onConfirm={orderPlacedHandler}
+        price={order.totalPrice}
+      />
       <Grid container justify="center" spacing={2}>
         <Grid item xs={11} lg={6}>
           <CreditCardInfo
