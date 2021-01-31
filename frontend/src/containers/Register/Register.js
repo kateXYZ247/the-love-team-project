@@ -30,16 +30,16 @@ function Register(props) {
            onRegister(user);
         }
     }
-    function handleEmailErr(error) {
-        if (error) {
-            console.log(error);
-            const [errorMessage, successMessage] = error.response.data;
-            console.log(errorMessage);
-            return errorMessage[0].contains("Email");
-        } else {
-            return false;
-        }
-    }
+    // function handleEmailErr(error) {
+    //     if (error) {
+    //         console.log(error);
+    //         const [errorMessage, successMessage] = error.response.data;
+    //         console.log(errorMessage);
+    //         return errorMessage[0].contains("Email");
+    //     } else {
+    //         return false;
+    //     }
+    // }
     return flag ? <Redirect to={'/login'} /> :(
         <React.Fragment>
             <BackdropProgressCircle open={loading} />
@@ -50,7 +50,7 @@ function Register(props) {
             <Box mt={3}>
                 <RegisterForm
                     user={user}
-                    checkEmail={handleEmailErr(error)}
+                    // checkEmail={handleEmailErr(error)}
                     // checkPhone={handlePhoneErr(error)}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}

@@ -16,10 +16,8 @@ import Divider from "../Divider/DividerText.js";
 import Button from '@material-ui/core/Button';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import CheckboxLabels from "../CheckBox/CheckBox.js";
-import CardTitle from "../../UI/CardTitle/CardTitle";
-// import {register} from '../../../store/actions/register';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { Redirect, useHistory } from "react-router-dom";
+// import CardTitle from "../../UI/CardTitle/CardTitle";
+
 
 
 function RegisterForm(props) {
@@ -27,8 +25,6 @@ function RegisterForm(props) {
         user,
         handleChange,
         handleSubmit,
-        submitted,
-        checkEmail,
     } = props;
 
     return (
@@ -101,9 +97,9 @@ function RegisterForm(props) {
                                         variant="outlined"
                                     />
                                     <div>
-                                    {submitted  &&
-                                    <div>email already in use</div>
-                                    }
+                                    {/*{submitted  &&*/}
+                                    {/*<div>email already in use</div>*/}
+                                    {/*}*/}
                                     </div>
                                 </Grid>
 

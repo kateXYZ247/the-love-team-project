@@ -1,8 +1,9 @@
-import axios from 'axios';
+// import axios from 'axios';
 import {registerConstants} from "./actionTypes";
-// import axios from "../../shared/axios_instance";
+import axios from "../../shared/axios_instance";
 import {API_PATH_USER_REGISTER} from "../../constant/api";
-
+import { setMessage } from "./message";
+import { MESSAGE_TYPE } from "../../constant/message";
 
 
 export const registerSuccess = () => {
@@ -36,8 +37,8 @@ export const register =(user) => {
             password: user.password,
         };
         axios
-            // .post(API_PATH_USER_REGISTER, data)
-            .post("http://localhost:8080/users/register", data)
+            .post(API_PATH_USER_REGISTER, data)
+            // .post("http://localhost:8080/users/register", data)
             .then((response) => {
 
                     if (response.status !== 200) {
@@ -45,13 +46,16 @@ export const register =(user) => {
                         throw new Error("Register failed");
                     }
 
+                    dispatch(setMessage(MESSAGE_TYPE.info, "Welcome , " + data.firstName));
                     dispatch(registerSuccess());
                 },
 
             )
             .catch((error) => {
-                console.log(error.response.data);
-            dispatch(registerFail(error));
+                const{errors} = error.response.data;
+                console.log(errors[0].message);
+                dispatch(registerFail(error));
+                dispatch(setMessage(MESSAGE_TYPE.error, errors[0].message));
         });
     };
 
