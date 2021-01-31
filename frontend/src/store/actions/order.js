@@ -1,4 +1,6 @@
 import * as actionTypes from "./actionTypes";
+import axios from "../../shared/axios_instance";
+import { API_PATH_USER_PLACE_ORDER, HTTP_STATUS_OK } from "../../constant/api";
 
 export const addToCart = (product) => {
   return {
@@ -65,13 +67,14 @@ export const placeOrderStart = () => {
   };
 };
 
-export const placeOrderSuccess = () => {
+export const placeOrderSuccess = (message) => {
   return {
     type: actionTypes.ORDER_PLACE_ORDER_SUCCESS,
+    message: message,
   };
 };
 
-export const placeOrderFAIL = () => {
+export const placeOrderFail = () => {
   return {
     type: actionTypes.ORDER_PLACE_ORDER_FAIL,
   };
@@ -80,6 +83,15 @@ export const placeOrderFAIL = () => {
 export const placeOrder = (order) => {
   return (dispatch) => {
     dispatch(placeOrderStart());
-    dispatch(placeOrderSuccess());
+    axios
+      .post(API_PATH_USER_PLACE_ORDER, order)
+      .then((response) => {
+        if (response.status === HTTP_STATUS_OK) {
+          dispatch(placeOrderSuccess(response.data));
+        } else {
+          throw new Error(response.statusText);
+        }
+      })
+      .catch((error) => dispatch(placeOrderFail(error)));
   };
 };

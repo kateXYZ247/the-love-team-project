@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
-import { productList } from "../../constant/products";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
 import { PATH_HOME } from "../../constant/path";
 
@@ -36,7 +35,7 @@ const loginSuccess = (state, action) => {
 };
 
 const loginFail = (state, action) => {
-  return updateObject(state, { products: [...productList], loading: false });
+  return updateObject(state, { error: action.error, loading: false });
 };
 
 const logout = (state, action) => {

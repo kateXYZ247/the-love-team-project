@@ -34,7 +34,7 @@ function Order(props) {
   const oldOrderDate = order.startTime;
   const oldAddress = order.address;
   const oldApartment = order.apartment;
-  const oldPet = order.pet;
+  const oldPets = order.pets;
   const oldDirection = order.direction;
   const oldAddressType = order.addressType;
 
@@ -71,7 +71,7 @@ function Order(props) {
           oldOrderDate={oldOrderDate}
           oldAddress={oldAddress}
           oldApartment={oldApartment}
-          oldPet={oldPet}
+          oldPets={oldPets}
           oldDirection={oldDirection}
           oldAddressType={oldAddressType}
           onUpdateServiceInfo={dateAddressUpdatedHandler}
