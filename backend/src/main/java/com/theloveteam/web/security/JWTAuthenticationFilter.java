@@ -1,5 +1,6 @@
 package com.theloveteam.web.security;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dto.LoginRequestBody;
 import com.theloveteam.web.utils.JsonUtils;
@@ -10,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import com.auth0.jwt.JWT;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -37,7 +37,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            LoginRequestBody loginRequestBody = JsonUtils.convertJsonStringToObject(req.getInputStream(), LoginRequestBody.class);
+            LoginRequestBody loginRequestBody = JsonUtils.convertJsonStringToObject(
+                    req.getInputStream(), LoginRequestBody.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -56,11 +57,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) {
-
-        System.out.println("TokenSubject = " + ((User) auth.getPrincipal()).getUsername());
+        String tokenSubjectJson = "";
+        try {
+            tokenSubjectJson = JsonUtils.convertObjectToJsonString(
+                    ((LoginDetails) auth.getPrincipal()).getTokenSubject());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         String token = JWT.create()
-                // getUsername returns TokenSubject from SecurityService.
-                .withSubject(((User) auth.getPrincipal()).getUsername())
+                .withSubject(tokenSubjectJson)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
