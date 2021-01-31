@@ -11,7 +11,7 @@ function OrderInfo(props) {
     oldOrderDate,
     oldAddress,
     oldApartment,
-    oldPet,
+    oldPets,
     oldDirection,
     oldAddressType,
     orderServicesCount,
@@ -24,7 +24,7 @@ function OrderInfo(props) {
   const [date, setDate] = useState(oldOrderDate);
   const [address, setAddress] = useState(oldAddress);
   const [apartment, setApartment] = useState(oldApartment);
-  const [pet, setPet] = useState(oldPet);
+  const [pets, setPets] = useState(oldPets);
   const [direction, setDirection] = useState(oldDirection);
   const [addressType, setAddressType] = useState(oldAddressType);
 
@@ -40,8 +40,8 @@ function OrderInfo(props) {
     setApartment(updatedApartment);
   };
 
-  const petChangedHandler = (updatedPet) => {
-    setPet(updatedPet);
+  const petsChangedHandler = (updatedPets) => {
+    setPets(updatedPets);
   };
 
   const directionChangedHandler = (updatedDirection) => {
@@ -56,7 +56,7 @@ function OrderInfo(props) {
     const addressObject = {
       address: address,
       apartment: apartment,
-      pet: pet,
+      pets: pets,
       direction: direction,
       addressType: addressType,
     };
@@ -80,8 +80,8 @@ function OrderInfo(props) {
           onAddressChange={addressChangedHandler}
           apartment={apartment}
           onApartmentChange={apartmentChangedHandler}
-          pet={pet}
-          onPetChange={petChangedHandler}
+          pets={pets}
+          onPetsChange={petsChangedHandler}
           direction={direction}
           onDirectionChange={directionChangedHandler}
           addressType={addressType}

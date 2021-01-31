@@ -14,6 +14,7 @@ export {
   updateServiceTimeAddress,
   switchToPayment,
   updatePaymentInfo,
+  placeOrder,
   setBackStatus,
   resetStatus,
   clearCart,
@@ -21,4 +22,8 @@ export {
 
 export { fetchProducts } from "./products";
 
+
 export {register} from "./register";
+
+export { clearMessage } from "./message";
+

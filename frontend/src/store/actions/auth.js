@@ -1,8 +1,14 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
-import { API_PATH_USER_LOGIN } from "../../constant/api";
+import {
+  API_PATH_USER_DETAIL,
+  API_PATH_USER_LOGIN,
+  HTTP_STATUS_OK,
+} from "../../constant/api";
 import { TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
+import { setMessage } from "./message";
+import { MESSAGE_TYPE } from "../../constant/message";
 
 export const setRedirectPath = (path) => {
   return {
@@ -11,10 +17,18 @@ export const setRedirectPath = (path) => {
   };
 };
 
-export const loginSuccess = (token) => {
+export const loginSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     token: token,
+    userId: userId,
+  };
+};
+
+export const setUserDetail = (userDetail) => {
+  return {
+    type: actionTypes.AUTH_SET_USER_DETAIL,
+    userDetail: userDetail,
   };
 };
 
@@ -44,10 +58,13 @@ export const login = (username, password) => {
       .post(API_PATH_USER_LOGIN, data)
       .then((response) => {
 
-        if (response.status !== 200) {
+        if (response.status !== HTTP_STATUS_OK) {
+
           throw new Error("Login failed");
         }
-        const { headers } = response;
+        // data = userId
+        const { headers, data } = response;
+        console.log(data);
         if (
           headers === null ||
           !headers.hasOwnProperty("authorization") ||
@@ -56,11 +73,26 @@ export const login = (username, password) => {
           throw new Error("bad response");
         }
         dispatch(
-          loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length))
+          loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length), data)
         );
+        return axios.get(API_PATH_USER_DETAIL + data);
+      })
+      .then((response) => {
+        if (response.status !== HTTP_STATUS_OK) {
+          throw new Error("Get user info failed");
+        }
+        // data = userDetail
+        const { data } = response;
+        dispatch(setUserDetail(data));
+        if (data !== null && data.hasOwnProperty("firstName")) {
+          dispatch(
+            setMessage(MESSAGE_TYPE.info, "Welcome back, " + data.firstName)
+          );
+        }
       })
       .catch((error) => {
-        dispatch(loginFail(error));
+        dispatch(loginFail());
+        dispatch(setMessage(MESSAGE_TYPE.error, error.message));
       });
   };
 };
@@ -69,6 +101,7 @@ export const logoutAndCleanCart = () => {
   return (dispatch) => {
     dispatch(logout());
     dispatch(clearCart());
+    dispatch(setMessage(MESSAGE_TYPE.info, "See you next time!"));
   };
 };
 

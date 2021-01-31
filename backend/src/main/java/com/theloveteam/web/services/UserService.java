@@ -4,11 +4,13 @@ import com.theloveteam.web.dao.User;
 import com.theloveteam.web.dto.RegisterRequestBody;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.repositories.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,9 +20,16 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
 
-    // check if the email address already in the database
-    public boolean userExists(String email) {
-        return userRepository.findUsersByEmail(email).size() > 0;
+    // check if the email address or phone number already in the database
+    public List<String> userExists(String email, String phone) {
+        List<String> conflicts = new ArrayList<>();
+        if (userRepository.findUsersByEmail(email).size() > 0) {
+            conflicts.add(email);
+        }
+        if (userRepository.findUsersByPhone(phone).size() > 0) {
+            conflicts.add(phone);
+        }
+        return conflicts;
     }
 
     // encrypt password and save the user info into the database
@@ -40,4 +49,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public Optional<User> getUserByUserId(Long userId) {
+        return userRepository.findById(userId);
+    }
 }

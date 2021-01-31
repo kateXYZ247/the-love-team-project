@@ -1,9 +1,13 @@
 package com.theloveteam.web.controllers;
 
 import com.theloveteam.web.constants.UrlConstants;
+import com.theloveteam.web.dao.User;
 import com.theloveteam.web.dto.RegisterRequestBody;
 import com.theloveteam.web.dto.RegisterResponseBody;
+import com.theloveteam.web.exceptions.UserAlreadyExistsException;
+import com.theloveteam.web.handlers.GetUserDetailHandler;
 import com.theloveteam.web.services.UserService;
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -26,6 +30,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GetUserDetailHandler getUserDetailHandler;
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUserDetail(@PathVariable String userId) {
+        return getUserDetailHandler.handle(userId);
+    }
+
     // each time when there is a get register request, give back a requestBody object
 //    @GetMapping("/users/register")
 //    public String signUp(@ModelAttribute @RequestBody RegisterRequestBody registerRequestBody, Model model) {
@@ -38,10 +50,12 @@ public class UserController {
         System.out.println(registerRequestBody.toString());
         RegisterResponseBody responseBody = new RegisterResponseBody();
         // check if the user exists
-        if (userService.userExists(registerRequestBody.getEmail())) {
-            responseBody.addErrorMsg("Email address already in use!");
-            return ResponseEntity.badRequest()
-                    .body(responseBody);
+        List<String> conflicts = userService.userExists(registerRequestBody.getEmail(), registerRequestBody.getPhone());
+        if (!Collections.isEmpty(conflicts)) {
+           throw new UserAlreadyExistsException(
+                   conflicts.stream()
+                           .reduce((first, second) -> String.format("%s and %s", first, second))
+                           .orElse(""));
         }
         // check is there's any error from validation
         if (errors.hasFieldErrors()) {

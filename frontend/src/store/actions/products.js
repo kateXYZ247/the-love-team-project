@@ -2,6 +2,8 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import { productList } from "../../constant/homepage";
 import { API_PATH_FETCH_PRODUCTS } from "../../constant/api";
+import { setMessage } from "./message";
+import { MESSAGE_TYPE } from "../../constant/message";
 
 export const fetchProductsSuccess = (products) => {
   return {
@@ -10,10 +12,9 @@ export const fetchProductsSuccess = (products) => {
   };
 };
 
-export const fetchProductsFail = (error) => {
+export const fetchProductsFail = () => {
   return {
     type: actionTypes.FETCH_PRODUCTS_FAIL,
-    error: error,
   };
 };
 
@@ -42,7 +43,8 @@ export const fetchProducts = (token, userId) => {
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
       .catch((error) => {
-        dispatch(fetchProductsFail(error));
+        dispatch(fetchProductsFail());
+        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
   };
 };

@@ -3,22 +3,24 @@ import { updateObject } from "../../shared/utility";
 import { productList } from "../../constant/products";
 
 const initialState = {
-  error: null,
   loading: false,
   products: [],
 };
 
-function fetchProductsStart(state, action) {
+const fetchProductsStart = (state, action) => {
   return updateObject(state, { loading: true });
-}
+};
 
-function fetchProductsSuccess(state, action) {
+const fetchProductsSuccess = (state, action) => {
   return updateObject(state, { products: action.products, loading: false });
-}
+};
 
-function fetchProductsFail(state, action) {
-  return updateObject(state, { products: [...productList], loading: false });
-}
+const fetchProductsFail = (state, action) => {
+  return updateObject(state, {
+    products: [...productList],
+    loading: false,
+  });
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderRequest {
-    private Long totalPrice;
+    private Double totalPrice;
 
     private String credit;
 
