@@ -102,7 +102,6 @@ const updatePaymentInfo = (state, action) => {
   console.log(updatedOrder);
   return updateObject(state, {
     order: updatedOrder,
-    status: ORDER_STATUS.CONFIRMED,
   });
 };
 

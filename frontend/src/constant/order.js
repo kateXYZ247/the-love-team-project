@@ -22,34 +22,34 @@ export const orderTimeAddressPageButtonText = "Account Details";
 export const orderCreditCardPageButtonText = "Book Now";
 export const sampleOrderServices = [
   {
+    productId: 5,
     name: "Blowout",
     duration: 46,
     price: 55,
-    addressType: "Home",
   },
   {
+    productId: 15,
     name: "Pedicure",
     duration: 47,
     price: 65,
-    addressType: "Home",
   },
   {
+    productId: 5,
     name: "Blowout",
     duration: 48,
     price: 55,
-    addressType: "Home",
   },
   {
+    productId: 11,
     name: "Kids Haircut",
     duration: 49,
     price: 60,
-    addressType: "Home",
   },
   {
+    productId: 11,
     name: "Kids Haircut",
     duration: 2000,
     price: 60,
-    addressType: "Home",
   },
 ];
 export const sampleOrderTotalPrice = 371.7;

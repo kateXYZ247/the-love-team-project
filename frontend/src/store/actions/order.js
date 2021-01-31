@@ -58,3 +58,28 @@ export const clearCart = () => {
     type: actionTypes.ORDER_CLEAR_CART,
   };
 };
+
+export const placeOrderStart = () => {
+  return {
+    type: actionTypes.ORDER_PLACE_ORDER_START,
+  };
+};
+
+export const placeOrderSuccess = () => {
+  return {
+    type: actionTypes.ORDER_PLACE_ORDER_SUCCESS,
+  };
+};
+
+export const placeOrderFAIL = () => {
+  return {
+    type: actionTypes.ORDER_PLACE_ORDER_FAIL,
+  };
+};
+
+export const placeOrder = (order) => {
+  return (dispatch) => {
+    dispatch(placeOrderStart());
+    dispatch(placeOrderSuccess());
+  };
+};

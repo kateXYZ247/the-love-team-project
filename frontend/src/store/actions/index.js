@@ -14,6 +14,7 @@ export {
   updateServiceTimeAddress,
   switchToPayment,
   updatePaymentInfo,
+  placeOrder,
   setBackStatus,
   resetStatus,
   clearCart,
