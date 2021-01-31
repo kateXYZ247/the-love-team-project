@@ -1,10 +1,5 @@
 package com.theloveteam.web;
 
-import com.theloveteam.web.dao.Order;
-import com.theloveteam.web.dao.Service;
-import com.theloveteam.web.repositories.OrderRepository;
-import com.theloveteam.web.repositories.ServiceRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
