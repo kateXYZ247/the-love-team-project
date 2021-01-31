@@ -6,10 +6,15 @@ import { PATH_HOME } from "../../constant/path";
 const initialState = {
   token: null,
   userId: null,
-  firstName: null,
-  lastName: null,
-  role: null,
-  error: null,
+  userDetail: {
+    firstName: null,
+    lastName: null,
+    role: null,
+    address: "",
+    zip: "",
+    email: "",
+    lastLoggedInTime: new Date(),
+  },
   loading: false,
   authRedirectPath: "/",
 };
@@ -26,16 +31,22 @@ const loginSuccess = (state, action) => {
   localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
   return updateObject(state, {
     userId: action.userId,
-    firstName: action.firstName,
-    lastName: action.lastName,
-    role: action.role,
     token: action.token,
+  });
+};
+
+const setUserDetail = (state, action) => {
+  const { userDetail } = action;
+  return updateObject(state, {
+    userDetail: updateObject(userDetail, {
+      lastLoggedInTime: new Date(userDetail.lastLoggedInTime),
+    }),
     loading: false,
   });
 };
 
 const loginFail = (state, action) => {
-  return updateObject(state, { error: action.error, loading: false });
+  return updateObject(state, { loading: false });
 };
 
 const logout = (state, action) => {
@@ -43,9 +54,7 @@ const logout = (state, action) => {
   return updateObject(state, {
     token: null,
     userId: null,
-    firstName: null,
-    lastName: null,
-    role: null,
+    userDetail: null,
     loading: false,
     authRedirectPath: PATH_HOME,
   });
@@ -59,6 +68,8 @@ const reducer = (state = initialState, action) => {
       return loginSuccess(state, action);
     case actionTypes.AUTH_LOGIN_FAIL:
       return loginFail(state, action);
+    case actionTypes.AUTH_SET_USER_DETAIL:
+      return setUserDetail(state, action);
     case actionTypes.AUTH_LOGOUT:
       return logout(state, action);
     case actionTypes.AUTH_SET_REDIRECT_PATH:
