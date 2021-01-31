@@ -1,13 +1,17 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect} from "react";
 
 import "./App.css";
 import Layout from "./hoc/Layout/Layout";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch} from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
 import CustomerLogin from "./containers/CustomerLogin/CustomerLogin";
 import SampleContainer from "./containers/Sample/SampleContainer";
+
+import Register from "./containers/Register/Register";
+
+
 import OrderHistory from "./containers/OrderHistory/OrderHistory";
 import {
   PATH_HISTORY,
@@ -17,9 +21,12 @@ import {
   PATH_TEST,
 } from "./constant/path";
 
+
 function App(props) {
+
   let routes = (
     <Switch>
+      <Route path="/register" render={(props) => <Register {...props} />} />
       <Route path={PATH_ORDER} exact component={Order} />
       <Route
         path={PATH_LOGIN}
