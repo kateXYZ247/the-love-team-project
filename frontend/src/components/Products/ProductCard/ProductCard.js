@@ -51,12 +51,7 @@ function ProductCard(props) {
   const classes = useStyles();
   const {
     product,
-    productList,
-    onUpdateCart,
-    orderServicesCount,
-    onAppointmentModalOpen,
     productDetailOpen,
-    productDetailClose,
     onSetProduct,
   } = props;
 

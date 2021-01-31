@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Grid } from '@material-ui/core';
@@ -59,7 +59,7 @@ function ProductDetail(props) {
   const displayCounter = clientsCounter > 0;
   const classes = useStyles();
 
-  if (product == '') {
+  if (product === '') {
     return null;
   } else {
     console.log(product.star);

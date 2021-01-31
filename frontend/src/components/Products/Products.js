@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProductsGrid from "./ProductsGrid/ProductsGrid";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";

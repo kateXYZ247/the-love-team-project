@@ -53,14 +53,6 @@ function Order(props) {
     setShowAppointments(false);
   };
 
-  const [cart, setCart] = useState(new Map());
-
-  const addProductToCart = (product) => {
-    cart.set(product.productId, product);
-    console.log("add: " + product.productId)
-    console.log("cart size: " + cart.size)
-  };
-
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
     onUpdateServiceInfo(date, addressObject);
@@ -119,7 +111,6 @@ function Order(props) {
           onUpdateCart={onUpdateCart}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
-          cart={cart}
           addProductToCart={onAddToCart}
           removeProductFromCart={onDeleteFromCart}
         />
