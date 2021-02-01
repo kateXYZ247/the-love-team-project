@@ -10,8 +10,8 @@
 }
 
 .subtitle {
-    color: rgba(60,60,60,0.57);
-    font-family: "Helvetica Neue";
+    color: rgba(60, 60, 60, 0.57);
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 12px;
     letter-spacing: -0.11px;
     line-height: 4px;

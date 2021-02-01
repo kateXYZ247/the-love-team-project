@@ -55,13 +55,11 @@ const useStyles = makeStyles(() => ({
 function ProductCard(props) {
   const classes = useStyles();
   const {
-    productId,
     productName,
     productDescription,
     productPrice,
     duration,
     star,
-    image_url,
   } = props.item;
 
   return (

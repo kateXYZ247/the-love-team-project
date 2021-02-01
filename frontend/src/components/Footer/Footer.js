@@ -6,7 +6,6 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { grey } from "@material-ui/core/colors";
-import classes from "./Footer.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
   footerTextBottom: {
     color: "#fff",
-    fontFamily: "Helvetica Neue",
+    fontFamily: "'Helvetica Neue', sans-serif",
     fontSize: 13,
     fontWeight: 500,
   },
   footerTitle: {
     color: "#fff",
-    fontFamily: "Helvetica Neue ",
+    fontFamily: "'Helvetica Neue', sans-serif",
     fontSize: 22,
     fontWeight: 500,
   },

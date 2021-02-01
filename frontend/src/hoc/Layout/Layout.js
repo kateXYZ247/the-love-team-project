@@ -8,16 +8,10 @@ import * as actions from "../../store/actions";
 import SnackbarMessage from "../../components/UI/SnackbarMessage/SnackbarMessage";
 
 function Layout(props) {
-  const {
-    isAuthenticated,
-    onLogout,
-    message,
-    messageType,
-    onMessageClose,
-  } = props;
+  const { role, onLogout, message, messageType, onMessageClose } = props;
   return (
     <React.Fragment>
-      <NavBar isAuthenticated={isAuthenticated} onLogout={onLogout} />
+      <NavBar onLogout={onLogout} role={role} />
       <main className={classes.Main}>{props.children}</main>
       {message !== null ? (
         <SnackbarMessage
@@ -33,7 +27,7 @@ function Layout(props) {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.auth.token !== null,
+    role: state.auth.userDetail.role,
     message: state.message.message,
     messageType: state.message.messageType,
   };
