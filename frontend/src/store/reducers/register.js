@@ -16,6 +16,9 @@ const initialState = {
 const registerStart = (state, action) => {
     return updateObject(state, { loading: true,});
 };
+const registerReset = (state, action) => {
+    return updateObject(state, { flag: false});
+};
 const registerSuccess = (state, action) => {
     return updateObject(state, {
         firstName: action.firstName,
@@ -37,6 +40,8 @@ const reducer = (state = initialState, action) => {
             return registerSuccess(state, action);
         case registerConstants.REGISTER_FAILURE:
             return registerFail(state, action);
+        case registerConstants.REGISTER_RESET:
+            return registerReset(state, action);
         default:
             return state
     }

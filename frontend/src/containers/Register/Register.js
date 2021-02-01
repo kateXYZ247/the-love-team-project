@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 import { Box, Grid } from "@material-ui/core";
 import SignIn from "../../components/Register/SignIn/SignIn";
 import RegisterForm from "../../components/Register/RegisterForm/RegisterForm";
@@ -8,7 +8,7 @@ import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/B
 import * as actions from "../../store/actions";
 
 function Register(props) {
-    const{loading, error, flag, onRegister} = props;
+    const{loading, error, flag, onRegister, onResetForm} = props;
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
@@ -16,6 +16,7 @@ function Register(props) {
         email: '',
         password: ''
     });
+
     const [submitted, setSubmit] = useState(false);
     // const history = useHistory();
     function handleChange(e) {
@@ -30,16 +31,7 @@ function Register(props) {
            onRegister(user);
         }
     }
-    // function handleEmailErr(error) {
-    //     if (error) {
-    //         console.log(error);
-    //         const [errorMessage, successMessage] = error.response.data;
-    //         console.log(errorMessage);
-    //         return errorMessage[0].contains("Email");
-    //     } else {
-    //         return false;
-    //     }
-    // }
+
     return flag ? <Redirect to={'/login'} /> :(
         <React.Fragment>
             <BackdropProgressCircle open={loading} />
@@ -50,11 +42,10 @@ function Register(props) {
             <Box mt={3}>
                 <RegisterForm
                     user={user}
-                    // checkEmail={handleEmailErr(error)}
-                    // checkPhone={handlePhoneErr(error)}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                     submitted={submitted}
+                    onUnmount={onResetForm}
                 />
             </Box>
             </Grid>
@@ -73,6 +64,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onRegister: (user) =>
             dispatch(actions.register(user)),
+        onResetForm: () => dispatch(actions.registerReset()),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

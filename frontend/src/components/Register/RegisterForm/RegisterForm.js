@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
     Box,
     Card,
@@ -25,8 +25,14 @@ function RegisterForm(props) {
         user,
         handleChange,
         handleSubmit,
+        onUnmount,
     } = props;
 
+    useEffect(() => {
+        return () => {
+            onUnmount();
+        };
+    }, [onUnmount]);
     return (
         <div>
         <form name="form" >

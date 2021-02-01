@@ -11,7 +11,11 @@ export const registerSuccess = () => {
         type: registerConstants.REGISTER_SUCCESS,
     };
 };
-
+export const registerReset = () => {
+    return {
+        type: registerConstants.REGISTER_RESET,
+    };
+};
 export const registerFail = (error) => {
     return {
         type: registerConstants.REGISTER_FAILURE,

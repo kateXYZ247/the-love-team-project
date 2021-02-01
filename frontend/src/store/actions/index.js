@@ -23,7 +23,7 @@ export {
 export { fetchProducts } from "./products";
 
 
-export {register} from "./register";
+export {register,registerReset} from "./register";
 
 export { clearMessage } from "./message";
 
