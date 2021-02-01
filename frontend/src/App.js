@@ -14,16 +14,27 @@ import {
   PATH_HOME,
   PATH_LOGIN,
   PATH_ORDER,
+  PATH_PROVIDER_HOME,
+  PATH_PROVIDER_LOGIN,
   PATH_TEST,
 } from "./constant/path";
+import { AUTH_ROLE } from "./constant/auth";
+import ProviderLogin from "./containers/ProviderLogin/ProviderLogin";
 
 function App(props) {
+  const { isAuthenticated, role } = props;
   let routes = (
     <Switch>
       <Route path={PATH_ORDER} exact component={Order} />
       <Route
         path={PATH_LOGIN}
+        exact
         render={(props) => <CustomerLogin {...props} />}
+      />
+      <Route
+        path={PATH_PROVIDER_LOGIN}
+        exact
+        render={(props) => <ProviderLogin {...props} />}
       />
       <Route
         path={PATH_TEST}
@@ -33,20 +44,34 @@ function App(props) {
       <Redirect to={PATH_HOME} />
     </Switch>
   );
-  if (props.isAuthenticated) {
-    routes = (
-      <Switch>
-        <Route path={PATH_ORDER} exact component={Order} />
-        <Route path={PATH_HISTORY} exact component={OrderHistory} />
-        <Route path={PATH_HOME} exact component={Home} />
-        <Route path={PATH_LOGIN} exact component={CustomerLogin} />
-        <Route
-          path={PATH_TEST}
-          render={(props) => <SampleContainer {...props} />}
-        />
-        <Redirect to="/" />
-      </Switch>
-    );
+  if (isAuthenticated) {
+    if (role === AUTH_ROLE.user) {
+      routes = (
+        <Switch>
+          <Route path={PATH_ORDER} exact component={Order} />
+          <Route path={PATH_HISTORY} exact component={OrderHistory} />
+          <Route path={PATH_HOME} exact component={Home} />
+          <Route path={PATH_LOGIN} exact component={CustomerLogin} />
+          <Route
+            path={PATH_TEST}
+            render={(props) => <SampleContainer {...props} />}
+          />
+          <Redirect to={PATH_HOME} />
+        </Switch>
+      );
+    } else if (role === AUTH_ROLE.provider) {
+      routes = (
+        <Switch>
+          <Route path={PATH_HOME} exact component={Home} />
+          <Route path={PATH_PROVIDER_LOGIN} exact component={ProviderLogin} />
+          <Route
+            path={PATH_TEST}
+            render={(props) => <SampleContainer {...props} />}
+          />
+          <Redirect to={PATH_PROVIDER_HOME} />
+        </Switch>
+      );
+    }
   }
 
   return (
@@ -59,6 +84,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
+    role: state.auth.userDetail.role,
   };
 };
 
