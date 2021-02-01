@@ -11,6 +11,7 @@ import { AUTH_ROLE, TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
+import { PATH_HOME, PATH_PROVIDER_LIST_SERVICES } from "../../constant/path";
 
 export const setRedirectPath = (path) => {
   return {
@@ -41,15 +42,21 @@ export const loginGetInfoFail = (error) => {
   };
 };
 
-export const loginStart = () => {
+export const loginStart = (redirectPath) => {
   return {
     type: actionTypes.AUTH_LOGIN_START,
+    redirectPath: redirectPath,
   };
 };
 
 export const login = (username, password, role) => {
   return (dispatch) => {
-    dispatch(loginStart());
+    // setup redirect path after login
+    dispatch(
+      loginStart(
+        role === AUTH_ROLE.user ? PATH_HOME : PATH_PROVIDER_LIST_SERVICES
+      )
+    );
     const data = {
       loginId: username,
       role: role,

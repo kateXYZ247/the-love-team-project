@@ -24,7 +24,10 @@ const setRedirectPath = (state, action) => {
 };
 
 const loginStart = (state, action) => {
-  return updateObject(state, { loading: true });
+  return updateObject(state, {
+    loading: true,
+    authRedirectPath: action.redirectPath,
+  });
 };
 
 const loginSuccess = (state, action) => {
