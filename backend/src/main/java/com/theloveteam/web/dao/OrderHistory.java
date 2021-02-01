@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -33,5 +32,5 @@ public class OrderHistory {
 
     private String status;
 
-    private List<Service> services;
+    private List<Serv> servs;
 }

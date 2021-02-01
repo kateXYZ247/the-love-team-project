@@ -1,61 +1,33 @@
 package com.theloveteam.web.controllers;
 
 import com.theloveteam.web.dao.*;
-import com.theloveteam.web.dto.OrderResponseBody;
-import com.theloveteam.web.dto.ProductsResponseBody;
-import com.theloveteam.web.repositories.OrderRepository;
+import com.theloveteam.web.dto.OrderHistoryResponseBody;
+import com.theloveteam.web.handlers.GetUserOrderHistoryHandler;
+import com.theloveteam.web.handlers.PlaceOrderHandler;
 import com.theloveteam.web.services.OrderService;
-import com.theloveteam.web.services.ServiceService;
+import com.theloveteam.web.services.ServService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private GetUserOrderHistoryHandler getUserOrderHistoryHandler;
 
     @Autowired
-    private ServiceService serviceService;
+    private PlaceOrderHandler placeOrderHandler;
 
     @PostMapping("/orders")
     public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
-        Long userId = 2L;
-        Order order = new Order();
-        order.setUserId(userId);
-        order.setStatus("requested");
-        order.setCard(orderRequest.getCredit());
-        order.setTotalPrice(orderRequest.getTotalPrice());
-        long orderId = orderService.placeOrder(order);
-        for (int i = 0; i < orderRequest.getServices().size(); i++) {
-            Service service = Service.builder().orderId(orderId)
-                .userId(userId)
-                .startTime(orderRequest.getServices().get(i).getStartTime())
-                .endTime(orderRequest.getServices().get(i).getEndTime())
-                .productId(orderRequest.getServices().get(i).getProductId())
-                .subprice(orderRequest.getServices().get(i).getSubprice())
-                .address(orderRequest.getServices().get(i).getAddress())
-                .status("requested")
-                .apartment(orderRequest.getServices().get(i).getAddress())
-                .pets(orderRequest.getServices().get(i).getPets())
-                .direction(orderRequest.getServices().get(i).getDirection())
-                .addressType(orderRequest.getServices().get(i).getAddressType())
-                .build();
-            serviceService.createService(service);
-        }
-        return ResponseEntity.ok().body("Order is Successfully Placed!");
+
+        return placeOrderHandler.handle(orderRequest);
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<List<OrderHistory>> gerOrderByUserId() {
-//        TO be replaced by id from token
-//        TokenSubject tokenSubject = JsonUtils.convertJsonStringToObject(JWTUtils.parseSubjectFromToken
-//        (authorization), TokenSubject.class);
-        List<OrderHistory> orderHistory = orderService.gerOrderByUserId(2l);
-        return ResponseEntity.ok().body(orderHistory);
+    @GetMapping("/orders/{userId}")
+    public ResponseEntity<OrderHistoryResponseBody> gerOrderByUserId(@PathVariable String userId) {
+
+        return getUserOrderHistoryHandler.handle(userId);
     }
 }

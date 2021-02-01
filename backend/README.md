@@ -32,7 +32,7 @@
   - [/dao](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/dao) - data access object, corresponding to each data table in database
   - [/dto](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/dto) - data transfer object, object used for non-database data transferring (requestBody, responseBody ...)
   - [/repositories](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/repositories) - directly interact with database
-  - [/services](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/services) - logic between a controller and repository
+  - [/servs](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/servs) - logic between a controller and repository
   - [/controllers](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/controllers) - REST API request controller/handler
   - [/security](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/security) - security related (token/authentication/authorization)
 - [/src/main/java/resources](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/resources) - resource folder (application.properties)

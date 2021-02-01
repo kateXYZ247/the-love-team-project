@@ -1,5 +1,6 @@
 package com.theloveteam.web.dto;
 
+import com.theloveteam.web.dao.OrderHistory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderHistory {
-    private List<OrderHistory> orderHistory;
+public class OrderHistoryResponseBody {
+    private List<OrderHistory> orderHistoryResponseBody;
 }
