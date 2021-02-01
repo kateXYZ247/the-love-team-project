@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "services")
-public class Service {
+public class Serv {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

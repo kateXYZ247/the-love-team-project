@@ -2,6 +2,8 @@ package com.theloveteam.web.services;
 
 import com.theloveteam.web.dao.Order;
 import com.theloveteam.web.dao.OrderHistory;
+import com.theloveteam.web.dao.Serv;
+import com.theloveteam.web.dto.OrderHistoryResponseBody;
 import com.theloveteam.web.repositories.OrderRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +21,20 @@ public class OrderService{
     @Autowired
     private ServiceRepository serviceRepository;
 
-    public List<OrderHistory> gerOrderByUserId(Long id) {
+    public OrderHistoryResponseBody gerOrderByUserId(Long id) {
         List<Order> orders = orderRepository.gerOrderByUserId(id);
         List<OrderHistory> orderHistoryList = new ArrayList<>();
 
         for (int i = 0; i < orders.size(); i++) {
-            List<com.theloveteam.web.dao.Service> services = serviceRepository.gerServiceByOrderId(orders.get(i).getOrderId());
+            List<Serv> servs = serviceRepository.gerServiceByOrderId(orders.get(i).getOrderId());
             Double totalPrice = 0d;
             String status = "requested";
             int requested = 0, accepted = 0;
-            for (com.theloveteam.web.dao.Service service : services) {
-                if (service.getSubprice() != null) totalPrice += service.getSubprice();
-                if (service.getStatus().equals("requested")) {
+            for (Serv serv : servs) {
+                if (serv.getSubprice() != null) totalPrice += serv.getSubprice();
+                if (serv.getStatus().equals("requested")) {
                     requested++;
-                } else if (service.getStatus().equals("accepted") || service.getStatus().equals("started") || service.getStatus().equals("ended")) {
+                } else if (serv.getStatus().equals("accepted") || serv.getStatus().equals("started") || serv.getStatus().equals("ended")) {
                     accepted++;
                 }
             }
@@ -47,11 +49,11 @@ public class OrderService{
                     .createdAt(orders.get(i).getCreatedAt())
                     .totalPrice(totalPrice)
                     .status(status)
-                    .services(services)
+                    .servs(servs)
                     .build();
             orderHistoryList.add(orderHistory);
         }
-        return orderHistoryList;
+        return new OrderHistoryResponseBody(orderHistoryList);
     }
 
     public void deleteOrderById(Long id) {

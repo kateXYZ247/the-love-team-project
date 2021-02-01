@@ -1,8 +1,10 @@
 package com.theloveteam.web.services;
 
+import com.theloveteam.web.dao.Provider;
 import com.theloveteam.web.dao.User;
 
 import com.theloveteam.web.dto.LoginRequestBody;
+import com.theloveteam.web.repositories.ProviderRepository;
 import com.theloveteam.web.security.LoginDetails;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
@@ -16,6 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static java.util.Collections.emptyList;
 
 @Service
@@ -25,6 +29,9 @@ public class SecurityService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    private ProviderRepository providerRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @SneakyThrows
@@ -32,16 +39,36 @@ public class SecurityService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginRequestBody loginRequestBody = JsonUtils.convertJsonStringToObject(username, LoginRequestBody.class);
         System.out.println("loginRequestBody: " + loginRequestBody);
-        User user = userRepository.findUserByEmail(loginRequestBody.getLoginId()); //username is email
-        if (user == null) {
-            throw new UsernameNotFoundException(loginRequestBody.getLoginId());
+
+        String loginId = loginRequestBody.getLoginId();
+        Role role = loginRequestBody.getRole();
+        Optional<Long> idFromDb = Optional.ofNullable(null);
+        Optional<String> passwordFromDb = Optional.ofNullable(null);
+
+        if (Role.user.equals(loginRequestBody.getRole())) {
+            User user = userRepository.findUserByEmail(loginId); //loginId is email
+            if (user == null) {
+                throw new UsernameNotFoundException(loginId);
+            } else {
+                idFromDb = Optional.ofNullable(user.getUserId());
+                passwordFromDb = Optional.ofNullable(user.getPassword());
+            }
+        } else if (Role.provider.equals(loginRequestBody.getRole())) {
+            Provider provider = providerRepository.findProviderByEmail(loginId);
+            if (provider == null) {
+                throw new UsernameNotFoundException(loginId);
+            } else {
+                idFromDb = Optional.ofNullable(provider.getProviderId());
+                passwordFromDb = Optional.ofNullable(provider.getPassword());
+            }
         }
-        System.out.println("Encrypted password: " + bCryptPasswordEncoder.encode(user.getPassword()));
+
+        System.out.println("Encrypted password: " + bCryptPasswordEncoder.encode(loginRequestBody.getPassword()));
         TokenSubject tokenSubject = TokenSubject.builder()
-                .userId(String.valueOf(user.getUserId()))//userId is user_id
-                .role(Role.valueOf(user.getRole()))
+                .userId(String.valueOf(idFromDb.orElse((long) 0)))//userId is user_id
+                .role(role)
                 .build();
-        return new LoginDetails(tokenSubject, user.getPassword(), emptyList());
+        return new LoginDetails(tokenSubject, passwordFromDb.orElse(""), emptyList());
     }
 
 }
