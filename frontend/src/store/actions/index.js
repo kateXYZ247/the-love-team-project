@@ -2,7 +2,7 @@ export {
   login,
   loginStart,
   loginSuccess,
-  loginFail,
+  loginGetInfoFail,
   logoutAndCleanCart,
   setRedirectPath,
 } from "./auth";
@@ -22,8 +22,6 @@ export {
 
 export { fetchProducts } from "./products";
 
-
-export {register,registerReset} from "./register";
+export { register, registerReset } from "./register";
 
 export { clearMessage } from "./message";
-

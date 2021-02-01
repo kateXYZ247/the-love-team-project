@@ -6,11 +6,10 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
-import CustomerLogin from "./containers/CustomerLogin/CustomerLogin";
+import Login from "./containers/Login/Login";
 import SampleContainer from "./containers/Sample/SampleContainer";
 
 import Register from "./containers/Register/Register";
-
 
 import OrderHistory from "./containers/OrderHistory/OrderHistory";
 import {
@@ -23,7 +22,6 @@ import {
   PATH_TEST,
 } from "./constant/path";
 import { AUTH_ROLE } from "./constant/auth";
-import ProviderLogin from "./containers/ProviderLogin/ProviderLogin";
 
 function App(props) {
   const { isAuthenticated, role } = props;
@@ -34,12 +32,12 @@ function App(props) {
       <Route
         path={PATH_LOGIN}
         exact
-        render={(props) => <CustomerLogin {...props} />}
+        render={(props) => <Login role={AUTH_ROLE.user} {...props} />}
       />
       <Route
         path={PATH_PROVIDER_LOGIN}
         exact
-        render={(props) => <ProviderLogin {...props} />}
+        render={(props) => <Login role={AUTH_ROLE.provider} {...props} />}
       />
       <Route
         path={PATH_TEST}
@@ -56,7 +54,11 @@ function App(props) {
           <Route path={PATH_ORDER} exact component={Order} />
           <Route path={PATH_HISTORY} exact component={OrderHistory} />
           <Route path={PATH_HOME} exact component={Home} />
-          <Route path={PATH_LOGIN} exact component={CustomerLogin} />
+          <Route
+            path={PATH_LOGIN}
+            exact
+            render={(props) => <Login role={AUTH_ROLE.user} {...props} />}
+          />
           <Route
             path={PATH_TEST}
             render={(props) => <SampleContainer {...props} />}
@@ -68,7 +70,11 @@ function App(props) {
       routes = (
         <Switch>
           <Route path={PATH_HOME} exact component={Home} />
-          <Route path={PATH_PROVIDER_LOGIN} exact component={ProviderLogin} />
+          <Route
+            path={PATH_PROVIDER_LOGIN}
+            exact
+            render={(props) => <Login role={AUTH_ROLE.provider} {...props} />}
+          />
           <Route
             path={PATH_TEST}
             render={(props) => <SampleContainer {...props} />}

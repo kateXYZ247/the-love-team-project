@@ -1,11 +1,13 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
+  API_PATH_PROVIDER_DETAIL,
+  API_PATH_PROVIDER_LOGIN,
   API_PATH_USER_DETAIL,
   API_PATH_USER_LOGIN,
   HTTP_STATUS_OK,
 } from "../../constant/api";
-import { TOKEN_PREFIX } from "../../constant/auth";
+import { AUTH_ROLE, TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
@@ -32,9 +34,9 @@ export const setUserDetail = (userDetail) => {
   };
 };
 
-export const loginFail = (error) => {
+export const loginGetInfoFail = (error) => {
   return {
-    type: actionTypes.AUTH_LOGIN_FAIL,
+    type: actionTypes.AUTH_LOGIN_GET_INFO_FAIL,
     error: error,
   };
 };
@@ -45,21 +47,23 @@ export const loginStart = () => {
   };
 };
 
-export const login = (username, password) => {
+export const login = (username, password, role) => {
   return (dispatch) => {
     dispatch(loginStart());
     const data = {
       loginId: username,
-      role: "user",
+      role: role,
       loginType: "BY_EMAIL",
       password: password,
     };
+    const urlLogin =
+      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : API_PATH_PROVIDER_LOGIN;
+    const urlDetail =
+      role === AUTH_ROLE.user ? API_PATH_USER_DETAIL : API_PATH_PROVIDER_DETAIL;
     axios
-      .post(API_PATH_USER_LOGIN, data)
+      .post(urlLogin, data)
       .then((response) => {
-
         if (response.status !== HTTP_STATUS_OK) {
-
           throw new Error("Login failed");
         }
         // data = userId
@@ -75,7 +79,7 @@ export const login = (username, password) => {
         dispatch(
           loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length), data)
         );
-        return axios.get(API_PATH_USER_DETAIL + data);
+        return axios.get(urlDetail + data);
       })
       .then((response) => {
         if (response.status !== HTTP_STATUS_OK) {
@@ -91,7 +95,7 @@ export const login = (username, password) => {
         }
       })
       .catch((error) => {
-        dispatch(loginFail());
+        dispatch(loginGetInfoFail());
         dispatch(setMessage(MESSAGE_TYPE.error, error.message));
       });
   };

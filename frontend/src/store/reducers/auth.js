@@ -45,7 +45,7 @@ const setUserDetail = (state, action) => {
   });
 };
 
-const loginFail = (state, action) => {
+const loginGetInfoFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
 
@@ -66,8 +66,8 @@ const reducer = (state = initialState, action) => {
       return loginStart(state, action);
     case actionTypes.AUTH_LOGIN_SUCCESS:
       return loginSuccess(state, action);
-    case actionTypes.AUTH_LOGIN_FAIL:
-      return loginFail(state, action);
+    case actionTypes.AUTH_LOGIN_GET_INFO_FAIL:
+      return loginGetInfoFail(state, action);
     case actionTypes.AUTH_SET_USER_DETAIL:
       return setUserDetail(state, action);
     case actionTypes.AUTH_LOGOUT:
