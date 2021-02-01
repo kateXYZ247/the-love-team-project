@@ -1,8 +1,8 @@
-import React, { Suspense, useEffect} from "react";
+import React, { Suspense } from "react";
 
 import "./App.css";
 import Layout from "./hoc/Layout/Layout";
-import { connect, useSelector, useDispatch} from "react-redux";
+import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
