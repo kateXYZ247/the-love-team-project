@@ -1,23 +1,21 @@
 import React from "react";
-import Card from '@material-ui/core/Card';
-import { makeStyles } from '@material-ui/core/styles';
+import Card from "@material-ui/core/Card";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     border: "none",
-    boxShadow: "none"
+    boxShadow: "none",
   },
   container: {
     margin: 50,
   },
   title: {
-    color: '#2B292D',
+    color: "#2B292D",
     fontWeight: 600,
-    fontFamily: [
-      'Helvetica Neue Bold',
-      'sans-serif',].join(','),
+    fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
     fontSize: 24,
   },
 }));
@@ -29,8 +27,8 @@ function CategoryCard(props) {
     <div className={classes.container}>
       <Card className={classes.card}>
         {props.title ? (
-          <div className={classes.title}>{props.title}</div>)
-          : null}
+          <div className={classes.title}>{props.title}</div>
+        ) : null}
       </Card>
     </div>
   );
