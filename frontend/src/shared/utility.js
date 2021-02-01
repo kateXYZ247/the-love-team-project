@@ -1,5 +1,6 @@
 import { orderGratuityRate, orderTaxRate } from "../constant/order";
 
+
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -25,3 +26,5 @@ export const checkValidity = (value, rules) => {
   }
   return isValid;
 };
+
+
