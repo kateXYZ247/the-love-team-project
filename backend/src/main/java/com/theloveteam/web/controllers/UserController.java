@@ -33,7 +33,7 @@ public class UserController {
     @Autowired
     private GetUserDetailHandler getUserDetailHandler;
 
-    @GetMapping("/users/{userId}")
+    @GetMapping(UrlConstants.USERS_DETAILS)
     public ResponseEntity<User> getUserDetail(@PathVariable String userId) {
         return getUserDetailHandler.handle(userId);
     }
