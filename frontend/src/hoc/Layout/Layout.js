@@ -11,16 +11,20 @@ function Layout(props) {
   const { role, onLogout, message, messageType, onMessageClose } = props;
   return (
     <React.Fragment>
-      <NavBar onLogout={onLogout} role={role} />
-      <main className={classes.Main}>{props.children}</main>
-      {message !== null ? (
-        <SnackbarMessage
-          type={messageType}
-          message={message}
-          onClose={onMessageClose}
-        />
-      ) : null}
-      <Footer />
+      <div className={classes.container}>
+        <div className={classes.content}>
+          <NavBar onLogout={onLogout} role={role} />
+          <main className={classes.Main}>{props.children}</main>
+          {message !== null ? (
+            <SnackbarMessage
+              type={messageType}
+              message={message}
+              onClose={onMessageClose}
+            />
+          ) : null}
+        </div>
+        <Footer />
+      </div>
     </React.Fragment>
   );
 }

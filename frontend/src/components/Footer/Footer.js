@@ -9,7 +9,6 @@ import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     marginTop: 30,
     backgroundColor: `${theme.palette.primary.main}`,
   },
@@ -36,8 +35,8 @@ function Footer(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1} justify="center">
-        <Grid item xs={12} sm={4} align="center">
+      <Grid container justify="space-around">
+        <Grid item xs={12} sm={3} align="center">
           <Box>
             <p className={classes.footerTitle}> Company</p>
             <p className={classes.footerText}>About us</p>
@@ -47,14 +46,14 @@ function Footer(props) {
             <p className={classes.footerText}>Contacts</p>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={4} align="center">
+        <Grid item xs={12} sm={3} align="center">
           <Box>
             <p className={classes.footerTitle}>Quick Links</p>
             <p className={classes.footerText}>Success Stories</p>
             <p className={classes.footerText}>Achievements</p>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={4} align="center">
+        <Grid item xs={12} sm={3} align="center">
           <Box>
             <p className={classes.footerTitle}>Follow Us</p>
             <InstagramIcon style={{ color: grey[50], fontSize: 35 }} />
