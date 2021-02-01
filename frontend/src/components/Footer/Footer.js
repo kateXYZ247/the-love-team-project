@@ -9,9 +9,15 @@ import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    //  flexGrow: 1,
     marginTop: 30,
     backgroundColor: `${theme.palette.primary.main}`,
+    position: "flex",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: "100 %",
+    margin: "auto",
   },
   footerText: {
     color: "#fff",
@@ -36,7 +42,7 @@ function Footer(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1} justify="center">
+      <Grid container spacing={0} justify="center">
         <Grid item xs={12} sm={4} align="center">
           <Box>
             <p className={classes.footerTitle}> Company</p>
