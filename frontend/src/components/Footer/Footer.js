@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { Grid, Box } from "@material-ui/core";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { grey } from "@material-ui/core/colors";
+import classes from "./Footer.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,37 +37,37 @@ function Footer(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={24} justify="center">
+      <Grid container spacing={1} justify="center">
         <Grid item xs={12} sm={4} align="center">
-          <box>
+          <Box>
             <p className={classes.footerTitle}> Company</p>
             <p className={classes.footerText}>About us</p>
             <p className={classes.footerText}>Services</p>
             <p className={classes.footerText}>Projects</p>
             <p className={classes.footerText}>Career</p>
             <p className={classes.footerText}>Contacts</p>
-          </box>
+          </Box>
         </Grid>
         <Grid item xs={12} sm={4} align="center">
-          <box>
+          <Box>
             <p className={classes.footerTitle}>Quick Links</p>
             <p className={classes.footerText}>Success Stories</p>
             <p className={classes.footerText}>Achievements</p>
-          </box>
+          </Box>
         </Grid>
         <Grid item xs={12} sm={4} align="center">
-          <box>
+          <Box>
             <p className={classes.footerTitle}>Follow Us</p>
             <InstagramIcon style={{ color: grey[50], fontSize: 35 }} />
             <FacebookIcon style={{ color: grey[50], fontSize: 35 }} />
             <TwitterIcon style={{ color: grey[50], fontSize: 35 }} />
             <WhatsAppIcon style={{ color: grey[50], fontSize: 35 }} />
-          </box>
+          </Box>
         </Grid>
         <Grid item xs={12} align="center">
-          <box className={classes.footerTextBottom}>
+          <Box className={classes.footerTextBottom}>
             <p> Copyright (c) 2021 The Love Team. - All rights reserved.</p>
-          </box>
+          </Box>
         </Grid>
       </Grid>
     </div>
