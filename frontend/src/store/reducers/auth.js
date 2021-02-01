@@ -54,7 +54,7 @@ const logout = (state, action) => {
   return updateObject(state, {
     token: null,
     userId: null,
-    userDetail: null,
+    userDetail: initialState.userDetail,
     loading: false,
     authRedirectPath: PATH_HOME,
   });

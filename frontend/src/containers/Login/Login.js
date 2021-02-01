@@ -8,14 +8,14 @@ import ProviderLoginForm from "../../components/ProviderLogin/ProviderLoginForm"
 import { AUTH_ROLE } from "../../constant/auth";
 
 function Login(props) {
-  const { loading, onLogin, isAuthenticated, redirectPath, role } = props;
+  const { loading, onLogin, isAuthenticated, redirectPath, loginType } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
 
   const submittedHandler = (e) => {
     e.preventDefault();
-    onLogin(username, password, role);
+    onLogin(username, password, loginType);
   };
 
   return isAuthenticated ? (
@@ -23,7 +23,7 @@ function Login(props) {
   ) : (
     <React.Fragment>
       <BackdropProgressCircle open={loading} />
-      {role === AUTH_ROLE.user ? (
+      {loginType === AUTH_ROLE.user ? (
         <CustomerLoginForm
           onSubmit={submittedHandler}
           username={username}
