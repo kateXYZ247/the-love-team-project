@@ -8,6 +8,10 @@ import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
 import CustomerLogin from "./containers/CustomerLogin/CustomerLogin";
 import SampleContainer from "./containers/Sample/SampleContainer";
+
+import Register from "./containers/Register/Register";
+
+
 import OrderHistory from "./containers/OrderHistory/OrderHistory";
 import {
   PATH_HISTORY,
@@ -25,6 +29,7 @@ function App(props) {
   const { isAuthenticated, role } = props;
   let routes = (
     <Switch>
+      <Route path="/register" render={(props) => <Register {...props} />} />
       <Route path={PATH_ORDER} exact component={Order} />
       <Route
         path={PATH_LOGIN}
@@ -84,7 +89,6 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
-    role: state.auth.userDetail.role,
   };
 };
 

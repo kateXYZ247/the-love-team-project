@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 
 function SampleContainer(props) {
   return (
-    <div>
-      <Chip color="primary" label="This is a Sample Container" />
-      <Sample clicked={props.clicked} />
-    </div>
+      <div>
+        <Chip color="primary" label="This is a Sample Container" />
+        <Sample clicked={props.clicked} />
+      </div>
   );
 }
 
