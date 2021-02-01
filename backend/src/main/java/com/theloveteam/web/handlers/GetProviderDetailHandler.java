@@ -1,29 +1,30 @@
 package com.theloveteam.web.handlers;
 
-import com.theloveteam.web.dao.User;
+import com.theloveteam.web.dao.Provider;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.exceptions.UserNotFoundException;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
-import com.theloveteam.web.services.UserService;
+import com.theloveteam.web.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
-public class GetUserDetailHandler extends AbstractRequestHandler<String, User>{
+public class GetProviderDetailHandler extends AbstractRequestHandler<String, Provider> {
 
     @Autowired
-    private UserService userService;
+    private ProviderService providerService;
 
     @Override
-    protected void validatePermissionBeforeProcess(String userId) {
+    protected void validatePermissionBeforeProcess(String providerId) {
         TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (Role.admin.equals(tokenSubject.getRole())) {
             // admins have permission to view all users' detail
             return;
-        } else if (Role.user.equals(tokenSubject.getRole()) && tokenSubject.getUserId().equals(userId)) {
+        } else if (Role.provider.equals(tokenSubject.getRole()) && tokenSubject.getUserId().equals(providerId)) {
             // user only has permission to view when userId matched
             return;
         } else {
@@ -32,17 +33,17 @@ public class GetUserDetailHandler extends AbstractRequestHandler<String, User>{
     }
 
     @Override
-    protected User processRequest(String userId) {
-        return userService.getUserByUserId(Long.parseLong(userId)).orElse(null);
+    protected Provider processRequest(String providerId) {
+        return providerService.getProviderByProviderId(Long.parseLong(providerId)).orElse(null);
     }
 
     @Override
-    protected void validatePermissionAndResponseAfterProcess(String userId, User user) {
-        if (user == null) {
-            throw new UserNotFoundException(userId);
+    protected void validatePermissionAndResponseAfterProcess(String providerId, Provider provider) {
+        if (provider == null) {
+            throw new UserNotFoundException(providerId);
         } else {
-            // Clean up un-public user data
-            user.setPassword(null);
+            //clean up un-public provider data
+            provider.setPassword(null);
         }
     }
 }
