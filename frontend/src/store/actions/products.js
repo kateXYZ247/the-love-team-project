@@ -30,6 +30,7 @@ export const fetchProducts = (token, userId) => {
     axios
       .get(API_PATH_FETCH_PRODUCTS)
       .then((response) => {
+
         let fetchedProducts = [...productList];
         if (
           response.hasOwnProperty("data") &&
@@ -38,6 +39,7 @@ export const fetchProducts = (token, userId) => {
         ) {
           fetchedProducts = [...response.data.products];
         }
+
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
       .catch((error) => {

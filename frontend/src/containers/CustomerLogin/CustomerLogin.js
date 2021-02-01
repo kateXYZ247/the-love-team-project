@@ -5,8 +5,13 @@ import { Redirect } from "react-router-dom";
 import CustomerLoginForm from "../../components/CustomerLoginForm/CustomerLoginForm";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 
+
 function CustomerLogin(props) {
-  const { loading, onLogin, isAuthenticated, redirectPath } = props;
+  const { loading,
+    onLogin,
+    isAuthenticated,
+    redirectPath ,
+    } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);

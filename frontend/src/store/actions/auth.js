@@ -57,7 +57,9 @@ export const login = (username, password) => {
     axios
       .post(API_PATH_USER_LOGIN, data)
       .then((response) => {
+
         if (response.status !== HTTP_STATUS_OK) {
+
           throw new Error("Login failed");
         }
         // data = userId

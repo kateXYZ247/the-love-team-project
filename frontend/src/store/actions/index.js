@@ -22,4 +22,8 @@ export {
 
 export { fetchProducts } from "./products";
 
+
+export {register,registerReset} from "./register";
+
 export { clearMessage } from "./message";
+
