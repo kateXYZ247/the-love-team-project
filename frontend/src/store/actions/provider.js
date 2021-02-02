@@ -29,13 +29,16 @@ export const fetchRequests = (userId) => {
     axios
       .get(API_PATH_PROVIDER_FETCH_REQUESTS + userId)
       .then((response) => {
-        console.log(response);
         if (
           response.hasOwnProperty("data") &&
           response.data.hasOwnProperty("servList") &&
           response.data.servList.length > 0
         ) {
-          dispatch(fetchRequestsSuccess(response.data.servList));
+          const servList = response.data.servList.map((serv) => {
+            serv.startTime = new Date(serv.startTime);
+            return serv;
+          });
+          dispatch(fetchRequestsSuccess(servList));
         } else {
           throw new Error("Non-valid data!");
         }
