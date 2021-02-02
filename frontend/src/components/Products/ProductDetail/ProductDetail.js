@@ -8,7 +8,6 @@ import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(() => ({
   productDetail: {
@@ -42,7 +41,6 @@ const useStyles = makeStyles(() => ({
   duration: {
     fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
     fontSize: 18,
-    color: "#B57AD2",
   },
 }));
 
@@ -109,7 +107,7 @@ function ProductDetail(props) {
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography className={classes.duration} >
+                      <Typography className={classes.duration} color="primary">
                         <div> <AccessAlarmIcon />  {product.duration} mins</div>
                       </Typography>
                     </Grid>

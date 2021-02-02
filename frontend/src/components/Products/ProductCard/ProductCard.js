@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   productCard: {
     margin: 20,
   },
@@ -21,9 +21,8 @@ const useStyles = makeStyles(() => ({
     },
   },
   starBar: {
-    backgroundColor: "#B57AD2",
     width: 333,
-    height: 5,
+    height: 8,
     zIndex: "tooltip",
   },
   productName: {
@@ -43,7 +42,6 @@ const useStyles = makeStyles(() => ({
   duration: {
     fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
     fontSize: 16,
-    color: "#B57AD2",
   },
 }));
 
@@ -65,7 +63,7 @@ function ProductCard(props) {
       className={classes.productCard}
     >
       <Grid item>
-        {product.star ? <Paper className={classes.starBar} /> : null}
+        {product.star ? <Box className={classes.starBar} bgcolor="primary.main" /> : null}
       </Grid>
 
       <Grid item>
@@ -104,7 +102,7 @@ function ProductCard(props) {
                       container
                       direction="column"
                       justify="space-evenly"
-                      alignItems="flex-end"
+                      alignItems="center"
                     >
                       <Grid item>
                         <Typography className={classes.productPrice}>
@@ -112,7 +110,7 @@ function ProductCard(props) {
                         </Typography>
                       </Grid>
                       <Grid item>
-                        <Typography className={classes.duration}>
+                        <Typography className={classes.duration} color='primary'>
                           <div>
                             <AccessAlarmIcon />  {product.duration} mins</div>
                         </Typography>
