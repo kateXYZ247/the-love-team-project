@@ -118,7 +118,7 @@ function ProductDetail(props) {
                   <CardMedia
                     component="img"
                     alt={product.productName}
-                    image={product.image_url}
+                    image={product.imageURL}
                     title={product.productName}
                   />
                 </Grid>

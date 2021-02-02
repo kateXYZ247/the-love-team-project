@@ -9,7 +9,7 @@ export const updateObject = (oldObject, updatedProperties) => {
 };
 
 export const calculateTotalPrice = (services) => {
-  const subTotal = services.reduce((acc, s) => acc + s.price, 0);
+  const subTotal = services.reduce((acc, s) => acc + s.productPrice, 0);
   return subTotal * (1 + orderTaxRate) * (1 + orderGratuityRate);
 };
 
