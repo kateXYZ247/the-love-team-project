@@ -2,6 +2,7 @@ package com.theloveteam.web.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -46,6 +47,9 @@ public class Serv {
 
     @Column(name = "product_id")
     private Long productId;
+
+    @Formula("(select p.name from products p where p.product_id = product_id)")
+    private String productName;
 
     private Double subprice;
 
