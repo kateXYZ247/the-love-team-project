@@ -18,6 +18,8 @@ function Login(props) {
     onLogin(username, password, loginType);
   };
 
+  console.log(redirectPath);
+
   return isAuthenticated ? (
     <Redirect to={redirectPath} />
   ) : (

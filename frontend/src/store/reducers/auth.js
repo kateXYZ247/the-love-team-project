@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
-import { LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
-import { PATH_HOME } from "../../constant/path";
+import { AUTH_ROLE, LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
+import { PATH_HOME, PATH_PROVIDER_LIST_SERVICES } from "../../constant/path";
 
 const initialState = {
   token: null,
@@ -26,7 +26,10 @@ const setRedirectPath = (state, action) => {
 const loginStart = (state, action) => {
   return updateObject(state, {
     loading: true,
-    authRedirectPath: action.redirectPath,
+    authRedirectPath:
+      action.role === AUTH_ROLE.provider
+        ? PATH_PROVIDER_LIST_SERVICES
+        : state.authRedirectPath,
   });
 };
 
