@@ -21,6 +21,12 @@ const fetchRequestsFail = (state, action) => {
   });
 };
 
+const removeRequestsItem = (state, action) => {
+  return updateObject(state, {
+    requests: state.requests.filter((_, i) => i !== action.removeIndex),
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PROVIDER_FETCH_REQUESTS.start:
@@ -29,6 +35,8 @@ const reducer = (state = initialState, action) => {
       return fetchRequestsSuccess(state, action);
     case actionTypes.PROVIDER_FETCH_REQUESTS.fail:
       return fetchRequestsFail(state, action);
+    case actionTypes.PROVIDER_REMOVE_REQUESTS_ITEM:
+      return removeRequestsItem(state, action);
     default:
       return state;
   }

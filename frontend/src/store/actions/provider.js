@@ -49,3 +49,10 @@ export const fetchRequests = (userId) => {
       });
   };
 };
+
+export const removeRequestsItem = (removeIndex) => {
+  return {
+    type: actionTypes.PROVIDER_REMOVE_REQUESTS_ITEM,
+    removeIndex: removeIndex,
+  };
+};

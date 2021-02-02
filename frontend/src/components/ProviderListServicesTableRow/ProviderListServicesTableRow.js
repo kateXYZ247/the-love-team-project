@@ -1,5 +1,11 @@
 import React from "react";
-import { lighten, TableCell, TableRow, withStyles } from "@material-ui/core";
+import {
+  Fade,
+  lighten,
+  TableCell,
+  TableRow,
+  withStyles,
+} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 
@@ -12,31 +18,34 @@ const MainTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ProviderListServicesTableRow(props) {
-  const { request } = props;
+  const { request, onDecline, onDelete } = props;
+
   return (
-    <MainTableRow hover>
-      <TableCell component="th" scope="row">
-        {request.startTime.toLocaleString()}
-      </TableCell>
-      <TableCell>{request.address}</TableCell>
-      <TableCell>{request.productId}</TableCell>
-      {/*<TableCell>{request.pets}</TableCell>*/}
-      <TableCell>{request.note}</TableCell>
-      <TableCell>
-        <Grid container spacing={2} justify="space-around">
-          <Grid item xs={5}>
-            <Button variant="contained" color="primary">
-              Accept
-            </Button>
+    <Fade in={!onDelete}>
+      <MainTableRow hover>
+        <TableCell component="th" scope="row">
+          {request.startTime.toLocaleString()}
+        </TableCell>
+        <TableCell>{request.address}</TableCell>
+        <TableCell>{request.productId}</TableCell>
+        {/*<TableCell>{request.pets}</TableCell>*/}
+        <TableCell>{request.note}</TableCell>
+        <TableCell>
+          <Grid container spacing={2} justify="space-around">
+            <Grid item xs={5}>
+              <Button variant="contained" color="primary">
+                Accept
+              </Button>
+            </Grid>
+            <Grid item xs={5}>
+              <Button variant="contained" color="primary" onClick={onDecline}>
+                Decline
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={5}>
-            <Button variant="contained" color="primary">
-              Decline
-            </Button>
-          </Grid>
-        </Grid>
-      </TableCell>
-    </MainTableRow>
+        </TableCell>
+      </MainTableRow>
+    </Fade>
   );
 }
 

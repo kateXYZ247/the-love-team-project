@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as actions from "../../../../store/actions";
 import { connect } from "react-redux";
 import {
@@ -32,12 +32,20 @@ const TableTitleCell = withStyles((theme) => ({
 }))(TableCell);
 
 function RequestedServices(props) {
-  const { userId, loading, requests, onFetchRequests } = props;
+  const { userId, loading, requests, onFetchRequests, onRemoveItem } = props;
   const classes = useStyles();
+  const [deleted, setDeleted] = useState(requests.map(() => false));
 
   useEffect(() => {
     onFetchRequests(userId);
   }, [userId, onFetchRequests]);
+
+  useEffect(() => setDeleted(requests.map(() => false)), [requests]);
+
+  const declineButtonClickedHandler = (index) => {
+    setDeleted(deleted.map((e, i) => (i === index ? true : e)));
+    setTimeout(() => onRemoveItem(index), 500);
+  };
 
   return (
     <React.Fragment>
@@ -57,10 +65,12 @@ function RequestedServices(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {requests.map((request) => (
+                {requests.map((request, index) => (
                   <ProviderListServicesTableRow
-                    key={request.serviceId}
+                    key={index}
                     request={request}
+                    onDecline={() => declineButtonClickedHandler(index)}
+                    onDelete={deleted[index]}
                   />
                 ))}
               </TableBody>
@@ -83,6 +93,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchRequests: (userId) => dispatch(actions.fetchRequests(userId)),
+    onRemoveItem: (index) => dispatch(actions.removeRequestsItem(index)),
   };
 };
 
