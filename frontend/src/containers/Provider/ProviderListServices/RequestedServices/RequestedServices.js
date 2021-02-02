@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as actions from "../../../../store/actions";
 import { connect } from "react-redux";
 import {
+  Box,
   Grid,
   makeStyles,
   Paper,
@@ -11,6 +12,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   withStyles,
 } from "@material-ui/core";
 import ProviderListServicesTableRow from "../../../../components/ProviderListServicesTableRow/ProviderListServicesTableRow";
@@ -57,6 +59,11 @@ function RequestedServices(props) {
   return (
     <React.Fragment>
       <BackdropProgressCircle open={loading} />
+      <Box mb={2}>
+        <Typography variant="h5" align="center" color="primary">
+          New Customer Requests
+        </Typography>
+      </Box>
       <Grid container justify="center">
         <Grid item xs={11}>
           <TableContainer component={Paper}>

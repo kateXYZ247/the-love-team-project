@@ -33,12 +33,12 @@ function ProviderListServicesTableRow(props) {
         <TableCell>
           <Grid container spacing={2} justify="space-around">
             <Grid item xs={5}>
-              <Button variant="contained" color="primary" onClick={onAccept}>
+              <Button variant="contained" color="secondary" onClick={onAccept}>
                 Accept
               </Button>
             </Grid>
             <Grid item xs={5}>
-              <Button variant="contained" color="primary" onClick={onDecline}>
+              <Button variant="contained" color="secondary" onClick={onDecline}>
                 Decline
               </Button>
             </Grid>
