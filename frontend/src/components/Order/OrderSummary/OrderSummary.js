@@ -7,11 +7,11 @@ import OrderSummaryItem from "./OrderSummaryItem/OrderSummaryItem";
 function OrderSummary(props) {
   const { order } = props;
   const map = order.services.reduce(
-    (acc, e) => acc.set(e.name, (acc.get(e.name) || 0) + e.price),
+    (acc, e) => acc.set(e.name, (acc.get(e.name) || 0) + e.productPrice),
     new Map()
   );
   const orderSummary = [...map.entries()];
-  const orderSubTotal = order.services.reduce((acc, e) => acc + e.price, 0);
+  const orderSubTotal = order.services.reduce((acc, e) => acc + e.productPrice, 0);
   return (
     <Grid container justify="center">
       <Grid item xs={12}>

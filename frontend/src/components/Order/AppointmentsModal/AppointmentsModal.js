@@ -17,12 +17,11 @@ function AppointmentsModal(props) {
   const { order, open, onClose, onDeleteItem, onAddServices } = props;
 
   let items = "You haven't add any services";
-
   if (order.services.length > 0) {
     items = order.services.map((item, idx) => (
       <AppointmentsItem
         key={idx}
-        label={item.name}
+        label={item.productName}
         onDelete={() => {
           onDeleteItem(idx);
         }}
