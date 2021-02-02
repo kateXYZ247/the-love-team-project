@@ -3,6 +3,7 @@ package com.theloveteam.web.controllers;
 import com.theloveteam.web.dao.Provider;
 import com.theloveteam.web.handlers.GetProviderDetailHandler;
 
+import com.theloveteam.web.model.ProviderDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class ProviderController {
     private GetProviderDetailHandler getProviderDetailHandler;
 
     @GetMapping("/providers/{providerId}")
-    public ResponseEntity<Provider> getProviderDetail(@PathVariable String providerId) {
+    public ResponseEntity<ProviderDetail> getProviderDetail(@PathVariable String providerId) {
         return getProviderDetailHandler.handle(providerId);
     }
 
