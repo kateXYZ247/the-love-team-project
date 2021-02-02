@@ -1,13 +1,13 @@
 package com.theloveteam.web.dto;
 
-import com.theloveteam.web.dao.Order;
+import com.theloveteam.web.dao.Serv;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class OrderResponseBody {
-    private List<Order> orderList;
-
+public class ServsResponseBody {
+    private List<Serv> servList;
 }

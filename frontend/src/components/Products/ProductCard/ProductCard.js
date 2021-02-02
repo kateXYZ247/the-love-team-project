@@ -50,10 +50,19 @@ const useStyles = makeStyles(() => ({
 function ProductCard(props) {
   const classes = useStyles();
   const {
+<<<<<<< HEAD
     product,
     productDetailOpen,
     onSetProduct,
   } = props;
+=======
+    productName,
+    productDescription,
+    productPrice,
+    duration,
+    star,
+  } = props.item;
+>>>>>>> develop
 
   return (
     <Grid

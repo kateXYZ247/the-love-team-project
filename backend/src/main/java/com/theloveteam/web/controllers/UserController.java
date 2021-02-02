@@ -33,7 +33,7 @@ public class UserController {
     @Autowired
     private GetUserDetailHandler getUserDetailHandler;
 
-    @GetMapping("/users/{userId}")
+    @GetMapping(UrlConstants.USERS_DETAILS)
     public ResponseEntity<User> getUserDetail(@PathVariable String userId) {
         return getUserDetailHandler.handle(userId);
     }
@@ -41,7 +41,7 @@ public class UserController {
     // each time when there is a get register request, give back a requestBody object
 //    @GetMapping("/users/register")
 //    public String signUp(@ModelAttribute @RequestBody RegisterRequestBody registerRequestBody, Model model) {
-//        model.addAttribute("userDTO", registerRequestBody);
+//        model.addAttribute("userDTO", registerRequestBody);F
 //        return "register";
 //    }
 

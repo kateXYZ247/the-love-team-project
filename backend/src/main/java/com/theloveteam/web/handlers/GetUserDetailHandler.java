@@ -19,8 +19,14 @@ public class GetUserDetailHandler extends AbstractRequestHandler<String, User>{
     @Override
     protected void validatePermissionBeforeProcess(String userId) {
         TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!Role.admin.equals(tokenSubject.getRole())
-                && !tokenSubject.getUserId().equals(userId)) {
+
+        if (Role.admin.equals(tokenSubject.getRole())) {
+            // admins have permission to view all users' detail
+            return;
+        } else if (Role.user.equals(tokenSubject.getRole()) && tokenSubject.getUserId().equals(userId)) {
+            // user only has permission to view when userId matched
+            return;
+        } else {
             throw new RoleNotMatchException();
         }
     }
