@@ -8,6 +8,7 @@ import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(() => ({
   productDetail: {
@@ -54,19 +55,22 @@ function ProductDetail(props) {
     clientCounterIncrement,
     clientCounterDecrement,
     addProductToCart,
+    setClientCounter,
   } = props;
 
-  const displayCounter = clientsCounter > 0;
+
   const classes = useStyles();
 
   if (product === '') {
     return null;
   } else {
-    console.log(product.star);
     return (
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          setClientCounter(1);
+          handleClose();
+        }}
         maxWidth="md"
         keepMounted
         fullWidth={true}
@@ -139,16 +143,26 @@ function ProductDetail(props) {
                 </Grid>
                 <Grid item xs={3}>
                   <ButtonGroup size="small" aria-label="small outlined button group">
-                    {displayCounter && <Button onClick={clientCounterDecrement}>-</Button>}
-                    {displayCounter && <Button disabled>{clientsCounter}</Button>}
-                    <Button onClick={clientCounterIncrement}>+</Button>
+                    {<Button color="primary" onClick={clientCounterDecrement}>-</Button>}
+                    {<Button color="primary"
+                      onClick={() => {
+                        setClientCounter(1);
+                      }}
+                    >{clientsCounter}</Button>}
+                    <Button color="primary" onClick={clientCounterIncrement}>+</Button>
                   </ButtonGroup>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item >
               <Button onClick={() => {
-                addProductToCart(product);
+                var i = 0;
+                for (; i < clientsCounter;) {
+                  addProductToCart(product)
+                  i++;
+                };
+                setClientCounter(1);
+                handleClose();
               }}
                 variant="contained"
                 color="primary"

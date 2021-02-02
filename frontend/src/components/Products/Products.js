@@ -15,14 +15,13 @@ function Products(props) {
 
   const [showProductDetail, setShowProductDetail] = useState(false);
   const [product, setProduct] = useState('');
-  const [clientsCounter, setClientCounter] = useState(0);
+  const [clientsCounter, setClientCounter] = useState(1);
 
   const productDetailOpenedHandler = () => {
     setShowProductDetail(true);
   };
 
   const productDetailClosedHandler = () => {
-    console.log('close')
     setShowProductDetail(false);
   };
 
@@ -59,6 +58,7 @@ function Products(props) {
         handleClose={productDetailClosedHandler}
         product={product}
         clientsCounter={clientsCounter}
+        setClientCounter={setClientCounter}
         clientCounterIncrement={clientCounterIncrementHandler}
         clientCounterDecrement={clientCounterDecrementHandler}
         addProductToCart={addProductToCart}
