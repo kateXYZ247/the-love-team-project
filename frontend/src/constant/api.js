@@ -8,5 +8,6 @@ export const API_PATH_USER_PLACE_ORDER = "/orders";
 export const API_PATH_PROVIDER_LOGIN = "/providers/login";
 export const API_PATH_PROVIDER_DETAIL = "/providers/";
 export const API_PATH_PROVIDER_FETCH_REQUESTS = "/services/providers/";
+export const API_PATH_PROVIDER_ACCEPT_REQUEST = "/services/";
 
 export const HTTP_STATUS_OK = 200;

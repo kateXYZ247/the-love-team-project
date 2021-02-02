@@ -21,9 +21,26 @@ const fetchRequestsFail = (state, action) => {
   });
 };
 
-const removeRequestsItem = (state, action) => {
+const declineRequest = (state, action) => {
   return updateObject(state, {
     requests: state.requests.filter((_, i) => i !== action.removeIndex),
+  });
+};
+
+const acceptRequestStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
+const acceptRequestSuccess = (state, action) => {
+  return updateObject(state, {
+    requests: state.requests.filter((_, i) => i !== action.index),
+    loading: false,
+  });
+};
+
+const acceptRequestFail = (state, action) => {
+  return updateObject(state, {
+    loading: false,
   });
 };
 
@@ -35,8 +52,14 @@ const reducer = (state = initialState, action) => {
       return fetchRequestsSuccess(state, action);
     case actionTypes.PROVIDER_FETCH_REQUESTS.fail:
       return fetchRequestsFail(state, action);
-    case actionTypes.PROVIDER_REMOVE_REQUESTS_ITEM:
-      return removeRequestsItem(state, action);
+    case actionTypes.PROVIDER_ACCEPT_REQUEST.start:
+      return acceptRequestStart(state, action);
+    case actionTypes.PROVIDER_ACCEPT_REQUEST.success:
+      return acceptRequestSuccess(state, action);
+    case actionTypes.PROVIDER_ACCEPT_REQUEST.fail:
+      return acceptRequestFail(state, action);
+    case actionTypes.PROVIDER_DECLINE_REQUEST:
+      return declineRequest(state, action);
     default:
       return state;
   }

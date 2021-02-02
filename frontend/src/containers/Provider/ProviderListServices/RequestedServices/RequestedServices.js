@@ -32,7 +32,14 @@ const TableTitleCell = withStyles((theme) => ({
 }))(TableCell);
 
 function RequestedServices(props) {
-  const { userId, loading, requests, onFetchRequests, onRemoveItem } = props;
+  const {
+    userId,
+    loading,
+    requests,
+    onFetchRequests,
+    onAcceptRequest,
+    onDeclineRequest,
+  } = props;
   const classes = useStyles();
   const [deleted, setDeleted] = useState(requests.map(() => false));
 
@@ -44,7 +51,7 @@ function RequestedServices(props) {
 
   const declineButtonClickedHandler = (index) => {
     setDeleted(deleted.map((e, i) => (i === index ? true : e)));
-    setTimeout(() => onRemoveItem(index), 500);
+    setTimeout(() => onDeclineRequest(index), 500);
   };
 
   return (
@@ -69,6 +76,7 @@ function RequestedServices(props) {
                   <ProviderListServicesTableRow
                     key={index}
                     request={request}
+                    onAccept={() => onAcceptRequest(index, request.serviceId)}
                     onDecline={() => declineButtonClickedHandler(index)}
                     onDelete={deleted[index]}
                   />
@@ -93,7 +101,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchRequests: (userId) => dispatch(actions.fetchRequests(userId)),
-    onRemoveItem: (index) => dispatch(actions.removeRequestsItem(index)),
+    onDeclineRequest: (index) => dispatch(actions.declineRequest(index)),
+    onAcceptRequest: (serviceIndex, serviceId) =>
+      dispatch(actions.acceptRequest(serviceIndex, serviceId)),
   };
 };
 

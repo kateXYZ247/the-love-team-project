@@ -26,4 +26,4 @@ export { register, registerReset } from "./register";
 
 export { clearMessage } from "./message";
 
-export { fetchRequests, removeRequestsItem } from "./provider";
+export { fetchRequests, acceptRequest, declineRequest } from "./provider";

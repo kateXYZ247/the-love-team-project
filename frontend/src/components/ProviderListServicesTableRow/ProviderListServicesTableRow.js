@@ -18,7 +18,7 @@ const MainTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ProviderListServicesTableRow(props) {
-  const { request, onDecline, onDelete } = props;
+  const { request, onAccept, onDecline, onDelete } = props;
 
   return (
     <Fade in={!onDelete}>
@@ -33,7 +33,7 @@ function ProviderListServicesTableRow(props) {
         <TableCell>
           <Grid container spacing={2} justify="space-around">
             <Grid item xs={5}>
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={onAccept}>
                 Accept
               </Button>
             </Grid>
