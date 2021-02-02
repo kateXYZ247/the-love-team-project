@@ -20,39 +20,8 @@ export const ORDER_STATUS = {
 export const orderProductsPageButtonText = "Select Date & Time";
 export const orderTimeAddressPageButtonText = "Account Details";
 export const orderCreditCardPageButtonText = "Book Now";
-export const sampleOrderServices = [
-  // {
-  //   productId: 5,
-  //   productName: "Blowout",
-  //   duration: 46,
-  //   price: 55,
-  // },
-  // {
-  //   productId: 15,
-  //   productName: "Pedicure",
-  //   duration: 47,
-  //   price: 65,
-  // },
-  // {
-  //   productId: 5,
-  //   productName: "Blowout",
-  //   duration: 48,
-  //   price: 55,
-  // },
-  // {
-  //   productId: 11,
-  //   productName: "Kids Haircut",
-  //   duration: 49,
-  //   price: 60,
-  // },
-  // {
-  //   productId: 11,
-  //   productName: "Kids Haircut",
-  //   duration: 2000,
-  //   price: 60,
-  // },
-];
-export const sampleOrderTotalPrice = 371.7;
+export const sampleOrderServices = [];
+export const sampleOrderTotalPrice = 0;
 export const sampleOrderHistory = [
   {
     orderId: 0,
