@@ -11,9 +11,8 @@ import thunk from "redux-thunk";
 import authReducer from "./store/reducers/auth";
 import productsReducer from "./store/reducers/products";
 import orderReducer from "./store/reducers/order";
-
 import registerReducer from "./store/reducers/register";
-
+import providerReducer from "./store/reducers/provider";
 import messageReducer from "./store/reducers/message";
 
 import { BrowserRouter } from "react-router-dom";
@@ -38,11 +37,9 @@ const rootReducer = combineReducers({
   auth: authReducer,
   products: productsReducer,
   order: orderReducer,
-
   register: registerReducer,
-
+  provider: providerReducer,
   message: messageReducer,
-
 });
 
 const store = createStore(
