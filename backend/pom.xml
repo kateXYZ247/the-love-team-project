@@ -119,6 +119,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>tlt-backend</finalName>
     </build>
 
 </project>
