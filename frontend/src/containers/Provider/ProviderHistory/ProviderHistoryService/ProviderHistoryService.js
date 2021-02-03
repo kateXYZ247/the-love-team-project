@@ -92,7 +92,7 @@ function ProviderHistoryService(props) {
         <Button
           variant="contained"
           color="secondary"
-          onClick={handleClick}
+          // onClick={handleClick}
           size="large"
         >
           Request Payment
