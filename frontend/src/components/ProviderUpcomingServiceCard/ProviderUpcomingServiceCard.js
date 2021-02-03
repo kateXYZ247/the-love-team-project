@@ -12,59 +12,43 @@ function ProviderUpcomingServiceCard(props) {
       <Box mt={2}>
         <Paper elevation={5}>
           <Box p={2}>
-            <Grid container spacing={2}>
-              <Grid item xs={11} lg={6}>
-                <UpcomingServiceItem
-                  label="Service"
-                  value={service.productName}
-                  fontSize={"h6"}
-                  textColor="textPrimary"
-                />
-              </Grid>
-              <Grid item xs={11} lg={6}>
-                <UpcomingServiceItem
-                  label="Date"
-                  value={service.startTime.toLocaleString()}
-                  fontSize={"h6"}
-                  textColor="textPrimary"
-                />
-              </Grid>
-              <Grid item xs={11} lg={6}>
-                <UpcomingServiceItem
-                  label="Location"
-                  value={service.address}
-                  fontSize={"body1"}
-                  textColor="textPrimary"
-                />
-              </Grid>
-              <Grid item xs={11} lg={6}>
-                <UpcomingServiceItem
-                  label="Direction"
-                  value={service.direction ? service.direction : "None"}
-                  fontSize={"body1"}
-                  textColor="textPrimary"
-                />
-              </Grid>
-              <Grid item xs={11} lg={6}>
-                <UpcomingServiceItem
-                  label="Pets"
-                  value={service.pets ? service.pets : "None"}
-                  fontSize={"body1"}
-                  textColor="textPrimary"
-                />
-              </Grid>
-              <Grid item xs={11} lg={6}>
-                <UpcomingServiceItem
-                  label="Note"
-                  value={service.note ? service.note : "None"}
-                  fontSize={"body1"}
-                  textColor="textPrimary"
-                />
-              </Grid>
+            <Grid container spacing={0}>
+              <UpcomingServiceItem
+                fontSize="h6"
+                label="Service"
+                value={service.productName}
+              />
+              <UpcomingServiceItem
+                fontSize="h6"
+                label="Date"
+                value={service.startTime.toLocaleString()}
+              />
+              <UpcomingServiceItem
+                labelLgWidth={1}
+                valueLgWidth={11}
+                label="Location"
+                value={service.address}
+              />
+              <UpcomingServiceItem
+                label="Direction"
+                value={service.direction ? service.direction : "None"}
+              />
+              <UpcomingServiceItem
+                label="Pets"
+                value={service.pets ? service.pets : "None"}
+              />
+              <UpcomingServiceItem
+                labelLgWidth={1}
+                valueLgWidth={11}
+                label="Note"
+                value={service.note ? service.note : "None"}
+              />
               <Grid item xs={12} lg={6}>
-                <Button variant="outlined" color="primary" onClick={onAction}>
-                  {actionButtonText}
-                </Button>
+                <Box my={2}>
+                  <Button variant="outlined" color="primary" onClick={onAction}>
+                    {actionButtonText}
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           </Box>

@@ -1,21 +1,40 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import TextGrid from "../../UI/TextGrid/TextGrid";
 
 function UpcomingServiceItem(props) {
-  const { label, value, fontSize, textColor } = props;
+  let { fontSize, textColor, labelLgWidth, valueLgWidth } = props;
+  const { label, value } = props;
+  if (fontSize === undefined) {
+    fontSize = "body1";
+  }
+  if (textColor === undefined) {
+    textColor = "textPrimary";
+  }
+  if (labelLgWidth === undefined) {
+    labelLgWidth = 1;
+  }
+  if (valueLgWidth === undefined) {
+    valueLgWidth = 5;
+  }
   return (
-    <Grid container justify="space-between">
-      <Grid item xs={3}>
-        <Typography variant={fontSize} color={textColor}>
-          {label}
-        </Typography>
-      </Grid>
-      <Grid item xs={9}>
-        <Typography variant={fontSize} color={textColor}>
-          : {value}
-        </Typography>
-      </Grid>
-    </Grid>
+    <React.Fragment>
+      <TextGrid
+        xs={3}
+        sm={2}
+        lg={labelLgWidth}
+        fontSize={fontSize}
+        textColor={textColor}
+        text={label}
+      />
+      <TextGrid
+        xs={9}
+        sm={10}
+        lg={valueLgWidth}
+        fontSize={fontSize}
+        textColor={textColor}
+        text={": " + value}
+      />
+    </React.Fragment>
   );
 }
 
