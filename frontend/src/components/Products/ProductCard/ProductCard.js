@@ -16,9 +16,6 @@ const useStyles = makeStyles((theme) => ({
   cardActionArea: {
     width: 333,
     height: 155,
-    "&:hover $focusHighlight": {
-      opacity: 0
-    },
   },
   starBar: {
     width: 333,
@@ -79,10 +76,10 @@ function ProductCard(props) {
                 <Grid item>
                   <Typography className={classes.productName}>
                     {product.star ? (
-                      <div>
+                      <span>
                         <FavoriteOutlinedIcon />
                         {product.productName}
-                      </div>
+                      </span>
                     ) : (
                         product.productName
                       )}
@@ -111,8 +108,9 @@ function ProductCard(props) {
                       </Grid>
                       <Grid item>
                         <Typography className={classes.duration} color='primary'>
-                          <div>
-                            <AccessAlarmIcon />  {product.duration} mins</div>
+                          <span>
+                            <AccessAlarmIcon />  {product.duration} mins
+                            </span>
                         </Typography>
                       </Grid>
                     </Grid>
