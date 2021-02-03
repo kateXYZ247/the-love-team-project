@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-
 import "./App.css";
 import Layout from "./hoc/Layout/Layout";
 import { connect } from "react-redux";
@@ -39,28 +38,6 @@ function App(props) {
   // default route before login
   let routes = (
     <Switch>
-      <Route path={PATH_REGISTER} render={(props) => <Register {...props} />} />
-      <Route path={PATH_ORDER} exact component={Order} />
-      <Route
-        path={PATH_LOGIN}
-        exact
-        render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
-      />
-      <Route
-        path={PATH_PROVIDER_LOGIN}
-        exact
-        render={(props) => <Login loginType={AUTH_ROLE.provider} {...props} />}
-      />
-      <Route
-        path={PATH_TEST}
-        render={(props) => <SampleContainer {...props} />}
-      />
-      <Route path={PATH_HOME} exact component={Home} />
-      <Route
-        path={PATH_PROVIDER_HOME}
-        exact
-        render={(props) => <ProviderListServices {...props} />}
-      />
       <Redirect to={PATH_HOME} />
     </Switch>
   );
@@ -124,6 +101,58 @@ function App(props) {
             render={(props) => <SampleContainer {...props} />}
           />
           <Redirect to={PATH_PROVIDER_LIST_SERVICES} />
+        </Switch>
+      );
+    }
+  } else {
+    if (role === AUTH_ROLE.user) {
+      routes = (
+        <Switch>
+          <Route
+            path={PATH_REGISTER}
+            render={(props) => <Register {...props} />}
+          />
+          <Route path={PATH_ORDER} exact component={Order} />
+          <Route
+            path={PATH_LOGIN}
+            exact
+            render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
+          />
+          <Route
+            path={PATH_PROVIDER_LOGIN}
+            exact
+            render={(props) => (
+              <Login loginType={AUTH_ROLE.provider} {...props} />
+            )}
+          />
+          <Route
+            path={PATH_TEST}
+            render={(props) => <SampleContainer {...props} />}
+          />
+          <Route path={PATH_HOME} exact component={Home} />
+          <Route
+            path={PATH_PROVIDER_HOME}
+            exact
+            render={(props) => <ProviderListServices {...props} />}
+          />
+          <Redirect to={PATH_HOME} />
+        </Switch>
+      );
+    } else if (role === AUTH_ROLE.provider) {
+      routes = (
+        <Switch>
+          <Route
+            path={PATH_PROVIDER_LOGIN}
+            exact
+            render={(props) => (
+              <Login loginType={AUTH_ROLE.provider} {...props} />
+            )}
+          />
+          <Route
+            path={PATH_TEST}
+            render={(props) => <SampleContainer {...props} />}
+          />
+          <Redirect to={PATH_PROVIDER_LOGIN} />
         </Switch>
       );
     }
