@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import ProviderListServicesTableRow from "../../../../components/ProviderListServicesTableRow/ProviderListServicesTableRow";
 import BackdropProgressCircle from "../../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
+import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../../constant/provider";
 
 const useStyles = makeStyles({
   table: {
@@ -107,7 +108,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchRequests: (userId) => dispatch(actions.fetchRequests(userId)),
+    onFetchRequests: (userId) =>
+      dispatch(
+        actions.fetchServices(PROVIDER_FETCH_SERVICES_TYPE.requests, userId)
+      ),
     onDeclineRequest: (index) => dispatch(actions.declineRequest(index)),
     onAcceptRequest: (serviceIndex, serviceId) =>
       dispatch(actions.acceptRequest(serviceIndex, serviceId)),
