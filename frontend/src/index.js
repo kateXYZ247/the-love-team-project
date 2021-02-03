@@ -17,6 +17,7 @@ import registerReducer from "./store/reducers/register";
 import messageReducer from "./store/reducers/message";
 
 import { BrowserRouter } from "react-router-dom";
+import {providerProfile} from "./store/actions";
 
 const theme = createMuiTheme({
   palette: {
@@ -42,7 +43,7 @@ const rootReducer = combineReducers({
   register: registerReducer,
 
   message: messageReducer,
-
+  providerProfile: providerProfile,
 });
 
 const store = createStore(

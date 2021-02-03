@@ -41,6 +41,11 @@ function App(props) {
     <Switch>
       <Route path={PATH_REGISTER} render={(props) => <Register {...props} />} />
       <Route path={PATH_ORDER} exact component={Order} />
+        <Route
+            path={PATH_PROVIDER_PROFILE}
+            exact
+            component={ProviderProfile}
+        />
       <Route
         path={PATH_LOGIN}
         exact
