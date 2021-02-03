@@ -46,11 +46,11 @@ const TableTitleCell = withStyles((theme) => ({
 function OrderHistoryTableRow(props) {
   const [open, setOpen] = useState(false);
   const { order } = props;
-  const { totalPrice, services } = order;
-  const orderDate = new Date(services[0].createdAt);
-  const serviceDate = new Date(services[0].startTime);
+  const { total_price, servs } = order;
+  const orderDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].created_at);
+  const serviceDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].startTime);
   const servicesNames = [
-    ...services.reduce((acc, s) => acc.add(s.name), new Set()).values(),
+    ...servs.reduce((acc, s) => acc.add(s.name), new Set()).values(),
   ].join(", ");
 
   const rowClickedHandler = () => {
@@ -68,7 +68,7 @@ function OrderHistoryTableRow(props) {
         </TableCell>
         <TableCell>{serviceDate.toDateString()}</TableCell>
         <TableCell>{servicesNames}</TableCell>
-        <TableCell align="right">{totalPrice}</TableCell>
+        <TableCell align="right">{total_price}</TableCell>
       </MainTableRow>
       <MainTableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -87,7 +87,7 @@ function OrderHistoryTableRow(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {services.map((service, idx) => (
+                  {servs.map((service, idx) => (
                     <SubTableRow key={idx}>
                       <TableCell component="th" scope="row">
                         {service.name}

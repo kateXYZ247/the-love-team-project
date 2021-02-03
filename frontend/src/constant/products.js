@@ -16,7 +16,7 @@ export const productList = [
         "productDescription": "Playful or polished, try something new with the perfect braid.",
         "productPrice": 60.0,
         "duration": 75,
-        "star": false,
+        "star": true,
         "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
     },
     {
@@ -26,7 +26,7 @@ export const productList = [
         "productDescription": "An elevated service for your most special moments, ideal for red carpet, galas, parties, photoshots and more.",
         "productPrice": 75.0,
         "duration": 100,
-        "star": false,
+        "star": true,
         "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
     },
     {

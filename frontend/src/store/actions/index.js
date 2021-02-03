@@ -18,6 +18,7 @@ export {
   setBackStatus,
   resetStatus,
   clearCart,
+  fetchOrders,
 } from "./order";
 
 export { fetchProducts } from "./products";

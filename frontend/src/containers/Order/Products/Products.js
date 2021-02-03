@@ -21,10 +21,6 @@ function Products(props) {
     addProductToCart,
   } = props;
 
-  useEffect(() => {
-    onFetchProducts();
-  }, [onFetchProducts]);
-
   const [showProductDetail, setShowProductDetail] = useState(false);
   const [product, setProduct] = useState('');
   const [clientsCounter, setClientCounter] = useState(1);
@@ -48,6 +44,12 @@ function Products(props) {
   const nextButtonClickedHandler = () => {
     onUpdateCart();
   };
+
+  useEffect(() => {
+    onFetchProducts();
+  }, [onFetchProducts]);
+
+
 
   return loading ? (
     <ProgressCircle label={"Loading Product List ..."} />

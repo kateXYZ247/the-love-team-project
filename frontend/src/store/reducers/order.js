@@ -5,6 +5,7 @@ import {
   ORDER_STATUS,
   sampleOrderServices,
   sampleOrderTotalPrice,
+  sampleOrderHistory,
 } from "../../constant/order";
 
 const initialState = {
@@ -20,10 +21,32 @@ const initialState = {
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
+    orderHistory: sampleOrderHistory,
     // services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
     // totalPrice: 0,
   },
+  orderHistory: [],
 };
+
+const fetchOrdersStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
+const fetchOrdersSuccess = (state, action) => {
+  return updateObject(state, {
+    orderHistory: action.orderHistory,
+    // orderHistory: [...sampleOrderHistory],
+    loading: false
+  });
+};
+
+const fetchOrdersFail = (state, action) => {
+  return updateObject(state, {
+    orderHistory: [...sampleOrderHistory],
+    loading: false,
+  });
+};
+
 const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
   const updatedTotalPrice = calculateTotalPrice(updatedServices);
@@ -168,6 +191,12 @@ const reducer = (state = initialState, action) => {
       return placeOrderSuccess(state, action);
     case actionTypes.ORDER_PLACE_ORDER_FAIL:
       return placeOrderFail(state, action);
+    case actionTypes.FETCH_ORDERS_START:
+      return fetchOrdersStart(state, action);
+    case actionTypes.FETCH_ORDERS_SUCCESS:
+      return fetchOrdersSuccess(state, action);
+    case actionTypes.FETCH_ORDERS_FAIL:
+      return fetchOrdersFail(state, action);
     default:
       return state;
   }
