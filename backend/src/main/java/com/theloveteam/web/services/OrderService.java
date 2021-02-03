@@ -3,7 +3,6 @@ package com.theloveteam.web.services;
 import com.theloveteam.web.dao.Order;
 import com.theloveteam.web.dao.OrderHistory;
 import com.theloveteam.web.dao.Serv;
-import com.theloveteam.web.dto.OrderHistoryResponseBody;
 import com.theloveteam.web.repositories.OrderRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,12 @@ public class OrderService{
     @Autowired
     private ServiceRepository serviceRepository;
 
-    public OrderHistoryResponseBody gerOrderByUserId(Long id) {
+    public List<OrderHistory> gerOrderByUserId(Long id) {
         List<Order> orders = orderRepository.gerOrderByUserId(id);
         List<OrderHistory> orderHistoryList = new ArrayList<>();
 
         for (int i = 0; i < orders.size(); i++) {
-            List<Serv> servs = serviceRepository.gerServiceByOrderId(orders.get(i).getOrderId());
+            List<Serv> servs = serviceRepository.getServiceByOrderId(orders.get(i).getOrderId());
             Double totalPrice = 0d;
             String status = "requested";
             int requested = 0, accepted = 0;
@@ -53,8 +52,9 @@ public class OrderService{
                     .build();
             orderHistoryList.add(orderHistory);
         }
-        return new OrderHistoryResponseBody(orderHistoryList);
+        return orderHistoryList;
     }
+
 
     public void deleteOrderById(Long id) {
         orderRepository.deleteOrderById(id);

@@ -7,7 +7,7 @@ export const productList = [
         "productPrice": 45.0,
         "duration": 55,
         "star": true,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/99NmrXr/Blowout.jpg',
     },
     {
         "productId": 6,
@@ -17,7 +17,7 @@ export const productList = [
         "productPrice": 60.0,
         "duration": 75,
         "star": true,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/99NmrXr/Blowout.jpg',
     },
     {
         "productId": 7,
@@ -27,7 +27,7 @@ export const productList = [
         "productPrice": 75.0,
         "duration": 100,
         "star": true,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/GCcPP2c/Special-Occation-Hair.jpg',
     },
     {
         "productId": 8,
@@ -37,7 +37,7 @@ export const productList = [
         "productPrice": 90.0,
         "duration": 150,
         "star": false,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/55Npfsk/Special-Occasion-updo.jpg',
     },
     {
         "productId": 9,
@@ -47,7 +47,7 @@ export const productList = [
         "productPrice": 75.0,
         "duration": 100,
         "star": true,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/TRQ7FWG/Haircut.jpg',
     },
     {
         "productId": 10,
@@ -57,7 +57,7 @@ export const productList = [
         "productPrice": 60.0,
         "duration": 75,
         "star": false,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/TRQ7FWG/Haircut.jpg',
     },
     {
         "productId": 11,
@@ -67,7 +67,7 @@ export const productList = [
         "productPrice": 45.0,
         "duration": 60,
         "star": false,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/34bqxsJ/Kids-Haircut.jpg',
     },
     {
         "productId": 12,
@@ -77,7 +77,7 @@ export const productList = [
         "productPrice": 45.0,
         "duration": 55,
         "star": true,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/bPWBvYg/Makeup.jpg',
     },
     {
         "productId": 13,
@@ -87,7 +87,7 @@ export const productList = [
         "productPrice": 90.0,
         "duration": 150,
         "star": false,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/BZx6ZYj/Special-Occasion-Makeup.jpg',
     },
     {
         "productId": 14,
@@ -97,7 +97,7 @@ export const productList = [
         "productPrice": 45.0,
         "duration": 55,
         "star": true,
-        "imageURL": 'https://i.ibb.co/Y0MHRHR/hairdresser-659139-1920.jpg',
+        "imageURL": 'https://i.ibb.co/pnLnvzJ/Manicure.jpg',
     },
     {
         "productId": 15,

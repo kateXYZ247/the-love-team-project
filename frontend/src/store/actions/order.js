@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import { API_PATH_USER_PLACE_ORDER, HTTP_STATUS_OK, API_PATH_FETCH_USER_ORDER } from "../../constant/api";
+import { updateObject } from "../../shared/utility";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 
@@ -69,10 +70,9 @@ export const placeOrderStart = () => {
   };
 };
 
-export const placeOrderSuccess = (message) => {
+export const placeOrderSuccess = () => {
   return {
     type: actionTypes.ORDER_PLACE_ORDER_SUCCESS,
-    message: message,
   };
 };
 
@@ -82,19 +82,28 @@ export const placeOrderFail = () => {
   };
 };
 
-export const placeOrder = (order) => {
+export const placeOrder = (order, userId) => {
+  const requestBody = updateObject(order, {
+    services: null,
+    servs: order.services,
+    userId: userId,
+  });
   return (dispatch) => {
     dispatch(placeOrderStart());
     axios
-      .post(API_PATH_USER_PLACE_ORDER, order)
+      .post(API_PATH_USER_PLACE_ORDER, requestBody)
       .then((response) => {
         if (response.status === HTTP_STATUS_OK) {
-          dispatch(placeOrderSuccess(response.data));
+          dispatch(placeOrderSuccess());
+          dispatch(setMessage(MESSAGE_TYPE.success, response.data));
         } else {
           throw new Error(response.statusText);
         }
       })
-      .catch((error) => dispatch(placeOrderFail(error.message)));
+      .catch((error) => {
+        dispatch(placeOrderFail());
+        dispatch(setMessage(MESSAGE_TYPE.error, error.message));
+      });
   };
 };
 

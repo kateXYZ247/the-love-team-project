@@ -151,14 +151,14 @@ const clearCart = (state, action) => {
 export const placeOrderSuccess = (state, action) => {
   return updateObject(state, {
     loading: false,
-    message: action.message,
     status: ORDER_STATUS.CONFIRMED,
+    order: initialState.order,
   });
 };
 
 // TODO: display error message
 export const placeOrderFail = (state, action) => {
-  return updateObject(state, { error: action.error, loading: false });
+  return updateObject(state, { loading: false });
 };
 
 export const placeOrderStart = (state, action) => {
