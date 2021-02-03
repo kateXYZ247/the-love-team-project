@@ -1,3 +1,8 @@
+export const FETCH_ORDERS_TYPE = {
+  upcomingAppointments: "upcomingAppointments",
+  historicalOrders: "historicalOrders",
+};
+
 export const addressTypes = [
   { value: "Home", label: "Home" },
   { value: "Hotel", label: "Hotel" },

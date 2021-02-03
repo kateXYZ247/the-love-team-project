@@ -16,6 +16,7 @@ const initialState = {
     address: "",
     apartment: "",
     pets: "",
+    note: "",
     direction: "",
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
