@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetAllAcceptedServicesHandler extends AbstractRequestHandler<String, ServsResponseBody >{
+public class GetAllRequestedServicesHandler extends AbstractRequestHandler<String, ServsResponseBody >{
     @Autowired
     private ServiceRepository serviceRepository;
 

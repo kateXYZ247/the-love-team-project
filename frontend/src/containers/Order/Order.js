@@ -11,7 +11,7 @@ import { Redirect } from "react-router-dom";
 import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
 
 function Order(props) {
-  const { order, orderStatus, isAuthenticated } = props;
+  const { order, orderStatus, isAuthenticated, userId } = props;
   const {
     onSetRedirectPath,
     onUpdateServiceInfo,
@@ -19,6 +19,7 @@ function Order(props) {
     onUpdatePaymentInfo,
     onPlaceOrder,
     onDeleteFromCart,
+    onAddToCart,
     onSetBackStatus,
     onResetStatus,
     onUpdateCart,
@@ -37,7 +38,6 @@ function Order(props) {
   const oldPets = order.pets;
   const oldDirection = order.direction;
   const oldAddressType = order.addressType;
-
   const [showAppointments, setShowAppointments] = useState(false);
 
   const appointmentModalOpenedHandler = () => {
@@ -61,6 +61,10 @@ function Order(props) {
     } else {
       props.history.push(PATH_LOGIN);
     }
+  };
+
+  const orderPlacedHandler = () => {
+    onPlaceOrder(order, userId);
   };
 
   let content;
@@ -89,7 +93,7 @@ function Order(props) {
         content = (
           <PaymentInfo
             onUpdatePaymentInfo={onUpdatePaymentInfo}
-            onPlaceOrder={onPlaceOrder}
+            onPlaceOrder={orderPlacedHandler}
             orderServicesCount={orderServicesCount}
             onAppointmentModalOpen={appointmentModalOpenedHandler}
             onSetBackStatus={onSetBackStatus}
@@ -111,6 +115,8 @@ function Order(props) {
           onUpdateCart={onUpdateCart}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
+          addProductToCart={onAddToCart}
+          removeProductFromCart={onDeleteFromCart}
         />
       );
   }
@@ -131,6 +137,7 @@ function Order(props) {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.auth.userId,
     isAuthenticated: state.auth.token !== null,
     orderStatus: state.order.status,
     order: state.order.order,
@@ -146,9 +153,11 @@ const mapDispatchToProps = (dispatch) => {
     onSwitchToPayment: () => dispatch(actions.switchToPayment()),
     onUpdatePaymentInfo: (creditCard) =>
       dispatch(actions.updatePaymentInfo(creditCard)),
-    onPlaceOrder: (order) => dispatch(actions.placeOrder(order)),
+    onPlaceOrder: (order, userId) =>
+      dispatch(actions.placeOrder(order, userId)),
     onDeleteFromCart: (productIndex) =>
       dispatch(actions.deleteFromCart(productIndex)),
+    onAddToCart: (product) => dispatch(actions.addToCart(product)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),
     onResetStatus: () => dispatch(actions.resetStatus()),
   };

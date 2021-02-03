@@ -8,25 +8,41 @@ import * as actions from "../../store/actions";
 import SnackbarMessage from "../../components/UI/SnackbarMessage/SnackbarMessage";
 
 function Layout(props) {
-  const { role, onLogout, message, messageType, onMessageClose } = props;
+  const {
+    isAuthenticated,
+    role,
+    onLogout,
+    message,
+    messageType,
+    onMessageClose,
+  } = props;
   return (
     <React.Fragment>
-      <NavBar onLogout={onLogout} role={role} />
-      <main className={classes.Main}>{props.children}</main>
-      {message !== null ? (
-        <SnackbarMessage
-          type={messageType}
-          message={message}
-          onClose={onMessageClose}
-        />
-      ) : null}
-      <Footer />
+      <div className={classes.container}>
+        <div className={classes.content}>
+          <NavBar
+            onLogout={onLogout}
+            role={role}
+            isAuthenticated={isAuthenticated}
+          />
+          <main className={classes.Main}>{props.children}</main>
+          {message !== null ? (
+            <SnackbarMessage
+              type={messageType}
+              message={message}
+              onClose={onMessageClose}
+            />
+          ) : null}
+        </div>
+        <Footer />
+      </div>
     </React.Fragment>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
+    isAuthenticated: state.auth.token !== null,
     role: state.auth.userDetail.role,
     message: state.message.message,
     messageType: state.message.messageType,
