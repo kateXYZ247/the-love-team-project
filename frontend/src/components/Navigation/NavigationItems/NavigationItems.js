@@ -6,6 +6,7 @@ import { AUTH_ROLE } from "../../../constant/auth";
 import {
   PATH_APPOINTMENTS,
   PATH_HISTORY,
+  PATH_LOGIN,
   PATH_ORDER,
   PATH_PROVIDER_HISTORY,
   PATH_PROVIDER_LIST_SERVICES,
@@ -14,7 +15,7 @@ import {
 } from "../../../constant/path";
 
 function NavigationItems(props) {
-  const { role, onLogout } = props;
+  const { role, isAuthenticated, onLogout } = props;
   return (
     <div>
       {role !== AUTH_ROLE.provider ? (
@@ -26,7 +27,7 @@ function NavigationItems(props) {
           Book
         </Button>
       ) : null}
-      {role === AUTH_ROLE.user ? (
+      {isAuthenticated && role === AUTH_ROLE.user ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -35,7 +36,7 @@ function NavigationItems(props) {
           Orders
         </Button>
       ) : null}
-      {role === AUTH_ROLE.user ? (
+      {isAuthenticated && role === AUTH_ROLE.user ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -44,7 +45,7 @@ function NavigationItems(props) {
           Appointments
         </Button>
       ) : null}
-      {role === AUTH_ROLE.provider ? (
+      {isAuthenticated && role === AUTH_ROLE.provider ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -53,7 +54,7 @@ function NavigationItems(props) {
           Requests
         </Button>
       ) : null}
-      {role === AUTH_ROLE.provider ? (
+      {isAuthenticated && role === AUTH_ROLE.provider ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -62,7 +63,7 @@ function NavigationItems(props) {
           Services
         </Button>
       ) : null}
-      {role === AUTH_ROLE.provider ? (
+      {isAuthenticated && role === AUTH_ROLE.provider ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -71,7 +72,7 @@ function NavigationItems(props) {
           Histories
         </Button>
       ) : null}
-      {role === AUTH_ROLE.provider ? (
+      {isAuthenticated && role === AUTH_ROLE.provider ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
@@ -80,11 +81,11 @@ function NavigationItems(props) {
           Profile
         </Button>
       ) : null}
-      {role === null ? (
+      {!isAuthenticated ? (
         <Button
           className={classes.NavigationItem}
           component={Link}
-          to={"/login"}
+          to={PATH_LOGIN}
         >
           Login
         </Button>
