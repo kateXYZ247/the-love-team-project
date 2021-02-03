@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 import { AUTH_ROLE, LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
-import { PATH_HOME, PATH_PROVIDER_LIST_SERVICES } from "../../constant/path";
+import { PATH_PROVIDER_LIST_SERVICES } from "../../constant/path";
 
 const initialState = {
   token: null,
@@ -9,7 +9,7 @@ const initialState = {
   userDetail: {
     firstName: null,
     lastName: null,
-    role: null,
+    role: AUTH_ROLE.user,
     address: "",
     zip: "",
     email: "",
@@ -42,11 +42,15 @@ const loginSuccess = (state, action) => {
 };
 
 const setUserDetail = (state, action) => {
-  const { userDetail } = action;
+  const { role } = action;
+  let { data } = action;
+  if (role === AUTH_ROLE.provider) {
+    data = updateObject(action.data.provider, {
+      productName: action.data.productName,
+    });
+  }
   return updateObject(state, {
-    userDetail: updateObject(userDetail, {
-      lastLoggedInTime: new Date(userDetail.lastLoggedInTime),
-    }),
+    userDetail: data,
     loading: false,
   });
 };
@@ -60,9 +64,10 @@ const logout = (state, action) => {
   return updateObject(state, {
     token: null,
     userId: null,
-    userDetail: initialState.userDetail,
+    userDetail: updateObject(initialState.userDetail, {
+      role: state.userDetail.role,
+    }),
     loading: false,
-    authRedirectPath: PATH_HOME,
   });
 };
 

@@ -27,10 +27,11 @@ export const loginSuccess = (token, userId) => {
   };
 };
 
-export const setUserDetail = (userDetail) => {
+export const setUserDetail = (data, role) => {
   return {
     type: actionTypes.AUTH_SET_USER_DETAIL,
-    userDetail: userDetail,
+    data: data,
+    role: role,
   };
 };
 
@@ -88,7 +89,7 @@ export const login = (username, password, role) => {
         }
         // data = userDetail
         const { data } = response;
-        dispatch(setUserDetail(data));
+        dispatch(setUserDetail(data, role));
         if (data !== null && data.hasOwnProperty("firstName")) {
           dispatch(
             setMessage(MESSAGE_TYPE.info, "Welcome back, " + data.firstName)
