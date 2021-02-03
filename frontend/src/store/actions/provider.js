@@ -56,7 +56,7 @@ export const fetchServices = (type, userId) => {
           });
           dispatch(fetchServicesSuccess(servList));
         } else {
-          throw new Error("Non-valid data!");
+          throw new Error("Invalid data!");
         }
       })
       .catch((error) => {
