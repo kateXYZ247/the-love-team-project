@@ -26,24 +26,11 @@ function ProviderHistoryForm(props) {
         <TableCell component="th" scope="row">
           {request.startTime.toLocaleString()}
         </TableCell>
+        <TableCell>{request.orderId}</TableCell>
+        <TableCell>{request.address}</TableCell>
         <TableCell>{request.serviceId}</TableCell>
-        <TableCell>{request.productId}</TableCell>
-        {/*<TableCell>{request.pets}</TableCell>*/}
-        <TableCell>{request.note}</TableCell>
-        <TableCell>
-          {/*<Grid container spacing={2} justify="space-around">*/}
-          {/*  <Grid item xs={5}>*/}
-          {/*    <Button variant="contained" color="secondary" onClick={onAccept}>*/}
-          {/*      Accept*/}
-          {/*    </Button>*/}
-          {/*  </Grid>*/}
-          {/*  <Grid item xs={5}>*/}
-          {/*    <Button variant="contained" color="secondary" onClick={onDecline}>*/}
-          {/*      Decline*/}
-          {/*    </Button>*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
-        </TableCell>
+        <TableCell>{request.status}</TableCell>
+        <TableCell>{request.subprice}</TableCell>
       </MainTableRow>
     </Fade>
   );

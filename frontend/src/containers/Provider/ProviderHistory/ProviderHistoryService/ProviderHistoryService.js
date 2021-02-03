@@ -18,6 +18,7 @@ import {
 } from "@material-ui/core";
 import ProviderHistoryForm from "../../../../components/ProviderHistoryForm/ProviderHistoryForm";
 import BackdropProgressCircle from "../../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
+import SnackbarMessage from "../../../../components/UI/SnackbarMessage/SnackbarMessage";
 
 const useStyles = makeStyles({
   table: {
@@ -25,36 +26,23 @@ const useStyles = makeStyles({
   },
 });
 
-// const TableTitleCell = withStyles((theme) => ({
-//   head: {
-//     backgroundColor: theme.palette.primary.light,
-//     fontSize: 20,
-//     color: "white",
-//     fontWeight: "bold",
-//   },
-//   body: {},
-// }))(TableCell);
+const TableTitleCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.primary.light,
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+  },
+  body: {},
+}))(TableCell);
 
 function ProviderHistoryService(props) {
   const { userId, loading, requests, onFetchRequests } = props;
   const classes = useStyles();
-  // const [deleted, setDeleted] = useState(requests.map(() => false));
 
   useEffect(() => {
     onFetchRequests(userId);
   }, [userId, onFetchRequests]);
-
-  // useEffect(() => setDeleted(requests.map(() => false)), [requests]);
-
-  const TableTitleCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.primary.light,
-      fontSize: 20,
-      color: "white",
-      fontWeight: "bold",
-    },
-    body: {},
-  }))(TableCell);
 
   return (
     <React.Fragment>
@@ -92,14 +80,13 @@ function ProviderHistoryService(props) {
         <Button
           variant="contained"
           color="secondary"
-          // onClick={handleClick}
+          onClick={() => {
+            <SnackbarMessage message="Request sent" />;
+          }}
           size="large"
         >
           Request Payment
         </Button>
-        {/*<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>*/}
-        {/*  This is a success message!*/}
-        {/*</Snackbar>*/}
       </Box>
     </React.Fragment>
   );
