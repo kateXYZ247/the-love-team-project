@@ -14,7 +14,8 @@ function Products(props) {
     orderServicesCount,
     onAppointmentModalOpen,
     onUpdateCart,
-    onMessageClose,
+    // TODO: add message
+    // onMessageClose,
     addProductToCart,
   } = props;
 

@@ -21,7 +21,9 @@ public class GetUserOrderHistoryHandler extends AbstractRequestHandler<String, O
     @Override
     protected OrderHistoryResponseBody processRequest(String s) {
         TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        OrderHistoryResponseBody orderHistory = orderService.gerOrderByUserId(Long.parseLong(tokenSubject.getUserId()));
+        OrderHistoryResponseBody orderHistory = OrderHistoryResponseBody.builder()
+                .orderHistoryResponseBody(orderService.gerOrderByUserId(Long.parseLong(tokenSubject.getUserId())))
+                .build();
         return orderHistory;
     }
 
