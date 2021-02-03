@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ServiceRepository extends JpaRepository<Serv, Long> {
     @Query("select s from Serv s where s.orderId = ?1 order by s.createdAt")
-    List<Serv> gerServiceByOrderId(Long id);
+    List<Serv> getServiceByOrderId(Long id);
 
+    @Query("select s from Serv s where s.providerId = ?1 order by s.createdAt")
+    List<Serv> getServiceByProviderId(Long id);
 }
