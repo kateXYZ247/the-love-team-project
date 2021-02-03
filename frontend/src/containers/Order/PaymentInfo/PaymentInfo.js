@@ -68,7 +68,7 @@ function PaymentInfo(props) {
 
   const orderPlacedHandler = () => {
     setOpenConfirmation(false);
-    onPlaceOrder(order);
+    onPlaceOrder();
   };
 
   return (
