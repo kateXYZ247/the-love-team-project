@@ -3,20 +3,20 @@ import { updateObject } from "../../shared/utility";
 
 const initialState = {
   loading: false,
-  requests: [],
+  services: [],
 };
 
-const fetchRequestsStart = (state, action) => {
+const fetchServicesStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
-const fetchRequestsSuccess = (state, action) => {
-  return updateObject(state, { requests: action.requests, loading: false });
+const fetchServicesSuccess = (state, action) => {
+  return updateObject(state, { services: action.services, loading: false });
 };
 
-const fetchRequestsFail = (state, action) => {
+const fetchServicesFail = (state, action) => {
   return updateObject(state, {
-    requests: [],
+    services: [],
     loading: false,
   });
 };
@@ -46,12 +46,12 @@ const acceptRequestFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.PROVIDER_FETCH_REQUESTS.start:
-      return fetchRequestsStart(state, action);
-    case actionTypes.PROVIDER_FETCH_REQUESTS.success:
-      return fetchRequestsSuccess(state, action);
-    case actionTypes.PROVIDER_FETCH_REQUESTS.fail:
-      return fetchRequestsFail(state, action);
+    case actionTypes.PROVIDER_FETCH_SERVICES.start:
+      return fetchServicesStart(state, action);
+    case actionTypes.PROVIDER_FETCH_SERVICES.success:
+      return fetchServicesSuccess(state, action);
+    case actionTypes.PROVIDER_FETCH_SERVICES.fail:
+      return fetchServicesFail(state, action);
     case actionTypes.PROVIDER_ACCEPT_REQUEST.start:
       return acceptRequestStart(state, action);
     case actionTypes.PROVIDER_ACCEPT_REQUEST.success:
