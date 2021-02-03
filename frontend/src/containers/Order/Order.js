@@ -19,6 +19,7 @@ function Order(props) {
     onUpdatePaymentInfo,
     onPlaceOrder,
     onDeleteFromCart,
+    onAddToCart,
     onSetBackStatus,
     onResetStatus,
     onUpdateCart,
@@ -37,7 +38,6 @@ function Order(props) {
   const oldPets = order.pets;
   const oldDirection = order.direction;
   const oldAddressType = order.addressType;
-
   const [showAppointments, setShowAppointments] = useState(false);
 
   const appointmentModalOpenedHandler = () => {
@@ -111,6 +111,8 @@ function Order(props) {
           onUpdateCart={onUpdateCart}
           orderServicesCount={orderServicesCount}
           onAppointmentModalOpen={appointmentModalOpenedHandler}
+          addProductToCart={onAddToCart}
+          removeProductFromCart={onDeleteFromCart}
         />
       );
   }
@@ -149,6 +151,8 @@ const mapDispatchToProps = (dispatch) => {
     onPlaceOrder: (order) => dispatch(actions.placeOrder(order)),
     onDeleteFromCart: (productIndex) =>
       dispatch(actions.deleteFromCart(productIndex)),
+    onAddToCart: (product) =>
+      dispatch(actions.addToCart(product)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),
     onResetStatus: () => dispatch(actions.resetStatus()),
   };
