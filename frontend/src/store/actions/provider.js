@@ -10,16 +10,18 @@ import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
 
-const fetchServicesSuccess = (services) => {
+const fetchServicesSuccess = (fetchType, services) => {
   return {
     type: actionTypes.PROVIDER_FETCH_SERVICES.success,
+    fetchType: fetchType,
     services: services,
   };
 };
 
-const fetchServicesFail = () => {
+const fetchServicesFail = (fetchType) => {
   return {
     type: actionTypes.PROVIDER_FETCH_SERVICES.fail,
+    fetchType: fetchType,
   };
 };
 
@@ -54,13 +56,13 @@ export const fetchServices = (type, userId) => {
             serv.startTime = new Date(serv.startTime);
             return serv;
           });
-          dispatch(fetchServicesSuccess(servList));
+          dispatch(fetchServicesSuccess(type, servList));
         } else {
           throw new Error("Invalid data!");
         }
       })
       .catch((error) => {
-        dispatch(fetchServicesFail());
+        dispatch(fetchServicesFail(type));
         dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
   };

@@ -1,8 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
+import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
 
 const initialState = {
   loading: false,
+  requests: [],
   services: [],
 };
 
@@ -11,14 +13,25 @@ const fetchServicesStart = (state, action) => {
 };
 
 const fetchServicesSuccess = (state, action) => {
-  return updateObject(state, { services: action.services, loading: false });
+  if (action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.requests) {
+    return updateObject(state, { requests: action.services, loading: false });
+  } else if (
+    action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.upcomingServices
+  ) {
+    return updateObject(state, { services: action.services, loading: false });
+  }
+  return updateObject(state, { loading: false });
 };
 
 const fetchServicesFail = (state, action) => {
-  return updateObject(state, {
-    services: [],
-    loading: false,
-  });
+  if (action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.requests) {
+    return updateObject(state, { requests: [], loading: false });
+  } else if (
+    action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.upcomingServices
+  ) {
+    return updateObject(state, { services: [], loading: false });
+  }
+  return updateObject(state, { loading: false });
 };
 
 const declineRequest = (state, action) => {

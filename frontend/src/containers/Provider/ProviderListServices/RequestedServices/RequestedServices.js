@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
     loading: state.provider.loading,
-    requests: state.provider.services,
+    requests: state.provider.requests,
   };
 };
 
