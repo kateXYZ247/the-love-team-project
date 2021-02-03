@@ -11,7 +11,7 @@ import { Redirect } from "react-router-dom";
 import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
 
 function Order(props) {
-  const { order, orderStatus, isAuthenticated } = props;
+  const { order, orderStatus, isAuthenticated, userId } = props;
   const {
     onSetRedirectPath,
     onUpdateServiceInfo,
@@ -63,6 +63,10 @@ function Order(props) {
     }
   };
 
+  const orderPlacedHandler = () => {
+    onPlaceOrder(order, userId);
+  };
+
   let content;
   switch (orderStatus) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
@@ -89,7 +93,7 @@ function Order(props) {
         content = (
           <PaymentInfo
             onUpdatePaymentInfo={onUpdatePaymentInfo}
-            onPlaceOrder={onPlaceOrder}
+            onPlaceOrder={orderPlacedHandler}
             orderServicesCount={orderServicesCount}
             onAppointmentModalOpen={appointmentModalOpenedHandler}
             onSetBackStatus={onSetBackStatus}
@@ -133,6 +137,7 @@ function Order(props) {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.auth.userId,
     isAuthenticated: state.auth.token !== null,
     orderStatus: state.order.status,
     order: state.order.order,
@@ -148,11 +153,11 @@ const mapDispatchToProps = (dispatch) => {
     onSwitchToPayment: () => dispatch(actions.switchToPayment()),
     onUpdatePaymentInfo: (creditCard) =>
       dispatch(actions.updatePaymentInfo(creditCard)),
-    onPlaceOrder: (order) => dispatch(actions.placeOrder(order)),
+    onPlaceOrder: (order, userId) =>
+      dispatch(actions.placeOrder(order, userId)),
     onDeleteFromCart: (productIndex) =>
       dispatch(actions.deleteFromCart(productIndex)),
-    onAddToCart: (product) =>
-      dispatch(actions.addToCart(product)),
+    onAddToCart: (product) => dispatch(actions.addToCart(product)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),
     onResetStatus: () => dispatch(actions.resetStatus()),
   };

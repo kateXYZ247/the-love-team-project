@@ -52,7 +52,7 @@ export const sampleOrderServices = [
   //   price: 60,
   // },
 ];
-export const sampleOrderTotalPrice = 371.7;
+export const sampleOrderTotalPrice = 0;
 export const sampleOrderHistory = [
   {
     orderId: 0,
