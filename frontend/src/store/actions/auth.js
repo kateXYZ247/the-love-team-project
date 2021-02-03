@@ -11,7 +11,6 @@ import { AUTH_ROLE, TOKEN_PREFIX } from "../../constant/auth";
 import { clearCart } from "./order";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
-import { PATH_HOME, PATH_PROVIDER_LIST_SERVICES } from "../../constant/path";
 
 export const setRedirectPath = (path) => {
   return {
@@ -28,10 +27,11 @@ export const loginSuccess = (token, userId) => {
   };
 };
 
-export const setUserDetail = (userDetail) => {
+export const setUserDetail = (data, role) => {
   return {
     type: actionTypes.AUTH_SET_USER_DETAIL,
-    userDetail: userDetail,
+    data: data,
+    role: role,
   };
 };
 
@@ -42,21 +42,17 @@ export const loginGetInfoFail = (error) => {
   };
 };
 
-export const loginStart = (redirectPath) => {
+export const loginStart = (role) => {
   return {
     type: actionTypes.AUTH_LOGIN_START,
-    redirectPath: redirectPath,
+    role: role,
   };
 };
 
 export const login = (username, password, role) => {
   return (dispatch) => {
     // setup redirect path after login
-    dispatch(
-      loginStart(
-        role === AUTH_ROLE.user ? PATH_HOME : PATH_PROVIDER_LIST_SERVICES
-      )
-    );
+    dispatch(loginStart(role));
     const data = {
       loginId: username,
       role: role,
@@ -93,7 +89,7 @@ export const login = (username, password, role) => {
         }
         // data = userDetail
         const { data } = response;
-        dispatch(setUserDetail(data));
+        dispatch(setUserDetail(data, role));
         if (data !== null && data.hasOwnProperty("firstName")) {
           dispatch(
             setMessage(MESSAGE_TYPE.info, "Welcome back, " + data.firstName)
