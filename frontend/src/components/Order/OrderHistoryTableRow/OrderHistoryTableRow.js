@@ -46,19 +46,33 @@ const TableTitleCell = withStyles((theme) => ({
 function OrderHistoryTableRow(props) {
   const [open, setOpen] = useState(false);
   const { order } = props;
-  const { total_price, servs } = order;
-  const orderDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].created_at);
+  const { total_price, servs, created_at } = order;
+  const dateParts = created_at.split("-");
+  const orderDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
   const serviceDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].startTime);
+  const serviceEndDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].endTime);
+  const diff = serviceEndDate - serviceDate; // milliseconds 
+  const durationInMintues = ((diff / 1000) / 60);
+  let orderStatus = order.status;
+  const numberOfService = servs.length;
+  const acceptedService = servs.filter(serv => serv.status === "accepted");
+  // const servicesNames = [
+  //   ...servs.reduce((acc, s) => acc.add(s.name), new Set()).values(),
+  // ].join(", ");
   const servicesNames = [
-    ...servs.reduce((acc, s) => acc.add(s.name), new Set()).values(),
+    ...servs.reduce((acc, s) => acc.add(s.serviceId), new Set()).values(),
   ].join(", ");
+
+  if (orderStatus === "requested" || orderStatus === "accepted") {
+    orderStatus = "(" + acceptedService.length + "/" + numberOfService + ") accepted"
+  }
 
   const rowClickedHandler = () => {
     setOpen(!open);
   };
 
   return (
-    <React.Fragment>
+    <React.Fragment key={order.orderId}>
       <MainTableRow hover onClick={rowClickedHandler}>
         <TableCell>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -68,6 +82,7 @@ function OrderHistoryTableRow(props) {
         </TableCell>
         <TableCell>{serviceDate.toDateString()}</TableCell>
         <TableCell>{servicesNames}</TableCell>
+        <TableCell>{orderStatus}</TableCell>
         <TableCell align="right">{total_price}</TableCell>
       </MainTableRow>
       <MainTableRow>
@@ -83,20 +98,25 @@ function OrderHistoryTableRow(props) {
                     <TableTitleCell>Name</TableTitleCell>
                     <TableTitleCell>Time</TableTitleCell>
                     <TableTitleCell>Duration (min)</TableTitleCell>
+                    <TableTitleCell>Status</TableTitleCell>
                     <TableTitleCell align="right">price ($)</TableTitleCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {servs.map((service, idx) => (
-                    <SubTableRow key={idx}>
+                  {servs.map((service) => (
+                    <SubTableRow key={service.serviceId}>
                       <TableCell component="th" scope="row">
-                        {service.name}
+                        {/* {service.name} */}
+                        {service.serviceId}
                       </TableCell>
                       <TableCell>
-                        {new Date(service.startTime).toLocaleTimeString()}
+                        {new Date(service.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </TableCell>
-                      <TableCell>{service.duration}</TableCell>
-                      <TableCell align="right">{service.price}</TableCell>
+                      <TableCell>{
+                        Math.round(durationInMintues / 5) * 5
+                      }</TableCell>
+                      <TableCell>{service.status}</TableCell>
+                      <TableCell align="right">{service.subprice}</TableCell>
                     </SubTableRow>
                   ))}
                 </TableBody>

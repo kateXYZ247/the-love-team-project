@@ -126,12 +126,11 @@ export const fetchOrdersStart = () => {
   };
 };
 
-export const fetchOrders = (token, userId) => {
+export const fetchOrders = (userId) => {
   return (dispatch) => {
     dispatch(fetchOrdersStart());
     axios
-      // .get(API_PATH_FETCH_USER_ORDER + '/' + userId)
-      .get(API_PATH_FETCH_USER_ORDER + '/2')
+      .get(API_PATH_FETCH_USER_ORDER + userId)
       .then((response) => {
         let fetchedOrders = [];
         if (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import ProgressCircle from "../../components/UI/ProgressCircle/ProgressCircle";
@@ -33,17 +33,18 @@ const TableTitleCell = withStyles((theme) => ({
 
 function OrderHistory(props) {
   const {
+    userId,
     loading,
     onFetchOrders,
-    onMessageClose,
+    // onMessageClose,
     orders,
   } = props;
 
   const classes = useStyles();
 
   useEffect(() => {
-    onFetchOrders();
-  }, [onFetchOrders]);
+    onFetchOrders(userId);
+  }, [userId, onFetchOrders]);
 
   return loading ? (
     <ProgressCircle label={"Loading Order History ..."} />
@@ -58,15 +59,20 @@ function OrderHistory(props) {
                   <TableTitleCell>Order Date</TableTitleCell>
                   <TableTitleCell>Service Date</TableTitleCell>
                   <TableTitleCell>Services</TableTitleCell>
+                  <TableTitleCell>Status</TableTitleCell>
                   <TableTitleCell align="right">Total Price ($)</TableTitleCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {console.log(orders)}
-                {orders.map((order) => (
-                  // eslint-disable-next-line react/jsx-no-undef
-                  <OrderHistoryTableRow key={order.orderId} order={order} />
-                ))}
+                {/* eslint-disable-next-line react/jsx-no-bind */}
+                {orders.map((order) => {
+                  return (
+                    <React.Fragment key={order.orderId}>
+                      <OrderHistoryTableRow key={order.orderId} order={order} />
+                    </React.Fragment>
+                  );
+                }
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -78,6 +84,7 @@ function OrderHistory(props) {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.auth.userId,
     loading: state.order.loading,
     orders: state.order.orderHistory
   };
@@ -85,7 +92,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrders: () => dispatch(actions.fetchOrders()),
+    onFetchOrders: (userId) => dispatch(actions.fetchOrders(userId)),
   };
 };
 
