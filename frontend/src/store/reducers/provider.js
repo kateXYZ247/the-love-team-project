@@ -6,6 +6,7 @@ const initialState = {
   loading: false,
   requests: [],
   services: [],
+  histories: [],
 };
 
 const fetchServicesStart = (state, action) => {
@@ -19,6 +20,10 @@ const fetchServicesSuccess = (state, action) => {
     action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.upcomingServices
   ) {
     return updateObject(state, { services: action.services, loading: false });
+  } else if (
+    action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.historicalServices
+  ) {
+    return updateObject(state, { histories: action.services, loading: false });
   }
   return updateObject(state, { loading: false });
 };
@@ -30,6 +35,10 @@ const fetchServicesFail = (state, action) => {
     action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.upcomingServices
   ) {
     return updateObject(state, { services: [], loading: false });
+  } else if (
+    action.fetchType === PROVIDER_FETCH_SERVICES_TYPE.historicalServices
+  ) {
+    return updateObject(state, { histories: [], loading: false });
   }
   return updateObject(state, { loading: false });
 };
