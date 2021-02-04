@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
-import ProductsComponent from "../../../components/Products/Products";
+import React, { useEffect, useState } from "react";
 import { orderProductsPageButtonText } from "../../../constant/order";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
 import ProgressCircle from "../../../components/UI/ProgressCircle/ProgressCircle";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import ProductDetail from "../../../components/Products/ProductDetail/ProductDetail";
+import ProductsGrid from "../../../components/Products/ProductsGrid/ProductsGrid";
 
 function Products(props) {
   const {
@@ -19,20 +22,66 @@ function Products(props) {
     addProductToCart,
   } = props;
 
-  useEffect(() => {
-    onFetchProducts();
-  }, [onFetchProducts]);
+  const [showProductDetail, setShowProductDetail] = useState(false);
+  const [product, setProduct] = useState('');
+  const [clientsCounter, setClientCounter] = useState(1);
+
+  const productDetailOpenedHandler = () => {
+    setShowProductDetail(true);
+  };
+
+  const productDetailClosedHandler = () => {
+    setShowProductDetail(false);
+  };
+
+  const clientCounterIncrementHandler = () => {
+    setClientCounter(clientsCounter + 1)
+  };
+
+  const clientCounterDecrementHandler = () => {
+    setClientCounter(clientsCounter - 1)
+  };
 
   const nextButtonClickedHandler = () => {
     onUpdateCart();
   };
 
+  useEffect(() => {
+    onFetchProducts();
+  }, [onFetchProducts]);
+
+
+
   return loading ? (
     <ProgressCircle label={"Loading Product List ..."} />
   ) : (
       <React.Fragment>
-        <ProductsComponent
-          productList={productList}
+        <Grid container justify="space-around" alignItems="center">
+          <Grid item xs={12} align="center">
+            <Typography variant="h5">
+              Select one or multiple services to start booking
+          </Typography>
+          </Grid>
+          <Grid item>
+            <ProductsGrid
+              productList={productList}
+              onSetProduct={setProduct}
+              productDetailOpen={productDetailOpenedHandler}
+              productDetailClose={productDetailClosedHandler}
+              onUpdateCart={onUpdateCart}
+              orderServicesCount={orderServicesCount}
+              onAppointmentModalOpen={onAppointmentModalOpen}
+            />
+          </Grid>
+        </Grid>
+        <ProductDetail
+          open={showProductDetail}
+          handleClose={productDetailClosedHandler}
+          product={product}
+          clientsCounter={clientsCounter}
+          setClientCounter={setClientCounter}
+          clientCounterIncrement={clientCounterIncrementHandler}
+          clientCounterDecrement={clientCounterDecrementHandler}
           addProductToCart={addProductToCart}
         />
         <BottomAction
