@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Card, CardContent, Grid, TextField } from "@material-ui/core";
 
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 
 function ProviderInfo(props) {
-    const {  firstName, lastName, phone, address} = props;
+    const {  firstName, lastName, phone, address, productName} = props;
 
     return (
         <Grid container justify="center">
@@ -28,8 +28,8 @@ function ProviderInfo(props) {
                                 <Grid item xs={5} sm={5}>
                                     <TextField
                                         id="First-Name"
-                                        label="First Name"
-                                        defaultValue={firstName}
+                                        // label="First Name"
+                                        value= {firstName}
                                         name="firstName"
                                         // onChange={(event) => handleChange(event)}
                                         fullWidth
@@ -39,7 +39,8 @@ function ProviderInfo(props) {
                                 <Grid item xs={5} sm={5}>
                                     <TextField
                                         id="Last-Name"
-                                        label="Last Name"
+                                        // label="Last Name"
+                                        value= {lastName}
                                         name="lastName"
                                         // defaultValue={user.lastName}
                                         // onChange={handleChange}
@@ -57,7 +58,8 @@ function ProviderInfo(props) {
                                 <Grid item xs={10} sm={10}>
                                     <TextField
                                         id="Phone-Number"
-                                        label="Phone Number"
+                                        // label="Phone Number"
+                                        value={phone}
                                         name="phone"
                                         // defaultValue={user.phone}
                                         // onChange={handleChange}
@@ -75,7 +77,8 @@ function ProviderInfo(props) {
                                 <Grid item xs={10} sm={10}>
                                     <TextField
                                         id="Address"
-                                        label="Address"
+                                        // label="Address"
+                                        value={address}
                                         name="address"
                                         // defaultValue={user.email}
                                         // onChange={handleChange}
@@ -94,7 +97,7 @@ function ProviderInfo(props) {
                                         id="Language"
                                         label="Language"
                                         name="language"
-                                        // defaultValue={user.email}
+                                        defaultValue= "English"
                                         // onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
@@ -109,7 +112,8 @@ function ProviderInfo(props) {
                                 <Grid item xs={10} sm={10}>
                                     <TextField
                                         id="Service"
-                                        label="Service"
+                                        // label="Service"
+                                        value={productName}
                                         name="service"
                                         // defaultValue={user.email}
                                         // onChange={handleChange}

@@ -7,11 +7,11 @@ import {connect} from "react-redux";
 
 
 function ProviderProfile(props) {
-    const { loading, firstName, lastName, phone, address, providerProfile} = props;
+    const { userId, token, firstName, lastName, phone, address, productName, providerProfile} = props;
 
     useEffect(() => {
-        providerProfile();
-    }, [providerProfile]);
+        providerProfile(userId, token);
+    }, [userId, token, providerProfile]);
 
   return (
       <React.Fragment>
@@ -26,6 +26,7 @@ function ProviderProfile(props) {
                         lastName={lastName}
                         phone={phone}
                         address={address}
+                        productName={productName}
                     />
               </Box>
           </Grid>
@@ -38,13 +39,14 @@ const mapStateToProps = (state) => {
         lastName: state.providerProfile.lastName,
         phone: state.providerProfile.phone,
         address: state.providerProfile.address,
-        loading: state.providerProfile.loading,
-
+        userId: state.auth.userId,
+        token: state.auth.token,
+        productName: state.providerProfile.productName,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        providerProfile: () => dispatch(actions.providerProfile()),
+        providerProfile: (userId, token) => dispatch(actions.providerProfile(userId, token)),
 
     };
 };

@@ -1,7 +1,6 @@
 import * as actionTypes from "../actions/actionTypes"
 import { updateObject } from "../../shared/utility";
-import { LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
-import { PATH_HOME } from "../../constant/path";
+
 
 const initialState = {
     userId: null,
@@ -9,15 +8,15 @@ const initialState = {
     lastName: null,
     phone: null,
     address: null,
-    language: "English",
-    service: null,
+    language: null,
+    productName: null,
     error: null,
-    loading: false,
+
 };
 
 const providerProfileStart = (state, action) => {
     return updateObject(state, {
-        loading: true,
+
     });
 };
 
@@ -26,15 +25,15 @@ const providerProfileSuccess = (state, action) => {
         firstName: action.firstName,
         lastName: action.lastName,
         phone: action.phone,
-        address: action.email,
-        loading: false,
+        address: action.address,
+        productName: action.productName,
 
     });
 };
 
 const providerProfileFail = (state, action) => {
     return updateObject(state, {
-        loading: false,
+
     });
 };
 
