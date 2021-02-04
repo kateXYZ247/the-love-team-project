@@ -1,6 +1,7 @@
 package com.theloveteam.web.configurations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
 import com.theloveteam.web.utils.JWTUtils;
 import com.theloveteam.web.utils.JsonUtils;
@@ -62,10 +63,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     // get token from STOMP headers
                     String token = accessor.getNativeHeader("Authorization").get(0);
                     try {
+                        // parse and verify token
                         String tokenSubjectJson = JWTUtils.parseSubjectFromToken(token);
                         if (tokenSubjectJson != null) {
+                            TokenSubject tokenSubject = JsonUtils.convertJsonStringToObject(tokenSubjectJson,
+                                TokenSubject.class);
+                            // only allow provider to connect for now
+                            if (!Role.provider.equals(tokenSubject.getRole())) {
+                                return null;
+                            }
                             Authentication auth = new UsernamePasswordAuthenticationToken(
-                                JsonUtils.convertJsonStringToObject(tokenSubjectJson, TokenSubject.class),
+                                tokenSubject,
                                 null,
                                 new ArrayList<>());
                             accessor.setUser(auth);
