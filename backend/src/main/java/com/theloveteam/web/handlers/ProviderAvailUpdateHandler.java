@@ -56,8 +56,7 @@ public class ProviderAvailUpdateHandler extends AbstractRequestHandler<ProviderA
             }
             return availResponseBody;
         } else {
-            availResponseBody.addErrorMsg("Provider Account Not Found");
+            throw new ProviderNotFoundException(providerId);
         }
-        throw new ProviderNotFoundException(providerId);
     }
 }
