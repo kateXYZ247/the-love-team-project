@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Fade,
-  lighten,
-  TableCell,
-  TableRow,
-  withStyles,
-} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import { lighten, TableCell, TableRow, withStyles } from "@material-ui/core";
 
 const MainTableRow = withStyles((theme) => ({
   root: {
@@ -18,21 +10,19 @@ const MainTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ProviderHistoryForm(props) {
-  const { request } = props;
+  const { service } = props;
 
   return (
-    <Fade>
-      <MainTableRow hover>
-        <TableCell component="th" scope="row">
-          {request.startTime.toLocaleString()}
-        </TableCell>
-        <TableCell>{request.orderId}</TableCell>
-        <TableCell>{request.address}</TableCell>
-        <TableCell>{request.serviceId}</TableCell>
-        <TableCell>{request.status}</TableCell>
-        <TableCell>{request.subprice}</TableCell>
-      </MainTableRow>
-    </Fade>
+    <MainTableRow hover>
+      <TableCell component="th" scope="row" align="center">
+        {service.startTime.toLocaleString()}
+      </TableCell>
+      <TableCell align="center">{service.orderId}</TableCell>
+      <TableCell align="center">{service.address}</TableCell>
+      <TableCell align="center">{service.serviceId}</TableCell>
+      <TableCell align="center">{service.status}</TableCell>
+      <TableCell align="center">{service.subprice}</TableCell>
+    </MainTableRow>
   );
 }
 

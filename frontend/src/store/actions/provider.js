@@ -42,6 +42,9 @@ export const fetchServices = (type, userId) => {
       case PROVIDER_FETCH_SERVICES_TYPE.upcomingServices:
         url = API_PATH_PROVIDER_FETCH_SERVICES + userId;
         break;
+      case PROVIDER_FETCH_SERVICES_TYPE.historicalServices:
+        url = API_PATH_PROVIDER_FETCH_SERVICES + userId;
+        break;
       default:
     }
     axios
