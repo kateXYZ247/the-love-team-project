@@ -14,6 +14,4 @@ import lombok.Setter;
 public class ProviderAvailRequestBody {
     private String providerId;
     private Boolean isAvailable;
-    private String email;
-
 }
