@@ -32,10 +32,10 @@ public class ServController {
     @GetMapping(value = UrlConstants.SERVICES_BY_PROVIDER_ID, params = {"providerId", "status"})
     public ResponseEntity<ServsResponseBody> getAllRequestedServs(@RequestParam String providerId, @RequestParam String status) {
         if (status.equals("requested")) {
-            return getAllUpcomingServicesHandler.handle(providerId);
+            return getAllServicesHandler.handle((providerId));
         }
         if (status.equals("upcoming")) {
-            return getAllServicesHandler.handle((providerId));
+            return getAllUpcomingServicesHandler.handle(providerId);
         }
         return ResponseEntity.badRequest().body(null);
     }

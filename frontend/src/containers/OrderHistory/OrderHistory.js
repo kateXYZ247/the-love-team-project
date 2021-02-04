@@ -1,5 +1,7 @@
-import React from "react";
-import { sampleOrderHistory } from "../../constant/order";
+import React, { useEffect } from "react";
+import * as actions from "../../store/actions";
+import { connect } from "react-redux";
+import ProgressCircle from "../../components/UI/ProgressCircle/ProgressCircle";
 import {
   Grid,
   Table,
@@ -30,33 +32,68 @@ const TableTitleCell = withStyles((theme) => ({
 }))(TableCell);
 
 function OrderHistory(props) {
+  const {
+    userId,
+    loading,
+    onFetchOrders,
+    // onMessageClose,
+    orders,
+  } = props;
+
   const classes = useStyles();
 
-  return (
-    <Grid container justify="center">
-      <Grid item xs={11}>
-        <TableContainer component={Paper}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableTitleCell />
-                <TableTitleCell>Order Date</TableTitleCell>
-                <TableTitleCell>Service Date</TableTitleCell>
-                <TableTitleCell>Services</TableTitleCell>
-                <TableTitleCell align="right">Total Price ($)</TableTitleCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {sampleOrderHistory.map((order) => (
-                // eslint-disable-next-line react/jsx-no-undef
-                <OrderHistoryTableRow key={order.orderId} order={order} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+  useEffect(() => {
+    onFetchOrders(userId);
+  }, [userId, onFetchOrders]);
+
+  return loading ? (
+    <ProgressCircle label={"Loading Order History ..."} />
+  ) : (
+      <Grid container justify="center">
+        <Grid item xs={11}>
+          <TableContainer component={Paper}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableTitleCell />
+                  <TableTitleCell>Order Date</TableTitleCell>
+                  <TableTitleCell>Service Date</TableTitleCell>
+                  <TableTitleCell>Services</TableTitleCell>
+                  <TableTitleCell>Status</TableTitleCell>
+                  <TableTitleCell align="right">Total Price ($)</TableTitleCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {/* eslint-disable-next-line react/jsx-no-bind */}
+                {orders.map((order) => {
+                  return (
+                    <React.Fragment key={order.orderId}>
+                      <OrderHistoryTableRow key={order.orderId} order={order} />
+                    </React.Fragment>
+                  );
+                }
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Grid>
-    </Grid>
-  );
+    );
 }
 
-export default OrderHistory;
+
+const mapStateToProps = (state) => {
+  return {
+    userId: state.auth.userId,
+    loading: state.order.loading,
+    orders: state.order.orderHistory
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchOrders: (userId) => dispatch(actions.fetchOrders(userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory);
