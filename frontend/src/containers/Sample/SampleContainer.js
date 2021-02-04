@@ -5,8 +5,10 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
+import { TOKEN_PREFIX } from "../../constant/auth";
 
 function SampleContainer(props) {
+  const { token } = props;
   let stompClient = null;
 
   const connect = () => {
@@ -14,7 +16,7 @@ function SampleContainer(props) {
     stompClient = Stomp.over(socket);
     stompClient.connect(
       {
-        Authorization: "Bearer ttttookkeen",
+        Authorization: TOKEN_PREFIX + token,
       },
       () => {
         stompClient.subscribe("/topic/greetings", (message) => {
@@ -49,6 +51,7 @@ function SampleContainer(props) {
 
 const mapStateToProps = (state) => {
   return {
+    token: state.auth.token,
     products: state.products.products,
   };
 };

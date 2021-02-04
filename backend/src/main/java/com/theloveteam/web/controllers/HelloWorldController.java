@@ -7,6 +7,7 @@ import com.theloveteam.web.model.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +18,13 @@ public class HelloWorldController {
     @Autowired
     private SimpMessagingTemplate template;
 
+    @Autowired
+    private SimpUserRegistry simpUserRegistry;
+
     @GetMapping(UrlConstants.HELLO)
     public String getHelloWorld() {
         this.template.convertAndSend("/topic/greetings", new Greeting("getHelloWorld API called"));
+        System.out.println(simpUserRegistry.getUsers());
         return "Hello, this is The Love Team.";
     }
 

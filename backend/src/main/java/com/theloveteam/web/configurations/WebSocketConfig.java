@@ -1,5 +1,9 @@
 package com.theloveteam.web.configurations;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.theloveteam.web.model.TokenSubject;
+import com.theloveteam.web.utils.JWTUtils;
+import com.theloveteam.web.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -11,10 +15,14 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+
+import java.util.ArrayList;
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
@@ -53,12 +61,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     // get token from STOMP headers
                     String token = accessor.getNativeHeader("Authorization").get(0);
-                    System.out.println(token);
-                    // validate token and set User
-//                    if (token != null && jwtTokenProvider.validateToken(token)) {
-//                        Authentication auth = jwtTokenProvider.getAuthentication(token);
-//                        accessor.setUser(auth);
-//                    }
+                    try {
+                        String tokenSubjectJson = JWTUtils.parseSubjectFromToken(token);
+                        if (tokenSubjectJson != null) {
+                            Authentication auth = new UsernamePasswordAuthenticationToken(
+                                JsonUtils.convertJsonStringToObject(tokenSubjectJson, TokenSubject.class),
+                                null,
+                                new ArrayList<>());
+                            accessor.setUser(auth);
+                        }
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return message;
             }
