@@ -133,7 +133,6 @@ export const placeOrderSuccess = (state, action) => {
   });
 };
 
-// TODO: display error message
 export const placeOrderFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
