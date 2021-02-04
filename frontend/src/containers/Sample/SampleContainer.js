@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { TOKEN_PREFIX } from "../../constant/auth";
 
 function SampleContainer(props) {
-  const { token } = props;
+  const { userId, token } = props;
   let stompClient = null;
 
   const connect = () => {
@@ -20,7 +20,10 @@ function SampleContainer(props) {
       },
       () => {
         stompClient.subscribe("/topic/greetings", (message) => {
-          console.log(message);
+          console.log("received from public : ", message.body);
+        });
+        stompClient.subscribe("/user/" + userId + "/reply", (message) => {
+          console.log("received from private: ", message.body);
         });
       }
     );
@@ -51,6 +54,7 @@ function SampleContainer(props) {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.auth.userId,
     token: state.auth.token,
     products: state.products.products,
   };
