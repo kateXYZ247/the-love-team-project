@@ -1,10 +1,7 @@
 package com.theloveteam.web.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -57,4 +54,8 @@ public class Provider {
     @Column(name="is_available")
     private boolean isAvailable;
 
+
+    public void setAvailable(boolean availability) {
+        isAvailable = availability;
+    }
 }

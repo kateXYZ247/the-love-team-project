@@ -19,11 +19,12 @@ public class ProviderService {
 
     @Autowired
     private ProviderRepository providerRepository;
+
     @Autowired
     private ProviderCategoriesRepository providerCategoriesRepository;
 
     public Optional<Provider> getProviderByProviderId(Long providerId) {
-        return providerRepository.findById(providerId);
+        return providerRepository.findProviderByID(providerId);
     }
 
     public List<ProviderCategories> getProductIdsByProviderId(Long providerId) {
@@ -31,4 +32,10 @@ public class ProviderService {
     }
 
     //update provider availability
+    public void updateAvail(Boolean availability, Optional<Provider> searchResult) {
+        Provider provider = searchResult.get();
+        provider.setAvailable(availability);
+        providerRepository.save(provider);
+    }
+
 }
