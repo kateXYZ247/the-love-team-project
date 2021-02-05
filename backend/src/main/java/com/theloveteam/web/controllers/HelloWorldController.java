@@ -23,9 +23,10 @@ public class HelloWorldController {
 
     @GetMapping(UrlConstants.HELLO)
     public String getHelloWorld() {
-        this.template.convertAndSend("/topic/greetings", new Greeting("getHelloWorld API called, public"));
+        this.template.convertAndSend(UrlConstants.WS_TOPIC + UrlConstants.WS_GREETINGS,
+            new Greeting("getHelloWorld API called, public"));
         this.template.convertAndSendToUser(
-            "1", "/reply", new Greeting("getHelloWorld API called, private"));
+            "1", UrlConstants.WS_REPLY, new Greeting("getHelloWorld API called, private"));
         System.out.println(simpUserRegistry.getUsers());
         return "Hello, this is The Love Team.";
     }

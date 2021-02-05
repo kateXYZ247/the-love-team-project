@@ -1,6 +1,7 @@
 package com.theloveteam.web.configurations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
 import com.theloveteam.web.utils.JWTUtils;
@@ -37,19 +38,19 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         // messages whose destination starts with “/app” should be routed to message-handling methods
-        config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes(UrlConstants.WS_APP);
         // messages whose destination starts with “/topic” should be routed to the message broker
         // Message broker broadcasts messages to all the connected clients who are subscribed to a particular topic
-        config.enableSimpleBroker("/queue/", "/topic/", "/user/");
-        config.setUserDestinationPrefix("/user");
+        config.enableSimpleBroker(UrlConstants.WS_QUEUE, UrlConstants.WS_TOPIC, UrlConstants.WS_USER);
+        config.setUserDestinationPrefix(UrlConstants.WS_USER);
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // SockJS is used to enable fallback options for browsers that don’t support websocket
-        registry.addEndpoint("/ws").setAllowedOrigins(origins.split(",")).withSockJS();
+        registry.addEndpoint(UrlConstants.WS_CONNECTION).setAllowedOrigins(origins.split(",")).withSockJS();
         // allow subscribers
-        registry.addEndpoint("/topic/greetings").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint(UrlConstants.WS_TOPIC + UrlConstants.WS_GREETINGS).setAllowedOrigins("*").withSockJS();
     }
 
     @Override

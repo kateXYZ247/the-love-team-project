@@ -12,4 +12,13 @@ public class UrlConstants {
     public static final String ORDERS = "/orders";
     public static final String ORDERS_BY_USER_ID = "/orders/{userId}";
     public static final String ORDERS_BY_ADMIN_ID = "/orders/admins/{adminId}";
+
+    // websocket related
+    public static final String WS_CONNECTION = "/ws";
+    public static final String WS_TOPIC = "/topic";
+    public static final String WS_GREETINGS = "/greetings";
+    public static final String WS_USER = "/user";
+    public static final String WS_APP = "/app";
+    public static final String WS_REPLY = "/reply";
+    public static final String WS_QUEUE = "/queue";
 }

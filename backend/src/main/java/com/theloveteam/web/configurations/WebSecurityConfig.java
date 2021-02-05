@@ -36,7 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(UrlConstants.HELLO).permitAll()//
             .antMatchers(UrlConstants.PRODUCTS).permitAll()
             .antMatchers(UrlConstants.USERS_REGISTER).permitAll()//
-            .antMatchers("/ws/**", "/topic/**", "/app/**", "/user/**").permitAll()
+            .antMatchers(UrlConstants.WS_CONNECTION + "/**", UrlConstants.WS_TOPIC + "/**", UrlConstants.WS_APP +
+                "/**", UrlConstants.WS_USER + "/**").permitAll()
             .antMatchers("/test").authenticated()
             // Disallow everything else..
             .anyRequest().authenticated()
