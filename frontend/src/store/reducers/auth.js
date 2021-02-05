@@ -17,6 +17,9 @@ const initialState = {
   },
   loading: false,
   authRedirectPath: "/",
+  notifications: [],
+  newNotification: false,
+  stompClient: null,
 };
 
 const setRedirectPath = (state, action) => {
@@ -71,6 +74,16 @@ const logout = (state, action) => {
   });
 };
 
+const setStompClient = (state, action) => {
+  return updateObject(state, {
+    stompClient: action.stompClient,
+  });
+};
+
+const clearStompClient = (state, action) => {
+  return updateObject(state, { stompClient: null });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_LOGIN_START:
@@ -85,6 +98,10 @@ const reducer = (state = initialState, action) => {
       return logout(state, action);
     case actionTypes.AUTH_SET_REDIRECT_PATH:
       return setRedirectPath(state, action);
+    case actionTypes.AUTH_SET_STOMP_CLIENT:
+      return setStompClient(state, action);
+    case actionTypes.AUTH_CLEAR_STOMP_CLIENT:
+      return clearStompClient(state, action);
     default:
       return state;
   }

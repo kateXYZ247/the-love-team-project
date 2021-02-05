@@ -3,8 +3,9 @@ export {
   loginStart,
   loginSuccess,
   loginGetInfoFail,
-  logoutAndCleanCart,
+  logoutAndMessage,
   setRedirectPath,
+  disconnectWebSocket,
 } from "./auth";
 
 export {

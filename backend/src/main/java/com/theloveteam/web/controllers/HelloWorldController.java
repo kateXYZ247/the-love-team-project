@@ -23,7 +23,7 @@ public class HelloWorldController {
 
     @GetMapping(UrlConstants.HELLO)
     public String getHelloWorld() {
-        this.template.convertAndSend(UrlConstants.WS_TOPIC + UrlConstants.WS_GREETINGS,
+        this.template.convertAndSend(UrlConstants.WS_TOPIC + UrlConstants.WS_PROVIDERS,
             new Greeting("getHelloWorld API called, public"));
         this.template.convertAndSendToUser(
             "1", UrlConstants.WS_REPLY, new Greeting("getHelloWorld API called, private"));

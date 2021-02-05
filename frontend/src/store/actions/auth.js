@@ -6,11 +6,17 @@ import {
   API_PATH_USER_DETAIL,
   API_PATH_USER_LOGIN,
   HTTP_STATUS_OK,
+  WS_PATH_CONNECT,
+  WS_PATH_PROVIDERS,
+  WS_PATH_REPLY,
+  WS_PATH_USER,
 } from "../../constant/api";
 import { AUTH_ROLE, TOKEN_PREFIX } from "../../constant/auth";
-import { clearCart } from "./order";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
+import { AUTH_CLEAR_STOMP_CLIENT, AUTH_SET_STOMP_CLIENT } from "./actionTypes";
 
 export const setRedirectPath = (path) => {
   return {
@@ -49,6 +55,7 @@ export const loginStart = (role) => {
   };
 };
 
+// Login, get userDetails, connected to websocket
 export const login = (username, password, role) => {
   return (dispatch) => {
     // setup redirect path after login
@@ -81,20 +88,22 @@ export const login = (username, password, role) => {
         dispatch(
           loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length), data)
         );
+        // connect to websocket
+        if (role === AUTH_ROLE.provider) {
+          dispatch(connectToWebSocket(data, headers.authorization));
+        }
         return axios.get(urlDetail + data);
       })
       .then((response) => {
-        if (response.status !== HTTP_STATUS_OK) {
+        if (response.status !== HTTP_STATUS_OK || response.data === null) {
           throw new Error("Get user info failed");
         }
         // data = userDetail
         const { data } = response;
         dispatch(setUserDetail(data, role));
-        if (data !== null && data.hasOwnProperty("firstName")) {
-          dispatch(
-            setMessage(MESSAGE_TYPE.info, "Welcome back, " + data.firstName)
-          );
-        }
+        const firstName =
+          role === AUTH_ROLE.user ? data.firstName : data.provider.firstName;
+        dispatch(setMessage(MESSAGE_TYPE.info, "Welcome back, " + firstName));
       })
       .catch((error) => {
         dispatch(loginGetInfoFail());
@@ -103,16 +112,63 @@ export const login = (username, password, role) => {
   };
 };
 
-export const logoutAndCleanCart = () => {
+export const logoutAndMessage = () => {
   return (dispatch) => {
     dispatch(logout());
-    dispatch(clearCart());
     dispatch(setMessage(MESSAGE_TYPE.info, "See you next time!"));
   };
 };
 
-export const logout = () => {
+const logout = () => {
   return {
     type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+const setStompClient = (stompClient) => {
+  return {
+    type: AUTH_SET_STOMP_CLIENT,
+    stompClient: stompClient,
+  };
+};
+
+const connectToWebSocket = (userId, token) => {
+  return (dispatch) => {
+    let socket = new SockJS(
+      process.env.REACT_APP_BACKEND_URL + WS_PATH_CONNECT
+    );
+    const stompClient = Stomp.over(socket);
+    stompClient.connect(
+      {
+        Authorization: token,
+      },
+      () => {
+        stompClient.subscribe(WS_PATH_PROVIDERS, (message) => {
+          console.log("received from public : ", message.body);
+        });
+        stompClient.subscribe(
+          WS_PATH_USER + userId + WS_PATH_REPLY,
+          (message) => {
+            console.log("received from private: ", message.body);
+          }
+        );
+      }
+    );
+    dispatch(setStompClient(stompClient));
+  };
+};
+
+export const disconnectWebSocket = (stompClient) => {
+  return (dispatch) => {
+    if (stompClient !== null) {
+      stompClient.disconnect();
+    }
+    dispatch(clearStompClient());
+  };
+};
+
+const clearStompClient = () => {
+  return {
+    type: AUTH_CLEAR_STOMP_CLIENT,
   };
 };

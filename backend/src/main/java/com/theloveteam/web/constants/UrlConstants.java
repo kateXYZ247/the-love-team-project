@@ -15,7 +15,7 @@ public class UrlConstants {
     // websocket related
     public static final String WS_CONNECTION = "/ws";
     public static final String WS_TOPIC = "/topic";
-    public static final String WS_GREETINGS = "/greetings";
+    public static final String WS_PROVIDERS = "/providers";
     public static final String WS_USER = "/user";
     public static final String WS_APP = "/app";
     public static final String WS_REPLY = "/reply";

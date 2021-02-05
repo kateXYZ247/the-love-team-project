@@ -6,6 +6,11 @@ import Stomp from "stompjs";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import { TOKEN_PREFIX } from "../../constant/auth";
+import {
+  WS_PATH_PROVIDERS,
+  WS_PATH_REPLY,
+  WS_PATH_USER,
+} from "../../constant/api";
 
 function SampleContainer(props) {
   const { userId, token } = props;
@@ -19,12 +24,15 @@ function SampleContainer(props) {
         Authorization: TOKEN_PREFIX + token,
       },
       () => {
-        stompClient.subscribe("/topic/greetings", (message) => {
+        stompClient.subscribe(WS_PATH_PROVIDERS, (message) => {
           console.log("received from public : ", message.body);
         });
-        stompClient.subscribe("/user/" + userId + "/reply", (message) => {
-          console.log("received from private: ", message.body);
-        });
+        stompClient.subscribe(
+          WS_PATH_USER + userId + WS_PATH_REPLY,
+          (message) => {
+            console.log("received from private: ", message.body);
+          }
+        );
       }
     );
   };
@@ -41,6 +49,7 @@ function SampleContainer(props) {
     return () => {
       disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

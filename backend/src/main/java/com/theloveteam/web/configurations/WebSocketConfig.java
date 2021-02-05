@@ -50,7 +50,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // SockJS is used to enable fallback options for browsers that don’t support websocket
         registry.addEndpoint(UrlConstants.WS_CONNECTION).setAllowedOrigins(origins.split(",")).withSockJS();
         // allow subscribers
-        registry.addEndpoint(UrlConstants.WS_TOPIC + UrlConstants.WS_GREETINGS).setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint(UrlConstants.WS_TOPIC + UrlConstants.WS_PROVIDERS).setAllowedOrigins("*").withSockJS();
     }
 
     @Override

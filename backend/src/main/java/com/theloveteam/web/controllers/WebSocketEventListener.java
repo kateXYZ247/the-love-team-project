@@ -21,6 +21,7 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+        System.out.println("socket disconnected");
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
     }
 }
