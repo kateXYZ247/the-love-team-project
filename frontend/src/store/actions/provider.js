@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
+  API_PARAMETER_PROVIDER_FETCH_REQUESTS,
+  API_PARAMETER_PROVIDER_FETCH_UPCOMING,
   API_PATH_PROVIDER_ACCEPT_REQUEST,
-  API_PATH_PROVIDER_FETCH_REQUESTS,
   API_PATH_PROVIDER_FETCH_SERVICES,
   HTTP_STATUS_OK,
 } from "../../constant/api";
@@ -34,16 +35,16 @@ const fetchServicesStart = () => {
 export const fetchServices = (type, userId) => {
   return (dispatch) => {
     dispatch(fetchServicesStart());
-    let url = "";
+    let url = API_PATH_PROVIDER_FETCH_SERVICES;
     switch (type) {
       case PROVIDER_FETCH_SERVICES_TYPE.requests:
-        url = API_PATH_PROVIDER_FETCH_REQUESTS + userId;
+        url += userId + API_PARAMETER_PROVIDER_FETCH_REQUESTS;
         break;
       case PROVIDER_FETCH_SERVICES_TYPE.upcomingServices:
-        url = API_PATH_PROVIDER_FETCH_SERVICES + userId;
+        url += userId + API_PARAMETER_PROVIDER_FETCH_UPCOMING;
         break;
       case PROVIDER_FETCH_SERVICES_TYPE.historicalServices:
-        url = API_PATH_PROVIDER_FETCH_SERVICES + userId;
+        url += userId;
         break;
       default:
     }
@@ -57,6 +58,7 @@ export const fetchServices = (type, userId) => {
         ) {
           const servList = response.data.servList.map((serv) => {
             serv.startTime = new Date(serv.startTime);
+            serv.endTime = new Date(serv.endTime);
             return serv;
           });
           dispatch(fetchServicesSuccess(type, servList));

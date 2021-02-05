@@ -4,11 +4,15 @@ import { Paper } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import UpcomingServiceItem from "./UpcomingServiceCardItem/UpcomingServiceItem";
 import Button from "@material-ui/core/Button";
+import {
+  LOCAL_DATETIME_OPTIONS,
+  LOCAL_TIME_OPTIONS,
+} from "../../constant/constant";
 
 function ProviderUpcomingServiceCard(props) {
   const { service, onAction, actionButtonText } = props;
   return (
-    <Grid item xs={11} sm={8} lg={7}>
+    <Grid item xs={11} sm={8}>
       <Box mt={2}>
         <Paper elevation={5}>
           <Box p={2}>
@@ -21,7 +25,11 @@ function ProviderUpcomingServiceCard(props) {
               <UpcomingServiceItem
                 fontSize="h6"
                 label="Date"
-                value={service.startTime.toLocaleString()}
+                value={
+                  service.startTime.toLocaleString([], LOCAL_DATETIME_OPTIONS) +
+                  " - " +
+                  service.endTime.toLocaleString([], LOCAL_TIME_OPTIONS)
+                }
               />
               <UpcomingServiceItem
                 labelLgWidth={1}

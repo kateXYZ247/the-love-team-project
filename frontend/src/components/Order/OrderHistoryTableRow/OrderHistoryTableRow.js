@@ -13,6 +13,7 @@ import {
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { lighten } from "@material-ui/core";
+import { LOCAL_TIME_OPTIONS } from "../../../constant/constant";
 
 const MainTableRow = withStyles((theme) => ({
   hover: {
@@ -46,25 +47,27 @@ const TableTitleCell = withStyles((theme) => ({
 function OrderHistoryTableRow(props) {
   const [open, setOpen] = useState(false);
   const { order } = props;
-  const { total_price, servs, created_at } = order;
-  const dateParts = created_at.split("-");
-  const orderDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
-  const serviceDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].startTime);
-  const serviceEndDate = (servs.length === 0) ? new Date(0) : new Date(servs[0].endTime);
-  const diff = serviceEndDate - serviceDate; // milliseconds 
-  const durationInMintues = ((diff / 1000) / 60);
+  const { totalPrice, servs, createdAt } = order;
+  const orderDate = new Date(createdAt);
+  const serviceDate =
+    servs.length === 0 ? new Date(0) : new Date(servs[0].startTime);
+  const serviceEndDate =
+    servs.length === 0 ? new Date(0) : new Date(servs[0].endTime);
+  const diff = serviceEndDate - serviceDate; // milliseconds
+  const durationInMintues = diff / 1000 / 60;
   let orderStatus = order.status;
   const numberOfService = servs.length;
-  const acceptedService = servs.filter(serv => serv.status === "accepted");
+  const acceptedService = servs.filter((serv) => serv.status === "accepted");
   // const servicesNames = [
   //   ...servs.reduce((acc, s) => acc.add(s.name), new Set()).values(),
   // ].join(", ");
   const servicesNames = [
-    ...servs.reduce((acc, s) => acc.add(s.serviceId), new Set()).values(),
+    ...servs.reduce((acc, s) => acc.add(s.productName), new Set()).values(),
   ].join(", ");
 
   if (orderStatus === "requested" || orderStatus === "accepted") {
-    orderStatus = "(" + acceptedService.length + "/" + numberOfService + ") accepted"
+    orderStatus =
+      "(" + acceptedService.length + "/" + numberOfService + ") accepted";
   }
 
   const rowClickedHandler = () => {
@@ -83,7 +86,7 @@ function OrderHistoryTableRow(props) {
         <TableCell>{serviceDate.toDateString()}</TableCell>
         <TableCell>{servicesNames}</TableCell>
         <TableCell>{orderStatus}</TableCell>
-        <TableCell align="right">{total_price}</TableCell>
+        <TableCell align="right">{totalPrice.toFixed(2)}</TableCell>
       </MainTableRow>
       <MainTableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -106,17 +109,22 @@ function OrderHistoryTableRow(props) {
                   {servs.map((service) => (
                     <SubTableRow key={service.serviceId}>
                       <TableCell component="th" scope="row">
-                        {/* {service.name} */}
-                        {service.serviceId}
+                        {service.productName}
                       </TableCell>
                       <TableCell>
-                        {new Date(service.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(service.startTime).toLocaleTimeString(
+                          [],
+                          LOCAL_TIME_OPTIONS
+                        )}
                       </TableCell>
-                      <TableCell>{
-                        Math.round(durationInMintues / 5) * 5
-                      }</TableCell>
+                      <TableCell>
+                        {Math.round(durationInMintues / 5) * 5}
+                      </TableCell>
                       <TableCell>{service.status}</TableCell>
-                      <TableCell align="right">{service.subprice}</TableCell>
+                      <TableCell align="right">
+                        {service.productPrice &&
+                          service.productPrice.toFixed(2)}
+                      </TableCell>
                     </SubTableRow>
                   ))}
                 </TableBody>

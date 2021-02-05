@@ -1,5 +1,9 @@
 import React from "react";
 import { lighten, TableCell, TableRow, withStyles } from "@material-ui/core";
+import {
+  LOCAL_DATETIME_OPTIONS,
+  LOCAL_TIME_OPTIONS,
+} from "../../constant/constant";
 
 const MainTableRow = withStyles((theme) => ({
   root: {
@@ -11,17 +15,19 @@ const MainTableRow = withStyles((theme) => ({
 
 function ProviderHistoryForm(props) {
   const { service } = props;
-
   return (
     <MainTableRow hover>
       <TableCell component="th" scope="row" align="center">
-        {service.startTime.toLocaleString()}
+        {service.startTime.toLocaleString([], LOCAL_DATETIME_OPTIONS)} -{" "}
+        {service.endTime.toLocaleString([], LOCAL_TIME_OPTIONS)}
       </TableCell>
-      <TableCell align="center">{service.orderId}</TableCell>
-      <TableCell align="center">{service.address}</TableCell>
       <TableCell align="center">{service.serviceId}</TableCell>
+      <TableCell align="center">{service.address}</TableCell>
+      <TableCell align="center">{service.productName}</TableCell>
       <TableCell align="center">{service.status}</TableCell>
-      <TableCell align="center">{service.subprice}</TableCell>
+      <TableCell align="center">
+        {service.productPrice && service.productPrice.toFixed(2)}
+      </TableCell>
     </MainTableRow>
   );
 }

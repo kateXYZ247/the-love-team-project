@@ -74,8 +74,7 @@ function RequestedServices(props) {
                   <TableTitleCell>Date</TableTitleCell>
                   <TableTitleCell>Location</TableTitleCell>
                   <TableTitleCell>Service</TableTitleCell>
-                  {/*<TableTitleCell>Pets</TableTitleCell>*/}
-                  <TableTitleCell>Note</TableTitleCell>
+                  <TableTitleCell>Pets</TableTitleCell>
                   <TableTitleCell align="center">Actions</TableTitleCell>
                 </TableRow>
               </TableHead>

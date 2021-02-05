@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderService{
+public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -26,11 +26,9 @@ public class OrderService{
 
         for (int i = 0; i < orders.size(); i++) {
             List<Serv> servs = serviceRepository.getServiceByOrderId(orders.get(i).getOrderId());
-            Double totalPrice = 0d;
             String status = "requested";
             int requested = 0, accepted = 0;
             for (Serv serv : servs) {
-                if (serv.getProductPrice() != null) totalPrice += serv.getProductPrice();
                 if (serv.getStatus().equals("requested")) {
                     requested++;
                 } else if (serv.getStatus().equals("accepted") || serv.getStatus().equals("started") || serv.getStatus().equals("ended")) {
@@ -44,12 +42,12 @@ public class OrderService{
             }
 
             OrderHistory orderHistory = OrderHistory.builder()
-                    .orderId(orders.get(i).getOrderId())
-                    .createdAt(orders.get(i).getCreatedAt())
-                    .totalPrice(totalPrice)
-                    .status(status)
-                    .servs(servs)
-                    .build();
+                .orderId(orders.get(i).getOrderId())
+                .createdAt(orders.get(i).getCreatedAt())
+                .totalPrice(orders.get(i).getTotalPrice())
+                .status(status)
+                .servs(servs)
+                .build();
             orderHistoryList.add(orderHistory);
         }
         return orderHistoryList;

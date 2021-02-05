@@ -22,7 +22,6 @@ const initialState = {
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
-    orderHistory: sampleOrderHistory,
     // services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
     // totalPrice: 0,
   },
@@ -36,8 +35,7 @@ const fetchOrdersStart = (state, action) => {
 const fetchOrdersSuccess = (state, action) => {
   return updateObject(state, {
     orderHistory: action.orderHistory,
-    // orderHistory: [...sampleOrderHistory],
-    loading: false
+    loading: false,
   });
 };
 
