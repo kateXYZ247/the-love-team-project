@@ -18,16 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderHistory {
-    @JsonProperty("order_id")
+
     private Long orderId;
 
-    @JsonProperty("user_id")
     private Long userId;
 
-    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
-    @JsonProperty("total_price")
     private Double totalPrice;
 
     private String status;
