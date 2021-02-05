@@ -30,7 +30,7 @@ public class OrderService{
             String status = "requested";
             int requested = 0, accepted = 0;
             for (Serv serv : servs) {
-                if (serv.getSubprice() != null) totalPrice += serv.getSubprice();
+                if (serv.getProductPrice() != null) totalPrice += serv.getProductPrice();
                 if (serv.getStatus().equals("requested")) {
                     requested++;
                 } else if (serv.getStatus().equals("accepted") || serv.getStatus().equals("started") || serv.getStatus().equals("ended")) {
