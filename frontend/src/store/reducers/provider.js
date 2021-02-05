@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
+import { SERVICE_STATUS } from "../../constant/service";
 
 const initialState = {
   loading: false,
@@ -49,18 +50,32 @@ const declineRequest = (state, action) => {
   });
 };
 
-const acceptRequestStart = (state, action) => {
+const updateServiceStatusStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
-const acceptRequestSuccess = (state, action) => {
-  return updateObject(state, {
-    requests: state.requests.filter((_, i) => i !== action.index),
-    loading: false,
-  });
+const updateServiceStatusSuccess = (state, action) => {
+  if (action.updatedStatus === SERVICE_STATUS.accepted) {
+    return updateObject(state, {
+      requests: state.requests.filter((_, i) => i !== action.index),
+      loading: false,
+    });
+  } else if (
+    action.updatedStatus === SERVICE_STATUS.started ||
+    action.updatedStatus === SERVICE_STATUS.ended
+  ) {
+    const updatedServices = state.services.map((s, i) =>
+      i === action.index ? updateObject(s, { status: action.updatedStatus }) : s
+    );
+    return updateObject(state, {
+      services: updatedServices,
+      loading: false,
+    });
+  }
+  return updateObject(state, { loading: false });
 };
 
-const acceptRequestFail = (state, action) => {
+const updateServiceStatusFail = (state, action) => {
   return updateObject(state, {
     loading: false,
   });
@@ -74,12 +89,12 @@ const reducer = (state = initialState, action) => {
       return fetchServicesSuccess(state, action);
     case actionTypes.PROVIDER_FETCH_SERVICES.fail:
       return fetchServicesFail(state, action);
-    case actionTypes.PROVIDER_ACCEPT_REQUEST.start:
-      return acceptRequestStart(state, action);
-    case actionTypes.PROVIDER_ACCEPT_REQUEST.success:
-      return acceptRequestSuccess(state, action);
-    case actionTypes.PROVIDER_ACCEPT_REQUEST.fail:
-      return acceptRequestFail(state, action);
+    case actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.start:
+      return updateServiceStatusStart(state, action);
+    case actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.success:
+      return updateServiceStatusSuccess(state, action);
+    case actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.fail:
+      return updateServiceStatusFail(state, action);
     case actionTypes.PROVIDER_DECLINE_REQUEST:
       return declineRequest(state, action);
     default:
