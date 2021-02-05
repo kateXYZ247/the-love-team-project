@@ -43,6 +43,7 @@ public class OrderService {
 
             OrderHistory orderHistory = OrderHistory.builder()
                 .orderId(orders.get(i).getOrderId())
+                .userId(orders.get(i).getUserId())
                 .createdAt(orders.get(i).getCreatedAt())
                 .totalPrice(orders.get(i).getTotalPrice())
                 .status(status)
