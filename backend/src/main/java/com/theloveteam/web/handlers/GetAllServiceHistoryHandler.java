@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetAllAcceptedServicesHandler extends AbstractRequestHandler<String, ServsResponseBody >{
+public class GetAllServiceHistoryHandler extends AbstractRequestHandler<String, ServsResponseBody >{
     @Autowired
     private ServiceRepository serviceRepository;
 
@@ -27,8 +27,7 @@ public class GetAllAcceptedServicesHandler extends AbstractRequestHandler<String
 
     @Override
     protected ServsResponseBody processRequest(String providerId) {
-        TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Serv> servList = serviceRepository.getServiceByProviderId(Long.parseLong(tokenSubject.getUserId()));
+        List<Serv> servList = serviceRepository.getServiceByProviderId(Long.parseLong(providerId));
         System.out.println(Long.parseLong(providerId));
         System.out.println(servList);
         return new ServsResponseBody(servList);
