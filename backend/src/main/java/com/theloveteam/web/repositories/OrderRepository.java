@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query("select o from Order o where o.userId = ?1 order by o.createdAt")
-    List<Order> gerOrderByUserId(Long id);
+    @Query("select o from Order o where o.userId = ?1 order by o.createdAt desc")
+    List<Order> gerAllOrderByUserId(Long id);
 
     @Transactional
     @Modifying

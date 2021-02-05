@@ -49,6 +49,9 @@ public class Serv {
     @Column(name = "product_id")
     private Long productId;
 
+//    @Column(name = "product_name")
+//    private String productName;
+
     @Formula("(select p.name from products p where p.product_id = product_id)")
     private String productName;
 
