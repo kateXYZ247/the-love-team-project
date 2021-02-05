@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderService{
+public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -42,12 +42,12 @@ public class OrderService{
             }
 
             OrderHistory orderHistory = OrderHistory.builder()
-                    .orderId(orders.get(i).getOrderId())
-                    .createdAt(orders.get(i).getCreatedAt())
-                    .totalPrice(orders.get(i).getTotalPrice())
-                    .status(status)
-                    .servs(servs)
-                    .build();
+                .orderId(orders.get(i).getOrderId())
+                .createdAt(orders.get(i).getCreatedAt())
+                .totalPrice(orders.get(i).getTotalPrice())
+                .status(status)
+                .servs(servs)
+                .build();
             orderHistoryList.add(orderHistory);
         }
         return orderHistoryList;

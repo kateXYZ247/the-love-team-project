@@ -60,11 +60,9 @@ function ProviderHistory(props) {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
-  console.log("data =>", services);
   return (
     <React.Fragment>
       <BackdropProgressCircle open={loading} />
@@ -80,11 +78,11 @@ function ProviderHistory(props) {
               <TableHead>
                 <TableRow>
                   <TableTitleCell align="center">Date</TableTitleCell>
-                  <TableTitleCell align="center">Booking ID</TableTitleCell>
+                  <TableTitleCell align="center">Service ID</TableTitleCell>
                   <TableTitleCell align="center">Location</TableTitleCell>
                   <TableTitleCell align="center">Service</TableTitleCell>
                   <TableTitleCell align="center">Status</TableTitleCell>
-                  <TableTitleCell align="center">Earning</TableTitleCell>
+                  <TableTitleCell align="center">Earning ($)</TableTitleCell>
                 </TableRow>
               </TableHead>
               <TableBody>
