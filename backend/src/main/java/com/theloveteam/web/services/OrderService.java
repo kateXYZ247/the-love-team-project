@@ -20,8 +20,8 @@ public class OrderService {
     @Autowired
     private ServiceRepository serviceRepository;
 
-    public List<OrderHistory> gerOrderByUserId(Long id) {
-        List<Order> orders = orderRepository.gerOrderByUserId(id);
+    public List<OrderHistory> getOrderByUserId(Long id) {
+        List<Order> orders = orderRepository.gerAllOrderByUserId(id);
         List<OrderHistory> orderHistoryList = new ArrayList<>();
 
         for (int i = 0; i < orders.size(); i++) {
@@ -53,6 +53,16 @@ public class OrderService {
         return orderHistoryList;
     }
 
+    public List<OrderHistory> getUpcomingOrderByUserId(Long id) {
+        List<OrderHistory> upcomingOrders = new ArrayList<>();
+        List<OrderHistory> orderHistories= getOrderByUserId(id);
+        for (OrderHistory orderHistory : orderHistories) {
+            if (orderHistory.getStatus() != "finished") {
+                upcomingOrders.add(orderHistory);
+            }
+        }
+        return upcomingOrders;
+    }
 
     public void deleteOrderById(Long id) {
         orderRepository.deleteOrderById(id);
