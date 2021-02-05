@@ -17,8 +17,6 @@ const initialState = {
   },
   loading: false,
   authRedirectPath: "/",
-  notifications: [],
-  newNotification: false,
   stompClient: null,
 };
 

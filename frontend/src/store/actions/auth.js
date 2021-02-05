@@ -144,7 +144,12 @@ const connectToWebSocket = (userId, token) => {
       },
       () => {
         stompClient.subscribe(WS_PATH_PROVIDERS, (message) => {
-          console.log("received from public : ", message.body);
+          dispatch(
+            setMessage(
+              MESSAGE_TYPE.info,
+              "Notification: " + JSON.parse(message.body).content
+            )
+          );
         });
         stompClient.subscribe(
           WS_PATH_USER + userId + WS_PATH_REPLY,
