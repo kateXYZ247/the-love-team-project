@@ -8,6 +8,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class AllRequestedServsResponseBody {
+public class ServsResponseBody {
     private List<Serv> servList;
 }

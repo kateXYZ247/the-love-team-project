@@ -3,7 +3,7 @@ package com.theloveteam.web.handlers;
 
 import com.theloveteam.web.dao.Serv;
 import com.theloveteam.web.dto.AllRequestedServsRequestBody;
-import com.theloveteam.web.dto.AllRequestedServsResponseBody;
+import com.theloveteam.web.dto.ServsResponseBody;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.ServiceStatus;
@@ -16,18 +16,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetAllRequestedServicesHandler extends AbstractRequestHandler<AllRequestedServsRequestBody, AllRequestedServsResponseBody>{
+public class GetAllRequestedServicesHandler extends AbstractRequestHandler<String, ServsResponseBody>{
     @Autowired
     private ServiceRepository serviceRepository;
 
     @Override
-    protected void validatePermissionBeforeProcess(AllRequestedServsRequestBody allRequestedServsRequestBody) {
+    protected void validatePermissionBeforeProcess(String providerId) {
         TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (Role.admin.equals(tokenSubject.getRole())) {
             // admins have permission to view all users' detail
             return;
         } else if (Role.provider.equals(tokenSubject.getRole()) &&
-                ((Long) Long.parseLong(tokenSubject.getUserId())).equals(allRequestedServsRequestBody.getProviderId())) {
+                (tokenSubject.getUserId().equals(providerId))) {
             // provider role match & provider id match
             return;
         } else {
@@ -36,15 +36,9 @@ public class GetAllRequestedServicesHandler extends AbstractRequestHandler<AllRe
     }
 
     @Override
-    protected AllRequestedServsResponseBody processRequest(AllRequestedServsRequestBody allRequestedServsRequestBody) {
-        //CASE 1: if status == requested, return all services that match status
-        if (allRequestedServsRequestBody.getStatus().equals(ServiceStatus.requested.name())) {
-            List<Serv> servList = serviceRepository.getAllServicesByStatus(ServiceStatus.requested.name());
-            System.out.println(servList);
-            return new AllRequestedServsResponseBody(servList);
-        } else {
-            return new AllRequestedServsResponseBody(null);
-        }
-
+    protected ServsResponseBody processRequest(String providerId) {
+        List<Serv> servList = serviceRepository.getAllServicesByStatus(ServiceStatus.requested.name());
+        System.out.println(servList);
+        return new ServsResponseBody(servList);
     }
 }
