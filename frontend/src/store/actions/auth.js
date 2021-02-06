@@ -71,9 +71,6 @@ export const login = (username, password, role) => {
         }
         // data = userId
         const { headers, data } = response;
-        console.log(response);
-        console.log(headers)
-        console.log(data);
         if (
           headers === null ||
           !headers.hasOwnProperty("authorization") ||

@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes"
 import { updateObject } from "../../shared/utility";
 
 
+
 const initialState = {
     userId: null,
     firstName: null,
@@ -36,6 +37,19 @@ const providerProfileFail = (state, action) => {
 
     });
 };
+const switchStart = (state, action) => {
+    return updateObject(state, {
+
+    });
+};
+const switchSuccess = (state, action) => {
+    return updateObject(state, {
+    });
+};
+const switchFail = (state, action) => {
+    return updateObject(state, {
+    });
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -45,6 +59,12 @@ const reducer = (state = initialState, action) => {
           return providerProfileSuccess(state, action);
       case actionTypes.PROVIDER_PROFILE_FAIL:
           return providerProfileFail(state, action);
+      case actionTypes.SWITCH_START:
+          return switchStart(state, action);
+      case actionTypes.SWITCH_SUCCESS:
+          return switchSuccess(state, action);
+      case actionTypes.SWITCH_FAIL:
+          return switchFail(state, action);
       default:
           return state;
   }

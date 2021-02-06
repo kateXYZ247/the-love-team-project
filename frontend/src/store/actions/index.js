@@ -28,8 +28,8 @@ export { clearMessage } from "./message";
 
 
 
-export { providerProfile } from "./providerProfile";
+export { providerProfile, onSwitch} from "./providerProfile";
 
-export { fetchRequests, acceptRequest, declineRequest } from "./provider";
+export { fetchServices, acceptRequest, declineRequest } from "./provider";
 
 

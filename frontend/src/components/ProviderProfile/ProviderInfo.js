@@ -31,6 +31,7 @@ function ProviderInfo(props) {
                                         // label="First Name"
                                         value= {firstName}
                                         name="firstName"
+                                        defaultValue={firstName}
                                         // onChange={(event) => handleChange(event)}
                                         fullWidth
                                         variant="outlined"
@@ -42,7 +43,7 @@ function ProviderInfo(props) {
                                         // label="Last Name"
                                         value= {lastName}
                                         name="lastName"
-                                        // defaultValue={user.lastName}
+                                        defaultValue={lastName}
                                         // onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
@@ -61,7 +62,7 @@ function ProviderInfo(props) {
                                         // label="Phone Number"
                                         value={phone}
                                         name="phone"
-                                        // defaultValue={user.phone}
+                                        defaultValue={phone}
                                         // onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
@@ -80,7 +81,7 @@ function ProviderInfo(props) {
                                         // label="Address"
                                         value={address}
                                         name="address"
-                                        // defaultValue={user.email}
+                                        defaultValue=""
                                         // onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
@@ -95,7 +96,7 @@ function ProviderInfo(props) {
                                 <Grid item xs={10} sm={10}>
                                     <TextField
                                         id="Language"
-                                        label="Language"
+                                        // label="Language"
                                         name="language"
                                         defaultValue= "English"
                                         // onChange={handleChange}
@@ -115,16 +116,13 @@ function ProviderInfo(props) {
                                         // label="Service"
                                         value={productName}
                                         name="service"
-                                        // defaultValue={user.email}
+                                        defaultValue=""
                                         // onChange={handleChange}
                                         fullWidth
                                         variant="outlined"
                                     />
                                 </Grid>
 
-                                {/*<Grid item xs={12} sm={12}>*/}
-                                {/*    <Divider spacing={1}>OR</Divider>*/}
-                                {/*</Grid>*/}
 
                                 <Box textAlign="center">
                                     <Button
