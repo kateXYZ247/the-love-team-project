@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updateObject } from "../../shared/utility";
-import { AUTH_ROLE, LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
-import { PATH_PROVIDER_LIST_SERVICES } from "../../constant/path";
+import {updateObject} from "../../shared/utility";
+import {AUTH_ROLE, LOCAL_STORAGE_TOKEN_KEY} from "../../constant/auth";
+import {PATH_PROVIDER_LIST_SERVICES} from "../../constant/path";
 
 const initialState = {
   token: null,
@@ -13,73 +13,75 @@ const initialState = {
     address: "",
     zip: "",
     email: "",
-    lastLoggedInTime: new Date(),
+    lastLoggedInTime: new Date()
   },
   loading: false,
   authRedirectPath: "/",
-  stompClient: null,
+  stompClient: null
 };
 
 const setRedirectPath = (state, action) => {
-  return updateObject(state, { authRedirectPath: action.path });
+  return updateObject(state, {authRedirectPath: action.path});
 };
 
 const loginStart = (state, action) => {
   return updateObject(state, {
     loading: true,
     authRedirectPath:
-      action.role === AUTH_ROLE.provider
-        ? PATH_PROVIDER_LIST_SERVICES
-        : state.authRedirectPath,
+        action.role === AUTH_ROLE.provider
+            ? PATH_PROVIDER_LIST_SERVICES
+            : state.authRedirectPath
   });
 };
 
 const loginSuccess = (state, action) => {
   localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
+  sessionStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
   return updateObject(state, {
     userId: action.userId,
-    token: action.token,
+    token: action.token
   });
 };
 
 const setUserDetail = (state, action) => {
-  const { role } = action;
-  let { data } = action;
+  const {role} = action;
+  let {data} = action;
   if (role === AUTH_ROLE.provider) {
     data = updateObject(action.data.provider, {
-      productName: action.data.productName,
+      productName: action.data.productName
     });
   }
   return updateObject(state, {
     userDetail: data,
-    loading: false,
+    loading: false
   });
 };
 
 const loginGetInfoFail = (state, action) => {
-  return updateObject(state, { loading: false });
+  return updateObject(state, {loading: false});
 };
 
 const logout = (state, action) => {
   localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+  sessionStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
   return updateObject(state, {
     token: null,
     userId: null,
     userDetail: updateObject(initialState.userDetail, {
-      role: state.userDetail.role,
+      role: state.userDetail.role
     }),
-    loading: false,
+    loading: false
   });
 };
 
 const setStompClient = (state, action) => {
   return updateObject(state, {
-    stompClient: action.stompClient,
+    stompClient: action.stompClient
   });
 };
 
 const clearStompClient = (state, action) => {
-  return updateObject(state, { stompClient: null });
+  return updateObject(state, {stompClient: null});
 };
 
 const reducer = (state = initialState, action) => {
