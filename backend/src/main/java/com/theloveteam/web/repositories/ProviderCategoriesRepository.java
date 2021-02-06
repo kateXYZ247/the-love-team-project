@@ -14,4 +14,7 @@ public interface ProviderCategoriesRepository extends JpaRepository<ProviderCate
     @Query("select p from ProviderCategories p where p.providerId = ?1")
     List<ProviderCategories> findByProviderId(Long providerId);
 
+    @Query("select p.providerId from ProviderCategories p " +
+        "where p.productId = :productId and p.providerId in :providerIdList")
+    List<Long> findProviderIdsByProductIdFilteredByProviderIds(Long productId, List<Long> providerIdList);
 }
