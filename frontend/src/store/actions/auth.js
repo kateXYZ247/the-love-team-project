@@ -156,7 +156,6 @@ const connectToWebSocket = (userId, token) => {
           WS_PATH_USER + userId + WS_PATH_REPLY,
           (message) => {
             // console.log("received from private: ", JSON.parse(message.body));
-            // console.log(JSON.parse(message.body));
             dispatch(addPushedRequest(JSON.parse(message.body)));
           }
         );

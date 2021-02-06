@@ -73,10 +73,11 @@ export const fetchServices = (type, userId) => {
   };
 };
 
-export const declineRequest = (removeIndex) => {
+export const declineRequest = (removeIndex, source) => {
   return {
     type: actionTypes.PROVIDER_DECLINE_REQUEST,
     removeIndex: removeIndex,
+    source: source,
   };
 };
 
@@ -87,9 +88,10 @@ const updateServiceStatusStart = (index) => {
   };
 };
 
-const updateServiceStatusSuccess = (index, updatedStatus) => {
+const updateServiceStatusSuccess = (source, index, updatedStatus) => {
   return {
     type: actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.success,
+    source: source,
     index: index,
     updatedStatus: updatedStatus,
   };
@@ -105,7 +107,8 @@ export const updateServiceStatus = (
   serviceIndex,
   serviceId,
   providerId,
-  updatedStatus
+  updatedStatus,
+  serviceSource
 ) => {
   return (dispatch) => {
     dispatch(updateServiceStatusStart());
@@ -118,7 +121,13 @@ export const updateServiceStatus = (
       .patch(API_PATH_PROVIDER_ACCEPT_REQUEST + serviceId, data)
       .then((response) => {
         if (response.status === HTTP_STATUS_OK) {
-          dispatch(updateServiceStatusSuccess(serviceIndex, updatedStatus));
+          dispatch(
+            updateServiceStatusSuccess(
+              serviceSource,
+              serviceIndex,
+              updatedStatus
+            )
+          );
           dispatch(
             setMessage(MESSAGE_TYPE.success, `Service ${updatedStatus}!`)
           );

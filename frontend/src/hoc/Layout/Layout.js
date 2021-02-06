@@ -7,6 +7,7 @@ import Footer from "../../components/Footer/Footer";
 import * as actions from "../../store/actions";
 import SnackbarMessage from "../../components/UI/SnackbarMessage/SnackbarMessage";
 import { AUTH_ROLE } from "../../constant/auth";
+import ProviderPushedRequests from "../../containers/Provider/ProviderPushedRequests/ProviderPushedRequests";
 
 function Layout(props) {
   const {
@@ -47,6 +48,7 @@ function Layout(props) {
               onClose={onMessageClose}
             />
           ) : null}
+          <ProviderPushedRequests />
         </div>
         <Footer />
       </div>

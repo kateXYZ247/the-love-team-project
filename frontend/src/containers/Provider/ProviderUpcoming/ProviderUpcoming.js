@@ -6,6 +6,7 @@ import BackdropProgressCircle from "../../../components/UI/BackdropProgressCircl
 import { Box, Typography } from "@material-ui/core";
 import ProviderUpcomingServiceCard from "../../../components/ProviderUpcomingServiceCard/ProviderUpcomingServiceCard";
 import Grid from "@material-ui/core/Grid";
+import { SERVICE_UPDATE_SOURCE } from "../../../constant/service";
 
 function ProviderUpcoming(props) {
   const {
@@ -83,7 +84,8 @@ const mapDispatchToProps = (dispatch) => {
           serviceIndex,
           serviceId,
           providerId,
-          updatedStatus
+          updatedStatus,
+          SERVICE_UPDATE_SOURCE.fetchedRequests
         )
       ),
   };
