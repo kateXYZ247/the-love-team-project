@@ -209,7 +209,8 @@ const userUpdateServiceStatusStart = (state, action) => {
 const userUpdateServiceStatusSuccess = (state, action) => {
   if (
     action.updatedStatus === SERVICE_STATUS.canceled ||
-    action.updatedStatus === SERVICE_STATUS.ended
+    action.updatedStatus === SERVICE_STATUS.ended ||
+    action.updatedStatus === SERVICE_STATUS.finished
   ) {
     // remove from services[]
     return updateObject(state, {
@@ -229,7 +230,8 @@ const userUpdateServiceStatusFail = (state, action) => {
 
   if (
     action.updatedStatus === SERVICE_STATUS.canceled ||
-    action.updatedStatus === SERVICE_STATUS.ended
+    action.updatedStatus === SERVICE_STATUS.ended ||
+    action.updatedStatus === SERVICE_STATUS.finished
   ) {
     // remove from services[]
     return updateObject(state, {

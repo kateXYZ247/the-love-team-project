@@ -37,29 +37,16 @@ function UpcommingAppointmentCard(props) {
 
   // action button
   let actionButton = null;
-  if (service.status === SERVICE_STATUS.started) {
+  if (service.status === SERVICE_STATUS.ended) {
     actionButton = (
       <Button
         variant="contained"
         color="primary"
-        onClick={() => onAction(SERVICE_STATUS.ended)}
+        onClick={() => onAction(SERVICE_STATUS.finished)}
       >
-        End
+        Finsh
       </Button>
     );
-    // } else if (
-    //   service.status === SERVICE_STATUS.accepted &&
-    //   startTime - currentTime < SERVICE_START_MIN_HOURS
-    // ) {
-    //   actionButton = (
-    //     <Button
-    //       variant="contained"
-    //       color="primary"
-    //       onClick={() => onAction(SERVICE_STATUS.started)}
-    //     >
-    //       Start
-    //     </Button>
-    //   );
   }
   return (
     <Grid item xs={11} sm={8}>
