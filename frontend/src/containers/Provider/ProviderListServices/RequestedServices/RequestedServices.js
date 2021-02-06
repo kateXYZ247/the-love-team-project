@@ -18,6 +18,7 @@ import {
 import ProviderListServicesTableRow from "../../../../components/ProviderListServicesTableRow/ProviderListServicesTableRow";
 import BackdropProgressCircle from "../../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../../constant/provider";
+import { SERVICE_STATUS } from "../../../../constant/service";
 
 const useStyles = makeStyles({
   table: {
@@ -57,6 +58,9 @@ function RequestedServices(props) {
     setTimeout(() => onDeclineRequest(index), 500);
   };
 
+  const requestAcceptedHandler = (serviceIndex, serviceId) =>
+    onAcceptRequest(serviceIndex, serviceId, userId, SERVICE_STATUS.accepted);
+
   return (
     <React.Fragment>
       <BackdropProgressCircle open={loading} />
@@ -83,7 +87,9 @@ function RequestedServices(props) {
                   <ProviderListServicesTableRow
                     key={index}
                     request={request}
-                    onAccept={() => onAcceptRequest(index, request.serviceId)}
+                    onAccept={() =>
+                      requestAcceptedHandler(index, request.serviceId)
+                    }
                     onDecline={() => declineButtonClickedHandler(index)}
                     onDelete={deleted[index]}
                   />
@@ -112,8 +118,15 @@ const mapDispatchToProps = (dispatch) => {
         actions.fetchServices(PROVIDER_FETCH_SERVICES_TYPE.requests, userId)
       ),
     onDeclineRequest: (index) => dispatch(actions.declineRequest(index)),
-    onAcceptRequest: (serviceIndex, serviceId) =>
-      dispatch(actions.acceptRequest(serviceIndex, serviceId)),
+    onAcceptRequest: (serviceIndex, serviceId, providerId, updatedStatus) =>
+      dispatch(
+        actions.updateServiceStatus(
+          serviceIndex,
+          serviceId,
+          providerId,
+          updatedStatus
+        )
+      ),
   };
 };
 

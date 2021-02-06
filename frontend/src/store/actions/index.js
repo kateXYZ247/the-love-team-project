@@ -28,4 +28,4 @@ export { register, registerReset } from "./register";
 
 export { clearMessage } from "./message";
 
-export { fetchServices, acceptRequest, declineRequest } from "./provider";
+export { fetchServices, updateServiceStatus, declineRequest } from "./provider";
