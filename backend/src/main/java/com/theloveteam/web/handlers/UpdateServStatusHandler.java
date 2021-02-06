@@ -27,10 +27,13 @@ public class UpdateServStatusHandler extends AbstractRequestHandler <UpdateServR
         if (Role.admin.equals(tokenSubject.getRole())) {
             // admins have permission to view all users' detail
             return;
-        } else if (Role.provider.equals(tokenSubject.getRole()) && tokenSubject.getUserId().equals(updateServRequestBody.getProviderId())) {
+        } else if ((Role.provider.equals(tokenSubject.getRole()) || Role.user.equals(tokenSubject.getRole())) && tokenSubject.getUserId().equals(updateServRequestBody.getUserId())) {
             // only match providerId can update services detail
             return;
-        } else {
+        } else if (Role.user.equals(tokenSubject.getRole()) && tokenSubject.getUserId().equals(updateServRequestBody.getUserId())) {
+            return;
+        }
+        else {
             throw new RoleNotMatchException();
         }
     }
@@ -38,7 +41,7 @@ public class UpdateServStatusHandler extends AbstractRequestHandler <UpdateServR
     @Override
     protected UpdateServResponseBody processRequest(UpdateServRequestBody updateServRequestBody) {
         Long serviceId = Long.parseLong(updateServRequestBody.getServiceId());
-        Long providerId = Long.parseLong(updateServRequestBody.getProviderId());
+        Long providerId = Long.parseLong(updateServRequestBody.getUserId());
         String status = updateServRequestBody.getStatus();
         Serv service = serviceRepository.getServiceByServiceId(serviceId);
         if (service == null) {

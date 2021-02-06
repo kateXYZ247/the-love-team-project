@@ -14,7 +14,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateServRequestBody {
     private String serviceId;
-    private String providerId;
+    private String userId;
     private String status;
     private String startTime;
     private String endTime;
