@@ -17,6 +17,7 @@ import { MESSAGE_TYPE } from "../../constant/message";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { AUTH_CLEAR_STOMP_CLIENT, AUTH_SET_STOMP_CLIENT } from "./actionTypes";
+import { addPushedRequest } from "./provider";
 
 export const setRedirectPath = (path) => {
   return {
@@ -154,7 +155,9 @@ const connectToWebSocket = (userId, token) => {
         stompClient.subscribe(
           WS_PATH_USER + userId + WS_PATH_REPLY,
           (message) => {
-            console.log("received from private: ", message.body);
+            // console.log("received from private: ", JSON.parse(message.body));
+            // console.log(JSON.parse(message.body));
+            dispatch(addPushedRequest(JSON.parse(message.body)));
           }
         );
       }

@@ -61,6 +61,7 @@ const mapStateToProps = (state) => {
     stompClient: state.auth.stompClient,
     message: state.message.message,
     messageType: state.message.messageType,
+    pushedRequests: state.provider.pushedRequests,
   };
 };
 
@@ -71,6 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     onDisconnectWebSocket: (stompClient) =>
       dispatch(actions.disconnectWebSocket(stompClient)),
     onMessageClose: () => dispatch(actions.clearMessage()),
+    onClearPushedRequest: () => dispatch(actions.clearPushedRequest()),
   };
 };
 

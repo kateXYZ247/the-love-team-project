@@ -8,6 +8,7 @@ const initialState = {
   requests: [],
   services: [],
   histories: [],
+  pushedRequests: [],
 };
 
 const fetchServicesStart = (state, action) => {
@@ -89,6 +90,16 @@ const updateServiceStatusFail = (state, action) => {
   });
 };
 
+const addPushedRequest = (state, action) => {
+  return updateObject(state, {
+    pushedRequests: [...state.pushedRequests, action.service],
+  });
+};
+
+const clearPushedRequest = (state, action) => {
+  return updateObject(state, { pushedRequests: [] });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PROVIDER_FETCH_SERVICES.start:
@@ -105,6 +116,10 @@ const reducer = (state = initialState, action) => {
       return updateServiceStatusFail(state, action);
     case actionTypes.PROVIDER_DECLINE_REQUEST:
       return declineRequest(state, action);
+    case actionTypes.PROVIDER_ADD_PUSHED_REQUEST:
+      return addPushedRequest(state, action);
+    case actionTypes.PROVIDER_CLEAR_PUSHED_REQUEST:
+      return clearPushedRequest(state, action);
     default:
       return state;
   }

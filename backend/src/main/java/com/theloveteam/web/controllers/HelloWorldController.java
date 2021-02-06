@@ -1,6 +1,8 @@
 package com.theloveteam.web.controllers;
 
 import com.theloveteam.web.constants.UrlConstants;
+import com.theloveteam.web.dao.OrderRequest;
+import com.theloveteam.web.dao.Serv;
 import com.theloveteam.web.dto.HelloWorldRequestBody;
 import com.theloveteam.web.dto.HelloWorldResponseBody;
 import com.theloveteam.web.model.Greeting;
@@ -51,6 +53,14 @@ public class HelloWorldController {
     public ResponseEntity<HelloWorldResponseBody> echoHelloWorld(@RequestBody HelloWorldRequestBody requestBody) {
         return ResponseEntity.ok().body(new HelloWorldResponseBody("Received from " + requestBody.getUsername() + ": "
             + requestBody.getMessage()));
+    }
+
+    @PostMapping(UrlConstants.FAKE_ORDER)
+    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+        for (Serv serv : orderRequest.getServs()) {
+            this.template.convertAndSendToUser("1", UrlConstants.WS_REPLY, serv);
+        }
+        return ResponseEntity.ok().body("Fake order placed");
     }
 
 }

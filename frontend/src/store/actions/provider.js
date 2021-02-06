@@ -132,3 +132,16 @@ export const updateServiceStatus = (
       });
   };
 };
+
+export const addPushedRequest = (service) => {
+  return {
+    type: actionTypes.PROVIDER_ADD_PUSHED_REQUEST,
+    service: service,
+  };
+};
+
+export const clearPushedRequest = () => {
+  return {
+    type: actionTypes.PROVIDER_CLEAR_PUSHED_REQUEST,
+  };
+};
