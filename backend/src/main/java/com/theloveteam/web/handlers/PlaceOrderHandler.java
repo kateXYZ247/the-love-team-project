@@ -1,5 +1,6 @@
 package com.theloveteam.web.handlers;
 
+import ch.hsr.geohash.GeoHash;
 import com.theloveteam.web.dao.Order;
 import com.theloveteam.web.dao.OrderRequest;
 import com.theloveteam.web.dao.Serv;
@@ -46,6 +47,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                     .build();
             servService.createService(serv);
         }
+
         return "Order is Successfully Placed!";
     }
 

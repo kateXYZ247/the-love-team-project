@@ -8,9 +8,57 @@ import {
   LOCAL_DATETIME_OPTIONS,
   LOCAL_TIME_OPTIONS,
 } from "../../constant/constant";
+import {
+  SERVICE_CANCELABLE_MIN_DAYS,
+  SERVICE_START_MIN_HOURS,
+  SERVICE_STATUS,
+} from "../../constant/service";
 
 function ProviderUpcomingServiceCard(props) {
-  const { service, onAction, actionButtonText } = props;
+  const { service, onAction } = props;
+
+  const startTime = new Date(service.startTime);
+  const currentTime = new Date();
+  // cancel button
+  const cancelButton =
+    startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS ? (
+      <Box component={"span"} mx={1}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => onAction(SERVICE_STATUS.canceled)}
+        >
+          Cancel
+        </Button>
+      </Box>
+    ) : null;
+
+  // action button
+  let actionButton = null;
+  if (service.status === SERVICE_STATUS.started) {
+    actionButton = (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => onAction(SERVICE_STATUS.ended)}
+      >
+        End
+      </Button>
+    );
+  } else if (
+    service.status === SERVICE_STATUS.accepted &&
+    startTime - currentTime < SERVICE_START_MIN_HOURS
+  ) {
+    actionButton = (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => onAction(SERVICE_STATUS.started)}
+      >
+        Start
+      </Button>
+    );
+  }
   return (
     <Grid item xs={11} sm={8}>
       <Box mt={2}>
@@ -52,10 +100,12 @@ function ProviderUpcomingServiceCard(props) {
                 value={service.note ? service.note : "None"}
               />
               <Grid item xs={12} lg={6}>
-                <Box my={2}>
-                  <Button variant="outlined" color="primary" onClick={onAction}>
-                    {actionButtonText}
-                  </Button>
+                <Box mt={3}>
+                  {cancelButton}
+
+                  <Box component={"span"} mx={1}>
+                    {actionButton}
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
