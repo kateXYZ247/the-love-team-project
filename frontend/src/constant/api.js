@@ -13,4 +13,9 @@ export const API_PARAMETER_PROVIDER_FETCH_REQUESTS = "&status=requested";
 export const API_PARAMETER_PROVIDER_FETCH_UPCOMING = "&status=upcoming";
 export const API_PATH_PROVIDER_ACCEPT_REQUEST = "/services/";
 
+export const WS_PATH_CONNECT = "/ws";
+export const WS_PATH_USER = "/user/";
+export const WS_PATH_REPLY = "/reply";
+export const WS_PATH_PROVIDERS = "/topic/providers";
+
 export const HTTP_STATUS_OK = 200;

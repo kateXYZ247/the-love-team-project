@@ -18,7 +18,10 @@ import {
 import ProviderListServicesTableRow from "../../../../components/ProviderListServicesTableRow/ProviderListServicesTableRow";
 import BackdropProgressCircle from "../../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../../constant/provider";
-import { SERVICE_STATUS } from "../../../../constant/service";
+import {
+  SERVICE_STATUS,
+  SERVICE_UPDATE_SOURCE,
+} from "../../../../constant/service";
 
 const useStyles = makeStyles({
   table: {
@@ -117,14 +120,18 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         actions.fetchServices(PROVIDER_FETCH_SERVICES_TYPE.requests, userId)
       ),
-    onDeclineRequest: (index) => dispatch(actions.declineRequest(index)),
+    onDeclineRequest: (index) =>
+      dispatch(
+        actions.declineRequest(index, SERVICE_UPDATE_SOURCE.fetchedRequests)
+      ),
     onAcceptRequest: (serviceIndex, serviceId, providerId, updatedStatus) =>
       dispatch(
         actions.updateServiceStatus(
           serviceIndex,
           serviceId,
           providerId,
-          updatedStatus
+          updatedStatus,
+          SERVICE_UPDATE_SOURCE.fetchedRequests
         )
       ),
   };

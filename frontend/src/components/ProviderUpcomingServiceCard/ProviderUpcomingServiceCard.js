@@ -102,7 +102,6 @@ function ProviderUpcomingServiceCard(props) {
               <Grid item xs={12} lg={6}>
                 <Box mt={3}>
                   {cancelButton}
-
                   <Box component={"span"} mx={1}>
                     {actionButton}
                   </Box>
