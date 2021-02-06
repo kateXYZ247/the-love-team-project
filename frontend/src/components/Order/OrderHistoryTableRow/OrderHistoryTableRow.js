@@ -13,6 +13,7 @@ import {
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { lighten } from "@material-ui/core";
+import { LOCAL_TIME_OPTIONS } from "../../../constant/constant";
 
 const MainTableRow = withStyles((theme) => ({
   hover: {
@@ -46,19 +47,35 @@ const TableTitleCell = withStyles((theme) => ({
 function OrderHistoryTableRow(props) {
   const [open, setOpen] = useState(false);
   const { order } = props;
-  const { totalPrice, services } = order;
-  const orderDate = new Date(services[0].createdAt);
-  const serviceDate = new Date(services[0].startTime);
+  const { totalPrice, servs, createdAt } = order;
+  const orderDate = new Date(createdAt);
+  const serviceDate =
+    servs.length === 0 ? new Date(0) : new Date(servs[0].startTime);
+  const serviceEndDate =
+    servs.length === 0 ? new Date(0) : new Date(servs[0].endTime);
+  const diff = serviceEndDate - serviceDate; // milliseconds
+  const durationInMintues = diff / 1000 / 60;
+  let orderStatus = order.status;
+  const numberOfService = servs.length;
+  const acceptedService = servs.filter((serv) => serv.status === "accepted");
+  // const servicesNames = [
+  //   ...servs.reduce((acc, s) => acc.add(s.name), new Set()).values(),
+  // ].join(", ");
   const servicesNames = [
-    ...services.reduce((acc, s) => acc.add(s.name), new Set()).values(),
+    ...servs.reduce((acc, s) => acc.add(s.productName), new Set()).values(),
   ].join(", ");
+
+  if (orderStatus === "requested" || orderStatus === "accepted") {
+    orderStatus =
+      "(" + acceptedService.length + "/" + numberOfService + ") accepted";
+  }
 
   const rowClickedHandler = () => {
     setOpen(!open);
   };
 
   return (
-    <React.Fragment>
+    <React.Fragment key={order.orderId}>
       <MainTableRow hover onClick={rowClickedHandler}>
         <TableCell>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -68,7 +85,8 @@ function OrderHistoryTableRow(props) {
         </TableCell>
         <TableCell>{serviceDate.toDateString()}</TableCell>
         <TableCell>{servicesNames}</TableCell>
-        <TableCell align="right">{totalPrice}</TableCell>
+        <TableCell>{orderStatus}</TableCell>
+        <TableCell align="right">{totalPrice.toFixed(2)}</TableCell>
       </MainTableRow>
       <MainTableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -83,20 +101,30 @@ function OrderHistoryTableRow(props) {
                     <TableTitleCell>Name</TableTitleCell>
                     <TableTitleCell>Time</TableTitleCell>
                     <TableTitleCell>Duration (min)</TableTitleCell>
+                    <TableTitleCell>Status</TableTitleCell>
                     <TableTitleCell align="right">price ($)</TableTitleCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {services.map((service, idx) => (
-                    <SubTableRow key={idx}>
+                  {servs.map((service) => (
+                    <SubTableRow key={service.serviceId}>
                       <TableCell component="th" scope="row">
-                        {service.name}
+                        {service.productName}
                       </TableCell>
                       <TableCell>
-                        {new Date(service.startTime).toLocaleTimeString()}
+                        {new Date(service.startTime).toLocaleTimeString(
+                          [],
+                          LOCAL_TIME_OPTIONS
+                        )}
                       </TableCell>
-                      <TableCell>{service.duration}</TableCell>
-                      <TableCell align="right">{service.price}</TableCell>
+                      <TableCell>
+                        {Math.round(durationInMintues / 5) * 5}
+                      </TableCell>
+                      <TableCell>{service.status}</TableCell>
+                      <TableCell align="right">
+                        {service.productPrice &&
+                          service.productPrice.toFixed(2)}
+                      </TableCell>
                     </SubTableRow>
                   ))}
                 </TableBody>
