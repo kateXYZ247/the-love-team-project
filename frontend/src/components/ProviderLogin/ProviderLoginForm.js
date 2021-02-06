@@ -15,12 +15,12 @@ function ProviderLoginForm(props) {
   } = props;
   return (
     <Grid container justify="center">
-      <Grid item xs={10} md={6}>
+      <Grid item xs={10} md={7} lg={4}>
         <Card>
           <CardTitle title="Sign in to access your provider account" />
           <CardContent>
             <Grid container justify="space-around">
-              <Grid item xs={11} md={10}>
+              <Grid item xs={11}>
                 <LoginForm
                   onSubmit={onSubmit}
                   username={username}

@@ -1,6 +1,10 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
-import { API_PATH_USER_PLACE_ORDER, HTTP_STATUS_OK } from "../../constant/api";
+import {
+  API_PATH_USER_PLACE_ORDER,
+  HTTP_STATUS_OK,
+  API_PATH_FETCH_USER_ORDER,
+} from "../../constant/api";
 import { updateObject } from "../../shared/utility";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
@@ -103,6 +107,48 @@ export const placeOrder = (order, userId) => {
       .catch((error) => {
         dispatch(placeOrderFail());
         dispatch(setMessage(MESSAGE_TYPE.error, error.message));
+      });
+  };
+};
+
+export const fetchOrdersSuccess = (orderHistory) => {
+  return {
+    type: actionTypes.FETCH_ORDERS_SUCCESS,
+    orderHistory: orderHistory,
+  };
+};
+
+export const fetchOrdersFail = () => {
+  return {
+    type: actionTypes.FETCH_ORDERS_FAIL,
+  };
+};
+
+export const fetchOrdersStart = () => {
+  return {
+    type: actionTypes.FETCH_ORDERS_START,
+  };
+};
+
+export const fetchOrders = (userId) => {
+  return (dispatch) => {
+    dispatch(fetchOrdersStart());
+    axios
+      .get(API_PATH_FETCH_USER_ORDER + userId)
+      .then((response) => {
+        let fetchedOrders = [];
+        if (
+          response.hasOwnProperty("data") &&
+          response.data.hasOwnProperty("orderHistoryResponseBody") &&
+          response.data.orderHistoryResponseBody.length > 0
+        ) {
+          fetchedOrders = [...response.data.orderHistoryResponseBody];
+        }
+        dispatch(fetchOrdersSuccess(fetchedOrders));
+      })
+      .catch((error) => {
+        dispatch(fetchOrdersFail());
+        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
   };
 };

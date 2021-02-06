@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
-import { productList } from "../../constant/homepage";
 import { API_PATH_FETCH_PRODUCTS } from "../../constant/api";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
@@ -30,8 +29,7 @@ export const fetchProducts = (token, userId) => {
     axios
       .get(API_PATH_FETCH_PRODUCTS)
       .then((response) => {
-
-        let fetchedProducts = [...productList];
+        let fetchedProducts = [];
         if (
           response.hasOwnProperty("data") &&
           response.data.hasOwnProperty("products") &&
@@ -39,7 +37,6 @@ export const fetchProducts = (token, userId) => {
         ) {
           fetchedProducts = [...response.data.products];
         }
-
         dispatch(fetchProductsSuccess(fetchedProducts));
       })
       .catch((error) => {

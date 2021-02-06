@@ -108,7 +108,7 @@ function ProductDetail(props) {
                     </Grid>
                     <Grid item>
                       <Typography className={classes.duration} color="primary">
-                        <div> <AccessAlarmIcon />  {product.duration} mins</div>
+                        <span> <AccessAlarmIcon />  {product.duration} mins</span>
                       </Typography>
                     </Grid>
                     <Grid item >

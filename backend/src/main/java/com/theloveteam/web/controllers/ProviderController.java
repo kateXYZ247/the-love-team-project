@@ -1,14 +1,15 @@
 package com.theloveteam.web.controllers;
 
 import com.theloveteam.web.dao.Provider;
+import com.theloveteam.web.dto.ProviderAvailRequestBody;
+import com.theloveteam.web.dto.ProviderAvailResponseBody;
 import com.theloveteam.web.handlers.GetProviderDetailHandler;
 
+import com.theloveteam.web.handlers.ProviderAvailUpdateHandler;
 import com.theloveteam.web.model.ProviderDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProviderController {
@@ -16,10 +17,20 @@ public class ProviderController {
     @Autowired
     private GetProviderDetailHandler getProviderDetailHandler;
 
+    @Autowired
+    private ProviderAvailUpdateHandler providerAvailUpdateHandler;
+
     @GetMapping("/providers/{providerId}")
     public ResponseEntity<ProviderDetail> getProviderDetail(@PathVariable String providerId) {
         return getProviderDetailHandler.handle(providerId);
     }
 
     //update provider availability
+    @PutMapping("/providers/{providerId}/availability")
+    public ResponseEntity<ProviderAvailResponseBody> updateAvail(@PathVariable String providerId,
+                                                                 @RequestBody ProviderAvailRequestBody availRequestBody) {
+        availRequestBody.setProviderId(providerId);
+        return providerAvailUpdateHandler.handle(availRequestBody);
+    }
+
 }
