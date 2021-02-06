@@ -56,19 +56,27 @@ const updateServiceStatusStart = (state, action) => {
 
 const updateServiceStatusSuccess = (state, action) => {
   if (action.updatedStatus === SERVICE_STATUS.accepted) {
+    // remove from requests[]
     return updateObject(state, {
       requests: state.requests.filter((_, i) => i !== action.index),
       loading: false,
     });
-  } else if (
-    action.updatedStatus === SERVICE_STATUS.started ||
-    action.updatedStatus === SERVICE_STATUS.ended
-  ) {
+  } else if (action.updatedStatus === SERVICE_STATUS.started) {
+    // update service status in services[]
     const updatedServices = state.services.map((s, i) =>
       i === action.index ? updateObject(s, { status: action.updatedStatus }) : s
     );
     return updateObject(state, {
       services: updatedServices,
+      loading: false,
+    });
+  } else if (
+    action.updatedStatus === SERVICE_STATUS.canceled ||
+    action.updatedStatus === SERVICE_STATUS.ended
+  ) {
+    // remove from services[]
+    return updateObject(state, {
+      services: state.services.filter((_, i) => i !== action.index),
       loading: false,
     });
   }

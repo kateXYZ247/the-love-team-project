@@ -8,7 +8,13 @@ import ProviderUpcomingServiceCard from "../../../components/ProviderUpcomingSer
 import Grid from "@material-ui/core/Grid";
 
 function ProviderUpcoming(props) {
-  const { userId, loading, services, onFetchUpcomingServices } = props;
+  const {
+    userId,
+    loading,
+    services,
+    onFetchUpcomingServices,
+    onUpdateServiceStatus,
+  } = props;
 
   useEffect(() => {
     onFetchUpcomingServices(userId);
@@ -16,10 +22,6 @@ function ProviderUpcoming(props) {
 
   const contactHandler = (customerUserId) => {
     console.log(customerUserId);
-  };
-
-  const actionHandler = (serviceId) => {
-    console.log(serviceId);
   };
 
   return (
@@ -37,8 +39,14 @@ function ProviderUpcoming(props) {
               service={service}
               key={index}
               onContact={() => contactHandler(service.userId)}
-              onAction={() => actionHandler(service.serviceId)}
-              actionButtonText="Cancel"
+              onAction={(updatedStatus) =>
+                onUpdateServiceStatus(
+                  index,
+                  service.serviceId,
+                  userId,
+                  updatedStatus
+                )
+              }
             />
           ))}
         </Grid>
@@ -62,6 +70,20 @@ const mapDispatchToProps = (dispatch) => {
         actions.fetchServices(
           PROVIDER_FETCH_SERVICES_TYPE.upcomingServices,
           userId
+        )
+      ),
+    onUpdateServiceStatus: (
+      serviceIndex,
+      serviceId,
+      providerId,
+      updatedStatus
+    ) =>
+      dispatch(
+        actions.updateServiceStatus(
+          serviceIndex,
+          serviceId,
+          providerId,
+          updatedStatus
         )
       ),
   };
