@@ -6,7 +6,10 @@ import {
   sampleOrderServices,
   sampleOrderTotalPrice,
   sampleOrderHistory,
+  sampleUpcomingAppointment,
+  FETCH_ORDERS_TYPE
 } from "../../constant/order";
+import { SERVICE_STATUS } from "../../constant/service";
 
 const initialState = {
   error: false,
@@ -22,10 +25,9 @@ const initialState = {
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
-    // services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
-    // totalPrice: 0,
   },
   orderHistory: [],
+  upcomingServices: [],
 };
 
 const fetchOrdersStart = (state, action) => {
@@ -33,18 +35,55 @@ const fetchOrdersStart = (state, action) => {
 };
 
 const fetchOrdersSuccess = (state, action) => {
+  if (
+    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
+  ) {
+
+    const upcomingOrders = action.orders.filter(order => order.status === "accepted")
+    let services = []
+    for (const order of upcomingOrders) {
+      services = services.concat(order.servs);
+    }
+
+    return updateObject(state, {
+      upcomingServices: services,
+      loading: false
+    });
+  } else if (
+    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
+  ) {
+    return updateObject(state, {
+      orderHistory: action.orders,
+      loading: false
+    });
+  }
+  return updateObject(state, { loading: false });
+};
+
+const fetchOrdersFail = (state, action) => {
+
+  if (
+    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
+  ) {
+    return updateObject(state, {
+      appointments: sampleUpcomingAppointment,
+      loading: false,
+    });
+  } else if (
+    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
+  ) {
+    return updateObject(state, {
+      orderHistory: sampleOrderHistory,
+      loading: false,
+    });
+  }
   return updateObject(state, {
-    orderHistory: action.orderHistory,
+    orderHistory: sampleOrderHistory,
+    appointments: sampleUpcomingAppointment,
     loading: false,
   });
 };
 
-const fetchOrdersFail = (state, action) => {
-  return updateObject(state, {
-    orderHistory: [...sampleOrderHistory],
-    loading: false,
-  });
-};
 
 const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
@@ -163,6 +202,31 @@ export const placeOrderStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
+const userUpdateServiceStatusStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
+const userUpdateServiceStatusSuccess = (state, action) => {
+  if (
+    action.updatedStatus === SERVICE_STATUS.canceled ||
+    action.updatedStatus === SERVICE_STATUS.ended
+  ) {
+    // remove from services[]
+    return updateObject(state, {
+      upcomingServices: state.upcomingServices.filter((_, i) => i !== action.index),
+      loading: false,
+    });
+  }
+  return updateObject(state, { loading: false });
+};
+
+const userUpdateServiceStatusFail = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+  });
+};
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ORDER_ADD_TO_CART:
@@ -195,6 +259,13 @@ const reducer = (state = initialState, action) => {
       return fetchOrdersSuccess(state, action);
     case actionTypes.FETCH_ORDERS_FAIL:
       return fetchOrdersFail(state, action);
+    case actionTypes.USER_UPDATE_SERVICE_STATUS.start:
+      return userUpdateServiceStatusStart(state, action);
+    case actionTypes.USER_UPDATE_SERVICE_STATUS.success:
+      return userUpdateServiceStatusSuccess(state, action);
+    case actionTypes.USER_UPDATE_SERVICE_STATUS.fail:
+      return userUpdateServiceStatusFail();
+    // return userUpdateServiceStatusFail(state, action);
     default:
       return state;
   }

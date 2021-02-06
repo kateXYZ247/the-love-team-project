@@ -111,7 +111,7 @@ export const updateServiceStatus = (
     dispatch(updateServiceStatusStart());
     const data = {
       serviceId: serviceId,
-      providerId: providerId,
+      userId: providerId,
       status: updatedStatus,
     };
     axios

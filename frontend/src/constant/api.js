@@ -4,7 +4,9 @@ export const API_PATH_USER_DETAIL = "/users/";
 
 export const API_PATH_FETCH_PRODUCTS = "/products";
 export const API_PATH_USER_PLACE_ORDER = "/orders";
-export const API_PATH_FETCH_USER_ORDER = "/orders/";
+export const API_PATH_FETCH_USER_ORDER = "/orders?userId=";
+
+export const API_PATH_USER_UPDATE_SERVICE = "/services/";
 
 export const API_PATH_PROVIDER_LOGIN = "/providers/login";
 export const API_PATH_PROVIDER_DETAIL = "/providers/";
