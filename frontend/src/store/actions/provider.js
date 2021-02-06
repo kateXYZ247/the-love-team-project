@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
+  API_PARAMETER_PROVIDER_FETCH_REQUESTS,
+  API_PARAMETER_PROVIDER_FETCH_UPCOMING,
   API_PATH_PROVIDER_ACCEPT_REQUEST,
-  API_PATH_PROVIDER_FETCH_REQUESTS,
   API_PATH_PROVIDER_FETCH_SERVICES,
   HTTP_STATUS_OK,
 } from "../../constant/api";
@@ -34,13 +35,16 @@ const fetchServicesStart = () => {
 export const fetchServices = (type, userId) => {
   return (dispatch) => {
     dispatch(fetchServicesStart());
-    let url = "";
+    let url = API_PATH_PROVIDER_FETCH_SERVICES;
     switch (type) {
       case PROVIDER_FETCH_SERVICES_TYPE.requests:
-        url = API_PATH_PROVIDER_FETCH_REQUESTS + userId;
+        url += userId + API_PARAMETER_PROVIDER_FETCH_REQUESTS;
         break;
       case PROVIDER_FETCH_SERVICES_TYPE.upcomingServices:
-        url = API_PATH_PROVIDER_FETCH_SERVICES + userId;
+        url += userId + API_PARAMETER_PROVIDER_FETCH_UPCOMING;
+        break;
+      case PROVIDER_FETCH_SERVICES_TYPE.historicalServices:
+        url += userId;
         break;
       default:
     }
@@ -54,6 +58,7 @@ export const fetchServices = (type, userId) => {
         ) {
           const servList = response.data.servList.map((serv) => {
             serv.startTime = new Date(serv.startTime);
+            serv.endTime = new Date(serv.endTime);
             return serv;
           });
           dispatch(fetchServicesSuccess(type, servList));
@@ -75,40 +80,54 @@ export const declineRequest = (removeIndex) => {
   };
 };
 
-const acceptRequestStart = (index) => {
+const updateServiceStatusStart = (index) => {
   return {
-    type: actionTypes.PROVIDER_ACCEPT_REQUEST.start,
+    type: actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.start,
     index: index,
   };
 };
 
-const acceptRequestSuccess = (index) => {
+const updateServiceStatusSuccess = (index, updatedStatus) => {
   return {
-    type: actionTypes.PROVIDER_ACCEPT_REQUEST.success,
+    type: actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.success,
     index: index,
+    updatedStatus: updatedStatus,
   };
 };
 
-const acceptRequestFail = () => {
+const updateServiceStatusFail = () => {
   return {
-    type: actionTypes.PROVIDER_ACCEPT_REQUEST.fail,
+    type: actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.fail,
   };
 };
 
-export const acceptRequest = (serviceIndex, serviceId) => {
+export const updateServiceStatus = (
+  serviceIndex,
+  serviceId,
+  providerId,
+  updatedStatus
+) => {
   return (dispatch) => {
-    dispatch(acceptRequestStart());
+    dispatch(updateServiceStatusStart());
+    const data = {
+      serviceId: serviceId,
+      providerId: providerId,
+      status: updatedStatus,
+    };
     axios
-      .patch(API_PATH_PROVIDER_ACCEPT_REQUEST + serviceId)
+      .patch(API_PATH_PROVIDER_ACCEPT_REQUEST + serviceId, data)
       .then((response) => {
         if (response.status === HTTP_STATUS_OK) {
-          dispatch(acceptRequestSuccess(serviceIndex));
+          dispatch(updateServiceStatusSuccess(serviceIndex, updatedStatus));
+          dispatch(
+            setMessage(MESSAGE_TYPE.success, `Service ${updatedStatus}!`)
+          );
         } else {
           throw new Error(response.statusText);
         }
       })
       .catch((error) => {
-        dispatch(acceptRequestFail());
+        dispatch(updateServiceStatusFail());
         dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
   };

@@ -18,6 +18,7 @@ export {
   setBackStatus,
   resetStatus,
   clearCart,
+  fetchOrders,
 } from "./order";
 
 export { fetchProducts } from "./products";
@@ -28,8 +29,10 @@ export { clearMessage } from "./message";
 
 
 
+
 export { providerProfile, onSwitch} from "./providerProfile";
 
-export { fetchServices, acceptRequest, declineRequest } from "./provider";
 
+
+export { fetchServices, updateServiceStatus, declineRequest } from "./provider";
 
