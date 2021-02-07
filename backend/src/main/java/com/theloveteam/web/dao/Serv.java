@@ -79,4 +79,6 @@ public class Serv {
     @Column(name = "address_type")
     private String addressType;
 
+    private String geohash;
+
 }

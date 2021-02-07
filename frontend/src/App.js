@@ -48,6 +48,35 @@ function App(props) {
   // default route before login
   let routes = (
     <Switch>
+
+      <Route path={PATH_REGISTER} render={(props) => <Register {...props} />} />
+      <Route path={PATH_ORDER} exact component={Order} />
+        <Route
+            path={PATH_PROVIDER_PROFILE}
+            exact
+            component={ProviderProfile}
+        />
+      <Route
+        path={PATH_LOGIN}
+        exact
+        render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
+      />
+      <Route
+        path={PATH_PROVIDER_LOGIN}
+        exact
+        render={(props) => <Login loginType={AUTH_ROLE.provider} {...props} />}
+      />
+      <Route
+        path={PATH_TEST}
+        render={(props) => <SampleContainer {...props} />}
+      />
+      <Route path={PATH_HOME} exact component={Home} />
+      <Route
+        path={PATH_PROVIDER_HOME}
+        exact
+        render={(props) => <ProviderListServices {...props} />}
+      />
+
       <Redirect to={PATH_HOME} />
     </Switch>
   );
