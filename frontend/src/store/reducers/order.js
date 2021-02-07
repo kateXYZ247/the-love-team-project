@@ -36,18 +36,9 @@ const fetchOrdersSuccess = (state, action) => {
   if (
     action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
   ) {
-
-    const upcomingOrders = action.orders.filter(order => {
-      if (order.status === ORDER_STATUS.accepted) {
-        const endedService = order.servs.filter((serv) => serv.status === ORDER_STATUS.ended);
-        const numberOfService = order.servs.length;
-        return endedService.length !== numberOfService;
-      };
-      return false;
-    });
-
     return updateObject(state, {
-      upcomingOrders: upcomingOrders,
+      // upcomingOrders: upcomingOrders,
+      upcomingOrders: action.orders,
       loading: false
     });
   } else if (

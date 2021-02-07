@@ -4,6 +4,7 @@ import {
   API_PATH_USER_PLACE_ORDER,
   HTTP_STATUS_OK,
   API_PATH_FETCH_USER_ORDER,
+  API_PATH_FETCH_USER_UPCOMING_ORDER,
   API_PATH_USER_UPDATE_ORDER,
 } from "../../constant/api";
 import { updateObject } from "../../shared/utility";
@@ -138,15 +139,15 @@ export const fetchOrdersStart = () => {
 export const fetchOrders = (type, userId) => {
   return (dispatch) => {
     dispatch(fetchOrdersStart());
-    let url = API_PATH_FETCH_USER_ORDER;
+    let url = ''
     switch (type) {
       case FETCH_ORDERS_TYPE.upcomingAppointments:
-        url += userId
-        // url += userId + API_PARAMETER_xxx;
+        url = API_PATH_FETCH_USER_UPCOMING_ORDER;
+        url += userId + "&status=upcoming"
         break;
       case FETCH_ORDERS_TYPE.historicalOrders:
-        url += userId
-        // url += userId + API_PARAMETER_xxx;
+        url = API_PATH_FETCH_USER_ORDER;
+        url += userId;
         break;
       default:
     }

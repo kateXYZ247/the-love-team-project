@@ -28,13 +28,13 @@ const SubTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function UpcommingServiceCard(props) {
+function UpcommingAppointmentCard(props) {
   const { order, onAction } = props;
   const services = order.servs;
   const service = services[0];
   const startTime = new Date(service.startTime);
   const currentTime = new Date();
-  const isStarted = !services.every((service) => service.status === SERVICE_STATUS.accepted);
+  const isNotStarted = !services.every((service) => (service.status === SERVICE_STATUS.requested) || (service.status === SERVICE_STATUS.accepted));
   const serviceDate =
     services.length === 0 ? new Date(0) : new Date(services[0].startTime);
   const serviceEndDate =
@@ -44,7 +44,7 @@ function UpcommingServiceCard(props) {
   const cancelButton =
     startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS
       &&
-      !isStarted
+      !isNotStarted
       ? (
         <Box component={"span"} mx={1}>
           <Button
@@ -73,7 +73,6 @@ function UpcommingServiceCard(props) {
               <UpcomingAppointmentItem
                 fontSize="h6"
                 label="Status"
-                // value={isStarted ? "Started" : order.status}
                 value={order.status}
               />
               <UpcomingAppointmentItem
@@ -148,4 +147,4 @@ function UpcommingServiceCard(props) {
   );
 }
 
-export default UpcommingServiceCard;
+export default UpcommingAppointmentCard;
