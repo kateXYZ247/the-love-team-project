@@ -8,5 +8,10 @@ export const SERVICE_STATUS = {
   finished: "finished",
 };
 
+export const SERVICE_UPDATE_SOURCE = {
+  fetchedRequests: "fetchedRequests",
+  pushedRequests: "pushedRequests",
+};
+
 export const SERVICE_CANCELABLE_MIN_DAYS = 5 * 24 * 3600 * 1000;
 export const SERVICE_START_MIN_HOURS = 168 * 3600 * 1000;

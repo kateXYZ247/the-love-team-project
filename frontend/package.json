@@ -23,6 +23,8 @@
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "sockjs-client": "^1.5.0",
+    "stompjs": "^2.3.3",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

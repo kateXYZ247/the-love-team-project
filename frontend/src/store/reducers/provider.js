@@ -1,13 +1,14 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
-import { SERVICE_STATUS } from "../../constant/service";
+import { SERVICE_STATUS, SERVICE_UPDATE_SOURCE } from "../../constant/service";
 
 const initialState = {
   loading: false,
   requests: [],
   services: [],
   histories: [],
+  pushedRequests: [],
 };
 
 const fetchServicesStart = (state, action) => {
@@ -45,9 +46,17 @@ const fetchServicesFail = (state, action) => {
 };
 
 const declineRequest = (state, action) => {
-  return updateObject(state, {
-    requests: state.requests.filter((_, i) => i !== action.removeIndex),
-  });
+  if (action.source === SERVICE_UPDATE_SOURCE.fetchedRequests) {
+    return updateObject(state, {
+      requests: state.requests.filter((_, i) => i !== action.removeIndex),
+    });
+  } else {
+    return updateObject(state, {
+      pushedRequests: state.pushedRequests.filter(
+        (_, i) => i !== action.removeIndex
+      ),
+    });
+  }
 };
 
 const updateServiceStatusStart = (state, action) => {
@@ -56,11 +65,20 @@ const updateServiceStatusStart = (state, action) => {
 
 const updateServiceStatusSuccess = (state, action) => {
   if (action.updatedStatus === SERVICE_STATUS.accepted) {
-    // remove from requests[]
-    return updateObject(state, {
-      requests: state.requests.filter((_, i) => i !== action.index),
-      loading: false,
-    });
+    // remove from requests[]/pushedRequests[]
+    if (action.source === SERVICE_UPDATE_SOURCE.fetchedRequests) {
+      return updateObject(state, {
+        requests: state.requests.filter((_, i) => i !== action.index),
+        loading: false,
+      });
+    } else {
+      return updateObject(state, {
+        pushedRequests: state.pushedRequests.filter(
+          (_, i) => i !== action.index
+        ),
+        loading: false,
+      });
+    }
   } else if (action.updatedStatus === SERVICE_STATUS.started) {
     // update service status in services[]
     const updatedServices = state.services.map((s, i) =>
@@ -89,6 +107,21 @@ const updateServiceStatusFail = (state, action) => {
   });
 };
 
+const addPushedRequest = (state, action) => {
+  const { service } = action;
+  const newRequest = updateObject(service, {
+    startTime: new Date(service.startTime),
+    endTime: new Date(service.endTime),
+  });
+  return updateObject(state, {
+    pushedRequests: [...state.pushedRequests, newRequest],
+  });
+};
+
+const clearPushedRequest = (state, action) => {
+  return updateObject(state, { pushedRequests: [] });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PROVIDER_FETCH_SERVICES.start:
@@ -105,6 +138,10 @@ const reducer = (state = initialState, action) => {
       return updateServiceStatusFail(state, action);
     case actionTypes.PROVIDER_DECLINE_REQUEST:
       return declineRequest(state, action);
+    case actionTypes.PROVIDER_ADD_PUSHED_REQUEST:
+      return addPushedRequest(state, action);
+    case actionTypes.PROVIDER_CLEAR_PUSHED_REQUEST:
+      return clearPushedRequest(state, action);
     default:
       return state;
   }
