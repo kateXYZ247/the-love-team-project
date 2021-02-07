@@ -52,9 +52,9 @@ export const onSwitch = (userId, token, avail) => {
         dispatch(switchStart);
         axios
             (API_PATH_PROVIDER_DETAIL + userId + "/availability", {
-                headers: {
-                    'Authorization': `token ${token}`
-                },
+                // headers: {
+                //     'Authorization': `token ${token}`
+                // },
                 data: {
                     "isAvailable" : avail
                 },
@@ -77,9 +77,9 @@ export const providerProfile = (userId, token) => {
         dispatch(providerProfileStart);
         axios
             .get(API_PATH_PROVIDER_DETAIL + userId, {
-                headers: {
-                    'Authorization': `token ${token}`
-                }
+                // headers: {
+                //     'Authorization': `token ${token}`
+                // }
             })
             .then((response) => {
                 // console.log(response);
