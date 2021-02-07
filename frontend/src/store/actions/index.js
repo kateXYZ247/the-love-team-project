@@ -32,7 +32,7 @@ export { clearMessage } from "./message";
 
 
 
-export { providerProfile, onSwitch} from "./providerProfile";
+export { onSwitch } from "./providerProfile";
 
 
 

@@ -13,24 +13,24 @@ const initialState = {
   avail: true,
 };
 
-const providerProfileStart = (state, action) => {
-  return updateObject(state, {});
-};
-
-const providerProfileSuccess = (state, action) => {
-  return updateObject(state, {
-    firstName: action.firstName,
-    lastName: action.lastName,
-    phone: action.phone,
-    address: action.address,
-    productName: action.productName,
-    avail: action.available,
-  });
-};
-
-const providerProfileFail = (state, action) => {
-  return updateObject(state, {});
-};
+// const providerProfileStart = (state, action) => {
+//   return updateObject(state, {});
+// };
+//
+// const providerProfileSuccess = (state, action) => {
+//   return updateObject(state, {
+//     firstName: action.firstName,
+//     lastName: action.lastName,
+//     phone: action.phone,
+//     address: action.address,
+//     productName: action.productName,
+//     avail: action.available,
+//   });
+// };
+//
+// const providerProfileFail = (state, action) => {
+//   return updateObject(state, {});
+// };
 const switchStart = (state, action) => {
   return updateObject(state, {});
 };
@@ -45,12 +45,12 @@ const switchFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.PROVIDER_PROFILE_START:
-      return providerProfileStart(state, action);
-    case actionTypes.PROVIDER_PROFILE_SUCCESS:
-      return providerProfileSuccess(state, action);
-    case actionTypes.PROVIDER_PROFILE_FAIL:
-      return providerProfileFail(state, action);
+    // case actionTypes.PROVIDER_PROFILE_START:
+    //   return providerProfileStart(state, action);
+    // case actionTypes.PROVIDER_PROFILE_SUCCESS:
+    //   return providerProfileSuccess(state, action);
+    // case actionTypes.PROVIDER_PROFILE_FAIL:
+    //   return providerProfileFail(state, action);
     case actionTypes.SWITCH_START:
       return switchStart(state, action);
     case actionTypes.SWITCH_SUCCESS:

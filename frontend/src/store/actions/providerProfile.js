@@ -7,36 +7,36 @@ import {
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 
-export const providerProfileSuccess = (
-  firstName,
-  lastName,
-  phone,
-  address,
-  available,
-  productName
-) => {
-  return {
-    type: actionTypes.PROVIDER_PROFILE_SUCCESS,
-    firstName: firstName,
-    lastName: lastName,
-    phone: phone,
-    address: address,
-    available: available,
-    productName: productName,
-  };
-};
+// export const providerProfileSuccess = (
+//   firstName,
+//   lastName,
+//   phone,
+//   address,
+//   available,
+//   productName
+// ) => {
+//   return {
+//     type: actionTypes.PROVIDER_PROFILE_SUCCESS,
+//     firstName: firstName,
+//     lastName: lastName,
+//     phone: phone,
+//     address: address,
+//     available: available,
+//     productName: productName,
+//   };
+// };
 
-export const providerProfileFail = () => {
-  return {
-    type: actionTypes.PROVIDER_PROFILE_FAIL,
-  };
-};
+// export const providerProfileFail = () => {
+//   return {
+//     type: actionTypes.PROVIDER_PROFILE_FAIL,
+//   };
+// };
 
-export const providerProfileStart = () => {
-  return {
-    type: actionTypes.PROVIDER_PROFILE_START,
-  };
-};
+// export const providerProfileStart = () => {
+//   return {
+//     type: actionTypes.PROVIDER_PROFILE_START,
+//   };
+// };
 
 export const switchStart = () => {
   return {
@@ -75,27 +75,27 @@ export const onSwitch = (userId, avail) => {
       });
   };
 };
-export const providerProfile = (userId, token) => {
-  return (dispatch) => {
-    dispatch(providerProfileStart);
-    axios
-      .get(API_PATH_PROVIDER_DETAIL + userId)
-      .then((response) => {
-        // console.log(response);
-        const { productName, provider } = response.data;
-        dispatch(
-          providerProfileSuccess(
-            provider.firstName,
-            provider.lastName,
-            provider.phone,
-            provider.address,
-            provider.available,
-            productName.toString()
-          )
-        );
-      })
-      .catch((error) => {
-        dispatch(providerProfileFail());
-      });
-  };
-};
+// export const providerProfile = (userId, token) => {
+//   return (dispatch) => {
+//     dispatch(providerProfileStart);
+//     axios
+//       .get(API_PATH_PROVIDER_DETAIL + userId)
+//       .then((response) => {
+//         // console.log(response);
+//         const { productName, provider } = response.data;
+//         dispatch(
+//           providerProfileSuccess(
+//             provider.firstName,
+//             provider.lastName,
+//             provider.phone,
+//             provider.address,
+//             provider.available,
+//             productName.toString()
+//           )
+//         );
+//       })
+//       .catch((error) => {
+//         dispatch(providerProfileFail());
+//       });
+//   };
+// };
