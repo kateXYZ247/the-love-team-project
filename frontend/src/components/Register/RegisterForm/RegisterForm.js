@@ -12,7 +12,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import CheckboxLabels from "../CheckBox/CheckBox.js";
 
 function RegisterForm(props) {
-  const { user, handleChange, handleSubmit, onUnmount } = props;
+  const { user, handleChange, checkedBoxHandleChange, handleSubmit, onUnmount } = props;
 
   useEffect(() => {
     return () => {
@@ -139,7 +139,11 @@ function RegisterForm(props) {
                   <Box p={2} textAlign="center">
                     <Grid container justify="center">
                       <Grid item xs={12} sm={12}>
-                        <CheckboxLabels />
+                        <CheckboxLabels
+                          user={user.isAgree}
+                          name="isAgree"
+                          checkedBoxHandleChange={checkedBoxHandleChange}
+                        />
                       </Grid>
                     </Grid>
                   </Box>

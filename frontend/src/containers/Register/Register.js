@@ -15,6 +15,7 @@ function Register(props) {
     phone: "",
     email: "",
     password: "",
+    isAgree: false,
   });
 
   const [submitted, setSubmit] = useState(false);
@@ -22,6 +23,13 @@ function Register(props) {
   // const history = useHistory();
   function handleChange(e) {
     const { name, value } = e.target;
+    setUser((user) => ({ ...user, [name]: value }));
+    setSubmit(false);
+  }
+
+  function checkedBoxHandleChange(e) {
+    const name = e.target.name;
+    const value = e.target.checked;
     setUser((user) => ({ ...user, [name]: value }));
     setSubmit(false);
   }
@@ -34,7 +42,8 @@ function Register(props) {
       user.lastName &&
       user.phone &&
       user.email &&
-      user.password
+      user.password &&
+      user.isAgree
     ) {
       onRegister(user);
     }
@@ -53,6 +62,7 @@ function Register(props) {
           <RegisterForm
             user={user}
             handleChange={handleChange}
+            checkedBoxHandleChange={checkedBoxHandleChange}
             handleSubmit={handleSubmit}
             submitted={submitted}
             onUnmount={onResetForm}
