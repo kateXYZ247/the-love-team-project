@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="196px" height="186px" viewBox="0 0 196 186" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>299EF78C-1533-4826-A13B-56226368D1EA</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Landing-Page" transform="translate(-677.000000, -1165.000000)" fill="#B57AD2" fill-rule="nonzero">
-            <g id="Secret-Sauce" transform="translate(82.000000, 953.000000)">
-                <g id="3-Features" transform="translate(0.000000, 169.000000)">
+    <g id="Booking-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Landing-Page" transform="translate(-677.000000, -1165.000000)" fill="#D0BDF4" fill-rule="nonzero">
+            <g id="Secret-Sauce" transform="translate(82.000000, 950.000000)">
+                <g id="3-Features" transform="translate(0.000000, 172.000000)">
                     <g id="Feature-2" transform="translate(473.000000, 0.000000)">
                         <g id="reputation" transform="translate(122.324500, 43.200000)">
                             <path d="M102.689028,122.52637 L91.5161199,122.52637 C58.6585287,122.52637 31.926389,147.96308 31.926389,179.230012 C31.926389,182.165878 34.4275487,184.5459 37.5128433,184.5459 L156.692305,184.5459 C159.7776,184.5459 162.278759,182.165517 162.278759,179.229652 C162.278759,147.963441 135.547378,122.52637 102.689028,122.52637 Z" id="Path"></path>

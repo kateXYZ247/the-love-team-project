@@ -21,10 +21,10 @@ import { BrowserRouter } from "react-router-dom";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#B57AD2",
+      main: "#D0BDF4",
     },
     secondary: {
-      main: "#3490cf",
+      main: "#A0D2E8",
     },
   },
 });
