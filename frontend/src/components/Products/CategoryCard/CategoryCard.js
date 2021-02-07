@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
   },
   container: {
-    margin: 50,
+    marginTop: 40,
+    marginBottom: 0,
   },
   title: {
     color: "#2B292D",

@@ -3,19 +3,29 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
+import { CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   productCard: {
-    margin: 20,
+    marginBottom: 20,
   },
-  cardActionArea: {
+  card: {
     width: 333,
-    height: 155,
+    height: 185,
+  },
+  cardHeader: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  cardContent: {
+    paddingTop: 0,
+  },
+  right: {
+    height: 140,
   },
   starBar: {
     width: 333,
@@ -35,94 +45,72 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
     fontWeight: 600,
     fontSize: 24,
+    marginTop: 20,
   },
   duration: {
     fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
     fontSize: 16,
+    color: theme.palette.primary.main,
   },
 }));
 
 function ProductCard(props) {
   const classes = useStyles();
-  const {
-    product,
-    productDetailOpen,
-    onSetProduct,
-  } = props;
+  const { product, productDetailOpen, onSetProduct } = props;
 
   return (
-    <Grid
-      container
-      direction="column"
-      justify="flex-start"
-      alignItems="center"
-      spacing={0}
-      className={classes.productCard}
-    >
-      <Grid item>
-        {product.star ? <Box className={classes.starBar} bgcolor="primary.main" /> : null}
-      </Grid>
+    <Box className={classes.productCard}>
+      <Box>
+        {product.star ? (
+          <Box className={classes.starBar} bgcolor="primary.main" />
+        ) : null}
+      </Box>
 
-      <Grid item>
-        <Card >
-          <CardActionArea className={classes.cardActionArea}
-            onClick={() => {
-              onSetProduct(product);
-              productDetailOpen();
-            }}>
-
-            <CardContent>
-              <Grid container spacing={2} direction="column" justify="flex-start">
-                <Grid item>
-                  <Typography className={classes.productName}>
-                    {product.star ? (
-                      <span>
-                        <FavoriteOutlinedIcon />
-                        {product.productName}
-                      </span>
-                    ) : (
-                        product.productName
-                      )}
-                  </Typography>
-                </Grid>
+      <Card
+        className={classes.card}
+        onClick={() => {
+          onSetProduct(product);
+          productDetailOpen();
+        }}
+      >
+        <CardHeader
+          avatar={product.star ? <FavoriteOutlinedIcon /> : null}
+          title={product.productName}
+          titleTypographyProps={{ variant: "h5" }}
+          className={classes.cardHeader}
+        />
+        <CardContent className={classes.cardContent}>
+          <Grid container direction="row" justify="space-around" spacing={1}>
+            <Grid item xs={8}>
+              <Typography className={classes.productDescription}>
+                {product.productDescription}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Box align="center">
+                <Typography className={classes.productPrice}>
+                  ${product.productPrice.toFixed(0)}
+                </Typography>
                 <Grid
                   container
-                  direction="row"
-                  justify="flex-start"
+                  justify="center"
                   alignItems="center"
+                  spacing={2}
+                  className={classes.duration}
                 >
-                  <Grid item xs={8}>
-                    <Typography className={classes.productDescription}>{product.productDescription}</Typography>
+                  <Grid item xs={3}>
+                    <AccessAlarmIcon />
                   </Grid>
-                  <Grid item xs={4}>
-                    <Grid
-                      container
-                      direction="column"
-                      justify="space-evenly"
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Typography className={classes.productPrice}>
-                          ${product.productPrice.toFixed(0)}
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography className={classes.duration} color='primary'>
-                          <span>
-                            <AccessAlarmIcon />  {product.duration} mins
-                            </span>
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                  <Grid item xs={9}>
+                    {product.duration} mins
                   </Grid>
                 </Grid>
-              </Grid>
-            </CardContent>
-          </CardActionArea>
-        </Card >
-      </Grid>
-    </Grid >
-
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 
