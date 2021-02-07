@@ -1,61 +1,61 @@
-import {Box, Grid} from "@material-ui/core";
+import { Box, Chip, Grid } from "@material-ui/core";
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
+import { makeStyles } from "@material-ui/core/styles";
+import DoneIcon from "@material-ui/icons/Done";
 import photo from "../../assets/images/providerAvatar.jpg";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles((theme) => ({
-
-    large: {
-        width: theme.spacing(17),
-        height: theme.spacing(17),
-    },
-    approve: {
-        textAlign: "flex-end",
-        justifyContent: "flex-end",
-    }
+  large: {
+    width: theme.spacing(17),
+    height: theme.spacing(17),
+  },
+  approve: {
+    textAlign: "flex-end",
+    justifyContent: "flex-end",
+  },
 }));
+
 function ProviderPhoto(props) {
-    const { handleSwitch ,avail} = props;
-    const [state, setState] = React.useState({
-        checkedA: avail,
-    });
+  const { handleSwitch, avail } = props;
 
-    const handleChange = (event) => {
-        // console.log("before setting" + state.checkedA);
-        setState({ ...state, [event.target.name]: event.target.checked });
-        // console.log("before switch" + state.checkedA);
-        handleSwitch(!state.checkedA);
-    };
-    const classes = useStyles();
-    return(
-        <Grid container  spacing={9} >
-            <Grid item xs={5} sm={5} >
-                <Avatar alt="Cindy Baker" src={photo} className={classes.large}/>
-            </Grid>
-            <Grid item xs={5} sm={5} className={classes.approve}>
-                <Box mt={3}>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                    >
-                        Approved
-                    </Button>
-                </Box>
-                <Box mt={3}>
-                    <FormControlLabel
-                        control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />}
-                        label= {state.checkedA ? "available" : "unavailable"}
-                    />
-                </Box>
-            </Grid>
-
-        </Grid>
-    );
+  const handleChange = (event) => {
+    handleSwitch(!avail);
+  };
+  const classes = useStyles();
+  return (
+    <Grid container justify={"space-around"}>
+      <Grid item xs={4}>
+        <Avatar alt="Cindy Baker" src={photo} className={classes.large} />
+      </Grid>
+      <Grid item xs={6} className={classes.approve}>
+        <Box minWidth={"250px"} align={"center"}>
+          <Box mt={3}>
+            <Chip
+              icon={<DoneIcon />}
+              label="Approved"
+              clickable
+              color="primary"
+            />
+          </Box>
+          <Box mt={3}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={avail}
+                  onChange={handleChange}
+                  name="checkedA"
+                />
+              }
+              label={avail ? "available" : "unavailable"}
+            />
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
+  );
 }
 
 export default ProviderPhoto;
