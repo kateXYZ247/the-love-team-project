@@ -31,6 +31,11 @@ public interface ServiceRepository extends JpaRepository<Serv, Long> {
     @Query("update Serv s set s.status = ?2 where s.serviceId = ?1 ")
     void updateServStatusByServId(Long serviceId, String status);
 
+    @Transactional
+    @Modifying
+    @Query("update Serv s set s.status = ?2 where s.serviceId in ?1 ")
+    void updateServStatusByServIds(List<Long> serviceIds, String status);
+
     //update providerId
     @Transactional
     @Modifying

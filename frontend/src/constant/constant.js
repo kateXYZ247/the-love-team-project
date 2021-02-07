@@ -1,5 +1,7 @@
 export const test = "test";
 
+export const MESSAGE_DURATION = 3000;
+
 export const LOCAL_DATETIME_OPTIONS = {
   day: "2-digit",
   month: "2-digit",
