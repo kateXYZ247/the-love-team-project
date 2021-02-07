@@ -6,6 +6,8 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { grey } from "@material-ui/core/colors";
+import { Link } from "react-router-dom";
+import { PATH_TEST } from "../../constant/path";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +41,14 @@ function Footer(props) {
         <Grid item xs={12} sm={3} align="center">
           <Box>
             <p className={classes.footerTitle}> Company</p>
-            <p className={classes.footerText}>About us</p>
+            <p className={classes.footerText}>
+              <Link
+                to={PATH_TEST}
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                About us
+              </Link>
+            </p>
             <p className={classes.footerText}>Services</p>
             <p className={classes.footerText}>Projects</p>
             <p className={classes.footerText}>Career</p>

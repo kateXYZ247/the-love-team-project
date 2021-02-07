@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import "./App.css";
 import Layout from "./hoc/Layout/Layout";
 import { connect } from "react-redux";
@@ -32,9 +32,19 @@ import ProviderUpcoming from "./containers/Provider/ProviderUpcoming/ProviderUpc
 import ProviderProfile from "./containers/Provider/ProviderProfile/ProviderProfile";
 import ProviderHistory from "./containers/Provider/ProviderHistory/ProviderHistory";
 import Appointments from "./containers/Appointments/Appointments";
+import * as actions from "./store/actions";
 
 function App(props) {
-  const { isAuthenticated, role } = props;
+  const { isAuthenticated, role, stompClient, onDisconnectWebSocket } = props;
+
+  // disconnect websocket on close
+  useEffect(() => {
+    return () => {
+      onDisconnectWebSocket(stompClient);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // default route before login
   let routes = (
     <Switch>
@@ -198,7 +208,15 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     role: state.auth.userDetail.role,
+    stompClient: state.auth.stompClient,
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDisconnectWebSocket: (stompClient) =>
+      dispatch(actions.disconnectWebSocket(stompClient)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
