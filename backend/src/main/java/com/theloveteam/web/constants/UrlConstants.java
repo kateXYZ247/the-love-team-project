@@ -24,4 +24,7 @@ public class UrlConstants {
     public static final String WS_APP = "/app";
     public static final String WS_REPLY = "/reply";
     public static final String WS_QUEUE = "/queue";
+
+    // GeoLocation related
+    public static String GEOCLIENT_URL = "https://api.opencagedata.com/geocode/v1/json?key=b9b9f8ad3cbd45cea0b3502da2401680&q={address}&pretty=1&no_annotations=1";
 }

@@ -33,10 +33,11 @@ public class Provider {
 
     private String address;
 
-    private String zip;
+    private Double latitude;
 
-    @Column(name="geohash")
-    private String geoHash;
+    private Double longitude;
+
+    private String geohash;
 
     @Column(nullable = false)
     private String email;

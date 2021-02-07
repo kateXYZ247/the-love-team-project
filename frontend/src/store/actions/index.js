@@ -28,6 +28,16 @@ export { register, registerReset } from "./register";
 
 export { clearMessage } from "./message";
 
+
+
+
+
+export { providerProfile, onSwitch} from "./providerProfile";
+
+
+
+
+
 export {
   fetchServices,
   updateServiceStatus,
@@ -35,3 +45,4 @@ export {
   addPushedRequest,
   clearPushedRequest,
 } from "./provider";
+
