@@ -85,7 +85,7 @@ function PaymentInfo(props) {
         onConfirm={orderPlacedHandler}
         price={order.totalPrice}
       />
-      <Grid container justify="center" spacing={2}>
+      <Grid container justify="space-around">
         <Grid item xs={11} lg={6}>
           <CreditCardInfo
             creditCard={creditCard}
