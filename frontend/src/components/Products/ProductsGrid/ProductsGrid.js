@@ -3,8 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import ProductCard from "../ProductCard/ProductCard";
 
-
-
 function ProductsGrid(props) {
   const {
     productList,
@@ -17,12 +15,13 @@ function ProductsGrid(props) {
   } = props;
 
   function cardGenerator(category) {
-    return (
-      productList.filter((product) => product.category === category)
-        .sort(function (p1, p2) {
-          return parseInt(p1.productId) - parseInt(p2.productId);
-        })
-        .map((product) => (
+    return productList
+      .filter((product) => product.category === category)
+      .sort(function (p1, p2) {
+        return parseInt(p1.productId) - parseInt(p2.productId);
+      })
+      .map((product) => (
+        <Grid container justify={"center"}>
           <ProductCard
             product={product}
             key={product.productId}
@@ -33,27 +32,27 @@ function ProductsGrid(props) {
             onAppointmentModalOpen={onAppointmentModalOpen}
             onSetProduct={onSetProduct}
           />
-        ))
-    )
-  };
+        </Grid>
+      ));
+  }
 
   return (
-    <Grid container direction="row" justify="center" alignItems="flex-start">
-      <Grid item>
+    <Grid container direction="row" justify="space-around" spacing={5}>
+      <Grid item xs={11} md={5} lg={3}>
         <CategoryCard title={"BLOWOUTS"} />
-        {cardGenerator('Blowouts')}
+        {cardGenerator("Blowouts")}
       </Grid>
-      <Grid item>
+      <Grid item xs={11} md={5} lg={3}>
         <CategoryCard title={"HAIRCUTS"} />
-        {cardGenerator('Haircuts')}
+        {cardGenerator("Haircuts")}
       </Grid>
-      <Grid item>
+      <Grid item xs={11} md={5} lg={3}>
         <CategoryCard title={"MAKEUP"} />
-        {cardGenerator('Makeup')}
+        {cardGenerator("Makeup")}
       </Grid>
-      <Grid item>
+      <Grid item xs={11} md={5} lg={3}>
         <CategoryCard title={"NAILS"} />
-        {cardGenerator('Nails')}
+        {cardGenerator("Nails")}
       </Grid>
     </Grid>
   );
