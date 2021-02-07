@@ -58,16 +58,21 @@ function OrderHistoryTableRow(props) {
   let orderStatus = order.status;
   const numberOfService = servs.length;
   const acceptedService = servs.filter((serv) => serv.status === "accepted");
-  // const servicesNames = [
-  //   ...servs.reduce((acc, s) => acc.add(s.name), new Set()).values(),
-  // ].join(", ");
+  const endedService = servs.filter((serv) => serv.status === "ended");
+  const finishedService = servs.filter((serv) => serv.status === "finished");
+  const canceledService = servs.filter((serv) => serv.status === "canceled");
+
   const servicesNames = [
     ...servs.reduce((acc, s) => acc.add(s.productName), new Set()).values(),
   ].join(", ");
 
-  if (orderStatus === "requested" || orderStatus === "accepted") {
+  if (finishedService.length === numberOfService) {
+    orderStatus = "finished";
+  } else if (canceledService.length === numberOfService) {
+    orderStatus = "canceled";
+  } else {
     orderStatus =
-      "(" + acceptedService.length + "/" + numberOfService + ") accepted";
+      "(" + (acceptedService.length + endedService.length + finishedService.length) + "/" + numberOfService + ") accepted";
   }
 
   const rowClickedHandler = () => {

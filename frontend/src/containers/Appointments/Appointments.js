@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { FETCH_ORDERS_TYPE } from "../../constant/order";
 import { Box, Typography } from "@material-ui/core";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
-import UpcommingAppointmentCard from "../../components/Order/UpcomingAppintmentCard/UpcommingAppointmentCard";
+import UpcommingAppointmentCard from "../../components/UpcomingAppointmentCard/UpcomingAppointmentCard";
 import Grid from "@material-ui/core/Grid";
 
 function Appointments(props) {
@@ -12,8 +12,8 @@ function Appointments(props) {
     userId,
     loading,
     onFetchOrders,
-    upcomingServices,
-    onUpdateServiceStatus,
+    upcomingOrders,
+    onUpdateOrderStatus,
   } = props;
 
   useEffect(() => {
@@ -29,21 +29,21 @@ function Appointments(props) {
       <BackdropProgressCircle open={loading} />
       <Box mb={2}>
         <Typography variant="h5" align="center" color="primary">
-          Upcoming Services
+          Upcoming Appointments
         </Typography>
       </Box>
       <Box p={3}>
         <Grid container spacing={2} justify="space-around">
-          {upcomingServices
-            .map((service, index) => (
+          {upcomingOrders
+            .map((order, index) => (
               <UpcommingAppointmentCard
-                service={service}
+                order={order}
                 key={index}
-                onContact={() => contactHandler(service.userId)}
+                onContact={() => contactHandler(order.userId)}
                 onAction={(updatedStatus) =>
-                  onUpdateServiceStatus(
+                  onUpdateOrderStatus(
                     index,
-                    service.serviceId,
+                    order.orderId,
                     userId,
                     updatedStatus
                   )
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.auth.userId,
     loading: state.order.loading,
-    upcomingServices: state.order.upcomingServices,
+    upcomingOrders: state.order.upcomingOrders,
   };
 };
 
@@ -69,16 +69,16 @@ const mapDispatchToProps = (dispatch) => {
     onFetchOrders: (userId) => dispatch(actions.fetchOrders(
       FETCH_ORDERS_TYPE.upcomingAppointments,
       userId)),
-    onUpdateServiceStatus: (
-      serviceIndex,
-      serviceId,
+    onUpdateOrderStatus: (
+      orderIndex,
+      orderId,
       userId,
       updatedStatus
     ) =>
       dispatch(
-        actions.userUpdateServiceStatus(
-          serviceIndex,
-          serviceId,
+        actions.userUpdateOrderStatus(
+          orderIndex,
+          orderId,
           userId,
           updatedStatus
         )

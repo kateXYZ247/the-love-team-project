@@ -20,7 +20,7 @@ export {
   resetStatus,
   clearCart,
   fetchOrders,
-  userUpdateServiceStatus,
+  userUpdateOrderStatus,
 } from "./order";
 
 export { fetchProducts } from "./products";

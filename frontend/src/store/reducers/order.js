@@ -9,8 +9,6 @@ import {
   sampleUpcomingAppointment,
   FETCH_ORDERS_TYPE
 } from "../../constant/order";
-import { SERVICE_STATUS } from "../../constant/service";
-
 const initialState = {
   error: false,
   loading: false,
@@ -27,7 +25,7 @@ const initialState = {
     totalPrice: sampleOrderTotalPrice,
   },
   orderHistory: [],
-  upcomingServices: [],
+  upcomingOrders: [],
 };
 
 const fetchOrdersStart = (state, action) => {
@@ -39,14 +37,17 @@ const fetchOrdersSuccess = (state, action) => {
     action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
   ) {
 
-    const upcomingOrders = action.orders.filter(order => order.status === "accepted")
-    let services = []
-    for (const order of upcomingOrders) {
-      services = services.concat(order.servs);
-    }
+    const upcomingOrders = action.orders.filter(order => {
+      if (order.status === ORDER_STATUS.accepted) {
+        const endedService = order.servs.filter((serv) => serv.status === ORDER_STATUS.ended);
+        const numberOfService = order.servs.length;
+        return endedService.length !== numberOfService;
+      };
+      return false;
+    });
 
     return updateObject(state, {
-      upcomingServices: services,
+      upcomingOrders: upcomingOrders,
       loading: false
     });
   } else if (
@@ -202,43 +203,25 @@ export const placeOrderStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
-const userUpdateServiceStatusStart = (state, action) => {
+const userUpdateOrderStatusStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
-const userUpdateServiceStatusSuccess = (state, action) => {
-  if (
-    action.updatedStatus === SERVICE_STATUS.canceled ||
-    action.updatedStatus === SERVICE_STATUS.ended ||
-    action.updatedStatus === SERVICE_STATUS.finished
-  ) {
+const userUpdateOrderStatusSuccess = (state, action) => {
+  if (action.updatedStatus === ORDER_STATUS.canceled) {
     // remove from services[]
     return updateObject(state, {
-      upcomingServices: state.upcomingServices.filter((_, i) => i !== action.index),
+      upcomingOrders: state.upcomingOrders.filter((_, i) => i !== action.index),
       loading: false,
     });
   }
   return updateObject(state, { loading: false });
 };
 
-const userUpdateServiceStatusFail = (state, action) => {
-  // TODO API_PATH_USER_UPDATE_SERVICE
-  //   return updateObject(state, {
-  //     loading: false,
-  //   });
-  // };
-
-  if (
-    action.updatedStatus === SERVICE_STATUS.canceled ||
-    action.updatedStatus === SERVICE_STATUS.ended ||
-    action.updatedStatus === SERVICE_STATUS.finished
-  ) {
-    // remove from services[]
-    return updateObject(state, {
-      upcomingServices: state.upcomingServices.filter((_, i) => i !== action.index),
-      loading: false,
-    });
-  }
+const userUpdateOrderStatusFail = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+  });
 };
 
 const reducer = (state = initialState, action) => {
@@ -273,12 +256,12 @@ const reducer = (state = initialState, action) => {
       return fetchOrdersSuccess(state, action);
     case actionTypes.FETCH_ORDERS_FAIL:
       return fetchOrdersFail(state, action);
-    case actionTypes.USER_UPDATE_SERVICE_STATUS.start:
-      return userUpdateServiceStatusStart(state, action);
-    case actionTypes.USER_UPDATE_SERVICE_STATUS.success:
-      return userUpdateServiceStatusSuccess(state, action);
-    case actionTypes.USER_UPDATE_SERVICE_STATUS.fail:
-      return userUpdateServiceStatusFail(state, action);
+    case actionTypes.USER_UPDATE_ORDER_STATUS.start:
+      return userUpdateOrderStatusStart(state, action);
+    case actionTypes.USER_UPDATE_ORDER_STATUS.success:
+      return userUpdateOrderStatusSuccess(state, action);
+    case actionTypes.USER_UPDATE_ORDER_STATUS.fail:
+      return userUpdateOrderStatusFail(state, action);
     default:
       return state;
   }

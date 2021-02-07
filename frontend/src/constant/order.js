@@ -20,6 +20,13 @@ export const ORDER_STATUS = {
   FILL_DATE_ADDRESS: "fill date address",
   FILL_PAYMENT: "fill payment",
   CONFIRMED: "confirm",
+  requested: "requested",
+  accepted: "accepted",
+  declined: "declined",
+  canceled: "canceled",
+  started: "started",
+  ended: "ended",
+  finished: "finished",
 };
 
 export const orderProductsPageButtonText = "Select Date & Time";

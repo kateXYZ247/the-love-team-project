@@ -4,7 +4,7 @@ import {
   API_PATH_USER_PLACE_ORDER,
   HTTP_STATUS_OK,
   API_PATH_FETCH_USER_ORDER,
-  API_PATH_USER_UPDATE_SERVICE,
+  API_PATH_USER_UPDATE_ORDER,
 } from "../../constant/api";
 import { updateObject } from "../../shared/utility";
 import { setMessage } from "./message";
@@ -171,64 +171,51 @@ export const fetchOrders = (type, userId) => {
   };
 };
 
-const userUpdateServiceStatusStart = (index) => {
+const userUpdateOrderStatusStart = (index) => {
   return {
-    type: actionTypes.USER_UPDATE_SERVICE_STATUS.start,
+    type: actionTypes.USER_UPDATE_ORDER_STATUS.start,
     index: index,
   };
 };
 
-const userUpdateServiceStatusSuccess = (index, updatedStatus) => {
+const userUpdateOrderStatusSuccess = (index, updatedStatus) => {
   return {
-    type: actionTypes.USER_UPDATE_SERVICE_STATUS.success,
-    index: index,
-    updatedStatus: updatedStatus,
-  };
-};
-
-// TODO API_PATH_USER_UPDATE_SERVICE
-// const userUpdateServiceStatusFail = () => {
-//   return {
-//     type: actionTypes.USER_UPDATE_SERVICE_STATUS.fail,
-//   };
-// };
-
-const userUpdateServiceStatusFail = (index, updatedStatus) => {
-  return {
-    type: actionTypes.USER_UPDATE_SERVICE_STATUS.fail,
+    type: actionTypes.USER_UPDATE_ORDER_STATUS.success,
     index: index,
     updatedStatus: updatedStatus,
   };
 };
 
-export const userUpdateServiceStatus = (
-  serviceIndex,
-  serviceId,
+const userUpdateOrderStatusFail = () => {
+  return {
+    type: actionTypes.USER_UPDATE_ORDER_STATUS.fail,
+  };
+};
+
+export const userUpdateOrderStatus = (
+  orderIndex,
+  orderId,
   userId,
   updatedStatus
 ) => {
   return (dispatch) => {
-    dispatch(userUpdateServiceStatusStart());
+    dispatch(userUpdateOrderStatusStart());
     const data = {
-      serviceId: serviceId,
       userId: userId,
       status: updatedStatus,
     };
     axios
-      .patch(API_PATH_USER_UPDATE_SERVICE + serviceId, data)
+      .patch(API_PATH_USER_UPDATE_ORDER + orderId, data)
       .then((response) => {
         if (response.status === HTTP_STATUS_OK) {
-          dispatch(userUpdateServiceStatusSuccess(serviceIndex, updatedStatus));
+          dispatch(userUpdateOrderStatusSuccess(orderIndex, updatedStatus));
           dispatch(
             setMessage(MESSAGE_TYPE.success, `Service ${updatedStatus}!`)
           );
         }
       })
       .catch((error) => {
-        // TODO API_PATH_USER_UPDATE_SERVICE
-        // dispatch(userUpdateServiceStatusFail());
-        dispatch(userUpdateServiceStatusFail(serviceIndex, updatedStatus));
-
+        dispatch(userUpdateOrderStatusFail());
         dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
   };
