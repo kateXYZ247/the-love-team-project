@@ -12,7 +12,7 @@ const initialState = {
     language: null,
     productName: null,
     error: null,
-
+    avail: true,
 };
 
 const providerProfileStart = (state, action) => {
@@ -44,6 +44,7 @@ const switchStart = (state, action) => {
 };
 const switchSuccess = (state, action) => {
     return updateObject(state, {
+        avail: action.avail,
     });
 };
 const switchFail = (state, action) => {

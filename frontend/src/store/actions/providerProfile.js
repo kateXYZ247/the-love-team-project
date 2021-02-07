@@ -35,9 +35,10 @@ export const switchStart = () => {
         type: actionTypes.SWITCH_START,
     };
 }
-export const switchSuccess = () => {
+export const switchSuccess = (avail) => {
     return {
         type: actionTypes.SWITCH_SUCCESS,
+        avail: avail,
     };
 }
 
@@ -47,14 +48,11 @@ export const switchFail = () => {
     };
 }
 
-export const onSwitch = (userId, token, avail) => {
+export const onSwitch = (userId, avail) => {
     return (dispatch) => {
         dispatch(switchStart);
         axios
             (API_PATH_PROVIDER_DETAIL + userId + "/availability", {
-                // headers: {
-                //     'Authorization': `token ${token}`
-                // },
                 data: {
                     "isAvailable" : avail
                 },
@@ -63,7 +61,7 @@ export const onSwitch = (userId, token, avail) => {
             .then((response) => {
                 console.log(response);
                 const {successMsg} = response.data;
-                dispatch(switchSuccess());
+                dispatch(switchSuccess(avail));
                 dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
             })
             .catch((error) => {
@@ -76,11 +74,7 @@ export const providerProfile = (userId, token) => {
     return (dispatch) => {
         dispatch(providerProfileStart);
         axios
-            .get(API_PATH_PROVIDER_DETAIL + userId, {
-                // headers: {
-                //     'Authorization': `token ${token}`
-                // }
-            })
+            .get(API_PATH_PROVIDER_DETAIL + userId)
             .then((response) => {
                 // console.log(response);
             const {productName, provider} = response.data;

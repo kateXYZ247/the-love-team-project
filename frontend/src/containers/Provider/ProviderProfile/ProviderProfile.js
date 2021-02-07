@@ -7,17 +7,17 @@ import {connect} from "react-redux";
 
 
 function ProviderProfile(props) {
-    const { userId, token, firstName, lastName, phone, address, productName, providerProfile, onSwitch} = props;
+    const { userId, firstName, lastName, phone, address, productName, providerProfile, onSwitch, avail} = props;
 
     useEffect(() => {
-        providerProfile(userId, token);
-    }, [userId, token, providerProfile]);
+        providerProfile(userId);
+    }, [userId, providerProfile]);
 
 
 
     function handleSwitch(availability) {
         console.log(availability);
-        onSwitch(userId, token, availability);
+        onSwitch(userId, availability);
 
     }
 
@@ -26,6 +26,7 @@ function ProviderProfile(props) {
           <Grid container justify="center">
               <Box display="flex" mt={3} align="flex-start">
                   <ProviderPhoto
+                      avail={avail}
                       handleSwitch={handleSwitch}
                   />
               </Box>
@@ -50,14 +51,14 @@ const mapStateToProps = (state) => {
         phone: state.providerProfile.phone,
         address: state.providerProfile.address,
         userId: state.auth.userId,
-        token: state.auth.token,
         productName: state.providerProfile.productName,
+        avail: state.providerProfile.avail,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        providerProfile: (userId, token) => dispatch(actions.providerProfile(userId, token)),
-        onSwitch: (userId, token, availability) => dispatch(actions.onSwitch(userId, token, availability)),
+        providerProfile: (userId) => dispatch(actions.providerProfile(userId)),
+        onSwitch: (userId, availability) => dispatch(actions.onSwitch(userId, availability)),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProviderProfile);

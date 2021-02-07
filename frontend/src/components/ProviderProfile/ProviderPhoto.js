@@ -19,15 +19,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 function ProviderPhoto(props) {
-    const { handleSwitch } = props;
+    const { handleSwitch ,avail} = props;
     const [state, setState] = React.useState({
-        checkedA: true,
+        checkedA: avail,
     });
 
     const handleChange = (event) => {
+        // console.log("before setting" + state.checkedA);
         setState({ ...state, [event.target.name]: event.target.checked });
-        console.log(state.checkedA);
-        handleSwitch(state.checkedA);
+        // console.log("before switch" + state.checkedA);
+        handleSwitch(!state.checkedA);
     };
     const classes = useStyles();
     return(
@@ -48,7 +49,7 @@ function ProviderPhoto(props) {
                 <Box mt={3}>
                     <FormControlLabel
                         control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />}
-                        label="available/unavailable "
+                        label= {state.checkedA ? "available" : "unavailable"}
                     />
                 </Box>
             </Grid>
