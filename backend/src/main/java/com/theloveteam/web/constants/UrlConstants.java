@@ -12,6 +12,7 @@ public class UrlConstants {
     //    public static final String SERVICES_BY_PROVIDER_ID = "/services/";
     public static final String ORDERS = "/orders";
     public static final String ORDERS_BY_USER_ID = "/orders";
+    public static final String ORDERS_BY_ORDER_ID = "/orders/{orderId}";
     public static final String ORDERS_BY_ADMIN_ID = "/orders/admins/{adminId}";
 
     // websocket related
