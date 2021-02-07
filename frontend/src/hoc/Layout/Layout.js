@@ -6,22 +6,37 @@ import classes from "./Layout.module.css";
 import Footer from "../../components/Footer/Footer";
 import * as actions from "../../store/actions";
 import SnackbarMessage from "../../components/UI/SnackbarMessage/SnackbarMessage";
+import { AUTH_ROLE } from "../../constant/auth";
+import ProviderPushedRequests from "../../containers/Provider/ProviderPushedRequests/ProviderPushedRequests";
 
 function Layout(props) {
   const {
     isAuthenticated,
     role,
     onLogout,
+    onDisconnectWebSocket,
+    onClearCart,
+    stompClient,
     message,
     messageType,
     onMessageClose,
   } = props;
+
+  const LogoutClickedHandler = () => {
+    onLogout();
+    if (role === AUTH_ROLE.provider) {
+      onDisconnectWebSocket(stompClient);
+    } else if (role === AUTH_ROLE.user) {
+      onClearCart();
+    }
+  };
+
   return (
     <React.Fragment>
       <div className={classes.container}>
         <div className={classes.content}>
           <NavBar
-            onLogout={onLogout}
+            onLogout={LogoutClickedHandler}
             role={role}
             isAuthenticated={isAuthenticated}
           />
@@ -33,6 +48,7 @@ function Layout(props) {
               onClose={onMessageClose}
             />
           ) : null}
+          <ProviderPushedRequests />
         </div>
         <Footer />
       </div>
@@ -44,15 +60,21 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     role: state.auth.userDetail.role,
+    stompClient: state.auth.stompClient,
     message: state.message.message,
     messageType: state.message.messageType,
+    pushedRequests: state.provider.pushedRequests,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogout: () => dispatch(actions.logoutAndCleanCart()),
+    onLogout: () => dispatch(actions.logoutAndMessage()),
+    onClearCart: () => dispatch(actions.clearCart()),
+    onDisconnectWebSocket: (stompClient) =>
+      dispatch(actions.disconnectWebSocket(stompClient)),
     onMessageClose: () => dispatch(actions.clearMessage()),
+    onClearPushedRequest: () => dispatch(actions.clearPushedRequest()),
   };
 };
 
