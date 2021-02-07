@@ -53,8 +53,7 @@ export const fetchServices = (type, userId) => {
       .then((response) => {
         if (
           response.hasOwnProperty("data") &&
-          response.data.hasOwnProperty("servList") &&
-          response.data.servList.length > 0
+          response.data.hasOwnProperty("servList")
         ) {
           const servList = response.data.servList.map((serv) => {
             serv.startTime = new Date(serv.startTime);

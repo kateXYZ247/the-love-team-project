@@ -156,8 +156,7 @@ export const fetchOrders = (type, userId) => {
       .then((response) => {
         if (
           response.hasOwnProperty("data") &&
-          response.data.hasOwnProperty("orderHistoryResponseBody") &&
-          response.data.orderHistoryResponseBody.length > 0
+          response.data.hasOwnProperty("orderHistoryResponseBody")
         ) {
           const fetchedOrders = response.data.orderHistoryResponseBody;
           dispatch(fetchOrdersSuccess(type, fetchedOrders));
