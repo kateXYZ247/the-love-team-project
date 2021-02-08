@@ -5,6 +5,7 @@ import SauceCard from "./SauceCard/SauceCard";
 import { Button } from "@material-ui/core";
 import { sauceList } from "../../../constant/homepage";
 import { Link } from "react-router-dom";
+import { PATH_ORDER } from "../../../constant/path";
 
 function Sauce(props) {
   return (
@@ -23,7 +24,7 @@ function Sauce(props) {
       <div className={classes.button}>
         <Button
           component={Link}
-          to={"/order"}
+          to={PATH_ORDER}
           variant="contained"
           color="primary"
           size="large"

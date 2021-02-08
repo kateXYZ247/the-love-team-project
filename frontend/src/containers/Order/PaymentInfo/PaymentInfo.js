@@ -57,12 +57,12 @@ function PaymentInfo(props) {
   };
 
   const nextButtonClickedHandler = () => {
-    if (orderServicesCount === 0) {
+    if (orderServicesCount !== 0) {
       const card = `${creditCard.number},${creditCard.cvc},${creditCard.expiry},${creditCard.name}`;
       onUpdatePaymentInfo(card);
-      onAppointmentModalOpen(true);
-    } else {
       setOpenConfirmation(true);
+    } else {
+      onAppointmentModalOpen(true);
     }
   };
 
