@@ -1,10 +1,12 @@
 import React from "react";
 import { Box, Card, Fab, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { PATH_ORDER } from "../../../../constant/path";
 
 function ProductCard(props) {
   const { name, description, price } = props.item;
   return (
+<<<<<<< HEAD
     <Grid container justify="center">
       <Card>
         <Grid item xs={12}>
@@ -53,6 +55,24 @@ function ProductCard(props) {
         </Grid>
       </Card>
     </Grid>
+=======
+    <div className={classes.container}>
+      <div className={classes.name}>{name}</div>
+      <div className={classes.description}>{description}</div>
+      <div className={classes.button}>
+        <Button
+          component={Link}
+          to={PATH_ORDER}
+          size="large"
+          className={classes.button}
+          color="primary"
+          variant="contained"
+        >
+          Starting at ${price.toFixed(0)}
+        </Button>
+      </div>
+    </div>
+>>>>>>> develop
   );
 }
 

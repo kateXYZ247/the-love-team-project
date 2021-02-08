@@ -3,6 +3,8 @@ import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
 import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
 import HairDryer from "../../../assets/images/hair-dryer.svg";
 import Spa from "../../../assets/images/spa.svg";
+import { Link } from "react-router-dom";
+import { PATH_APPOINTMENTS } from "../../../constant/path";
 
 function OrderConfirmation(props) {
   const { orderTime, onUnmount } = props;
@@ -76,7 +78,13 @@ function OrderConfirmation(props) {
                       Manage your appointment at client page
                     </Box>
                     <Grid container justify="center">
-                      <Button variant="contained" size="large" color="primary">
+                      <Button
+                        component={Link}
+                        to={PATH_APPOINTMENTS}
+                        variant="contained"
+                        size="large"
+                        color="primary"
+                      >
                         Client Page
                       </Button>
                     </Grid>

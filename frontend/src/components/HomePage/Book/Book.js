@@ -3,9 +3,11 @@ import React from "react";
 import ServiceIllustration from "../../../assets/images/service_illustration.svg";
 import { Box, Grid, Fab } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { PATH_ORDER } from "../../../constant/path";
 
 function Book(props) {
   return (
+<<<<<<< HEAD
     <Grid container justify="space-around">
       <Grid item xs={12} sm={6} align="center">
         <Box>
@@ -59,6 +61,29 @@ function Book(props) {
         </Box>
       </Grid>
     </Grid>
+=======
+    <div className={classes.container}>
+      <div className={classes.left}>
+        <div className={classes.title}>Beauty, Anywhere, Anytime!</div>
+        <div className={classes.subtitle}>
+          Need to look fabulous, fast? Search. Book. Enjoy. Instantly book your
+          next beauty or wellness experience.
+        </div>
+        <Button
+          component={Link}
+          to={PATH_ORDER}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          Book Now
+        </Button>
+      </div>
+      <div className={classes.illustration}>
+        <img src={ServiceIllustration} alt="Service Illustration" />
+      </div>
+    </div>
+>>>>>>> develop
   );
 }
 

@@ -1,18 +1,20 @@
 import React from "react";
-
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
 import Link from "@material-ui/core/Link";
 import classes from "./CheckBox.module.css";
 
-function CheckboxLabels() {
+function CheckboxLabels(props) {
+  const { user, checkedBoxHandleChange } = props;
   const preventDefault = (event) => event.preventDefault();
+
   return (
     <FormControlLabel
-      control={<Checkbox name="checkedA" />}
+      control={<Checkbox name="isAgree" checked={user.isAgree} onChange={
+        checkedBoxHandleChange}
+      />}
       label={
-        <div className={classes.content}>
+        < div className={classes.content} >
           <span>I agree to LoveTeam's </span>
           <Link href="#" onClick={preventDefault} color="primary">
             Terms of Service
@@ -21,7 +23,7 @@ function CheckboxLabels() {
           <Link href="#" onClick={preventDefault} color="primary">
             Privacy Policy
           </Link>
-        </div>
+        </div >
       }
     />
   );

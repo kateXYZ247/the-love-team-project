@@ -4,9 +4,11 @@ import SauceCard from "./SauceCard/SauceCard";
 import { Button, Card, CardContent, Grid, Box, Fab } from "@material-ui/core";
 import { sauceList } from "../../../constant/homepage";
 import { Link } from "react-router-dom";
+import { PATH_ORDER } from "../../../constant/path";
 
 function Sauce(props) {
   return (
+<<<<<<< HEAD
     <Grid container justify="center">
       <Grid item xs={12} align="center">
         <SectionTitle
@@ -25,6 +27,27 @@ function Sauce(props) {
           marginTop="50px"
           marginBottom="20px"
           margin="50px auto"
+=======
+    <div>
+      <SectionTitle
+        title={"Our Secret Sauce"}
+        subtitle={
+          "Typically, a customer starts with one recruiter as a test and ramps up as we prove success"
+        }
+      />
+      <div className={classes.container}>
+        {sauceList.map((item) => (
+          <SauceCard item={item} key={item.title} />
+        ))}
+      </div>
+      <div className={classes.button}>
+        <Button
+          component={Link}
+          to={PATH_ORDER}
+          variant="contained"
+          color="primary"
+          size="large"
+>>>>>>> develop
         >
           {sauceList.map((item) => (
             <SauceCard item={item} key={item.title} />

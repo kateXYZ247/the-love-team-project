@@ -1,10 +1,14 @@
 package com.theloveteam.web.handlers;
 
+
 import com.theloveteam.web.constants.UrlConstants;
+import ch.hsr.geohash.GeoHash;
+import com.theloveteam.web.dao.GeoData;
 import com.theloveteam.web.dao.Order;
 import com.theloveteam.web.dao.OrderRequest;
 import com.theloveteam.web.dao.Serv;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
+import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
 import com.theloveteam.web.services.OrderService;
@@ -14,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -26,10 +31,15 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
     private OrderService orderService;
 
     @Autowired
+
     private ProviderService providerService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    private GeoClient geoClient;
+
 
     @Override
     protected String processRequest(OrderRequest orderRequest) {
@@ -58,10 +68,26 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 .direction(orderRequest.getServs().get(i).getDirection())
                 .addressType(orderRequest.getServs().get(i).getAddressType())
                 .build();
+
+            try {
+                GeoData geoData = geoClient.getGeoData(orderRequest.getServs().get(i).getAddress() + " united states");
+                if (geoData != null && geoData.getTotalResults() >= 1) {
+                    Double lat = geoData.getResults().get(0).getGeometry().getLat();
+                    Double lng = geoData.getResults().get(0).getGeometry().getLng();
+                    String geohash = GeoHash.geoHashStringWithCharacterPrecision(lat, lng, 12);
+                    serv.setLatitude(lat);
+                    serv.setLongitude(lng);
+                    serv.setGeohash(geohash);
+                }
+            } catch(HttpClientErrorException e) {
+                System.out.println(e);
+            };
+
             servService.createService(serv);
             // push notification to online providers
             pushNotificationToProviders(serv, providerIds);
         }
+
         return "Order is Successfully Placed!";
     }
 

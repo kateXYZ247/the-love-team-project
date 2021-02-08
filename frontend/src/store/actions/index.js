@@ -20,6 +20,7 @@ export {
   resetStatus,
   clearCart,
   fetchOrders,
+  userUpdateOrderStatus,
 } from "./order";
 
 export { fetchProducts } from "./products";
@@ -32,7 +33,7 @@ export { clearMessage } from "./message";
 
 
 
-export { providerProfile, onSwitch} from "./providerProfile";
+export { onSwitch } from "./providerProfile";
 
 
 

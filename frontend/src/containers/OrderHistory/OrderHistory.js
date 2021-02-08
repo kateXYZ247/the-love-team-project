@@ -15,6 +15,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import OrderHistoryTableRow from "../../components/Order/OrderHistoryTableRow/OrderHistoryTableRow";
+import { FETCH_ORDERS_TYPE } from "../../constant/order";
 
 const useStyles = makeStyles({
   table: {
@@ -89,7 +90,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrders: (userId) => dispatch(actions.fetchOrders(userId)),
+    onFetchOrders: (userId) => dispatch(actions.fetchOrders(
+      FETCH_ORDERS_TYPE.historicalOrders,
+      userId)),
   };
 };
 
