@@ -18,9 +18,9 @@ function ProviderProfile(props) {
     avail,
   } = props;
 
-  useEffect(() => {
-    providerProfile(userId);
-  }, [userId, providerProfile]);
+  // useEffect(() => {
+  //   providerProfile(userId);
+  // }, [userId, providerProfile]);
 
   function handleSwitch(availability) {
     onSwitch(userId, availability);
@@ -49,18 +49,18 @@ function ProviderProfile(props) {
 
 const mapStateToProps = (state) => {
   return {
-    firstName: state.providerProfile.firstName,
-    lastName: state.providerProfile.lastName,
-    phone: state.providerProfile.phone,
-    address: state.providerProfile.address,
+    firstName: state.auth.userDetail.firstName,
+    lastName: state.auth.userDetail.lastName,
+    phone: state.auth.userDetail.phone,
+    address: state.auth.userDetail.address,
     userId: state.auth.userId,
-    productName: state.providerProfile.productName,
+    productName: state.auth.userDetail.productName,
     avail: state.providerProfile.avail,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    providerProfile: (userId) => dispatch(actions.providerProfile(userId)),
+    // providerProfile: (userId) => dispatch(actions.providerProfile(userId)),
     onSwitch: (userId, availability) =>
       dispatch(actions.onSwitch(userId, availability)),
   };

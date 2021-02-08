@@ -4,10 +4,14 @@ import {
   API_PATH_USER_PLACE_ORDER,
   HTTP_STATUS_OK,
   API_PATH_FETCH_USER_ORDER,
+  API_PATH_FETCH_USER_UPCOMING_ORDER,
+  API_PATH_USER_UPDATE_ORDER,
 } from "../../constant/api";
 import { updateObject } from "../../shared/utility";
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
+import { FETCH_ORDERS_TYPE } from "../../constant/order";
+
 
 export const addToCart = (product) => {
   return {
@@ -111,16 +115,18 @@ export const placeOrder = (order, userId) => {
   };
 };
 
-export const fetchOrdersSuccess = (orderHistory) => {
+export const fetchOrdersSuccess = (type, orders) => {
   return {
     type: actionTypes.FETCH_ORDERS_SUCCESS,
-    orderHistory: orderHistory,
+    fetchType: type,
+    orders: orders,
   };
 };
 
-export const fetchOrdersFail = () => {
+export const fetchOrdersFail = (type) => {
   return {
     type: actionTypes.FETCH_ORDERS_FAIL,
+    fetchType: type,
   };
 };
 
@@ -130,25 +136,88 @@ export const fetchOrdersStart = () => {
   };
 };
 
-export const fetchOrders = (userId) => {
+export const fetchOrders = (type, userId) => {
   return (dispatch) => {
     dispatch(fetchOrdersStart());
+    let url = ''
+    switch (type) {
+      case FETCH_ORDERS_TYPE.upcomingAppointments:
+        url = API_PATH_FETCH_USER_UPCOMING_ORDER;
+        url += userId + "&status=upcoming"
+        break;
+      case FETCH_ORDERS_TYPE.historicalOrders:
+        url = API_PATH_FETCH_USER_ORDER;
+        url += userId;
+        break;
+      default:
+    }
     axios
-      .get(API_PATH_FETCH_USER_ORDER + userId)
+      .get(url)
       .then((response) => {
-        let fetchedOrders = [];
         if (
           response.hasOwnProperty("data") &&
-          response.data.hasOwnProperty("orderHistoryResponseBody") &&
-          response.data.orderHistoryResponseBody.length > 0
+          response.data.hasOwnProperty("orderHistoryResponseBody")
         ) {
-          fetchedOrders = [...response.data.orderHistoryResponseBody];
+          const fetchedOrders = response.data.orderHistoryResponseBody;
+          dispatch(fetchOrdersSuccess(type, fetchedOrders));
+        } else {
+          throw new Error("Invalid data!");
         }
-        dispatch(fetchOrdersSuccess(fetchedOrders));
       })
       .catch((error) => {
-        dispatch(fetchOrdersFail());
+        dispatch(fetchOrdersFail(type));
         dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
   };
 };
+
+const userUpdateOrderStatusStart = (index) => {
+  return {
+    type: actionTypes.USER_UPDATE_ORDER_STATUS.start,
+    index: index,
+  };
+};
+
+const userUpdateOrderStatusSuccess = (index, updatedStatus) => {
+  return {
+    type: actionTypes.USER_UPDATE_ORDER_STATUS.success,
+    index: index,
+    updatedStatus: updatedStatus,
+  };
+};
+
+const userUpdateOrderStatusFail = () => {
+  return {
+    type: actionTypes.USER_UPDATE_ORDER_STATUS.fail,
+  };
+};
+
+export const userUpdateOrderStatus = (
+  orderIndex,
+  orderId,
+  userId,
+  updatedStatus
+) => {
+  return (dispatch) => {
+    dispatch(userUpdateOrderStatusStart());
+    const data = {
+      userId: userId,
+      status: updatedStatus,
+    };
+    axios
+      .patch(API_PATH_USER_UPDATE_ORDER + orderId, data)
+      .then((response) => {
+        if (response.status === HTTP_STATUS_OK) {
+          dispatch(userUpdateOrderStatusSuccess(orderIndex, updatedStatus));
+          dispatch(
+            setMessage(MESSAGE_TYPE.success, `Service ${updatedStatus}!`)
+          );
+        }
+      })
+      .catch((error) => {
+        dispatch(userUpdateOrderStatusFail());
+        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+      });
+  };
+};
+
