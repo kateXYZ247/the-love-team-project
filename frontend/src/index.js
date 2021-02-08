@@ -26,6 +26,11 @@ const theme = createMuiTheme({
       main: "#A0D2E8",
     },
   },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
+  },
 });
 
 const composeEnhancers =
