@@ -1,12 +1,14 @@
-import React from "react";
-import { Divider, Hidden, withStyles } from "@material-ui/core";
-
-import NavigationItems from "../NavigationItems/NavigationItems";
+import React, { useState } from "react";
+import { Divider, Hidden, Menu, MenuItem, withStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { PATH_HOME, PATH_LOGIN } from "../../../constant/path";
 import Button from "@material-ui/core/Button";
+import FaceIcon from "@material-ui/icons/Face";
 import { Link } from "react-router-dom";
+
+import { PATH_HOME, PATH_LOGIN } from "../../../constant/path";
+import NavigationItems from "../NavigationItems/NavigationItems";
+import { USER_MENU_ITEMS } from "../../../constant/auth";
 
 const TitleTypography = withStyles({
   root: {
@@ -20,7 +22,24 @@ const TitleTypography = withStyles({
 })(Typography);
 
 function NavBar(props) {
-  const { onLogout, role, isAuthenticated } = props;
+  const { onLogout, role, firstName, isAuthenticated } = props;
+
+  const [anchorElement, setAnchorElement] = useState(null);
+
+  const menuClosedHandler = () => {
+    setAnchorElement(null);
+  };
+
+  const menuClickedHandler = (event) => {
+    setAnchorElement(event.currentTarget);
+  };
+
+  const menuItemClickedHandler = (selectItem) => {
+    if (selectItem === USER_MENU_ITEMS.logout) {
+      onLogout();
+    }
+    setAnchorElement(null);
+  };
 
   return (
     <React.Fragment>
@@ -33,20 +52,45 @@ function NavBar(props) {
         <Grid item xs={2} />
         <Grid item xs={8} container justify="center">
           <Hidden xsDown>
-            <NavigationItems
-              role={role}
-              onLogout={onLogout}
-              isAuthenticated={isAuthenticated}
-            />
+            <NavigationItems role={role} isAuthenticated={isAuthenticated} />
           </Hidden>
         </Grid>
         <Grid item xs={2} container justify="center" alignContent="center">
           {!isAuthenticated ? (
-            <Button component={Link} to={PATH_LOGIN}>
+            <Button startIcon={<FaceIcon />} component={Link} to={PATH_LOGIN}>
               Login
             </Button>
           ) : (
-            <Button onClick={onLogout}>Logout</Button>
+            <React.Fragment>
+              <Button startIcon={<FaceIcon />} onClick={menuClickedHandler}>
+                {firstName}
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorElement}
+                getContentAnchorEl={null}
+                keepMounted
+                open={Boolean(anchorElement)}
+                onClose={menuClosedHandler}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                {Object.entries(USER_MENU_ITEMS).map((item) => (
+                  <MenuItem
+                    key={item[1]}
+                    onClick={() => menuItemClickedHandler(item[1])}
+                  >
+                    {item[1]}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </React.Fragment>
           )}
         </Grid>
         <Grid item xs={10} xl={8}>

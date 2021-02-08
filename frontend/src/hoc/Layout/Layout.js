@@ -13,6 +13,7 @@ function Layout(props) {
   const {
     isAuthenticated,
     role,
+    firstName,
     onLogout,
     onDisconnectWebSocket,
     onClearCart,
@@ -38,6 +39,7 @@ function Layout(props) {
           <NavBar
             onLogout={LogoutClickedHandler}
             role={role}
+            firstName={firstName}
             isAuthenticated={isAuthenticated}
           />
           <main className={classes.Main}>{props.children}</main>
@@ -60,6 +62,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     role: state.auth.userDetail.role,
+    firstName: state.auth.userDetail.firstName,
     stompClient: state.auth.stompClient,
     message: state.message.message,
     messageType: state.message.messageType,

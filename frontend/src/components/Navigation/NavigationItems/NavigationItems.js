@@ -16,7 +16,7 @@ import LinkTab from "../LinkTab/LinkTab";
 function NavigationItems(props) {
   const { role, isAuthenticated } = props;
 
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
 
   const refTabs = useRef(null);
 
