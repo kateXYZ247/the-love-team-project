@@ -6,8 +6,9 @@ import {
   sampleOrderServices,
   sampleOrderTotalPrice,
   sampleOrderHistory,
+  sampleUpcomingAppointment,
+  FETCH_ORDERS_TYPE
 } from "../../constant/order";
-
 const initialState = {
   error: false,
   loading: false,
@@ -22,10 +23,9 @@ const initialState = {
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
-    // services: [{ productId: -1 }, { productId: -2 }, { productId: -3 }],
-    // totalPrice: 0,
   },
   orderHistory: [],
+  upcomingOrders: [],
 };
 
 const fetchOrdersStart = (state, action) => {
@@ -33,18 +33,49 @@ const fetchOrdersStart = (state, action) => {
 };
 
 const fetchOrdersSuccess = (state, action) => {
+  if (
+    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
+  ) {
+    return updateObject(state, {
+      // upcomingOrders: upcomingOrders,
+      upcomingOrders: action.orders,
+      loading: false
+    });
+  } else if (
+    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
+  ) {
+    return updateObject(state, {
+      orderHistory: action.orders,
+      loading: false
+    });
+  }
+  return updateObject(state, { loading: false });
+};
+
+const fetchOrdersFail = (state, action) => {
+
+  if (
+    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
+  ) {
+    return updateObject(state, {
+      appointments: sampleUpcomingAppointment,
+      loading: false,
+    });
+  } else if (
+    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
+  ) {
+    return updateObject(state, {
+      orderHistory: sampleOrderHistory,
+      loading: false,
+    });
+  }
   return updateObject(state, {
-    orderHistory: action.orderHistory,
+    orderHistory: sampleOrderHistory,
+    appointments: sampleUpcomingAppointment,
     loading: false,
   });
 };
 
-const fetchOrdersFail = (state, action) => {
-  return updateObject(state, {
-    orderHistory: [...sampleOrderHistory],
-    loading: false,
-  });
-};
 
 const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
@@ -163,6 +194,27 @@ export const placeOrderStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
+const userUpdateOrderStatusStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
+const userUpdateOrderStatusSuccess = (state, action) => {
+  if (action.updatedStatus === ORDER_STATUS.canceled) {
+    // remove from services[]
+    return updateObject(state, {
+      upcomingOrders: state.upcomingOrders.filter((_, i) => i !== action.index),
+      loading: false,
+    });
+  }
+  return updateObject(state, { loading: false });
+};
+
+const userUpdateOrderStatusFail = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ORDER_ADD_TO_CART:
@@ -195,6 +247,12 @@ const reducer = (state = initialState, action) => {
       return fetchOrdersSuccess(state, action);
     case actionTypes.FETCH_ORDERS_FAIL:
       return fetchOrdersFail(state, action);
+    case actionTypes.USER_UPDATE_ORDER_STATUS.start:
+      return userUpdateOrderStatusStart(state, action);
+    case actionTypes.USER_UPDATE_ORDER_STATUS.success:
+      return userUpdateOrderStatusSuccess(state, action);
+    case actionTypes.USER_UPDATE_ORDER_STATUS.fail:
+      return userUpdateOrderStatusFail(state, action);
     default:
       return state;
   }
