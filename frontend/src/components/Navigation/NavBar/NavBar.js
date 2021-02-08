@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, withStyles } from "@material-ui/core";
+import { Divider, Hidden, withStyles } from "@material-ui/core";
 
 import NavigationItems from "../NavigationItems/NavigationItems";
 import Grid from "@material-ui/core/Grid";
@@ -32,11 +32,13 @@ function NavBar(props) {
         </Grid>
         <Grid item xs={2} />
         <Grid item xs={8} container justify="center">
-          <NavigationItems
-            role={role}
-            onLogout={onLogout}
-            isAuthenticated={isAuthenticated}
-          />
+          <Hidden xsDown>
+            <NavigationItems
+              role={role}
+              onLogout={onLogout}
+              isAuthenticated={isAuthenticated}
+            />
+          </Hidden>
         </Grid>
         <Grid item xs={2} container justify="center" alignContent="center">
           {!isAuthenticated ? (

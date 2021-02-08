@@ -20,6 +20,7 @@ function NavigationItems(props) {
 
   const refTabs = useRef(null);
 
+  // TODO: before logout, set tab to Home or Book
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
