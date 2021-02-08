@@ -35,8 +35,11 @@ public class Provider {
 
     private String zip;
 
-    @Column(name="geohash")
-    private String geoHash;
+    private Double latitude;
+
+    private Double longitude;
+
+    private String geohash;
 
     @Column(nullable = false)
     private String email;
