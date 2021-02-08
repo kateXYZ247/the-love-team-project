@@ -17,14 +17,13 @@ import messageReducer from "./store/reducers/message";
 import providerProfileReducer from "./store/reducers/providerProfile";
 import { BrowserRouter } from "react-router-dom";
 
-
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#B57AD2",
+      main: "#D0BDF4",
     },
     secondary: {
-      main: "#3490cf",
+      main: "#A0D2E8",
     },
   },
 });
@@ -43,8 +42,6 @@ const rootReducer = combineReducers({
   message: messageReducer,
 
   providerProfile: providerProfileReducer,
-
-
 });
 
 const store = createStore(

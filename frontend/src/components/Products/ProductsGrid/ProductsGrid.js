@@ -36,7 +36,7 @@ function ProductsGrid(props) {
   }
 
   return (
-    <Grid container direction="row" justify="space-around" spacing={5}>
+    <Grid container direction="row" justify="space-around" spacing={0}>
       <Grid item xs={11} md={5} lg={3}>
         <CategoryCard title={"BLOWOUTS"} />
         {cardGenerator("Blowouts")}

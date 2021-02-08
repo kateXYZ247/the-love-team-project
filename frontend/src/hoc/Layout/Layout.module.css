@@ -3,7 +3,7 @@
 }
 
 .container {
-    height: 100vh;
+    height: 101vh; /* prevent header shifts left/right during page switching  */
     display: flex;
     flex-direction: column;
 }

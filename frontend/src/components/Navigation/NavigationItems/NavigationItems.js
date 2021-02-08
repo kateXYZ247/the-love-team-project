@@ -1,100 +1,62 @@
-import React from "react";
-import { Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import classes from "./NavigationItems.module.css";
+import React, { useRef, useState } from "react";
+import { Tabs } from "@material-ui/core";
 import { AUTH_ROLE } from "../../../constant/auth";
 import {
   PATH_APPOINTMENTS,
   PATH_HISTORY,
-  PATH_LOGIN,
+  PATH_HOME,
   PATH_ORDER,
   PATH_PROVIDER_HISTORY,
   PATH_PROVIDER_LIST_SERVICES,
   PATH_PROVIDER_PROFILE,
   PATH_PROVIDER_UPCOMING_SERVICES,
 } from "../../../constant/path";
+import LinkTab from "../LinkTab/LinkTab";
 
 function NavigationItems(props) {
-  const { role, isAuthenticated, onLogout } = props;
+  const { role, isAuthenticated } = props;
+
+  const [value, setValue] = useState(1);
+
+  const refTabs = useRef(null);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <div>
+    <Tabs
+      variant="fullWidth"
+      value={value}
+      onChange={handleChange}
+      ref={refTabs}
+    >
+      >
       {role !== AUTH_ROLE.provider ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_ORDER}
-        >
-          Book
-        </Button>
+        <LinkTab label={"Home"} to={PATH_HOME} />
+      ) : null}
+      {role !== AUTH_ROLE.provider ? (
+        <LinkTab label={"Book"} to={PATH_ORDER} />
       ) : null}
       {isAuthenticated && role === AUTH_ROLE.user ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_HISTORY}
-        >
-          Orders
-        </Button>
+        <LinkTab label={"Orders"} to={PATH_HISTORY} />
       ) : null}
       {isAuthenticated && role === AUTH_ROLE.user ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_APPOINTMENTS}
-        >
-          Appointments
-        </Button>
+        <LinkTab label={"Appointments"} to={PATH_APPOINTMENTS} />
       ) : null}
       {isAuthenticated && role === AUTH_ROLE.provider ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_PROVIDER_LIST_SERVICES}
-        >
-          Requests
-        </Button>
+        <LinkTab label={"Requests"} to={PATH_PROVIDER_LIST_SERVICES} />
       ) : null}
       {isAuthenticated && role === AUTH_ROLE.provider ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_PROVIDER_UPCOMING_SERVICES}
-        >
-          Services
-        </Button>
+        <LinkTab label={"Services"} to={PATH_PROVIDER_UPCOMING_SERVICES} />
       ) : null}
       {isAuthenticated && role === AUTH_ROLE.provider ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_PROVIDER_HISTORY}
-        >
-          Histories
-        </Button>
+        <LinkTab label={"Histories"} to={PATH_PROVIDER_HISTORY} />
       ) : null}
       {isAuthenticated && role === AUTH_ROLE.provider ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_PROVIDER_PROFILE}
-        >
-          Profile
-        </Button>
+        <LinkTab label={"Profile"} to={PATH_PROVIDER_PROFILE} />
       ) : null}
-      {!isAuthenticated ? (
-        <Button
-          className={classes.NavigationItem}
-          component={Link}
-          to={PATH_LOGIN}
-        >
-          Login
-        </Button>
-      ) : (
-        <Button className={classes.NavigationItem} onClick={onLogout}>
-          Logout
-        </Button>
-      )}
-    </div>
+    </Tabs>
   );
 }
 
