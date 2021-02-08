@@ -22,7 +22,7 @@ const TitleTypography = withStyles({
 })(Typography);
 
 function NavBar(props) {
-  const { onLogout, role, firstName, isAuthenticated } = props;
+  const { onLogout, role, firstName, isAuthenticated, currentPath } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
 
@@ -52,7 +52,11 @@ function NavBar(props) {
         <Grid item xs={2} />
         <Grid item xs={8} container justify="center">
           <Hidden xsDown>
-            <NavigationItems role={role} isAuthenticated={isAuthenticated} />
+            <NavigationItems
+              role={role}
+              isAuthenticated={isAuthenticated}
+              currentPath={currentPath}
+            />
           </Hidden>
         </Grid>
         <Grid item xs={2} container justify="center" alignContent="center">

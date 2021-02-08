@@ -8,6 +8,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
+import routeReducer from "./store/reducers/route";
 import authReducer from "./store/reducers/auth";
 import productsReducer from "./store/reducers/products";
 import orderReducer from "./store/reducers/order";
@@ -39,13 +40,13 @@ const composeEnhancers =
     : null) || compose;
 
 const rootReducer = combineReducers({
+  route: routeReducer,
   auth: authReducer,
   products: productsReducer,
   order: orderReducer,
   register: registerReducer,
   provider: providerReducer,
   message: messageReducer,
-
   providerProfile: providerProfileReducer,
 });
 

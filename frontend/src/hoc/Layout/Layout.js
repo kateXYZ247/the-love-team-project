@@ -14,6 +14,7 @@ function Layout(props) {
     isAuthenticated,
     role,
     firstName,
+    currentPath,
     onLogout,
     onDisconnectWebSocket,
     onClearCart,
@@ -41,6 +42,7 @@ function Layout(props) {
             role={role}
             firstName={firstName}
             isAuthenticated={isAuthenticated}
+            currentPath={currentPath}
           />
           <main className={classes.Main}>{props.children}</main>
           {message !== null ? (
@@ -67,6 +69,7 @@ const mapStateToProps = (state) => {
     message: state.message.message,
     messageType: state.message.messageType,
     pushedRequests: state.provider.pushedRequests,
+    currentPath: state.route.path,
   };
 };
 

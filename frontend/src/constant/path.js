@@ -12,3 +12,5 @@ export const PATH_PROVIDER_LIST_SERVICES = "/provider/requests";
 export const PATH_PROVIDER_HISTORY = "/provider/history";
 export const PATH_PROVIDER_UPCOMING_SERVICES = "/provider/services";
 export const PATH_PROVIDER_PROFILE = "/provider/profile";
+
+export const PATH_LIST_AUTH_USER = [];

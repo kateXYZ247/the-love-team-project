@@ -33,6 +33,8 @@ import ProviderProfile from "./containers/Provider/ProviderProfile/ProviderProfi
 import ProviderHistory from "./containers/Provider/ProviderHistory/ProviderHistory";
 import Appointments from "./containers/Appointments/Appointments";
 import * as actions from "./store/actions";
+import LabeledRoute from "./hoc/LabeledRoute/LabeledRoute";
+import RouteComponent from "./hoc/RouteComponent/RouteComponent";
 
 function App(props) {
   const { isAuthenticated, role, stompClient, onDisconnectWebSocket } = props;
@@ -46,37 +48,36 @@ function App(props) {
   }, []);
 
   // default route before login
+  // NOTE: order matters
   let routes = (
     <Switch>
-
-      <Route path={PATH_REGISTER} render={(props) => <Register {...props} />} />
-      <Route path={PATH_ORDER} exact component={Order} />
-        <Route
-            path={PATH_PROVIDER_PROFILE}
-            exact
-            component={ProviderProfile}
-        />
+      <LabeledRoute path={PATH_REGISTER} exact>
+        <Register />
+      </LabeledRoute>
+      <LabeledRoute path={PATH_ORDER} exact>
+        <Order />
+      </LabeledRoute>
+      <LabeledRoute path={PATH_LOGIN} exact>
+        <Login loginType={AUTH_ROLE.user} />
+      </LabeledRoute>
+      <LabeledRoute path={PATH_PROVIDER_LOGIN} exact>
+        <Login loginType={AUTH_ROLE.provider} />
+      </LabeledRoute>
+      <LabeledRoute path={PATH_TEST} exact>
+        <SampleContainer />
+      </LabeledRoute>
+      <LabeledRoute path={PATH_PROVIDER_HOME} exact>
+        <ProviderListServices />
+      </LabeledRoute>
       <Route
-        path={PATH_LOGIN}
+        path={PATH_HOME}
         exact
-        render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
+        render={() => (
+          <RouteComponent path={PATH_HOME}>
+            <Home />
+          </RouteComponent>
+        )}
       />
-      <Route
-        path={PATH_PROVIDER_LOGIN}
-        exact
-        render={(props) => <Login loginType={AUTH_ROLE.provider} {...props} />}
-      />
-      <Route
-        path={PATH_TEST}
-        render={(props) => <SampleContainer {...props} />}
-      />
-      <Route path={PATH_HOME} exact component={Home} />
-      <Route
-        path={PATH_PROVIDER_HOME}
-        exact
-        render={(props) => <ProviderListServices {...props} />}
-      />
-
       <Redirect to={PATH_HOME} />
     </Switch>
   );
@@ -84,18 +85,29 @@ function App(props) {
     if (role === AUTH_ROLE.user) {
       routes = (
         <Switch>
-          <Route path={PATH_ORDER} exact component={Order} />
-          <Route path={PATH_HISTORY} exact component={OrderHistory} />
-          <Route path={PATH_HOME} exact component={Home} />
-          <Route path={PATH_APPOINTMENTS} exact component={Appointments} />
+          <LabeledRoute path={PATH_ORDER}>
+            <Order />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_HISTORY}>
+            <OrderHistory />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_APPOINTMENTS}>
+            <Appointments />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_LOGIN}>
+            <Login loginType={AUTH_ROLE.user} />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_TEST}>
+            <SampleContainer />
+          </LabeledRoute>
           <Route
-            path={PATH_LOGIN}
+            path={PATH_HOME}
             exact
-            render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
-          />
-          <Route
-            path={PATH_TEST}
-            render={(props) => <SampleContainer {...props} />}
+            render={() => (
+              <RouteComponent path={PATH_HOME}>
+                <Home />
+              </RouteComponent>
+            )}
           />
           <Redirect to={PATH_HOME} />
         </Switch>
@@ -103,43 +115,34 @@ function App(props) {
     } else if (role === AUTH_ROLE.provider) {
       routes = (
         <Switch>
+          <LabeledRoute path={PATH_PROVIDER_LIST_SERVICES}>
+            <ProviderListServices />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_PROVIDER_UPCOMING_SERVICES}>
+            <ProviderUpcoming />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_PROVIDER_PROFILE}>
+            <ProviderProfile />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_PROVIDER_HISTORY}>
+            <ProviderHistory />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_PROVIDER_LOGIN}>
+            <Login loginType={AUTH_ROLE.provider} {...props} />{" "}
+          </LabeledRoute>
+          <LabeledRoute path={PATH_TEST}>
+            <SampleContainer />
+          </LabeledRoute>
           <Route
             path={PATH_PROVIDER_HOME}
             exact
-            component={ProviderListServices}
-          />
-          <Route
-            path={PATH_PROVIDER_LIST_SERVICES}
-            exact
-            component={ProviderListServices}
-          />
-          <Route
-            path={PATH_PROVIDER_UPCOMING_SERVICES}
-            exact
-            component={ProviderUpcoming}
-          />
-          <Route
-            path={PATH_PROVIDER_PROFILE}
-            exact
-            component={ProviderProfile}
-          />
-          <Route
-            path={PATH_PROVIDER_HISTORY}
-            exact
-            component={ProviderHistory}
-          />
-          <Route
-            path={PATH_PROVIDER_LOGIN}
-            exact
-            render={(props) => (
-              <Login loginType={AUTH_ROLE.provider} {...props} />
+            render={() => (
+              <RouteComponent path={PATH_PROVIDER_HOME}>
+                <ProviderListServices />
+              </RouteComponent>
             )}
           />
-          <Route
-            path={PATH_TEST}
-            render={(props) => <SampleContainer {...props} />}
-          />
-          <Redirect to={PATH_PROVIDER_LIST_SERVICES} />
+          <Redirect to={PATH_PROVIDER_HOME} />
         </Switch>
       );
     }
@@ -147,32 +150,32 @@ function App(props) {
     if (role === AUTH_ROLE.user) {
       routes = (
         <Switch>
+          <LabeledRoute path={PATH_REGISTER}>
+            <Register />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_ORDER}>
+            <Order />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_LOGIN}>
+            <Login loginType={AUTH_ROLE.user} />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_PROVIDER_LOGIN}>
+            <Login loginType={AUTH_ROLE.provider} />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_TEST}>
+            <SampleContainer />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_PROVIDER_HOME}>
+            <ProviderListServices />
+          </LabeledRoute>
           <Route
-            path={PATH_REGISTER}
-            render={(props) => <Register {...props} />}
-          />
-          <Route path={PATH_ORDER} exact component={Order} />
-          <Route
-            path={PATH_LOGIN}
+            path={PATH_HOME}
             exact
-            render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
-          />
-          <Route
-            path={PATH_PROVIDER_LOGIN}
-            exact
-            render={(props) => (
-              <Login loginType={AUTH_ROLE.provider} {...props} />
+            render={() => (
+              <RouteComponent path={PATH_HOME}>
+                <Home />
+              </RouteComponent>
             )}
-          />
-          <Route
-            path={PATH_TEST}
-            render={(props) => <SampleContainer {...props} />}
-          />
-          <Route path={PATH_HOME} exact component={Home} />
-          <Route
-            path={PATH_PROVIDER_HOME}
-            exact
-            render={(props) => <ProviderListServices {...props} />}
           />
           <Redirect to={PATH_HOME} />
         </Switch>
@@ -180,17 +183,12 @@ function App(props) {
     } else if (role === AUTH_ROLE.provider) {
       routes = (
         <Switch>
-          <Route
-            path={PATH_PROVIDER_LOGIN}
-            exact
-            render={(props) => (
-              <Login loginType={AUTH_ROLE.provider} {...props} />
-            )}
-          />
-          <Route
-            path={PATH_TEST}
-            render={(props) => <SampleContainer {...props} />}
-          />
+          <LabeledRoute path={PATH_PROVIDER_LOGIN}>
+            <Login loginType={AUTH_ROLE.provider} {...props} />{" "}
+          </LabeledRoute>
+          <LabeledRoute path={PATH_TEST}>
+            <SampleContainer />
+          </LabeledRoute>
           <Redirect to={PATH_PROVIDER_LOGIN} />
         </Switch>
       );
