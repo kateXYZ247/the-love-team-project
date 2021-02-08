@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./ProductCard.module.css";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { PATH_ORDER } from "../../../../constant/path";
 
 function ProductCard(props) {
   const { name, description, price } = props.item;
@@ -12,7 +13,7 @@ function ProductCard(props) {
       <div className={classes.button}>
         <Button
           component={Link}
-          to={"/order"}
+          to={PATH_ORDER}
           size="large"
           className={classes.button}
           color="primary"

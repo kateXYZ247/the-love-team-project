@@ -21,10 +21,9 @@ function ProductsGrid(props) {
         return parseInt(p1.productId) - parseInt(p2.productId);
       })
       .map((product) => (
-        <Grid container justify={"center"}>
+        <Grid container justify={"center"} key={product.productId}>
           <ProductCard
             product={product}
-            key={product.productId}
             productDetailOpen={productDetailOpen}
             productDetailClose={productDetailClose}
             onUpdateCart={onUpdateCart}

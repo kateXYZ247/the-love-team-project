@@ -3,6 +3,7 @@ import classes from "./Book.module.css";
 import ServiceIllustration from "../../../assets/images/service_illustration.svg";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { PATH_ORDER } from "../../../constant/path";
 
 function Book(props) {
   return (
@@ -15,7 +16,7 @@ function Book(props) {
         </div>
         <Button
           component={Link}
-          to={"/order"}
+          to={PATH_ORDER}
           variant="contained"
           color="primary"
           size="large"
