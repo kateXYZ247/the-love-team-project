@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
+  API_PATH_ADMIN_LOGIN,
   API_PATH_PROVIDER_DETAIL,
   API_PATH_PROVIDER_LOGIN,
   API_PATH_USER_DETAIL,
@@ -68,7 +69,7 @@ export const login = (username, password, role) => {
       password: password,
     };
     const urlLogin =
-      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : API_PATH_PROVIDER_LOGIN;
+      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : role = AUTH_ROLE.provider ? API_PATH_PROVIDER_LOGIN : API_PATH_ADMIN_LOGIN;
     const urlDetail =
       role === AUTH_ROLE.user ? API_PATH_USER_DETAIL : API_PATH_PROVIDER_DETAIL;
     axios

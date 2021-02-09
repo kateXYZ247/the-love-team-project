@@ -11,6 +11,8 @@ import {
   WS_PATH_REPLY,
   WS_PATH_USER,
 } from "../../constant/api";
+import AdminLoginForm from "../../components/AdminLogin/AdminLoginForm";
+import StatusPieChart from "../../components/AdminPanel/StatusPieChart";
 
 function SampleContainer(props) {
   const { userId, token } = props;
@@ -56,7 +58,8 @@ function SampleContainer(props) {
     <div>
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
-      <div>aaa</div>
+      {/*<AdminLoginForm/>*/}
+      <StatusPieChart/>
     </div>
   );
 }

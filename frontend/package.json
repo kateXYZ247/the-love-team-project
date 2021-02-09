@@ -13,6 +13,8 @@
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
+    "devextreme": "^20.2.5",
+    "devextreme-react": "^20.2.5",
     "payment": "^2.4.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

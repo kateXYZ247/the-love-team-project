@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import CustomerLoginForm from "../../components/CustomerLoginForm/CustomerLoginForm";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import ProviderLoginForm from "../../components/ProviderLogin/ProviderLoginForm";
+import AdminLoginForm from "../../components/AdminLogin/AdminLoginForm";
 import { AUTH_ROLE } from "../../constant/auth";
 
 function Login(props) {
@@ -18,33 +19,44 @@ function Login(props) {
     onLogin(username, password, loginType);
   };
 
+  let customerLoginForm = <CustomerLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+  />;
+
+  let providerLoginForm = <ProviderLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+  />;
+
+  let adminLoginForm = <AdminLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+  />
+
   return isAuthenticated ? (
     <Redirect to={redirectPath} />
   ) : (
-    <React.Fragment>
-      <BackdropProgressCircle open={loading} />
-      {loginType === AUTH_ROLE.user ? (
-        <CustomerLoginForm
-          onSubmit={submittedHandler}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          keepSignedIn={keepSignedIn}
-          setKeepSignedIn={setKeepSignedIn}
-        />
-      ) : (
-        <ProviderLoginForm
-          onSubmit={submittedHandler}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          keepSignedIn={keepSignedIn}
-          setKeepSignedIn={setKeepSignedIn}
-        />
-      )}
-    </React.Fragment>
+      loginType === AUTH_ROLE.user ? customerLoginForm
+          :
+      loginType === AUTH_ROLE.provider ? providerLoginForm
+          :
+      adminLoginForm
   );
 }
 

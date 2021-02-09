@@ -6,3 +6,8 @@ export const AUTH_ROLE = {
   provider: "provider",
   admin: "admin",
 };
+
+export const USER_MENU_ITEMS = {
+  // account: "My Account",
+  logout: "Logout",
+};
