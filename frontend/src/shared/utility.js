@@ -13,18 +13,61 @@ export const calculateTotalPrice = (services) => {
   return subTotal * (1 + orderTaxRate) * (1 + orderGratuityRate);
 };
 
-export const checkValidity = (value, rules) => {
-  let isValid = true;
-  if (rules.required) {
-    isValid = value.trim() !== "" && isValid;
+// export const checkValidity = (value, rules) => {
+//   let isValid = true;
+//   if (rules.required) {
+//     isValid = value.trim() !== "" && isValid;
+//   }
+//   if (rules.minLength) {
+//     isValid = value.length >= rules.minLength && isValid;
+//   }
+//   if (rules.maxLength) {
+//     isValid = value.length <= rules.maxLength && isValid;
+//   }
+//   return isValid;
+// };
+
+export const checkValidity = (field, value) => {
+  let isValid = "";
+  switch (field) {
+      case "email":
+        if (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) {
+          return isValid;
+        }
+        if (value.trim() === "") {
+          isValid = "null";
+        } else {
+          isValid = "invalid";
+        }
+        return isValid;
+      case "name":
+        if (/^[a-zA-Z -]/.test(value)) {
+          return isValid;
+        }
+        if (value.trim() === "") {
+          isValid = "null";
+        } else {
+          isValid = "invalid";
+        }
+        return isValid;
+    case "phone":
+      if (/[^a-zA-Z -]/.test(value)) {
+        return isValid;
+      }
+      if (value.trim() === "") {
+        isValid = "null";
+      } else {
+        isValid = "invalid";
+      }
+      return isValid;
+    case "password":
+      if (value.length < 6) {
+        isValid = "invalid";
+      }
+      return isValid;
+      default:
+        return isValid;
   }
-  if (rules.minLength) {
-    isValid = value.length >= rules.minLength && isValid;
-  }
-  if (rules.maxLength) {
-    isValid = value.length <= rules.maxLength && isValid;
-  }
-  return isValid;
 };
 
 

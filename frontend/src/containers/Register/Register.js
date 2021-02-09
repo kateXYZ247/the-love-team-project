@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import * as actions from "../../store/actions";
+import {checkValidity} from "../../shared/utility";
+
 
 function Register(props) {
   const { loading, flag, onRegister, onResetForm } = props;
@@ -15,11 +17,49 @@ function Register(props) {
     phone: "",
     email: "",
     password: "",
+    confirmPW: "",
     isAgree: false,
   });
 
   const [submitted, setSubmit] = useState(false);
+  const [validEmail, setValidEmail] = useState("");
+  const [validFName, setValidFName] = useState("");
+  const [validLName, setValidLName] = useState("");
+  const [validPhone, setValidPhone] = useState("");
+  const [validPW, setValidPW] = useState("");
+  const [confirmPW, setConfirmPW] = useState("");
 
+  function handleConfirm(e) {
+    const value = e.target.value;
+    if (!value) {
+      setConfirmPW("null");
+    } else if (value !== user.password) {
+      setConfirmPW("invalid");
+    } else {
+      setConfirmPW("");
+    }
+  }
+
+  function validateEmail(e) {
+    const value = e.target.value;
+      setValidEmail(checkValidity("email", value));
+  }
+  function validateFName(e) {
+    const value = e.target.value;
+    setValidFName(checkValidity("name", value));
+  }
+  function validateLName(e) {
+    const value = e.target.value;
+    setValidLName(checkValidity("name", value));
+  }
+  function validatePhone(e) {
+    const value = e.target.value;
+    setValidPhone(checkValidity("phone", value));
+  }
+  function validatePW(e) {
+    const value = e.target.value;
+    setValidPW(checkValidity("password", value));
+  }
   // const history = useHistory();
   function handleChange(e) {
     const { name, value } = e.target;
@@ -46,6 +86,12 @@ function Register(props) {
       user.isAgree
     ) {
       onRegister(user);
+    } else {
+      setValidFName(checkValidity("name", user.firstName));
+      setValidLName(checkValidity("name", user.lastName));
+      setValidPhone(checkValidity("phone",user.phone));
+      setValidEmail(checkValidity("email", user.email));
+      setValidPW(checkValidity("password", user.password));
     }
   }
 
@@ -66,6 +112,18 @@ function Register(props) {
             handleSubmit={handleSubmit}
             submitted={submitted}
             onUnmount={onResetForm}
+            validEmail={validEmail}
+            checkEmail={validateEmail}
+            validFName={validFName}
+            checkFName={validateFName}
+            validLName={validLName}
+            checkLName={validateLName}
+            validPhone={validPhone}
+            checkPhone={validatePhone}
+            validPW={validPW}
+            checkPW={validatePW}
+            confirmPW={confirmPW}
+            checkConfirmPW={handleConfirm}
           />
         </Box>
       </Grid>
