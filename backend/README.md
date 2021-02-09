@@ -19,8 +19,8 @@
 - DevTool: [how to](https://stackoverflow.com/a/46630517/14973616)
 - Install lombok plugin: [instruction](https://projectlombok.org/setup/intellij)
 - Reformat on save, in settings:
-  1. check "Activate save actions on save"
-  2. check "Reformat file"
+    1. check "Activate save actions on save"
+    2. check "Reformat file"
 
 ### Database setup
 
@@ -28,19 +28,42 @@
 - add system environment variable: jdbcurl, dbuser, dbpasswd
 
 ### Folder Structures
-- [/src/main/java/com/theloveteam/web](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web) - main source folder
-  - [/dao](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/dao) - data access object, corresponding to each data table in database
-  - [/dto](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/dto) - data transfer object, object used for non-database data transferring (requestBody, responseBody ...)
-  - [/repositories](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/repositories) - directly interact with database
-  - [/services](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/services) - logic between a controller and repository
-  - [/controllers](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/controllers) - REST API request controller/handler
-  - [/security](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/security) - security related (token/authentication/authorization)
-- [/src/main/java/resources](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/resources) - resource folder (application.properties)
-- [/src/test/java/com/theloveteam/web](https://github.com/adayaday/the-love-team/tree/main/backend/src/test/java/com/theloveteam/web) - Unit tests
-- [/src/test/java/resources](https://github.com/adayaday/the-love-team/tree/main/backend/src/test/java/com/theloveteam/web) - testing related resources, sql files
+
+- [/src/main/java/com/theloveteam/web](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web)
+  - main source folder
+    - [/dao](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/dao) - data
+      access object, corresponding to each data table in database
+    - [/dto](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/dto) - data
+      transfer object, object used for non-database data transferring (requestBody, responseBody ...)
+    - [/repositories](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/repositories)
+      - directly interact with database
+    - [/servs](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/servs) -
+      logic between a controller and repository
+    - [/controllers](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/controllers)
+      - REST API request controller/handler
+    - [/security](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/com/theloveteam/web/security)
+      - security related (token/authentication/authorization)
+- [/src/main/java/resources](https://github.com/adayaday/the-love-team/tree/main/backend/src/main/java/resources) -
+  resource folder (application.properties)
+- [/src/test/java/com/theloveteam/web](https://github.com/adayaday/the-love-team/tree/main/backend/src/test/java/com/theloveteam/web)
+  - Unit tests
+- [/src/test/java/resources](https://github.com/adayaday/the-love-team/tree/main/backend/src/test/java/com/theloveteam/web)
+  - testing related resources, sql files
 
 ### Usage
+
 - Maven: reload/clean/install
 - run `WebApplication`
 - `GET` request to `/hello` should return `"Hello, this is The Love Team."`.
-- `POST` request to `/hello` with JSON body `{"username": "TLT", "message": "hello, this is TLT"}` should return JSON `{"response": "Received from TLT: hello, this is TLT"}`.
+- `POST` request to `/hello` with JSON body `{"username": "TLT", "message": "hello, this is TLT"}` should return
+  JSON `{"response": "Received from TLT: hello, this is TLT"}`.
+
+### Deploy to AWS EC2
+
+1. backend will run on port `8080`, make sure it is allowed in EC2 security group settings
+1. add `<finalName>JAR_FILENAME</finalName>` into `pom.xml` `<build></build>`
+1. run maven install, there will be a JAR_FILENAME.jar file in `/target/` folder
+1. cp both Dockerfile file and .jar file to EC2
+1. modify environment variables in EC2/dockerfile to reflect database address and CORS settings
+1. `sudo docker build -t tlt-backend:dev .`
+1. `sudo docker run -d -p 8080:8080 tlt-backend:dev`

@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository <Product, Long> {
 
-    @Query("select p from Product p where p.productId = ?1")
-    List<Product> findByProId(int proId);
+    @Query("select p from Product p where p.productId in ?1")
+    List<Product> findByProductIds(List<Long> productIds); //admin may use this in future
 }

@@ -1,34 +1,67 @@
 package com.theloveteam.web.controllers;
 
+import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dao.User;
-import com.theloveteam.web.dto.LoginRequestBody;
-import com.theloveteam.web.dto.LoginResponseBody;
-import com.theloveteam.web.model.LoginResult;
-import com.theloveteam.web.repositories.UserRepository;
+import com.theloveteam.web.dto.RegisterRequestBody;
+import com.theloveteam.web.dto.RegisterResponseBody;
+import com.theloveteam.web.exceptions.UserAlreadyExistsException;
+import com.theloveteam.web.handlers.GetUserDetailHandler;
 import com.theloveteam.web.services.UserService;
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
 
 @RestController
 public class UserController {
-
     @Autowired
     private UserService userService;
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @PostMapping("/users/login")
-    public ResponseEntity<LoginResponseBody> login(
-            @RequestBody LoginRequestBody requestBody) {
-        LoginResult loginResult = userService.validateEmailAndPassword(requestBody.getEmail(), requestBody.getPassword());
-        System.out.println(loginResult);
-        return ResponseEntity.ok().body(new LoginResponseBody("Logged in.", loginResult));
+    @Autowired
+    private GetUserDetailHandler getUserDetailHandler;
+
+    @GetMapping(UrlConstants.USERS_DETAILS)
+    public ResponseEntity<User> getUserDetail(@PathVariable String userId) {
+        return getUserDetailHandler.handle(userId);
+    }
+
+    @PostMapping(UrlConstants.USERS_REGISTER)
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestBody registerRequestBody, Errors errors){
+        System.out.println(registerRequestBody.toString());
+        RegisterResponseBody responseBody = new RegisterResponseBody();
+        // check if the user exists
+        List<String> conflicts = userService.userExists(registerRequestBody.getEmail(), registerRequestBody.getPhone());
+        if (!Collections.isEmpty(conflicts)) {
+           throw new UserAlreadyExistsException(
+                   conflicts.stream()
+                           .reduce((first, second) -> String.format("%s and %s", first, second))
+                           .orElse(""));
+        }
+        // check is there's any error from validation
+        if (errors.hasFieldErrors()) {
+            for (FieldError err : errors.getFieldErrors()) {
+                responseBody.addErrorMsg(err.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest()
+                    .body(responseBody);
+        }
+        // if there isn't any error, save data and give success message
+        userService.registerAccount(registerRequestBody);
+        responseBody.setSuccessMessage("Congrats! You've successfully completed your registration.");
+        return ResponseEntity.ok(responseBody);
+
     }
 }

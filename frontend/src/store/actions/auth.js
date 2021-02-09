@@ -1,0 +1,181 @@
+import * as actionTypes from "./actionTypes";
+import axios from "../../shared/axios_instance";
+import {
+  API_PATH_PROVIDER_DETAIL,
+  API_PATH_PROVIDER_LOGIN,
+  API_PATH_USER_DETAIL,
+  API_PATH_USER_LOGIN,
+  HTTP_STATUS_OK,
+  WS_PATH_CONNECT,
+  WS_PATH_PROVIDERS,
+  WS_PATH_REPLY,
+  WS_PATH_USER,
+} from "../../constant/api";
+import { AUTH_ROLE, TOKEN_PREFIX } from "../../constant/auth";
+import { setMessage } from "./message";
+import { MESSAGE_TYPE } from "../../constant/message";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
+import { AUTH_CLEAR_STOMP_CLIENT, AUTH_SET_STOMP_CLIENT } from "./actionTypes";
+import { addPushedRequest } from "./provider";
+
+export const setRedirectPath = (path) => {
+  return {
+    type: actionTypes.AUTH_SET_REDIRECT_PATH,
+    path: path,
+  };
+};
+
+export const loginSuccess = (token, userId) => {
+  return {
+    type: actionTypes.AUTH_LOGIN_SUCCESS,
+    token: token,
+    userId: userId,
+  };
+};
+
+export const setUserDetail = (data, role) => {
+  return {
+    type: actionTypes.AUTH_SET_USER_DETAIL,
+    data: data,
+    role: role,
+  };
+};
+
+export const loginGetInfoFail = (error) => {
+  return {
+    type: actionTypes.AUTH_LOGIN_GET_INFO_FAIL,
+    error: error,
+  };
+};
+
+export const loginStart = (role) => {
+  return {
+    type: actionTypes.AUTH_LOGIN_START,
+    role: role,
+  };
+};
+
+// Login, get userDetails, connected to websocket
+export const login = (username, password, role) => {
+  return (dispatch) => {
+    // setup redirect path after login
+    dispatch(loginStart(role));
+    const data = {
+      loginId: username,
+      role: role,
+      loginType: "BY_EMAIL",
+      password: password,
+    };
+    const urlLogin =
+      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : API_PATH_PROVIDER_LOGIN;
+    const urlDetail =
+      role === AUTH_ROLE.user ? API_PATH_USER_DETAIL : API_PATH_PROVIDER_DETAIL;
+    axios
+      .post(urlLogin, data)
+      .then((response) => {
+        if (response.status !== HTTP_STATUS_OK) {
+          throw new Error("Login failed");
+        }
+        // data = userId
+        const { headers, data } = response;
+        if (
+          headers === null ||
+          !headers.hasOwnProperty("authorization") ||
+          !headers.authorization.startsWith(TOKEN_PREFIX)
+        ) {
+          throw new Error("bad response");
+        }
+        dispatch(
+          loginSuccess(headers.authorization.substr(TOKEN_PREFIX.length), data)
+        );
+        // connect to websocket
+        if (role === AUTH_ROLE.provider) {
+          dispatch(connectToWebSocket(data, headers.authorization));
+        }
+        return axios.get(urlDetail + data);
+      })
+      .then((response) => {
+        if (response.status !== HTTP_STATUS_OK || response.data === null) {
+          throw new Error("Get user info failed");
+        }
+        // data = userDetail
+        const { data } = response;
+        dispatch(setUserDetail(data, role));
+        const firstName =
+          role === AUTH_ROLE.user ? data.firstName : data.provider.firstName;
+        dispatch(setMessage(MESSAGE_TYPE.info, "Welcome back, " + firstName));
+      })
+      .catch((error) => {
+        dispatch(loginGetInfoFail());
+        dispatch(setMessage(MESSAGE_TYPE.error, error.message));
+      });
+  };
+};
+
+export const logoutAndMessage = () => {
+  return (dispatch) => {
+    dispatch(logout());
+    dispatch(setMessage(MESSAGE_TYPE.info, "See you next time!"));
+  };
+};
+
+const logout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+const setStompClient = (stompClient) => {
+  return {
+    type: AUTH_SET_STOMP_CLIENT,
+    stompClient: stompClient,
+  };
+};
+
+const connectToWebSocket = (userId, token) => {
+  return (dispatch) => {
+    let socket = new SockJS(
+      process.env.REACT_APP_BACKEND_URL + WS_PATH_CONNECT
+    );
+    const stompClient = Stomp.over(socket);
+    stompClient.connect(
+      {
+        Authorization: token,
+      },
+      () => {
+        stompClient.subscribe(WS_PATH_PROVIDERS, (message) => {
+          dispatch(
+            setMessage(
+              MESSAGE_TYPE.info,
+              "Notification: " + JSON.parse(message.body).content
+            )
+          );
+        });
+        stompClient.subscribe(
+          WS_PATH_USER + userId + WS_PATH_REPLY,
+          (message) => {
+            // console.log("received from private: ", JSON.parse(message.body));
+            dispatch(addPushedRequest(JSON.parse(message.body)));
+          }
+        );
+      }
+    );
+    dispatch(setStompClient(stompClient));
+  };
+};
+
+export const disconnectWebSocket = (stompClient) => {
+  return (dispatch) => {
+    if (stompClient !== null) {
+      stompClient.disconnect();
+    }
+    dispatch(clearStompClient());
+  };
+};
+
+const clearStompClient = () => {
+  return {
+    type: AUTH_CLEAR_STOMP_CLIENT,
+  };
+};

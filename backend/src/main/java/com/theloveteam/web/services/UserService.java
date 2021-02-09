@@ -1,29 +1,55 @@
 package com.theloveteam.web.services;
 
 import com.theloveteam.web.dao.User;
-import com.theloveteam.web.model.LoginResult;
+import com.theloveteam.web.dto.RegisterRequestBody;
+import com.theloveteam.web.model.Role;
 import com.theloveteam.web.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-    public LoginResult validateEmailAndPassword(String email, String password) {
-        List<User> users = userRepository.findByEmail(email);
-        if(users.size() == 0) {
-            return LoginResult.USER_NOT_FOUND;
-        } else if (users.size() == 1) {
-            return password.equals(users.get(0).getPassword()) ?
-                    LoginResult.LOGIN_SUCCESS : LoginResult.PASSWORD_INCORRECT;
-        } else {
-            return LoginResult.SYSTEM_ERROR;
+
+    // check if the email address or phone number already in the database
+    public List<String> userExists(String email, String phone) {
+        List<String> conflicts = new ArrayList<>();
+        if (userRepository.findUsersByEmail(email).size() > 0) {
+            conflicts.add(email);
         }
+        if (userRepository.findUsersByPhone(phone).size() > 0) {
+            conflicts.add(phone);
+        }
+        return conflicts;
+    }
+
+    // encrypt password and save the user info into the database
+    public User registerAccount(RegisterRequestBody registerRequestBody) {
+        // password encryption
+        String enPassword = passwordEncoder.encode(registerRequestBody.getPassword());
+        registerRequestBody.setPassword(enPassword);
+        // prepare the user object with the required registration fields and save to repository
+        User user = User.builder()
+                .lastName(registerRequestBody.getLastName())
+                .firstName(registerRequestBody.getFirstName())
+                .password(registerRequestBody.getPassword())
+                .email(registerRequestBody.getEmail())
+                .phone(registerRequestBody.getPhone())
+                .role(Role.user.name()).build();//user register default role_user
+
+        return userRepository.save(user);
+    }
+
+    public Optional<User> getUserByUserId(Long userId) {
+        return userRepository.findById(userId);
     }
 }

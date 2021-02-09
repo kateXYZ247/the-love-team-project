@@ -3,17 +3,28 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { combineReducers, compose, createStore } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+
+import authReducer from "./store/reducers/auth";
+import productsReducer from "./store/reducers/products";
+import orderReducer from "./store/reducers/order";
+import registerReducer from "./store/reducers/register";
+import providerReducer from "./store/reducers/provider";
+import messageReducer from "./store/reducers/message";
+import providerProfileReducer from "./store/reducers/providerProfile";
+import { BrowserRouter } from "react-router-dom";
+
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#E64398",
+      main: "#B57AD2",
     },
     secondary: {
-      main: "#F0EBF4",
+      main: "#3490cf",
     },
   },
 });
@@ -23,14 +34,30 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null) || compose;
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  auth: authReducer,
+  products: productsReducer,
+  order: orderReducer,
+  register: registerReducer,
+  provider: providerReducer,
+  message: messageReducer,
 
-const store = createStore(rootReducer, composeEnhancers());
+  providerProfile: providerProfileReducer,
+
+
+});
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </ThemeProvider>,
   document.getElementById("root")

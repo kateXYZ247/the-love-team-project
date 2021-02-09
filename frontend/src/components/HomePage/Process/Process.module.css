@@ -1,0 +1,13 @@
+.container {
+    position: relative;
+    width: 1200px;
+    display: flex;
+    margin: 50px auto;
+}
+
+.top {
+    position: absolute;
+    width: 1200px;
+    left: 0;
+    right: 0;
+}

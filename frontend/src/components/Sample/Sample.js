@@ -1,10 +1,14 @@
 import React from "react";
-import { Chip } from "@material-ui/core";
+import { Button, Chip } from "@material-ui/core";
 
 function Sample(props) {
   return (
     <div>
-      <Chip color="primary" label="Basic" />
+      <Button color="primary" onClick={props.clicked}>
+        Button OK
+      </Button>
+      <Chip color="primary" label="Chip OK" onClick={props.clicked} />
+      <span>REACT_APP_SAMPLE: {process.env.REACT_APP_SAMPLE}</span>
     </div>
   );
 }
