@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { PATH_HOME, PATH_LOGIN } from "../../../constant/path";
 import NavigationItems from "../NavigationItems/NavigationItems";
 import { USER_MENU_ITEMS } from "../../../constant/auth";
+import { APP_TITLE } from "../../../constant/constant";
 
 const TitleTypography = withStyles({
   root: {
@@ -45,9 +46,16 @@ function NavBar(props) {
     <React.Fragment>
       <Grid container justify="center">
         <Grid item xs={12} container justify="center">
-          <TitleTypography component={Link} to={PATH_HOME} variant="h3">
-            THE LOVE TEAM
-          </TitleTypography>
+          <Hidden smDown>
+            <TitleTypography component={Link} to={PATH_HOME} variant="h3">
+              {APP_TITLE}
+            </TitleTypography>
+          </Hidden>
+          <Hidden mdUp>
+            <TitleTypography component={Link} to={PATH_HOME} variant="h4">
+              {APP_TITLE}
+            </TitleTypography>
+          </Hidden>
         </Grid>
         <Grid item xs={2} />
         <Grid item xs={8} container justify="center">
