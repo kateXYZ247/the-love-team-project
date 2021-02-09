@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import ProductCard from "../ProductCard/ProductCard";
+import Box from "@material-ui/core/Box";
 
 function ProductsGrid(props) {
   const {
@@ -36,24 +37,26 @@ function ProductsGrid(props) {
   }
 
   return (
-    <Grid container direction="row" justify="space-around" spacing={0}>
-      <Grid item xs={11} md={5} lg={3}>
-        <CategoryCard title={"BLOWOUTS"} />
-        {cardGenerator("Blowouts")}
+    <Box p={2}>
+      <Grid container direction="row" justify="space-around" spacing={2}>
+        <Grid item xs={11} md={5} lg={3}>
+          <CategoryCard title={"BLOWOUTS"} />
+          {cardGenerator("Blowouts")}
+        </Grid>
+        <Grid item xs={11} md={5} lg={3}>
+          <CategoryCard title={"HAIRCUTS"} />
+          {cardGenerator("Haircuts")}
+        </Grid>
+        <Grid item xs={11} md={5} lg={3}>
+          <CategoryCard title={"MAKEUP"} />
+          {cardGenerator("Makeup")}
+        </Grid>
+        <Grid item xs={11} md={5} lg={3}>
+          <CategoryCard title={"NAILS"} />
+          {cardGenerator("Nails")}
+        </Grid>
       </Grid>
-      <Grid item xs={11} md={5} lg={3}>
-        <CategoryCard title={"HAIRCUTS"} />
-        {cardGenerator("Haircuts")}
-      </Grid>
-      <Grid item xs={11} md={5} lg={3}>
-        <CategoryCard title={"MAKEUP"} />
-        {cardGenerator("Makeup")}
-      </Grid>
-      <Grid item xs={11} md={5} lg={3}>
-        <CategoryCard title={"NAILS"} />
-        {cardGenerator("Nails")}
-      </Grid>
-    </Grid>
+    </Box>
   );
 }
 
