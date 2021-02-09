@@ -4,18 +4,29 @@ import Sauce from "../../components/HomePage/Sauce/Sauce";
 import Process from "../../components/HomePage/Process/Process";
 import Products from "../../components/HomePage/Products/Products";
 import Title from "../../components/HomePage/Title/Title";
-import classes from "./Home.module.css";
+import PhotoContact from "../../components/HomePage/PhotoContact/PhotoContact";
+
+import { Grid } from "@material-ui/core";
 
 function Home(props) {
   // TODO: change to responsive design, optimize for mobile device
+
   return (
-    <div className={classes.container}>
-      <Title />
-      <Book />
-      <Sauce />
-      <Process />
-      <Products />
-    </div>
+    <React.Fragment>
+      <Grid container justify="center">
+        <Title />
+
+        <Book />
+
+        <Sauce />
+
+        <Process />
+
+        <Products />
+
+        <PhotoContact />
+      </Grid>
+    </React.Fragment>
   );
 }
 
