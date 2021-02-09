@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { Divider, Hidden, Menu, MenuItem, withStyles } from "@material-ui/core";
+import {
+  Divider,
+  Hidden,
+  IconButton,
+  Menu,
+  MenuItem,
+  withStyles,
+} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import FaceIcon from "@material-ui/icons/Face";
+import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 
 import { PATH_HOME, PATH_LOGIN } from "../../../constant/path";
@@ -23,7 +31,14 @@ const TitleTypography = withStyles({
 })(Typography);
 
 function NavBar(props) {
-  const { onLogout, role, firstName, isAuthenticated, currentPath } = props;
+  const {
+    onDrawOpen,
+    onLogout,
+    role,
+    firstName,
+    isAuthenticated,
+    currentPath,
+  } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
 
@@ -57,17 +72,32 @@ function NavBar(props) {
             </TitleTypography>
           </Hidden>
         </Grid>
-        <Grid item xs={2} />
-        <Grid item xs={8} container justify="center">
-          <Hidden xsDown>
+        <Hidden xsDown>
+          <Grid item xs={2} />
+          <Grid item xs={8} container justify="center">
             <NavigationItems
               role={role}
               isAuthenticated={isAuthenticated}
               currentPath={currentPath}
             />
-          </Hidden>
-        </Grid>
-        <Grid item xs={2} container justify="center" alignContent="center">
+          </Grid>
+        </Hidden>
+        <Hidden smUp>
+          <Grid item xs={2} container justify="flex-end">
+            <IconButton color="inherit" edge="end" onClick={onDrawOpen}>
+              <MenuIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={7} />
+        </Hidden>
+        <Grid
+          item
+          xs={3}
+          sm={2}
+          container
+          justify="flex-start"
+          alignContent="center"
+        >
           {!isAuthenticated ? (
             <Button startIcon={<FaceIcon />} component={Link} to={PATH_LOGIN}>
               Login

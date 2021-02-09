@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import NavBar from "../../components/Navigation/NavBar/NavBar";
 
@@ -9,6 +9,7 @@ import SnackbarMessage from "../../components/UI/SnackbarMessage/SnackbarMessage
 import { AUTH_ROLE } from "../../constant/auth";
 import ProviderPushedRequests from "../../containers/Provider/ProviderPushedRequests/ProviderPushedRequests";
 import { PATH_HOME } from "../../constant/path";
+import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
 function Layout(props) {
   const {
@@ -25,6 +26,12 @@ function Layout(props) {
     messageType,
     onMessageClose,
   } = props;
+
+  const [openSideDrawer, setOpenSideDrawer] = useState(false);
+
+  const drawerToggledHandler = () => {
+    setOpenSideDrawer(!openSideDrawer);
+  };
 
   const LogoutClickedHandler = () => {
     onLogout();
@@ -46,6 +53,13 @@ function Layout(props) {
             firstName={firstName}
             isAuthenticated={isAuthenticated}
             currentPath={currentPath}
+            onDrawOpen={drawerToggledHandler}
+          />
+          <SideDrawer
+            open={openSideDrawer}
+            onClose={drawerToggledHandler}
+            isAuthenticated={isAuthenticated}
+            role={role}
           />
           <main className={classes.Main}>{props.children}</main>
           {message !== null ? (
