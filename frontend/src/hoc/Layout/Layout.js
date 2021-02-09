@@ -59,6 +59,7 @@ function Layout(props) {
             open={openSideDrawer}
             onClose={drawerToggledHandler}
             isAuthenticated={isAuthenticated}
+            currentPath={currentPath}
             role={role}
           />
           <main className={classes.Main}>{props.children}</main>
