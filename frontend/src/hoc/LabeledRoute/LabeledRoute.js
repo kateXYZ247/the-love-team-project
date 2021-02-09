@@ -8,8 +8,10 @@ function LabeledRoute(props) {
     <Route
       path={path}
       exact
-      render={() => (
-        <RouteComponent path={path}>{props.children}</RouteComponent>
+      render={(routerProps) => (
+        <RouteComponent path={path}>
+          {React.cloneElement(props.children, { ...routerProps })}
+        </RouteComponent>
       )}
     />
   );
