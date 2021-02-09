@@ -13,4 +13,51 @@ export const PATH_PROVIDER_HISTORY = "/provider/history";
 export const PATH_PROVIDER_UPCOMING_SERVICES = "/provider/services";
 export const PATH_PROVIDER_PROFILE = "/provider/profile";
 
-export const PATH_LIST_AUTH_USER = [];
+export const NAV_BAR_DEFAULT_PATH_ITEMS = [
+  {
+    label: "Home",
+    path: PATH_HOME,
+  },
+  {
+    label: "Book",
+    path: PATH_ORDER,
+  },
+];
+
+export const NAV_BAR_USER_PATH_ITEMS = [
+  {
+    label: "Home",
+    path: PATH_HOME,
+  },
+  {
+    label: "Book",
+    path: PATH_ORDER,
+  },
+  {
+    label: "Orders",
+    path: PATH_HISTORY,
+  },
+  {
+    label: "Appointments",
+    path: PATH_APPOINTMENTS,
+  },
+];
+
+export const NAV_BAR_PROVIDER_PATH_ITEMS = [
+  {
+    label: "Requests",
+    path: PATH_HOME,
+  },
+  {
+    label: "Services",
+    path: PATH_PROVIDER_UPCOMING_SERVICES,
+  },
+  {
+    label: "Histories",
+    path: PATH_PROVIDER_HISTORY,
+  },
+  {
+    label: "Profile",
+    path: PATH_PROVIDER_PROFILE,
+  },
+];

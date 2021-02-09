@@ -19,7 +19,6 @@ import {
   PATH_ORDER,
   PATH_PROVIDER_HISTORY,
   PATH_PROVIDER_HOME,
-  PATH_PROVIDER_LIST_SERVICES,
   PATH_PROVIDER_LOGIN,
   PATH_PROVIDER_PROFILE,
   PATH_PROVIDER_UPCOMING_SERVICES,
@@ -115,9 +114,6 @@ function App(props) {
     } else if (role === AUTH_ROLE.provider) {
       routes = (
         <Switch>
-          <LabeledRoute path={PATH_PROVIDER_LIST_SERVICES}>
-            <ProviderListServices />
-          </LabeledRoute>
           <LabeledRoute path={PATH_PROVIDER_UPCOMING_SERVICES}>
             <ProviderUpcoming />
           </LabeledRoute>
@@ -128,21 +124,21 @@ function App(props) {
             <ProviderHistory />
           </LabeledRoute>
           <LabeledRoute path={PATH_PROVIDER_LOGIN}>
-            <Login loginType={AUTH_ROLE.provider} {...props} />{" "}
+            <Login loginType={AUTH_ROLE.provider} />
           </LabeledRoute>
           <LabeledRoute path={PATH_TEST}>
             <SampleContainer />
           </LabeledRoute>
           <Route
-            path={PATH_PROVIDER_HOME}
+            path={PATH_HOME}
             exact
             render={() => (
-              <RouteComponent path={PATH_PROVIDER_HOME}>
+              <RouteComponent path={PATH_HOME}>
                 <ProviderListServices />
               </RouteComponent>
             )}
           />
-          <Redirect to={PATH_PROVIDER_HOME} />
+          <Redirect to={PATH_HOME} />
         </Switch>
       );
     }
@@ -184,7 +180,7 @@ function App(props) {
       routes = (
         <Switch>
           <LabeledRoute path={PATH_PROVIDER_LOGIN}>
-            <Login loginType={AUTH_ROLE.provider} {...props} />{" "}
+            <Login loginType={AUTH_ROLE.provider} />
           </LabeledRoute>
           <LabeledRoute path={PATH_TEST}>
             <SampleContainer />

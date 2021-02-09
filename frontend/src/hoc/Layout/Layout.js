@@ -8,6 +8,7 @@ import * as actions from "../../store/actions";
 import SnackbarMessage from "../../components/UI/SnackbarMessage/SnackbarMessage";
 import { AUTH_ROLE } from "../../constant/auth";
 import ProviderPushedRequests from "../../containers/Provider/ProviderPushedRequests/ProviderPushedRequests";
+import { PATH_HOME } from "../../constant/path";
 
 function Layout(props) {
   const {
@@ -16,6 +17,7 @@ function Layout(props) {
     firstName,
     currentPath,
     onLogout,
+    onSetPath,
     onDisconnectWebSocket,
     onClearCart,
     stompClient,
@@ -26,6 +28,7 @@ function Layout(props) {
 
   const LogoutClickedHandler = () => {
     onLogout();
+    onSetPath(role, PATH_HOME);
     if (role === AUTH_ROLE.provider) {
       onDisconnectWebSocket(stompClient);
     } else if (role === AUTH_ROLE.user) {
@@ -81,6 +84,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.disconnectWebSocket(stompClient)),
     onMessageClose: () => dispatch(actions.clearMessage()),
     onClearPushedRequest: () => dispatch(actions.clearPushedRequest()),
+    onSetPath: (role, path) => dispatch(actions.setPath(role, path)),
   };
 };
 

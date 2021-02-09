@@ -3,20 +3,26 @@ import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 
 function RouteComponent(props) {
-  const { path, onSetPath } = props;
+  const { role, path, onSetPath } = props;
 
   useEffect(() => {
-    onSetPath(path);
+    onSetPath(role, path);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);
+  }, [role, path]);
 
   return <React.Fragment>{props.children}</React.Fragment>;
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    onSetPath: (path) => dispatch(actions.setPath(path)),
+    role: state.auth.userDetail.role,
   };
 };
 
-export default connect(null, mapDispatchToProps)(RouteComponent);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSetPath: (role, path) => dispatch(actions.setPath(role, path)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RouteComponent);
