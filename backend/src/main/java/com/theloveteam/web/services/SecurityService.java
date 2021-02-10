@@ -1,9 +1,11 @@
 package com.theloveteam.web.services;
 
+import com.theloveteam.web.dao.Admin;
 import com.theloveteam.web.dao.Provider;
 import com.theloveteam.web.dao.User;
 
 import com.theloveteam.web.dto.LoginRequestBody;
+import com.theloveteam.web.repositories.AdminRepository;
 import com.theloveteam.web.repositories.ProviderRepository;
 import com.theloveteam.web.security.LoginDetails;
 import com.theloveteam.web.model.Role;
@@ -30,6 +32,9 @@ public class SecurityService implements UserDetailsService {
 
     @Autowired
     private ProviderRepository providerRepository;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -60,6 +65,14 @@ public class SecurityService implements UserDetailsService {
             } else {
                 idFromDb = Optional.ofNullable(provider.getProviderId());
                 passwordFromDb = Optional.ofNullable(provider.getPassword());
+            }
+        } else if (Role.admin.equals(loginRequestBody.getRole())) {
+            Admin admin = adminRepository.findAdminByEmail(loginId);
+            if (admin == null) {
+                throw new UsernameNotFoundException(loginId);
+            } else {
+                idFromDb = Optional.ofNullable(admin.getAdminId());
+                passwordFromDb = Optional.ofNullable(admin.getPassword());
             }
         }
 
