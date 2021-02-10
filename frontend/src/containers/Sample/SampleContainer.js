@@ -11,6 +11,7 @@ import {
   WS_PATH_REPLY,
   WS_PATH_USER,
 } from "../../constant/api";
+import GoogleMapSample from "../../components/Sample/GoogleMapSample";
 
 function SampleContainer(props) {
   const { userId, token } = props;
@@ -57,6 +58,24 @@ function SampleContainer(props) {
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
       <div>aaa</div>
+      <GoogleMapSample
+        center={{
+          lat: 37.419559,
+          lng: -121.087588,
+        }}
+      />
+      <GoogleMapSample
+        center={{
+          lat: 37.419559,
+          lng: -122.087588,
+        }}
+      />
+      <GoogleMapSample
+        center={{
+          lat: 37.519559,
+          lng: -122.087588,
+        }}
+      />
     </div>
   );
 }
