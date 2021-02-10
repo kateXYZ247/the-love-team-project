@@ -1,29 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Grid, makeStyles, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import Typography from "@material-ui/core/Typography";
-import parse from "autosuggest-highlight/parse";
 import throttle from "lodash/throttle";
 import {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete/dist/utils";
 import { GOOGLE_MAP_CALL_DELAY } from "../../../constant/api";
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-}));
+import AddressSuggestion from "./AddressSuggestion/AddressSuggestion";
 
 const autocompleteService = { current: null };
 
 function AddressInput(props) {
   const { initAddress, onAddressChange, onLatLngChange } = props;
-
-  const classes = useStyles();
 
   const [value, setValue] = useState({ description: initAddress });
   const [inputValue, setInputValue] = useState(initAddress);
@@ -116,39 +105,7 @@ function AddressInput(props) {
           fullWidth
         />
       )}
-      renderOption={(option) => {
-        if (option === null || option === undefined) {
-          return null;
-        }
-        const matches =
-          option.structured_formatting.main_text_matched_substrings;
-        const parts = parse(
-          option.structured_formatting.main_text,
-          matches.map((match) => [match.offset, match.offset + match.length])
-        );
-
-        return (
-          <Grid container alignItems="center">
-            <Grid item>
-              <LocationOnIcon className={classes.icon} />
-            </Grid>
-            <Grid item xs>
-              {parts.map((part, index) => (
-                <span
-                  key={index}
-                  style={{ fontWeight: part.highlight ? 700 : 400 }}
-                >
-                  {part.text}
-                </span>
-              ))}
-
-              <Typography variant="body2" color="textSecondary">
-                {option.structured_formatting.secondary_text}
-              </Typography>
-            </Grid>
-          </Grid>
-        );
-      }}
+      renderOption={(option) => <AddressSuggestion option={option} />}
     />
   );
 }
