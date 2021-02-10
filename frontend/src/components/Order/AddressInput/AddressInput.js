@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
 import { Grid, makeStyles, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Typography from "@material-ui/core/Typography";
+import parse from "autosuggest-highlight/parse";
+import throttle from "lodash/throttle";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -15,77 +13,121 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const autocompleteService = { current: null };
+
 function AddressInput(props) {
   const { initAddress, onAddressChange } = props;
 
   const classes = useStyles();
 
-  const [address, setAddress] = useState("");
+  const [value, setValue] = useState(initAddress);
+  const [inputValue, setInputValue] = useState(initAddress);
+  const [options, setOptions] = useState([]);
 
-  const addressChangedHandler = (updatedAddress) => {
-    setAddress(updatedAddress);
-  };
+  const fetch = React.useMemo(
+    () =>
+      throttle((request, callback) => {
+        autocompleteService.current.getPlacePredictions(request, callback);
+      }, 200),
+    []
+  );
 
-  const onAddressSelect = (selectedAddress) => {
-    onAddressChange(selectedAddress);
-    geocodeByAddress(selectedAddress)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => console.log("Success", latLng))
-      .catch((error) => console.error("Error", error));
+  React.useEffect(() => {
+    let active = true;
+
+    if (!autocompleteService.current && window.google) {
+      autocompleteService.current = new window.google.maps.places.AutocompleteService();
+    }
+    if (!autocompleteService.current) {
+      return undefined;
+    }
+
+    if (inputValue === "") {
+      setOptions(value ? [value] : []);
+      return undefined;
+    }
+
+    fetch({ input: inputValue }, (results) => {
+      if (active) {
+        let newOptions = [];
+        if (value) {
+          newOptions = [value];
+        }
+        if (results) {
+          newOptions = [...newOptions, ...results];
+        }
+        setOptions(newOptions);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [value, inputValue, fetch]);
+
+  const valueChangedHandler = (event, newValue) => {
+    console.log("onchange -> ", newValue);
+    setOptions(newValue ? [newValue, ...options] : options);
+    setValue(newValue);
+    onAddressChange(newValue);
   };
 
   return (
-    <PlacesAutocomplete
-      value={address}
-      onChange={addressChangedHandler}
-      onSelect={onAddressSelect}
-    >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <React.Fragment>
-          <Autocomplete
-            fullWidth
-            getOptionLabel={(option) =>
-              typeof option === "string" ? option : option.description
-            }
-            getOptionSelected={(option, value) =>
-              option.description === value.description
-            }
-            filterOptions={(x) => x}
-            options={suggestions}
-            autoComplete
-            includeInputInList
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                {...getInputProps()}
-                label="Your Full Address"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-            renderOption={(suggestion) => {
-              return (
-                <Grid
-                  container
-                  alignItems="center"
-                  {...getSuggestionItemProps(suggestion, {})}
-                >
-                  <Grid item>
-                    <LocationOnIcon className={classes.icon} />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography variant="body2" color="textSecondary">
-                      {suggestion.description}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              );
-            }}
-          />
-        </React.Fragment>
+    <Autocomplete
+      id="google-map-demo"
+      fullWidth
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option.description
+      }
+      filterOptions={(x) => x}
+      options={options}
+      autoComplete
+      includeInputInList
+      filterSelectedOptions
+      value={value}
+      onChange={valueChangedHandler}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Your Full Address"
+          variant="outlined"
+          fullWidth
+        />
       )}
-    </PlacesAutocomplete>
+      renderOption={(option) => {
+        const matches =
+          option.structured_formatting.main_text_matched_substrings;
+        const parts = parse(
+          option.structured_formatting.main_text,
+          matches.map((match) => [match.offset, match.offset + match.length])
+        );
+
+        return (
+          <Grid container alignItems="center">
+            <Grid item>
+              <LocationOnIcon className={classes.icon} />
+            </Grid>
+            <Grid item xs>
+              {parts.map((part, index) => (
+                <span
+                  key={index}
+                  style={{ fontWeight: part.highlight ? 700 : 400 }}
+                >
+                  {part.text}
+                </span>
+              ))}
+
+              <Typography variant="body2" color="textSecondary">
+                {option.structured_formatting.secondary_text}
+              </Typography>
+            </Grid>
+          </Grid>
+        );
+      }}
+    />
   );
 }
 
