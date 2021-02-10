@@ -34,6 +34,8 @@ function Order(props) {
   const orderServicesCount = order.services.length;
   const oldOrderDate = order.startTime;
   const oldAddress = order.address;
+  const oldLatitude = order.latitude;
+  const oldLongitude = order.longitude;
   const oldApartment = order.apartment;
   const oldPets = order.pets;
   const oldDirection = order.direction;
@@ -74,6 +76,8 @@ function Order(props) {
         <OrderInfo
           oldOrderDate={oldOrderDate}
           oldAddress={oldAddress}
+          oldLatitude={oldLatitude}
+          oldLongitude={oldLongitude}
           oldApartment={oldApartment}
           oldPets={oldPets}
           oldDirection={oldDirection}

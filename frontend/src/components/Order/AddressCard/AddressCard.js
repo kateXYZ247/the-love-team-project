@@ -15,6 +15,7 @@ function AddressCard(props) {
   const {
     address,
     onAddressChange,
+    onLatLngChange,
     apartment,
     onApartmentChange,
     pets,
@@ -37,6 +38,7 @@ function AddressCard(props) {
                     <AddressInput
                       initAddress={address}
                       onAddressChange={onAddressChange}
+                      onLatLngChange={onLatLngChange}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>

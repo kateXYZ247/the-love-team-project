@@ -25,3 +25,4 @@ export const WS_PATH_PROVIDERS = "/topic/providers";
 export const HTTP_STATUS_OK = 200;
 
 export const GOOGLE_MAP_SCRIPT_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}&libraries=places`;
+export const GOOGLE_MAP_CALL_DELAY = 500;

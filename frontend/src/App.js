@@ -49,7 +49,6 @@ function App(props) {
   }, []);
 
   useScript(GOOGLE_MAP_SCRIPT_URL);
-  console.log(GOOGLE_MAP_SCRIPT_URL);
 
   // default route before login
   // NOTE: order matters

@@ -62,6 +62,8 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 .productName(orderRequest.getServs().get(i).getProductName())
                 .productPrice(orderRequest.getServs().get(i).getProductPrice())
                 .address(orderRequest.getServs().get(i).getAddress())
+                .latitude(orderRequest.getServs().get(i).getLatitude())
+                .longitude(orderRequest.getServs().get(i).getLongitude())
                 .status("requested")
                 .apartment(orderRequest.getServs().get(i).getAddress())
                 .pets(orderRequest.getServs().get(i).getPets())
@@ -70,18 +72,25 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 .build();
 
             try {
-                GeoData geoData = geoClient.getGeoData(orderRequest.getServs().get(i).getAddress() + " united states");
-                if (geoData != null && geoData.getTotalResults() >= 1) {
-                    Double lat = geoData.getResults().get(0).getGeometry().getLat();
-                    Double lng = geoData.getResults().get(0).getGeometry().getLng();
-                    String geohash = GeoHash.geoHashStringWithCharacterPrecision(lat, lng, 12);
-                    serv.setLatitude(lat);
-                    serv.setLongitude(lng);
+                if (serv.getLatitude() == null || serv.getLongitude() == null) {
+                    GeoData geoData = geoClient.getGeoData(orderRequest.getServs().get(i).getAddress() + " united " +
+                        "states");
+                    if (geoData != null && geoData.getTotalResults() >= 1) {
+                        Double lat = geoData.getResults().get(0).getGeometry().getLat();
+                        Double lng = geoData.getResults().get(0).getGeometry().getLng();
+                        serv.setLatitude(lat);
+                        serv.setLongitude(lng);
+                    }
+                }
+                if (serv.getLatitude() != null && serv.getLongitude() != null) {
+                    String geohash = GeoHash.geoHashStringWithCharacterPrecision(serv.getLatitude(),
+                        serv.getLongitude(), 12);
                     serv.setGeohash(geohash);
                 }
-            } catch(HttpClientErrorException e) {
+            } catch (HttpClientErrorException e) {
+                // TODO: handle error correctly instead of print
                 System.out.println(e);
-            };
+            }
 
             servService.createService(serv);
             // push notification to online providers
