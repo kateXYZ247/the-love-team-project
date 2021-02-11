@@ -24,6 +24,7 @@ function Order(props) {
     onSetBackStatus,
     onResetStatus,
     onUpdateCart,
+    onClearCart,
   } = props;
 
   // set redirect path to <Order>
@@ -70,6 +71,11 @@ function Order(props) {
     onPlaceOrder(order, userId);
   };
 
+  const leftConfirmationPageHandler = () => {
+    onClearCart();
+    onResetStatus();
+  };
+
   let content;
   switch (orderStatus) {
     case ORDER_STATUS.FILL_DATE_ADDRESS:
@@ -110,7 +116,10 @@ function Order(props) {
       break;
     case ORDER_STATUS.CONFIRMED:
       content = (
-        <OrderConfirmation orderTime={oldOrderDate} onUnmount={onResetStatus} />
+        <OrderConfirmation
+          order={order}
+          onUnmount={leftConfirmationPageHandler}
+        />
       );
       break;
     case ORDER_STATUS.ADD_TO_CART:
@@ -167,6 +176,7 @@ const mapDispatchToProps = (dispatch) => {
     onAddToCart: (product) => dispatch(actions.addToCart(product)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),
     onResetStatus: () => dispatch(actions.resetStatus()),
+    onClearCart: () => dispatch(actions.clearCart()),
   };
 };
 

@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 import { Paper, Typography } from "@material-ui/core";
 import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import Button from "@material-ui/core/Button";
-import SmallGoogleMap from "../SmallGoogleMap/GoogleMap";
+import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
 
 function RequestCard(props) {
   const { request, onAccept, onDecline } = props;

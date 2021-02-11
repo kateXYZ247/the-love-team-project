@@ -179,7 +179,6 @@ export const placeOrderSuccess = (state, action) => {
   return updateObject(state, {
     loading: false,
     status: ORDER_STATUS.CONFIRMED,
-    order: initialState.order,
   });
 };
 

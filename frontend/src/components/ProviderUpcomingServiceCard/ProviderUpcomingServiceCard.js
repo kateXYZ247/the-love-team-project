@@ -9,7 +9,7 @@ import {
   SERVICE_START_MIN_HOURS,
   SERVICE_STATUS,
 } from "../../constant/service";
-import SmallGoogleMap from "../SmallGoogleMap/GoogleMap";
+import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
 
 function ProviderUpcomingServiceCard(props) {
   const { service, onAction } = props;
