@@ -16,22 +16,21 @@ function OrderConfirmationCard(props) {
               <Grid item xs={12} sm={5} container justify="center">
                 <Box align="center">
                   <Typography variant="h6">
-                    {order.services[0].productName}
-                  </Typography>
-                  <Typography variant="h6">
                     {order.services[0].startTime.toDateString()}
                   </Typography>
                   <Typography variant="h6">
                     {order.services[0].startTime.toLocaleString(
                       [],
                       LOCAL_SHORT_TIME_OPTIONS
-                    ) +
-                      " - " +
-                      order.services[0].endTime.toLocaleString(
-                        [],
-                        LOCAL_SHORT_TIME_OPTIONS
-                      )}
+                    )}
                   </Typography>
+                  <Box my={2}>
+                    {order.services.map((serv, index) => (
+                      <Typography key={index} variant="body1">
+                        {serv.productName}
+                      </Typography>
+                    ))}
+                  </Box>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={7} container justify="center">

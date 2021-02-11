@@ -1,150 +1,96 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Paper } from "@material-ui/core";
-import UpcomingAppointmentItem from "./UpcomingAppointmentItem/UpcomingAppointmentItem";
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  withStyles,
-} from "@material-ui/core";
-import { lighten } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { LOCAL_DATETIME_OPTIONS } from "../../constant/constant";
+import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import {
   SERVICE_CANCELABLE_MIN_DAYS,
   SERVICE_STATUS,
 } from "../../constant/service";
 import { ORDER_STATUS } from "../../constant/order";
+import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
 
-const SubTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: lighten(theme.palette.secondary.light, 0.7),
-    },
-  },
-}))(TableRow);
-
-function UpcommingAppointmentCard(props) {
+function UpcomingAppointmentCard(props) {
   const { order, onAction } = props;
   const services = order.servs;
   const service = services[0];
   const startTime = new Date(service.startTime);
   const currentTime = new Date();
-  const isNotStarted = !services.every((service) => (service.status === SERVICE_STATUS.requested) || (service.status === SERVICE_STATUS.accepted));
-  const serviceDate =
-    services.length === 0 ? new Date(0) : new Date(services[0].startTime);
-  const serviceEndDate =
-    services.length === 0 ? new Date(0) : new Date(services[0].endTime);
-  const diff = serviceEndDate - serviceDate; // milliseconds
-  const durationInMintues = diff / 1000 / 60;  // cancel button
+  const isNotStarted = !services.every(
+    (service) =>
+      service.status === SERVICE_STATUS.requested ||
+      service.status === SERVICE_STATUS.accepted
+  );
   const cancelButton =
-    startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS
-      &&
-      !isNotStarted
-      ? (
-        <Box component={"span"} mx={1}>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => onAction(ORDER_STATUS.canceled)}
-          >
-            Cancel
+    startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS && !isNotStarted ? (
+      <Box component={"span"} mx={1}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => onAction(ORDER_STATUS.canceled)}
+        >
+          Cancel
         </Button>
-        </Box >
-      ) : null;
+      </Box>
+    ) : null;
 
   return (
-    <Grid item xs={11} sm={8}>
-      <Box mt={2}>
-        <Paper elevation={5}>
-          <Box p={2}>
-            <Grid container spacing={0}>
-              <UpcomingAppointmentItem
-                fontSize="h6"
-                label="Date"
-                value={
-                  startTime.toLocaleString([], LOCAL_DATETIME_OPTIONS)
-                }
-              />
-              <UpcomingAppointmentItem
-                fontSize="h6"
-                label="Status"
-                value={order.status}
-              />
-              <UpcomingAppointmentItem
-                labelLgWidth={1}
-                valueLgWidth={11}
-                label="Location"
-                value={service.address}
-              />
-              <UpcomingAppointmentItem
-                label="Direction"
-                value={service.direction ? service.direction : "None"}
-              />
-              <UpcomingAppointmentItem
-                label="Pets"
-                value={service.pets ? service.pets : "None"}
-              />
-              <UpcomingAppointmentItem
-                labelLgWidth={1}
-                valueLgWidth={11}
-                label="Note"
-                value={service.note ? service.note : "None"}
-              />
-
-              <UpcomingAppointmentItem
-                labelLgWidth={1}
-                valueLgWidth={11}
-                label="Services"
-                value={" "}
-              />
-
-              <Grid item xs={12}>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Duration (min)</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell align="right">price ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {services.map((service) => (
-                      <SubTableRow key={service.serviceId}>
-                        <TableCell component="th" scope="row">
-                          {service.productName}
-                        </TableCell>
-                        <TableCell>
-                          {Math.round(durationInMintues / 5) * 5}
-                        </TableCell>
-                        <TableCell>{service.status}</TableCell>
-                        <TableCell align="right">
-                          {service.productPrice &&
-                            service.productPrice.toFixed(2)}
-                        </TableCell>
-                      </SubTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+    <Grid item xs={12} md={8} lg={6} xl={4} container justify="center">
+      <Grid item xs={12}>
+        <Box mt={2}>
+          <Paper elevation={5}>
+            <Box p={2}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={5} container justify="center">
+                  <Box align="center">
+                    <Typography variant="h6">
+                      {startTime.toDateString()}
+                    </Typography>
+                    <Typography variant="h6">
+                      {startTime.toLocaleString([], LOCAL_SHORT_TIME_OPTIONS)}
+                    </Typography>
+                    <Box my={2}>
+                      {services.map((serv, index) => (
+                        <Typography key={index} variant="body1">
+                          {`${serv.productName} (${serv.status})`}
+                        </Typography>
+                      ))}
+                    </Box>
+                    <Box my={2}>
+                      Total Price: ${order.totalPrice.toFixed(2)}
+                    </Box>
+                    <Box mt={2}>
+                      <Grid item container spacing={2} justify="space-around">
+                        <Grid item xs={6}>
+                          {cancelButton}
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={7} container justify="center">
+                  {
+                    <SmallGoogleMap
+                      center={{
+                        lat: services[0].latitude,
+                        lng: services[0].longitude,
+                      }}
+                      markerCenter={{
+                        lat: services[0].latitude,
+                        lng: services[0].longitude,
+                      }}
+                      markerTitle={services[0].address}
+                    />
+                  }
+                </Grid>
               </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <Box mt={3}>
-                  {cancelButton}
-                </Box>
-              </Grid>
-
-            </Grid>
-          </Box>
-        </Paper>
-      </Box>
+            </Box>
+          </Paper>
+        </Box>
+      </Grid>
     </Grid>
   );
 }
 
-export default UpcommingAppointmentCard;
+export default UpcomingAppointmentCard;
