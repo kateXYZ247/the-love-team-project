@@ -2,7 +2,6 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { Paper, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import {
   SERVICE_CANCELABLE_MIN_DAYS,
@@ -10,6 +9,7 @@ import {
   SERVICE_STATUS,
 } from "../../constant/service";
 import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function ProviderUpcomingServiceCard(props) {
   const { service, onAction } = props;
@@ -21,13 +21,13 @@ function ProviderUpcomingServiceCard(props) {
   // cancel button
   const cancelButton = cancelable ? (
     <Box component={"span"} mx={1}>
-      <Button
+      <ColorButton
         variant="outlined"
-        color="primary"
+        color="secondary"
         onClick={() => onAction(SERVICE_STATUS.canceled)}
       >
         Cancel
-      </Button>
+      </ColorButton>
     </Box>
   ) : null;
 
@@ -35,26 +35,26 @@ function ProviderUpcomingServiceCard(props) {
   let actionButton = null;
   if (service.status === SERVICE_STATUS.started) {
     actionButton = (
-      <Button
+      <ColorButton
         variant="contained"
         color="primary"
         onClick={() => onAction(SERVICE_STATUS.ended)}
       >
         End
-      </Button>
+      </ColorButton>
     );
   } else if (
     service.status === SERVICE_STATUS.accepted &&
     startTime - currentTime < SERVICE_START_MIN_HOURS
   ) {
     actionButton = (
-      <Button
+      <ColorButton
         variant="contained"
         color="primary"
         onClick={() => onAction(SERVICE_STATUS.started)}
       >
         Start
-      </Button>
+      </ColorButton>
     );
   }
   return (

@@ -6,7 +6,7 @@ import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import LanguageIcon from "@material-ui/icons/Language";
 import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
 import FaceIcon from "@material-ui/icons/Face";
-import Button from "@material-ui/core/Button";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function ProviderInfo(props) {
   const { firstName, lastName, phone, address, productName } = props;
@@ -109,14 +109,15 @@ function ProviderInfo(props) {
                 </Grid>
 
                 <Box textAlign="center">
-                  <Button
+                  <ColorButton
                     type="submit"
                     variant="contained"
                     color="primary"
+                    size="large"
                     // onClick={handleSubmit}
                   >
                     Request Update
-                  </Button>
+                  </ColorButton>
                 </Box>
               </Grid>
             </Box>

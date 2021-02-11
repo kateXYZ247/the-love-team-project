@@ -2,7 +2,6 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { Paper, Typography } from "@material-ui/core";
 import { Box } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import {
   SERVICE_CANCELABLE_MIN_DAYS,
@@ -10,6 +9,7 @@ import {
 } from "../../constant/service";
 import { ORDER_STATUS } from "../../constant/order";
 import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function UpcomingAppointmentCard(props) {
   const { order, onAction } = props;
@@ -25,13 +25,13 @@ function UpcomingAppointmentCard(props) {
   const cancelButton =
     startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS && !isNotStarted ? (
       <Box component={"span"} mx={1}>
-        <Button
+        <ColorButton
           variant="outlined"
-          color="primary"
+          color="secondary"
           onClick={() => onAction(ORDER_STATUS.canceled)}
         >
           Cancel
-        </Button>
+        </ColorButton>
       </Box>
     ) : null;
 

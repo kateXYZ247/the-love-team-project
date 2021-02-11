@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { Paper, Typography } from "@material-ui/core";
 import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
-import Button from "@material-ui/core/Button";
 import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function RequestCard(props) {
   const { request, onAccept, onDecline } = props;
@@ -40,22 +40,22 @@ function RequestCard(props) {
                   <Box mt={2}>
                     <Grid item container spacing={2} justify="space-around">
                       <Grid item xs={6}>
-                        <Button
+                        <ColorButton
+                          color="primary"
                           variant="contained"
-                          color="secondary"
                           onClick={onAccept}
                         >
                           Accept
-                        </Button>
+                        </ColorButton>
                       </Grid>
                       <Grid item xs={6}>
-                        <Button
-                          variant="contained"
+                        <ColorButton
+                          variant="outlined"
                           color="secondary"
                           onClick={onDecline}
                         >
                           Decline
-                        </Button>
+                        </ColorButton>
                       </Grid>
                     </Grid>
                   </Box>

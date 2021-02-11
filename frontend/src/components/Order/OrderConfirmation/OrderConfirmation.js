@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
+import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
 import HairDryer from "../../../assets/images/hair-dryer.svg";
 import Spa from "../../../assets/images/spa.svg";
 import { Link } from "react-router-dom";
 import { PATH_APPOINTMENTS } from "../../../constant/path";
 import OrderConfirmationCard from "../OrderConfirmationCard/OrderConfirmationCard";
+import ColorButton from "../../UI/Buttons/ColorButton";
 
 function OrderConfirmation(props) {
   const { order, onUnmount } = props;
@@ -83,7 +84,7 @@ function OrderConfirmation(props) {
                       Manage your appointment at client page
                     </Box>
                     <Grid container justify="center">
-                      <Button
+                      <ColorButton
                         component={Link}
                         to={PATH_APPOINTMENTS}
                         variant="contained"
@@ -91,7 +92,7 @@ function OrderConfirmation(props) {
                         color="primary"
                       >
                         Client Page
-                      </Button>
+                      </ColorButton>
                     </Grid>
                   </Grid>
                 </Grid>

@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./ProductCard.module.css";
-import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { PATH_ORDER } from "../../../../constant/path";
+import ColorButton from "../../../UI/Buttons/ColorButton";
 
 function ProductCard(props) {
   const { name, description, price } = props.item;
@@ -11,16 +11,16 @@ function ProductCard(props) {
       <div className={classes.name}>{name}</div>
       <div className={classes.description}>{description}</div>
       <div className={classes.button}>
-        <Button
+        <ColorButton
+          color="primary"
           component={Link}
           to={PATH_ORDER}
           size="large"
           className={classes.button}
-          color="primary"
           variant="contained"
         >
           Starting at ${price.toFixed(0)}
-        </Button>
+        </ColorButton>
       </div>
     </div>
   );
