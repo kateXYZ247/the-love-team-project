@@ -16,19 +16,20 @@ function ProviderUpcomingServiceCard(props) {
 
   const startTime = new Date(service.startTime);
   const currentTime = new Date();
+  const cancelable = startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS;
+
   // cancel button
-  const cancelButton =
-    startTime - currentTime > SERVICE_CANCELABLE_MIN_DAYS ? (
-      <Box component={"span"} mx={1}>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => onAction(SERVICE_STATUS.canceled)}
-        >
-          Cancel
-        </Button>
-      </Box>
-    ) : null;
+  const cancelButton = cancelable ? (
+    <Box component={"span"} mx={1}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => onAction(SERVICE_STATUS.canceled)}
+      >
+        Cancel
+      </Button>
+    </Box>
+  ) : null;
 
   // action button
   let actionButton = null;
@@ -86,12 +87,12 @@ function ProviderUpcomingServiceCard(props) {
                         Pets: {service.pets}
                       </Typography>
                     )}
-                    {service.direction && (
+                    {!cancelable && service.direction && (
                       <Typography variant="body1">
                         Direction: {service.direction}
                       </Typography>
                     )}
-                    {service.apartment && (
+                    {!cancelable && service.apartment && (
                       <Typography variant="body1">
                         Apartment: {service.apartment}
                       </Typography>
@@ -114,17 +115,30 @@ function ProviderUpcomingServiceCard(props) {
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={7} container justify="center">
-                  <SmallGoogleMap
-                    center={{
-                      lat: service.latitude,
-                      lng: service.longitude,
-                    }}
-                    markerCenter={{
-                      lat: service.latitude,
-                      lng: service.longitude,
-                    }}
-                    markerTitle={service.address}
-                  />
+                  {cancelable ? (
+                    <SmallGoogleMap
+                      center={{
+                        lat: service.latitude,
+                        lng: service.longitude,
+                      }}
+                      circleCenter={{
+                        lat: service.latitude,
+                        lng: service.longitude,
+                      }}
+                    />
+                  ) : (
+                    <SmallGoogleMap
+                      center={{
+                        lat: service.latitude,
+                        lng: service.longitude,
+                      }}
+                      markerCenter={{
+                        lat: service.latitude,
+                        lng: service.longitude,
+                      }}
+                      markerTitle={service.address}
+                    />
+                  )}
                 </Grid>
               </Grid>
             </Box>

@@ -31,12 +31,15 @@ function RequestCard(props) {
                         LOCAL_SHORT_TIME_OPTIONS
                       )}
                   </Typography>
+                  <Box my={2} />
                   {request.pets && (
-                    <Typography variant="h6">{request.pets}</Typography>
+                    <Typography variant="body1">
+                      Pets: {request.pets}
+                    </Typography>
                   )}
-                  <Grid item container spacing={2} justify="space-around">
-                    <Grid item xs={6}>
-                      <Box mx={1} my={1} textAlign="center">
+                  <Box mt={2}>
+                    <Grid item container spacing={2} justify="space-around">
+                      <Grid item xs={6}>
                         <Button
                           variant="contained"
                           color="secondary"
@@ -44,10 +47,8 @@ function RequestCard(props) {
                         >
                           Accept
                         </Button>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box mx={1} my={1} textAlign="center">
+                      </Grid>
+                      <Grid item xs={6}>
                         <Button
                           variant="contained"
                           color="secondary"
@@ -55,9 +56,9 @@ function RequestCard(props) {
                         >
                           Decline
                         </Button>
-                      </Box>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  </Box>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={7} container justify="center">
