@@ -27,4 +27,9 @@ public class UrlConstants {
 
     // GeoLocation related
     public static String GEOCLIENT_URL = "https://api.opencagedata.com/geocode/v1/json?key=b9b9f8ad3cbd45cea0b3502da2401680&q={address}&pretty=1&no_annotations=1";
+
+
+    // admin
+    public static final String ADMIN_LOGIN = "/admins/{adminId}";
+    public static final String STATUS_COUNT_BY_ADMIN = "/services/status";
 }

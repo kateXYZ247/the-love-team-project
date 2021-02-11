@@ -2,6 +2,7 @@ package com.theloveteam.web.repositories;
 
 import com.theloveteam.web.dao.Serv;
 import com.theloveteam.web.model.ServiceStatus;
+import com.theloveteam.web.model.StatDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,12 @@ public interface ServiceRepository extends JpaRepository<Serv, Long> {
 
     @Query("select s from Serv s where s.serviceId = ?1")
     Serv getServiceByServiceId(Long serviceId);
+
+    @Query("select new com.theloveteam.web.model.StatDetail(s.status, count(s)) from Serv s group by s.status")
+    List<StatDetail> getStatusByAdminId();
+
+    @Query("select count (serviceId) from Serv")
+    Long getAllServiceNumber();
 
     //update status
     @Transactional
