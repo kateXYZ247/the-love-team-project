@@ -69,11 +69,23 @@ function SampleContainer(props) {
           lat: 37.419559,
           lng: -122.087588,
         }}
+        circleCenter={{
+          lat: 37.429559,
+          lng: -122.087588,
+        }}
+        markerCenter={{
+          lat: 37.409559,
+          lng: -122.187588,
+        }}
       />
       <GoogleMapSample
         center={{
           lat: 37.519559,
           lng: -122.087588,
+        }}
+        markerCenter={{
+          lat: 37.519559,
+          lng: -122.187588,
         }}
       />
     </div>
