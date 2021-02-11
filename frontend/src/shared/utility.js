@@ -61,12 +61,18 @@ export const checkValidity = (field, value) => {
       }
       return isValid;
     case "password":
-      if (value.length < 6) {
+      if (value.length < 3) {
         isValid = "invalid";
       }
       return isValid;
-      default:
-        return isValid;
+    case "address":
+      if (value.trim() === "") {
+        isValid = "null";
+      }
+      return isValid;
+    default:
+      return isValid;
+
   }
 };
 

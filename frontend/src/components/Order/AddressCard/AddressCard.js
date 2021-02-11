@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import CardTitle from "../../UI/CardTitle/CardTitle";
 import { addressTypes } from "../../../constant/order";
+import OrderInfo from "../../../containers/Order/OrderInfo/OrderInfo";
 
 function AddressCard(props) {
   const {
@@ -22,6 +23,10 @@ function AddressCard(props) {
     onDirectionChange,
     addressType,
     onAddressTypeChange,
+    validAddress,
+    checkAddress,
+    validApartment,
+    checkApartment,
   } = props;
   return (
     <Grid container justify="center">
@@ -38,6 +43,11 @@ function AddressCard(props) {
                       label="Your Full Address"
                       defaultValue={address}
                       onChange={(event) => onAddressChange(event.target.value)}
+                      FormHelperTextProps={{
+                        error: true,
+                      }}
+                      onBlur={checkAddress}
+                      helperText={validAddress === "null" ? 'Address is required' : ''}
                       fullWidth
                       variant="outlined"
                     />
@@ -50,6 +60,11 @@ function AddressCard(props) {
                       onChange={(event) =>
                         onApartmentChange(event.target.value)
                       }
+                      FormHelperTextProps={{
+                        error: true,
+                      }}
+                      onBlur={checkApartment}
+                      helperText={validApartment === "null" ? 'Apartment is required' : ''}
                       fullWidth
                       variant="outlined"
                     />

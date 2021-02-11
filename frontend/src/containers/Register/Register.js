@@ -22,12 +22,12 @@ function Register(props) {
   });
 
   const [submitted, setSubmit] = useState(false);
-  const [validEmail, setValidEmail] = useState("");
-  const [validFName, setValidFName] = useState("");
-  const [validLName, setValidLName] = useState("");
-  const [validPhone, setValidPhone] = useState("");
-  const [validPW, setValidPW] = useState("");
-  const [confirmPW, setConfirmPW] = useState("");
+  const [validEmail, setValidEmail] = useState("initial");
+  const [validFName, setValidFName] = useState("initial");
+  const [validLName, setValidLName] = useState("initial");
+  const [validPhone, setValidPhone] = useState("initial");
+  const [validPW, setValidPW] = useState("initial");
+  const [confirmPW, setConfirmPW] = useState("initial");
 
   function handleConfirm(e) {
     const value = e.target.value;
@@ -78,12 +78,12 @@ function Register(props) {
     e.preventDefault();
     setSubmit(true);
     if (
-      user.firstName &&
-      user.lastName &&
-      user.phone &&
-      user.email &&
-      user.password &&
-      user.isAgree
+      !validEmail &&
+      !validFName &&
+      !validLName &&
+      !validPhone &&
+      !validPW &&
+      !confirmPW
     ) {
       onRegister(user);
     } else {
@@ -92,6 +92,11 @@ function Register(props) {
       setValidPhone(checkValidity("phone",user.phone));
       setValidEmail(checkValidity("email", user.email));
       setValidPW(checkValidity("password", user.password));
+      if (!user.confirmPW) {
+        setConfirmPW("null");
+      } else if (user.confirmPW !== user.password) {
+        setConfirmPW("invalid");
+      }
     }
   }
 
