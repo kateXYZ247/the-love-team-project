@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import SmallGoogleMap from "../SmallGoogleMap/GoogleMap";
 import { MAP_RANDOM_OFFSET_AMPLITUDE } from "../../constant/service";
 
-function PushedRequest(props) {
+function RequestCard(props) {
   const { request, onAccept, onDecline } = props;
   return (
     <Grid item xs={12}>
@@ -90,4 +90,4 @@ function PushedRequest(props) {
   );
 }
 
-export default PushedRequest;
+export default RequestCard;

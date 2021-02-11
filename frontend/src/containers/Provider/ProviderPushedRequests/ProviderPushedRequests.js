@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import PushedRequest from "../../../components/PushedRequest/PushedRequest";
+import RequestCard from "../../../components/RequestCard/RequestCard";
 import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
 import { AUTH_ROLE } from "../../../constant/auth";
@@ -45,7 +45,7 @@ function ProviderPushedRequests(props) {
       </DialogTitle>
       <DialogContent dividers>
         {pushedRequests.map((request, index) => (
-          <PushedRequest
+          <RequestCard
             key={index}
             request={request}
             onAccept={() =>
