@@ -64,7 +64,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 .latitude(orderRequest.getServs().get(i).getLatitude())
                 .longitude(orderRequest.getServs().get(i).getLongitude())
                 .status("requested")
-                .apartment(orderRequest.getServs().get(i).getAddress())
+                .apartment(orderRequest.getServs().get(i).getApartment())
                 .pets(orderRequest.getServs().get(i).getPets())
                 .direction(orderRequest.getServs().get(i).getDirection())
                 .addressType(orderRequest.getServs().get(i).getAddressType())
