@@ -8,7 +8,7 @@ const containerStyle = {
 };
 
 function SmallGoogleMap(props) {
-  const { center, circleCenter, markerCenter } = props;
+  const { center, circleCenter, markerCenter, markerTitle } = props;
   const theme = useTheme();
 
   return (
@@ -24,7 +24,7 @@ function SmallGoogleMap(props) {
           }}
         />
       )}
-      {markerCenter && <Marker position={markerCenter} />}
+      {markerCenter && <Marker position={markerCenter} title={markerTitle} />}
     </GoogleMap>
   );
 }

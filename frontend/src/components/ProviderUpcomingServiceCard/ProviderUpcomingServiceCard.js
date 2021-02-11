@@ -1,18 +1,15 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import UpcomingServiceItem from "./UpcomingServiceCardItem/UpcomingServiceItem";
 import Button from "@material-ui/core/Button";
-import {
-  LOCAL_DATETIME_OPTIONS,
-  LOCAL_TIME_OPTIONS,
-} from "../../constant/constant";
+import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import {
   SERVICE_CANCELABLE_MIN_DAYS,
   SERVICE_START_MIN_HOURS,
   SERVICE_STATUS,
 } from "../../constant/service";
+import SmallGoogleMap from "../SmallGoogleMap/GoogleMap";
 
 function ProviderUpcomingServiceCard(props) {
   const { service, onAction } = props;
@@ -60,57 +57,80 @@ function ProviderUpcomingServiceCard(props) {
     );
   }
   return (
-    <Grid item xs={11} sm={8}>
-      <Box mt={2}>
-        <Paper elevation={5}>
-          <Box p={2}>
-            <Grid container spacing={0}>
-              <UpcomingServiceItem
-                fontSize="h6"
-                label="Service"
-                value={service.productName}
-              />
-              <UpcomingServiceItem
-                fontSize="h6"
-                label="Date"
-                value={
-                  service.startTime.toLocaleString([], LOCAL_DATETIME_OPTIONS) +
-                  " - " +
-                  service.endTime.toLocaleString([], LOCAL_TIME_OPTIONS)
-                }
-              />
-              <UpcomingServiceItem
-                labelLgWidth={1}
-                valueLgWidth={11}
-                label="Location"
-                value={service.address}
-              />
-              <UpcomingServiceItem
-                label="Direction"
-                value={service.direction ? service.direction : "None"}
-              />
-              <UpcomingServiceItem
-                label="Pets"
-                value={service.pets ? service.pets : "None"}
-              />
-              <UpcomingServiceItem
-                labelLgWidth={1}
-                valueLgWidth={11}
-                label="Note"
-                value={service.note ? service.note : "None"}
-              />
-              <Grid item xs={12} lg={6}>
-                <Box mt={3}>
-                  {cancelButton}
-                  <Box component={"span"} mx={1}>
-                    {actionButton}
+    <Grid item xs={12} md={8} lg={6} xl={4} container justify="center">
+      <Grid item xs={12}>
+        <Box mt={2}>
+          <Paper elevation={5}>
+            <Box p={2}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={5} container justify="center">
+                  <Box align="center">
+                    <Typography variant="h6">{service.productName}</Typography>
+                    <Typography variant="h6">
+                      {service.startTime.toDateString()}
+                    </Typography>
+                    <Typography variant="h6">
+                      {service.startTime.toLocaleString(
+                        [],
+                        LOCAL_SHORT_TIME_OPTIONS
+                      ) +
+                        " - " +
+                        service.endTime.toLocaleString(
+                          [],
+                          LOCAL_SHORT_TIME_OPTIONS
+                        )}
+                    </Typography>
+                    <Box my={2} />
+                    {service.pets && (
+                      <Typography variant="body1">
+                        Pets: {service.pets}
+                      </Typography>
+                    )}
+                    {service.direction && (
+                      <Typography variant="body1">
+                        Direction: {service.direction}
+                      </Typography>
+                    )}
+                    {service.apartment && (
+                      <Typography variant="body1">
+                        Apartment: {service.apartment}
+                      </Typography>
+                    )}
+                    {service.note && (
+                      <Typography variant="body1">
+                        Note: {service.note}
+                      </Typography>
+                    )}
+                    <Box mt={2}>
+                      <Grid item container spacing={2} justify="space-around">
+                        <Grid item xs={6}>
+                          {actionButton}
+                        </Grid>
+                        <Grid item xs={6}>
+                          {cancelButton}
+                        </Grid>
+                      </Grid>
+                    </Box>
                   </Box>
-                </Box>
+                </Grid>
+                <Grid item xs={12} sm={7} container justify="center">
+                  <SmallGoogleMap
+                    center={{
+                      lat: service.latitude,
+                      lng: service.longitude,
+                    }}
+                    markerCenter={{
+                      lat: service.latitude,
+                      lng: service.longitude,
+                    }}
+                    markerTitle={service.address}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </Paper>
-      </Box>
+            </Box>
+          </Paper>
+        </Box>
+      </Grid>
     </Grid>
   );
 }

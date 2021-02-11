@@ -5,14 +5,13 @@ import { Paper, Typography } from "@material-ui/core";
 import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import Button from "@material-ui/core/Button";
 import SmallGoogleMap from "../SmallGoogleMap/GoogleMap";
-import { MAP_RANDOM_OFFSET_AMPLITUDE } from "../../constant/service";
 
 function RequestCard(props) {
   const { request, onAccept, onDecline } = props;
   return (
     <Grid item xs={12}>
       <Box mt={2}>
-        <Paper elevation={2}>
+        <Paper elevation={5}>
           <Box p={2}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={5} container justify="center">
@@ -61,7 +60,6 @@ function RequestCard(props) {
                   </Grid>
                 </Box>
               </Grid>
-
               <Grid item xs={12} sm={7} container justify="center">
                 <SmallGoogleMap
                   center={{
