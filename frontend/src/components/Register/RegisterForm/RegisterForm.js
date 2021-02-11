@@ -165,25 +165,27 @@ function RegisterForm(props) {
                       />
                     </Grid>
                     <Grid item xs={10} sm={10}>
-                      <TextField
-                        id="Password"
-                        label="Create a Password"
-                        name="password"
-                        defaultValue={user.password}
-                        FormHelperTextProps={{
-                          error: true,
-                        }}
-                        onChange={handleChange}
-                        onBlur={checkPW}
-                        helperText={validPW === "invalid" ? 'please enter a valid password' :
-                            validPW === "null" ? 'password is required' : ''
-                        }
-                        fullWidth
-                        variant="outlined"
-                      />
-                      <div className={classes.password}>
-                        Password must be at least 6 characters long
-                      </div>
+                          <TextField
+                            type="password"
+                            id="Password"
+                            label="Create a Password"
+                            name="password"
+                            defaultValue={user.password}
+                            FormHelperTextProps={{
+                              error: true,
+                            }}
+                            onChange={handleChange}
+                            onBlur={checkPW}
+                            helperText={validPW === "invalid" ? 'please enter a valid password' :
+                                validPW === "null" ? 'password is required' : ''
+                            }
+                            fullWidth
+                            variant="outlined"
+                          />
+                          <div className={classes.password}>
+                            Password must be at least 6 characters long
+                          </div>
+
                     </Grid>
                     <Grid item xs={2} sm={2}>
                       <LockOutlinedIcon
@@ -193,6 +195,7 @@ function RegisterForm(props) {
                     </Grid>
                     <Grid item xs={10} sm={10}>
                       <TextField
+                          type="password"
                           id="confirmPassword"
                           label="Confirm your Password"
                           name="confirmPW"
