@@ -8,6 +8,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
+import routeReducer from "./store/reducers/route";
 import authReducer from "./store/reducers/auth";
 import productsReducer from "./store/reducers/products";
 import orderReducer from "./store/reducers/order";
@@ -17,14 +18,18 @@ import messageReducer from "./store/reducers/message";
 import providerProfileReducer from "./store/reducers/providerProfile";
 import { BrowserRouter } from "react-router-dom";
 
-
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#B57AD2",
+      main: "#D0BDF4",
     },
     secondary: {
-      main: "#3490cf",
+      main: "#A0D2E8",
+    },
+  },
+  typography: {
+    button: {
+      textTransform: "none",
     },
   },
 });
@@ -35,16 +40,14 @@ const composeEnhancers =
     : null) || compose;
 
 const rootReducer = combineReducers({
+  route: routeReducer,
   auth: authReducer,
   products: productsReducer,
   order: orderReducer,
   register: registerReducer,
   provider: providerReducer,
   message: messageReducer,
-
   providerProfile: providerProfileReducer,
-
-
 });
 
 const store = createStore(

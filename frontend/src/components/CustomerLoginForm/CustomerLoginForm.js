@@ -40,7 +40,7 @@ function CustomerLoginForm(props) {
 
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6}>
+      <Grid item xs={10} lg={7}>
         <Card>
           <CardTitle title="Sign in to access your account" />
           <CardContent>
