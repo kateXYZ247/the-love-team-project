@@ -9,9 +9,10 @@ import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderCon
 import Products from "./Products/Products";
 import { Redirect } from "react-router-dom";
 import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
+import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 
 function Order(props) {
-  const { order, orderStatus, isAuthenticated, userId } = props;
+  const { loading, order, orderStatus, isAuthenticated, userId } = props;
   const {
     onSetRedirectPath,
     onUpdateServiceInfo,
@@ -127,6 +128,7 @@ function Order(props) {
 
   return (
     <React.Fragment>
+      <BackdropProgressCircle open={loading} />
       <AppointmentsModal
         open={showAppointments}
         onAddServices={newServicesClickedHandler}
@@ -145,6 +147,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.token !== null,
     orderStatus: state.order.status,
     order: state.order.order,
+    loading: state.order.loading,
   };
 };
 
