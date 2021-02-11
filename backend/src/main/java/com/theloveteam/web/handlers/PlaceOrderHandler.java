@@ -40,7 +40,6 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
     @Autowired
     private GeoClient geoClient;
 
-
     @Override
     protected String processRequest(OrderRequest orderRequest) {
         Long userId = orderRequest.getUserId();
@@ -114,6 +113,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         if (providerIds == null || providerIds.size() == 0) {
             return;
         }
+        serv = servService.removeAddressInfo(serv);
         List<Long> validProviderIds = providerService.getProviderIdsByProductId(serv.getProductId(), providerIds);
         System.out.println("available providers: " + serv.getProductId().toString() + ", " + validProviderIds.toString());
         for (Long providerId : validProviderIds) {

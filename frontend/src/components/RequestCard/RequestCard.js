@@ -65,20 +65,12 @@ function RequestCard(props) {
               <Grid item xs={12} sm={7} container justify="center">
                 <SmallGoogleMap
                   center={{
-                    lat:
-                      request.latitude +
-                      Math.random() * MAP_RANDOM_OFFSET_AMPLITUDE,
-                    lng:
-                      request.longitude +
-                      Math.random() * MAP_RANDOM_OFFSET_AMPLITUDE,
+                    lat: request.latitude,
+                    lng: request.longitude,
                   }}
                   circleCenter={{
-                    lat:
-                      request.latitude +
-                      Math.random() * MAP_RANDOM_OFFSET_AMPLITUDE,
-                    lng:
-                      request.longitude +
-                      Math.random() * MAP_RANDOM_OFFSET_AMPLITUDE,
+                    lat: request.latitude,
+                    lng: request.longitude,
                   }}
                 />
               </Grid>

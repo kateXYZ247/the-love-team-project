@@ -7,7 +7,7 @@ function ProviderListRequestCard(props) {
   const { request, onAccept, onDecline, onDelete } = props;
   return (
     <Fade in={!onDelete}>
-      <Grid item xs={12} md={8} lg={6} container justify="center">
+      <Grid item xs={12} md={8} lg={6} xl={4} container justify="center">
         <RequestCard
           request={request}
           onAccept={onAccept}
