@@ -6,9 +6,11 @@ import { Box, Typography } from "@material-ui/core";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import UpcomingAppointmentCard from "../../components/UpcomingAppointmentCard/UpcomingAppointmentCard";
 import Grid from "@material-ui/core/Grid";
+import { PATH_APPOINTMENTS } from '../../constant/path'
 
 function Appointments(props) {
   const {
+    onSetRedirectPath,
     userId,
     loading,
     onFetchOrders,
@@ -22,6 +24,9 @@ function Appointments(props) {
     return () => onUmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    onSetRedirectPath(PATH_APPOINTMENTS);
+  }, [onSetRedirectPath])
 
   const contactHandler = (customerUserId) => {
     console.log(customerUserId);
@@ -63,6 +68,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchOrders: (userId) =>
       dispatch(
         actions.fetchOrders(FETCH_ORDERS_TYPE.upcomingAppointments, userId)
