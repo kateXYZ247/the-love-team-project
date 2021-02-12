@@ -35,6 +35,7 @@ export { onSwitch } from "./providerProfile";
 
 export {
   fetchServices,
+  clearFetchedServices,
   updateServiceStatus,
   declineRequest,
   addPushedRequest,

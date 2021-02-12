@@ -42,13 +42,15 @@ function Alert(props) {
 }
 
 function ProviderHistory(props) {
-  const { userId, loading, services, onFetchHistoryServices } = props;
+  const { userId, loading, services, onFetchHistoryServices, onUmount } = props;
 
   const classes = useStyles();
 
   useEffect(() => {
     onFetchHistoryServices(userId);
-  }, [userId, onFetchHistoryServices]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [open, setOpen] = React.useState(false);
 
@@ -128,6 +130,12 @@ const mapDispatchToProps = (dispatch) => {
         actions.fetchServices(
           PROVIDER_FETCH_SERVICES_TYPE.historicalServices,
           userId
+        )
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedServices(
+          PROVIDER_FETCH_SERVICES_TYPE.historicalServices
         )
       ),
   };

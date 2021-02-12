@@ -17,11 +17,14 @@ function ProviderUpcoming(props) {
     providerLongitude,
     onFetchUpcomingServices,
     onUpdateServiceStatus,
+    onUmount,
   } = props;
 
   useEffect(() => {
     onFetchUpcomingServices(userId);
-  }, [userId, onFetchUpcomingServices]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const contactHandler = (customerUserId) => {
     console.log(customerUserId);
@@ -79,6 +82,12 @@ const mapDispatchToProps = (dispatch) => {
         actions.fetchServices(
           PROVIDER_FETCH_SERVICES_TYPE.upcomingServices,
           userId
+        )
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedServices(
+          PROVIDER_FETCH_SERVICES_TYPE.upcomingServices
         )
       ),
     onUpdateServiceStatus: (
