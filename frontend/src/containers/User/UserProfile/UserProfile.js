@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UserInfo from "../../../components/UserProfile/UserInfo";
 import UserProfAvatar from "../../../components/UserProfile/UserProfAvatar";
 import { Box, Grid } from "@material-ui/core";
@@ -6,6 +6,7 @@ import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
 
 function UserProfile(props) {
+    // receive states from Reducer
     const {
         userId,
         firstName,
@@ -15,8 +16,28 @@ function UserProfile(props) {
         profileUpdate,
     } = props;
 
-    function handleUpdate(firstName, lastName, address, phone) {
-        profileUpdate(userId, firstName, lastName, address, phone);
+    // userInfo -> useState -> UserProfile state
+    const[user, setUser] = useState({
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        phone: phone,
+    });
+
+    // display the change on UI
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setUser((user) => ({ ...user, [name]: value }));
+    }
+
+    function handleUpdate(e) {
+        e.preventDefault();
+        if (user.firstName &&
+            user.lastName &&
+            user.address &&
+            user.phone) {
+            profileUpdate(userId, user.firstName, user.lastName, user.address, user.phone);
+        }
     }
 
     return(
@@ -28,10 +49,9 @@ function UserProfile(props) {
 
                 <Box mt={3}>
                     <UserInfo
-                        firstName = {firstName}
-                        lastName={lastName}
-                        address={address}
-                        phone={phone}
+                        user={user}
+                        handleChange={handleChange}
+                        handleUpdate={handleUpdate}
                     />
                 </Box>
             </Grid>

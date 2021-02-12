@@ -61,8 +61,6 @@ function SampleContainer(props) {
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
       <div>aaa</div>
-      <UserProfAvatar/>
-      <UserInfo/>
       <GoogleMapSample
         center={{
           lat: 37.419559,

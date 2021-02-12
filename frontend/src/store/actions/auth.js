@@ -188,13 +188,13 @@ export const profileUpdateStart = () => {
 };
 
 // is this the correct way to use it?
-export const profileUpdateSuccess = (firstName, lastName, address, zip, phone) => {
+export const profileUpdateSuccess = (firstName, lastName, address, phone) => {
   return {
     type: actionTypes.USER_PROFILE_UPDATE_STATUS.success,
     firstName: firstName,
     lastName: lastName,
-    address: address.concat(' ', zip),
-    phone: phone
+    address: address,
+    phone: phone,
   };
 };
 
@@ -206,18 +206,17 @@ export const profileUpdateFail = () => {
 };
 
 // sending request to the backend
+
 export const profileUpdate = (userId, firstName, lastName, address, phone) => {
-  const regex = /[0-9]{5}/;
-  const zipList = address.match(regex);
+  console.log(firstName);
   return (dispatch) => {
     dispatch(profileUpdateStart);
     axios(API_PATH_USER_DETAIL + userId + API_PATH_USER_UPDATE_ACCOUNT, {
-      // original data before update
+      // UI updated data for backend to update
       data: {
         firstName: firstName,
         lastName: lastName,
         address: address,
-        zip: zipList[0],
         phone: phone,
       },
       method: "put",
@@ -229,7 +228,10 @@ export const profileUpdate = (userId, firstName, lastName, address, phone) => {
           dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
         })
         .catch((error) => {
+          console.log(error);
+          const { errorMsg } = error.data;
           dispatch(profileUpdateFail());
+          dispatch(setMessage(MESSAGE_TYPE.error, errorMsg));
         });
   };
 };

@@ -30,4 +30,15 @@ public class UpdateAccountRequestBody {
     @NotBlank(message = "Your phone number should not be empty")
     private String phone;
 
+    @Override
+    public String toString() {
+        return "UpdateAccountRequestBody{" +
+                "userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", zip='" + zip + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

@@ -3,13 +3,13 @@ import { Box, Card, CardContent, Grid, TextField } from "@material-ui/core";
 
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
-import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import Button from "@material-ui/core/Button";
 
 function UserInfo(props) {
-    const { firstName, lastName, address, zip, phone, handleUpdate} = props;
-
+    // receive the states from UserProfile (the container)
+    const { user, handleChange, handleUpdate } = props;
+    console.log(user);
     return (
         <Grid container justify="center">
             <Grid className="form-group" item xs={10} lg={6}>
@@ -28,20 +28,22 @@ function UserInfo(props) {
                                     <TextField
                                         id="First-Name"
                                         label="First Name"
-                                        defaultValue={firstName}
+                                        defaultValue={user.firstName}
                                         name="firstName"
                                         fullWidth
                                         variant="outlined"
+                                        onChange={(event) => handleChange(event)}
                                     />
                                 </Grid>
                                 <Grid item xs={5} sm={5}>
                                     <TextField
                                         id="Last-Name"
                                         label="Last Name"
-                                        defaultValue={lastName}
+                                        defaultValue={user.lastName}
                                         name="lastName"
                                         fullWidth
                                         variant="outlined"
+                                        onChange={(event) => handleChange(event)}
                                     />
                                 </Grid>
 
@@ -52,24 +54,12 @@ function UserInfo(props) {
                                     <TextField
                                         id="Address"
                                         label="Address"
-                                        defaultValue={address}
+                                        defaultValue={user.address}
                                         name="address"
                                         fullWidth
                                         variant="outlined"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={2} sm={2}>
-                                    <DeveloperModeIcon color={"primary"} style={{ fontSize: 50}} />
-                                </Grid>
-                                <Grid item xs={10} sm={10}>
-                                    <TextField
-                                        id="Zip"
-                                        label="Zip"
-                                        defaultValue={zip}
-                                        name="zip"
-                                        fullWidth
-                                        variant="outlined"
+                                        helperText="Follow this format: street name, apt number (if applicable), city, state zip"
+                                        onChange={(event) => handleChange(event)}
                                     />
                                 </Grid>
 
@@ -80,10 +70,11 @@ function UserInfo(props) {
                                     <TextField
                                         id="Phone-Number"
                                         label="Phone Number"
-                                        defaultValue={phone}
+                                        defaultValue={user.phone}
                                         name="phone"
                                         fullWidth
                                         variant="outlined"
+                                        onChange={(event) => handleChange(event)}
                                     />
                                 </Grid>
 
@@ -92,7 +83,7 @@ function UserInfo(props) {
                                         type="submit"
                                         variant="contained"
                                         color="primary"
-                                        onChange={handleUpdate}
+                                        onClick={handleUpdate}
                                     >
                                         Update
                                     </Button>

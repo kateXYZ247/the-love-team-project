@@ -92,7 +92,7 @@ const profileUpdateSuccess = (state, action) => {
     userDetail: updateObject(state.userDetail, {
       firstName: action.firstName,
       lastName: action.lastName,
-      address: action.address + ", " + action.zip,
+      address: action.address,
       phone: action.phone,
     })
   });
