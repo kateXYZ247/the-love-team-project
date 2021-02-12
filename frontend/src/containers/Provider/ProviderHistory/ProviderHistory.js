@@ -14,13 +14,13 @@ import {
   TableRow,
   Typography,
   withStyles,
-  Button,
 } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import ProviderHistoryForm from "../../../components/ProviderHistoryForm/ProviderHistoryForm";
 import BackdropProgressCircle from "../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../constant/provider";
 import MuiAlert from "@material-ui/lab/Alert";
+import ColorButton from "../../../components/UI/Buttons/ColorButton";
 
 const useStyles = makeStyles({
   table: {
@@ -95,14 +95,14 @@ function ProviderHistory(props) {
         </Grid>
       </Grid>
       <Box p={5} height="30px" display="flex" justifyContent="flex-end">
-        <Button
+        <ColorButton
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={handleClick}
           size="large"
         >
           Request Payment
-        </Button>
+        </ColorButton>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success">
             Request Sent!

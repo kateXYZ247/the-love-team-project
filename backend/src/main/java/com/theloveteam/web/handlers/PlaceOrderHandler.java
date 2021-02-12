@@ -40,7 +40,6 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
     @Autowired
     private GeoClient geoClient;
 
-
     @Override
     protected String processRequest(OrderRequest orderRequest) {
         Long userId = orderRequest.getUserId();
@@ -62,26 +61,35 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 .productName(orderRequest.getServs().get(i).getProductName())
                 .productPrice(orderRequest.getServs().get(i).getProductPrice())
                 .address(orderRequest.getServs().get(i).getAddress())
+                .latitude(orderRequest.getServs().get(i).getLatitude())
+                .longitude(orderRequest.getServs().get(i).getLongitude())
                 .status("requested")
-                .apartment(orderRequest.getServs().get(i).getAddress())
+                .apartment(orderRequest.getServs().get(i).getApartment())
                 .pets(orderRequest.getServs().get(i).getPets())
                 .direction(orderRequest.getServs().get(i).getDirection())
                 .addressType(orderRequest.getServs().get(i).getAddressType())
                 .build();
 
             try {
-                GeoData geoData = geoClient.getGeoData(orderRequest.getServs().get(i).getAddress() + " united states");
-                if (geoData != null && geoData.getTotalResults() >= 1) {
-                    Double lat = geoData.getResults().get(0).getGeometry().getLat();
-                    Double lng = geoData.getResults().get(0).getGeometry().getLng();
-                    String geohash = GeoHash.geoHashStringWithCharacterPrecision(lat, lng, 12);
-                    serv.setLatitude(lat);
-                    serv.setLongitude(lng);
+                if (serv.getLatitude() == null || serv.getLongitude() == null) {
+                    GeoData geoData = geoClient.getGeoData(orderRequest.getServs().get(i).getAddress() + " united " +
+                        "states");
+                    if (geoData != null && geoData.getTotalResults() >= 1) {
+                        Double lat = geoData.getResults().get(0).getGeometry().getLat();
+                        Double lng = geoData.getResults().get(0).getGeometry().getLng();
+                        serv.setLatitude(lat);
+                        serv.setLongitude(lng);
+                    }
+                }
+                if (serv.getLatitude() != null && serv.getLongitude() != null) {
+                    String geohash = GeoHash.geoHashStringWithCharacterPrecision(serv.getLatitude(),
+                        serv.getLongitude(), 12);
                     serv.setGeohash(geohash);
                 }
-            } catch(HttpClientErrorException e) {
+            } catch (HttpClientErrorException e) {
+                // TODO: handle error correctly instead of print
                 System.out.println(e);
-            };
+            }
 
             servService.createService(serv);
             // push notification to online providers
@@ -105,6 +113,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         if (providerIds == null || providerIds.size() == 0) {
             return;
         }
+        serv = servService.removeAddressInfo(serv);
         List<Long> validProviderIds = providerService.getProviderIdsByProductId(serv.getProductId(), providerIds);
         System.out.println("available providers: " + serv.getProductId().toString() + ", " + validProviderIds.toString());
         for (Long providerId : validProviderIds) {

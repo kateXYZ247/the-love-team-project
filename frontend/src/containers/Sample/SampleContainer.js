@@ -13,55 +13,10 @@ import {
 } from "../../constant/api";
 import AdminLoginForm from "../../components/AdminLogin/AdminLoginForm";
 import StatusPieChart from "../../components/AdminPanel/StatusPieChart";
+import GoogleMapSample from "../../components/Sample/GoogleMapSample";
 
 function SampleContainer(props) {
-  const { userId, token } = props;
-  let stompClient = null;
-
-  const connect = () => {
-    let socket = new SockJS(`${process.env.REACT_APP_BACKEND_URL}/ws`);
-    stompClient = Stomp.over(socket);
-    stompClient.connect(
-      {
-        Authorization: TOKEN_PREFIX + token,
-      },
-      () => {
-        stompClient.subscribe(WS_PATH_PROVIDERS, (message) => {
-          console.log("received from public : ", message.body);
-        });
-        stompClient.subscribe(
-          WS_PATH_USER + userId + WS_PATH_REPLY,
-          (message) => {
-            console.log("received from private: ", message.body);
-          }
-        );
-      }
-    );
-  };
-
-  const disconnect = () => {
-    if (stompClient !== null) {
-      stompClient.disconnect();
-    }
-    console.log("Disconnected");
-  };
-
-  useEffect(() => {
-    connect();
-    return () => {
-      disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <div>
-      <Chip color="primary" label="This is a Sample Container" />
-      <Sample clicked={props.clicked} />
-      {/*<AdminLoginForm/>*/}
-      <StatusPieChart/>
-    </div>
-  );
+  return <StatusPieChart/>;
 }
 
 const mapStateToProps = (state) => {

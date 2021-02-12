@@ -5,9 +5,9 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import { CardHeader } from "@material-ui/core";
+import PriceDuration from "../PriceDuration/PriceDuration";
 
 const useStyles = makeStyles((theme) => ({
   productCard: {
@@ -32,36 +32,20 @@ const useStyles = makeStyles((theme) => ({
     height: 8,
     zIndex: "tooltip",
   },
-  productName: {
-    fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
-    fontWeight: 600,
-    fontSize: 18,
-  },
   productDescription: {
     fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
     fontSize: 16,
-  },
-  productPrice: {
-    fontFamily: ["Helvetica Neue Bold", "sans-serif"].join(","),
-    fontWeight: 600,
-    fontSize: 24,
-    marginTop: 20,
-  },
-  duration: {
-    fontFamily: ["Helvetica Neue Regular", "sans-serif"].join(","),
-    fontSize: 16,
-    color: theme.palette.primary.main,
   },
 }));
 
 function ProductCard(props) {
   const classes = useStyles();
-  const { product, productDetailOpen, onSetProduct } = props;
+  const { withBar, product, productDetailOpen, onSetProduct } = props;
 
   return (
     <Box className={classes.productCard}>
       <Box>
-        {product.star ? (
+        {withBar ? (
           <Box className={classes.starBar} bgcolor="primary.main" />
         ) : null}
       </Box>
@@ -87,25 +71,10 @@ function ProductCard(props) {
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Box align="center">
-                <Typography className={classes.productPrice}>
-                  ${product.productPrice.toFixed(0)}
-                </Typography>
-                <Grid
-                  container
-                  justify="center"
-                  alignItems="center"
-                  spacing={2}
-                  className={classes.duration}
-                >
-                  <Grid item xs={3}>
-                    <AccessAlarmIcon />
-                  </Grid>
-                  <Grid item xs={9}>
-                    {product.duration} mins
-                  </Grid>
-                </Grid>
-              </Box>
+              <PriceDuration
+                price={product.productPrice}
+                duration={product.duration}
+              />
             </Grid>
           </Grid>
         </CardContent>

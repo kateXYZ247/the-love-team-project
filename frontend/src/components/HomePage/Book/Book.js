@@ -1,9 +1,9 @@
 import React from "react";
 import classes from "./Book.module.css";
 import ServiceIllustration from "../../../assets/images/service_illustration.svg";
-import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { PATH_ORDER } from "../../../constant/path";
+import ColorButton from "../../UI/Buttons/ColorButton";
 
 function Book(props) {
   return (
@@ -14,7 +14,7 @@ function Book(props) {
           Need to look fabulous, fast? Search. Book. Enjoy. Instantly book your
           next beauty or wellness experience.
         </div>
-        <Button
+        <ColorButton
           component={Link}
           to={PATH_ORDER}
           variant="contained"
@@ -22,7 +22,7 @@ function Book(props) {
           size="large"
         >
           Book Now
-        </Button>
+        </ColorButton>
       </div>
       <div className={classes.illustration}>
         <img src={ServiceIllustration} alt="Service Illustration" />

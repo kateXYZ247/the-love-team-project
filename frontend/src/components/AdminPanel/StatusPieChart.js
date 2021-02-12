@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import PieChart, {
     Series,
@@ -21,10 +21,16 @@ let dataSource = [{
 }];
 
 
-function StatusPieChart() {
+function StatusPieChart(props) {
+    // const{serviceCount} = props;
+    // const {statusCount, total} = serviceCount;
+    // const [serviceCount, setServiceCount] = useState("");
+    //
+    // statusCount.forEach(item => {item.count = 100 * item.count / total});
     return (
         <PieChart
             id="pie"
+            // to replace dataSource with statusCount
             dataSource={dataSource}
             palette="Bright"
             title="Top internet languages">

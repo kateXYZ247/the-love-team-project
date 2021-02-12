@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -8,6 +7,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import AppointmentsItem from "./AppointmentsItem/AppointmentsItem";
+import DialogButton from "../../UI/Buttons/DialogButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -41,12 +41,12 @@ function AppointmentsModal(props) {
       <DialogTitle style={{ textAlign: "center" }}>My Appointments</DialogTitle>
       <DialogContent>{items}</DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={onAddServices} color="primary">
+        <DialogButton autoFocus onClick={onAddServices} color="primary">
           Add Services
-        </Button>
-        <Button onClick={onClose} color="primary">
+        </DialogButton>
+        <DialogButton onClick={onClose} color="primary">
           OK
-        </Button>
+        </DialogButton>
       </DialogActions>
     </Dialog>
   );

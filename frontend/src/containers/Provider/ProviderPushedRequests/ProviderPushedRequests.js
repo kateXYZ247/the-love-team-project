@@ -5,8 +5,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import PushedRequest from "../../../components/PushedRequest/PushedRequest";
+import RequestCard from "../../../components/RequestCard/RequestCard";
 import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
 import { AUTH_ROLE } from "../../../constant/auth";
@@ -14,6 +13,7 @@ import {
   SERVICE_STATUS,
   SERVICE_UPDATE_SOURCE,
 } from "../../../constant/service";
+import DialogButton from "../../../components/UI/Buttons/DialogButton";
 
 function ProviderPushedRequests(props) {
   const {
@@ -45,7 +45,7 @@ function ProviderPushedRequests(props) {
       </DialogTitle>
       <DialogContent dividers>
         {pushedRequests.map((request, index) => (
-          <PushedRequest
+          <RequestCard
             key={index}
             request={request}
             onAccept={() =>
@@ -56,9 +56,9 @@ function ProviderPushedRequests(props) {
         ))}
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={dialogClosedHandler} color="primary">
+        <DialogButton autoFocus onClick={dialogClosedHandler} color="primary">
           Close
-        </Button>
+        </DialogButton>
       </DialogActions>
     </Dialog>
   );

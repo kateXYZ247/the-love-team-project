@@ -35,6 +35,8 @@ import Appointments from "./containers/Appointments/Appointments";
 import * as actions from "./store/actions";
 import LabeledRoute from "./hoc/LabeledRoute/LabeledRoute";
 import RouteComponent from "./hoc/RouteComponent/RouteComponent";
+import useScript from "./hooks/useScript";
+import { GOOGLE_MAP_SCRIPT_URL } from "./constant/api";
 
 function App(props) {
   const { isAuthenticated, role, stompClient, onDisconnectWebSocket } = props;
@@ -46,6 +48,8 @@ function App(props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useScript(GOOGLE_MAP_SCRIPT_URL);
 
   // default route before login
   // NOTE: order matters

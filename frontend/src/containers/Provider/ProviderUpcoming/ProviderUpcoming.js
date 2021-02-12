@@ -33,8 +33,8 @@ function ProviderUpcoming(props) {
           Upcoming Services
         </Typography>
       </Box>
-      <Box p={3}>
-        <Grid container spacing={2} justify="space-around">
+      <Box p={5}>
+        <Grid container justify="center" spacing={5}>
           {services.map((service, index) => (
             <ProviderUpcomingServiceCard
               service={service}

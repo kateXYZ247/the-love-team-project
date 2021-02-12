@@ -11,6 +11,7 @@ import com.theloveteam.web.model.ServiceStatus;
 import com.theloveteam.web.model.TokenSubject;
 import com.theloveteam.web.repositories.ProviderCategoriesRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
+import com.theloveteam.web.services.ServService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -21,20 +22,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class GetAllRequestedServicesHandler extends AbstractRequestHandler<String, ServsResponseBody>{
+public class GetAllRequestedServicesHandler extends AbstractRequestHandler<String, ServsResponseBody> {
     @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
     private ProviderCategoriesRepository providerCategoriesRepository;
+    @Autowired
+    private ServService servService;
 
     @Override
     protected void validatePermissionBeforeProcess(String providerId) {
-        TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TokenSubject tokenSubject =
+            (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (Role.admin.equals(tokenSubject.getRole())) {
             // admins have permission to view all users' detail
             return;
         } else if (Role.provider.equals(tokenSubject.getRole()) &&
-                (tokenSubject.getUserId().equals(providerId))) {
+            (tokenSubject.getUserId().equals(providerId))) {
             // provider role match & provider id match
             return;
         } else {
@@ -45,16 +49,18 @@ public class GetAllRequestedServicesHandler extends AbstractRequestHandler<Strin
     @Override
     protected ServsResponseBody processRequest(String providerId) {
         List<Serv> servList = serviceRepository.getAllServicesByStatus(ServiceStatus.requested.name());
-        List<ProviderCategories> providerCategories = providerCategoriesRepository.findByProviderId(Long.parseLong(providerId));
+        List<ProviderCategories> providerCategories =
+            providerCategoriesRepository.findByProviderId(Long.parseLong(providerId));
         //match service productId with provider productIds
         Set<Long> providerSupportedProductIds = providerCategories.stream()
-                .filter(Objects::nonNull)
-                .map(ProviderCategories::getProductId)
-                .collect(Collectors.toSet());
+            .filter(Objects::nonNull)
+            .map(ProviderCategories::getProductId)
+            .collect(Collectors.toSet());
 
         List<Serv> providerSupportedServs = servList.stream()
-                .filter(serv -> providerSupportedProductIds.contains(serv.getProductId()))
-                .collect(Collectors.toList());
+            .filter(serv -> providerSupportedProductIds.contains(serv.getProductId()))
+            .map(servService::removeAddressInfo)
+            .collect(Collectors.toList());
         System.out.println(providerSupportedServs);
         return new ServsResponseBody(providerSupportedServs);
     }

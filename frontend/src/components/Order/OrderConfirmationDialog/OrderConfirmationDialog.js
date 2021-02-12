@@ -1,12 +1,12 @@
 import React from "react";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
+import DialogButton from "../../UI/Buttons/DialogButton";
 
 function OrderConfirmationDialog(props) {
   const { price, open, onConfirm, onClose } = props;
@@ -17,12 +17,12 @@ function OrderConfirmationDialog(props) {
         <DialogContentText>Total price: ${price.toFixed(2)}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <DialogButton onClick={onClose} color="secondary">
           Cancel
-        </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
+        </DialogButton>
+        <DialogButton onClick={onConfirm} color="primary" autoFocus>
           Yes
-        </Button>
+        </DialogButton>
       </DialogActions>
     </Dialog>
   );

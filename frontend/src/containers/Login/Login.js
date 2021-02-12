@@ -52,11 +52,16 @@ function Login(props) {
   return isAuthenticated ? (
     <Redirect to={redirectPath} />
   ) : (
-      loginType === AUTH_ROLE.user ? customerLoginForm
-          :
-      loginType === AUTH_ROLE.provider ? providerLoginForm
-          :
-      adminLoginForm
+      <React.Fragment>
+        <BackdropProgressCircle open={loading} />
+        {
+          loginType === AUTH_ROLE.user ? customerLoginForm
+              :
+              loginType === AUTH_ROLE.provider ? providerLoginForm
+                  :
+                  adminLoginForm
+        }
+      </React.Fragment>
   );
 }
 
