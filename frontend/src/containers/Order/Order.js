@@ -78,16 +78,12 @@ function Order(props) {
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
     onUpdateServiceInfo(date, addressObject);
-    console.log("case0");
     if (isAuthenticated && curAddress && curApartment) {
-      console.log("case1");
       onSwitchToPayment();
     } else if (!curAddress || !curApartment) {
-      console.log("case2");
       curAddress === "" ? setValidAddress("null") : setValidAddress("");
       curApartment === "" ? setValidApartment("null") : setValidApartment("");
     } else{
-      console.log("case3");
       props.history.push(PATH_LOGIN);
     }
   };

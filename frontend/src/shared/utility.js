@@ -70,6 +70,27 @@ export const checkValidity = (field, value) => {
         isValid = "null";
       }
       return isValid;
+    case "number":
+      if (value.trim() === "") {
+        isValid = "null";
+      } else if (value.length < 19 || value.length > 22) {
+        isValid = "invalid";
+      }
+        return isValid;
+    case "expiry":
+      if (value.trim() === "") {
+        isValid = "null";
+      } else if (value.length !== 5) {
+        isValid = "invalid";
+      }
+      return isValid;
+    case "cvc":
+      if (value.trim() === "") {
+        isValid = "null";
+      } else if (value.length < 3) {
+        isValid = "invalid";
+      }
+      return isValid;
     default:
       return isValid;
 

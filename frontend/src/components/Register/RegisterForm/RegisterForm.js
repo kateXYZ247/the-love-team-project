@@ -76,8 +76,8 @@ function RegisterForm(props) {
                         FormHelperTextProps={{
                           error: true,
                         }}
-                        helperText={validFName === "invalid" ? 'please enter a valid firstName' :
-                            validFName === "null" ? 'firstName is required' : ''
+                        helperText={validFName === "invalid" ? 'Please enter a valid firstName' :
+                            validFName === "null" ? 'FirstName is required' : ''
                         }
                         fullWidth
                         variant="outlined"
@@ -94,8 +94,8 @@ function RegisterForm(props) {
                         FormHelperTextProps={{
                           error: true,
                         }}
-                        helperText={validLName === "invalid" ? 'please enter a valid lastName' :
-                            validLName === "null" ? 'lastName is required' : ''
+                        helperText={validLName === "invalid" ? 'Please enter a valid lastName' :
+                            validLName === "null" ? 'LastName is required' : ''
                         }
                         fullWidth
                         variant="outlined"
@@ -119,8 +119,8 @@ function RegisterForm(props) {
                         FormHelperTextProps={{
                           error: true,
                         }}
-                        helperText={validPhone === "invalid" ? 'please enter a valid phone number' :
-                            validPhone === "null" ? 'phone number is required' : ''
+                        helperText={validPhone === "invalid" ? 'Please enter a valid phone number' :
+                            validPhone === "null" ? 'Phone number is required' : ''
                         }
                         fullWidth
                         variant="outlined"
@@ -144,8 +144,8 @@ function RegisterForm(props) {
                           error: true,
                         }}
                         onBlur={checkEmail}
-                        helperText={validEmail === "invalid" ? 'please enter a valid email' :
-                            validEmail === "null" ? 'email is required' : ''
+                        helperText={validEmail === "invalid" ? 'Please enter a valid email' :
+                            validEmail === "null" ? 'Email is required' : ''
                         }
 
                         fullWidth
@@ -176,8 +176,8 @@ function RegisterForm(props) {
                             }}
                             onChange={handleChange}
                             onBlur={checkPW}
-                            helperText={validPW === "invalid" ? 'please enter a valid password' :
-                                validPW === "null" ? 'password is required' : ''
+                            helperText={validPW === "invalid" ? 'Please enter a valid password' :
+                                validPW === "null" ? 'Password is required' : ''
                             }
                             fullWidth
                             variant="outlined"
@@ -205,8 +205,8 @@ function RegisterForm(props) {
                             error: true,
                           }}
                           onBlur={checkConfirmPW}
-                          helperText={confirmPW === "invalid" ? 'your passwords don\'t match ':
-                              confirmPW === "null" ? 'please reconfirm your password' : ''
+                          helperText={confirmPW === "invalid" ? 'Your passwords don\'t match ':
+                              confirmPW === "null" ? 'Please reconfirm your password' : ''
                           }
                           fullWidth
                           variant="outlined"

@@ -38,6 +38,7 @@ function OrderInfo(props) {
   const [addressType, setAddressType] = useState(oldAddressType);
 
   const dateChangedHandler = (updatedDate) => {
+    console.log(date);
     setDate(updatedDate);
   };
 
