@@ -7,8 +7,9 @@ import {
   sampleOrderTotalPrice,
   sampleOrderHistory,
   sampleUpcomingAppointment,
-  FETCH_ORDERS_TYPE
+  FETCH_ORDERS_TYPE,
 } from "../../constant/order";
+
 const initialState = {
   error: false,
   loading: false,
@@ -20,6 +21,8 @@ const initialState = {
     pets: "",
     note: "",
     direction: "",
+    latitude: null,
+    longitude: null,
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
@@ -33,37 +36,28 @@ const fetchOrdersStart = (state, action) => {
 };
 
 const fetchOrdersSuccess = (state, action) => {
-  if (
-    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
-  ) {
+  if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
     return updateObject(state, {
       // upcomingOrders: upcomingOrders,
       upcomingOrders: action.orders,
-      loading: false
+      loading: false,
     });
-  } else if (
-    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
-  ) {
+  } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
     return updateObject(state, {
       orderHistory: action.orders,
-      loading: false
+      loading: false,
     });
   }
   return updateObject(state, { loading: false });
 };
 
 const fetchOrdersFail = (state, action) => {
-
-  if (
-    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
-  ) {
+  if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
     return updateObject(state, {
       appointments: sampleUpcomingAppointment,
       loading: false,
     });
-  } else if (
-    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
-  ) {
+  } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
     return updateObject(state, {
       orderHistory: sampleOrderHistory,
       loading: false,
@@ -75,7 +69,6 @@ const fetchOrdersFail = (state, action) => {
     loading: false,
   });
 };
-
 
 const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
@@ -116,6 +109,8 @@ const updateServiceTimeAddress = (state, action) => {
     order: updateObject(state.order, {
       startTime: action.startTime,
       address: action.address.address,
+      latitude: action.address.latitude,
+      longitude: action.address.longitude,
       apartment: action.address.apartment,
       pets: action.address.pets,
       direction: action.address.direction,
@@ -142,6 +137,8 @@ const updatePaymentInfo = (state, action) => {
       startTime: startTime,
       endTime: endTime,
       address: oldOrder.address,
+      latitude: oldOrder.latitude,
+      longitude: oldOrder.longitude,
       apartment: oldOrder.apartment,
       pets: oldOrder.pets,
       direction: oldOrder.direction,
@@ -182,7 +179,6 @@ export const placeOrderSuccess = (state, action) => {
   return updateObject(state, {
     loading: false,
     status: ORDER_STATUS.CONFIRMED,
-    order: initialState.order,
   });
 };
 

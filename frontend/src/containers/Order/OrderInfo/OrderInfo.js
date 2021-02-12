@@ -10,6 +10,8 @@ function OrderInfo(props) {
   const {
     oldOrderDate,
     oldAddress,
+    oldLatitude,
+    oldLongitude,
     oldApartment,
     oldPets,
     oldDirection,
@@ -23,6 +25,8 @@ function OrderInfo(props) {
 
   const [date, setDate] = useState(oldOrderDate);
   const [address, setAddress] = useState(oldAddress);
+  const [latitude, setLatitude] = useState(oldLatitude);
+  const [longitude, setLongitude] = useState(oldLongitude);
   const [apartment, setApartment] = useState(oldApartment);
   const [pets, setPets] = useState(oldPets);
   const [direction, setDirection] = useState(oldDirection);
@@ -34,6 +38,11 @@ function OrderInfo(props) {
 
   const addressChangedHandler = (updatedAddress) => {
     setAddress(updatedAddress);
+  };
+
+  const latitudeLongitudeChangedHandler = (lat, lng) => {
+    setLatitude(lat);
+    setLongitude(lng);
   };
 
   const apartmentChangedHandler = (updatedApartment) => {
@@ -55,6 +64,8 @@ function OrderInfo(props) {
   const nextButtonClickedHandler = () => {
     const addressObject = {
       address: address,
+      latitude: latitude,
+      longitude: longitude,
       apartment: apartment,
       pets: pets,
       direction: direction,
@@ -78,6 +89,7 @@ function OrderInfo(props) {
         <AddressCard
           address={address}
           onAddressChange={addressChangedHandler}
+          onLatLngChange={latitudeLongitudeChangedHandler}
           apartment={apartment}
           onApartmentChange={apartmentChangedHandler}
           pets={pets}

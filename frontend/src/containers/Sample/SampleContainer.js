@@ -14,6 +14,7 @@ import {
 import UserInfo from "../../components/UserProfile/UserInfo";
 import UserProfAvatar from "../../components/UserProfile/UserProfAvatar";
 
+import GoogleMapSample from "../../components/Sample/GoogleMapSample";
 
 function SampleContainer(props) {
   const { userId, token } = props;
@@ -62,6 +63,36 @@ function SampleContainer(props) {
       <div>aaa</div>
       <UserProfAvatar/>
       <UserInfo/>
+      <GoogleMapSample
+        center={{
+          lat: 37.419559,
+          lng: -121.087588,
+        }}
+      />
+      <GoogleMapSample
+        center={{
+          lat: 37.419559,
+          lng: -122.087588,
+        }}
+        circleCenter={{
+          lat: 37.429559,
+          lng: -122.087588,
+        }}
+        markerCenter={{
+          lat: 37.409559,
+          lng: -122.187588,
+        }}
+      />
+      <GoogleMapSample
+        center={{
+          lat: 37.519559,
+          lng: -122.087588,
+        }}
+        markerCenter={{
+          lat: 37.519559,
+          lng: -122.187588,
+        }}
+      />
     </div>
   );
 }

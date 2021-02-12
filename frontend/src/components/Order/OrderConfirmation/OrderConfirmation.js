@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
+import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
 import HairDryer from "../../../assets/images/hair-dryer.svg";
 import Spa from "../../../assets/images/spa.svg";
 import { Link } from "react-router-dom";
 import { PATH_APPOINTMENTS } from "../../../constant/path";
+import OrderConfirmationCard from "../OrderConfirmationCard/OrderConfirmationCard";
+import ColorButton from "../../UI/Buttons/ColorButton";
 
 function OrderConfirmation(props) {
-  const { orderTime, onUnmount } = props;
+  const { order, onUnmount } = props;
 
   useEffect(() => {
     return () => {
@@ -24,11 +26,15 @@ function OrderConfirmation(props) {
         <Typography variant="h5" align="center" color="primary">
           You're all booked for
         </Typography>
-        <Typography variant="h5" align="center" color="primary">
-          {orderTime.toDateString() + ", " + orderTime.toLocaleTimeString()}
-        </Typography>
       </Box>
-      <Box mt={3}>
+      <Box p={5}>
+        <Grid container justify="center">
+          <Grid item xs={12} md={8} lg={6} xl={4} container justify="center">
+            <OrderConfirmationCard order={order} />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box mt={1}>
         <Typography variant="h6" align="center">
           We’ll send you a confirmation email shortly
         </Typography>
@@ -78,7 +84,7 @@ function OrderConfirmation(props) {
                       Manage your appointment at client page
                     </Box>
                     <Grid container justify="center">
-                      <Button
+                      <ColorButton
                         component={Link}
                         to={PATH_APPOINTMENTS}
                         variant="contained"
@@ -86,7 +92,7 @@ function OrderConfirmation(props) {
                         color="primary"
                       >
                         Client Page
-                      </Button>
+                      </ColorButton>
                     </Grid>
                   </Grid>
                 </Grid>

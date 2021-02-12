@@ -9,11 +9,13 @@ import {
 } from "@material-ui/core";
 import CardTitle from "../../UI/CardTitle/CardTitle";
 import { addressTypes } from "../../../constant/order";
+import AddressInput from "../AddressInput/AddressInput";
 
 function AddressCard(props) {
   const {
     address,
     onAddressChange,
+    onLatLngChange,
     apartment,
     onApartmentChange,
     pets,
@@ -33,13 +35,10 @@ function AddressCard(props) {
               <Box p={3}>
                 <Grid container justify="space-around" spacing={3}>
                   <Grid item xs={12}>
-                    <TextField
-                      id="main-address"
-                      label="Your Full Address"
-                      defaultValue={address}
-                      onChange={(event) => onAddressChange(event.target.value)}
-                      fullWidth
-                      variant="outlined"
+                    <AddressInput
+                      initAddress={address}
+                      onAddressChange={onAddressChange}
+                      onLatLngChange={onLatLngChange}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>

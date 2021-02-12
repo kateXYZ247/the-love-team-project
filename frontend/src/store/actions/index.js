@@ -1,3 +1,5 @@
+export { setPath } from "./route";
+
 export {
   profileUpdate,
   profileUpdateStart,
@@ -33,15 +35,7 @@ export { register, registerReset } from "./register";
 
 export { clearMessage } from "./message";
 
-
-
-
-
 export { onSwitch } from "./providerProfile";
-
-
-
-
 
 export {
   fetchServices,
@@ -50,4 +44,3 @@ export {
   addPushedRequest,
   clearPushedRequest,
 } from "./provider";
-
