@@ -37,10 +37,9 @@ function SmallGoogleMap(props) {
     }
   };
 
-  const directionService = useMemo(
-    () =>
-      origin &&
-      destination && (
+  const directionService = useMemo(() => {
+    if (origin && destination) {
+      return (
         <DirectionsService
           options={{
             destination: destination,
@@ -49,9 +48,11 @@ function SmallGoogleMap(props) {
           }}
           callback={directionsCallback}
         />
-      ),
-    [origin, destination]
-  );
+      );
+    } else {
+      setDirectionResponse(null);
+    }
+  }, [origin, destination]);
 
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
