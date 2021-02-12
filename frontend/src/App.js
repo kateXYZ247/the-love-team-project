@@ -192,12 +192,18 @@ function App(props) {
     } else if (role === AUTH_ROLE.provider) {
       routes = (
         <Switch>
-          <LabeledRoute path={PATH_PROVIDER_LOGIN}>
-            <Login loginType={AUTH_ROLE.provider} />
-          </LabeledRoute>
           <LabeledRoute path={PATH_TEST}>
             <SampleContainer />
           </LabeledRoute>
+          <Route
+            path={PATH_PROVIDER_LOGIN}
+            exact
+            render={() => (
+              <RouteComponent path={PATH_PROVIDER_LOGIN}>
+                <Login loginType={AUTH_ROLE.provider} />
+              </RouteComponent>
+            )}
+          />
           <Redirect to={PATH_PROVIDER_LOGIN} />
         </Switch>
       );

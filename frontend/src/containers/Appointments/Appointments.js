@@ -14,11 +14,14 @@ function Appointments(props) {
     onFetchOrders,
     upcomingOrders,
     onUpdateOrderStatus,
+    onUmount,
   } = props;
 
   useEffect(() => {
     onFetchOrders(userId);
-  }, [userId, onFetchOrders]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const contactHandler = (customerUserId) => {
     console.log(customerUserId);
@@ -63,6 +66,10 @@ const mapDispatchToProps = (dispatch) => {
     onFetchOrders: (userId) =>
       dispatch(
         actions.fetchOrders(FETCH_ORDERS_TYPE.upcomingAppointments, userId)
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedOrders(FETCH_ORDERS_TYPE.upcomingAppointments)
       ),
     onUpdateOrderStatus: (orderIndex, orderId, userId, updatedStatus) =>
       dispatch(
