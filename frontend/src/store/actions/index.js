@@ -1,4 +1,8 @@
 export {
+  profileUpdate,
+  profileUpdateStart,
+  profileUpdateSuccess,
+  profileUpdateFail,
   login,
   loginStart,
   loginSuccess,

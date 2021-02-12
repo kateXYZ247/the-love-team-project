@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
+  API_PATH_USER_UPDATE_ACCOUNT,
   API_PATH_PROVIDER_DETAIL,
   API_PATH_PROVIDER_LOGIN,
   API_PATH_USER_DETAIL,
@@ -177,5 +178,58 @@ export const disconnectWebSocket = (stompClient) => {
 const clearStompClient = () => {
   return {
     type: AUTH_CLEAR_STOMP_CLIENT,
+  };
+};
+
+export const profileUpdateStart = () => {
+  return {
+    type: actionTypes.USER_PROFILE_UPDATE_STATUS.start,
+  };
+};
+
+// is this the correct way to use it?
+export const profileUpdateSuccess = (firstName, lastName, address, zip, phone) => {
+  return {
+    type: actionTypes.USER_PROFILE_UPDATE_STATUS.success,
+    firstName: firstName,
+    lastName: lastName,
+    address: address.concat(' ', zip),
+    phone: phone
+  };
+};
+
+
+export const profileUpdateFail = () => {
+  return {
+    type: actionTypes.USER_PROFILE_UPDATE_STATUS.fail,
+  };
+};
+
+// sending request to the backend
+export const profileUpdate = (userId, firstName, lastName, address, phone) => {
+  const regex = /[0-9]{5}/;
+  const zipList = address.match(regex);
+  return (dispatch) => {
+    dispatch(profileUpdateStart);
+    axios(API_PATH_USER_DETAIL + userId + API_PATH_USER_UPDATE_ACCOUNT, {
+      // original data before update
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        zip: zipList[0],
+        phone: phone,
+      },
+      method: "put",
+    })
+        .then((response) => {
+          console.log(response);
+          const { successMsg } = response.data;
+          dispatch(profileUpdateSuccess(userId, firstName, lastName, address, phone));
+          dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
+        })
+        .catch((error) => {
+          dispatch(profileUpdateFail());
+        });
   };
 };

@@ -57,6 +57,7 @@ const setUserDetail = (state, action) => {
   });
 };
 
+
 const loginGetInfoFail = (state, action) => {
   return updateObject(state, {loading: false});
 };
@@ -84,6 +85,28 @@ const clearStompClient = (state, action) => {
   return updateObject(state, {stompClient: null});
 };
 
+const profileUpdateStart = (state, action) => {
+  return updateObject(state, {});
+};
+
+
+const profileUpdateSuccess = (state, action) => {
+  // update the old object with the newly updated object
+  return updateObject(state, {
+    // create a userDetail object with update fields
+    userDetail: updateObject(state.userDetail, {
+      firstName: action.firstName,
+      lastName: action.lastName,
+      address: action.address + ", " + action.zip,
+      phone: action.phone,
+    })
+  });
+};
+
+const profileUpdateFail = (state, action) => {
+  return state;
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_LOGIN_START:
@@ -102,6 +125,12 @@ const reducer = (state = initialState, action) => {
       return setStompClient(state, action);
     case actionTypes.AUTH_CLEAR_STOMP_CLIENT:
       return clearStompClient(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.start:
+      return profileUpdateStart(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.success:
+      return profileUpdateSuccess(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.fail:
+      return profileUpdateFail(state, action);
     default:
       return state;
   }

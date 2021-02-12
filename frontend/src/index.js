@@ -15,6 +15,7 @@ import registerReducer from "./store/reducers/register";
 import providerReducer from "./store/reducers/provider";
 import messageReducer from "./store/reducers/message";
 import providerProfileReducer from "./store/reducers/providerProfile";
+import userProfileReducer from "./store/reducers/userProfile";
 import { BrowserRouter } from "react-router-dom";
 
 
@@ -41,10 +42,7 @@ const rootReducer = combineReducers({
   register: registerReducer,
   provider: providerReducer,
   message: messageReducer,
-
   providerProfile: providerProfileReducer,
-
-
 });
 
 const store = createStore(

@@ -11,6 +11,9 @@ import {
   WS_PATH_REPLY,
   WS_PATH_USER,
 } from "../../constant/api";
+import UserInfo from "../../components/UserProfile/UserInfo";
+import UserProfAvatar from "../../components/UserProfile/UserProfAvatar";
+
 
 function SampleContainer(props) {
   const { userId, token } = props;
@@ -57,6 +60,8 @@ function SampleContainer(props) {
       <Chip color="primary" label="This is a Sample Container" />
       <Sample clicked={props.clicked} />
       <div>aaa</div>
+      <UserProfAvatar/>
+      <UserInfo/>
     </div>
   );
 }

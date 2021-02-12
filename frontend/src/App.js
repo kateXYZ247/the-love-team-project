@@ -11,20 +11,23 @@ import SampleContainer from "./containers/Sample/SampleContainer";
 import Register from "./containers/Register/Register";
 
 import OrderHistory from "./containers/OrderHistory/OrderHistory";
+
+// cant add userprofile path properly
 import {
-  PATH_APPOINTMENTS,
-  PATH_HISTORY,
-  PATH_HOME,
-  PATH_LOGIN,
-  PATH_ORDER,
-  PATH_PROVIDER_HISTORY,
-  PATH_PROVIDER_HOME,
-  PATH_PROVIDER_LIST_SERVICES,
-  PATH_PROVIDER_LOGIN,
-  PATH_PROVIDER_PROFILE,
-  PATH_PROVIDER_UPCOMING_SERVICES,
-  PATH_REGISTER,
-  PATH_TEST,
+    PATH_USER_PROFILE,
+    PATH_APPOINTMENTS,
+    PATH_HISTORY,
+    PATH_HOME,
+    PATH_LOGIN,
+    PATH_ORDER,
+    PATH_PROVIDER_HISTORY,
+    PATH_PROVIDER_HOME,
+    PATH_PROVIDER_LIST_SERVICES,
+    PATH_PROVIDER_LOGIN,
+    PATH_PROVIDER_PROFILE,
+    PATH_PROVIDER_UPCOMING_SERVICES,
+    PATH_REGISTER,
+    PATH_TEST,
 } from "./constant/path";
 import { AUTH_ROLE } from "./constant/auth";
 import ProviderListServices from "./containers/Provider/ProviderListServices/ProviderListServices";
@@ -32,7 +35,9 @@ import ProviderUpcoming from "./containers/Provider/ProviderUpcoming/ProviderUpc
 import ProviderProfile from "./containers/Provider/ProviderProfile/ProviderProfile";
 import ProviderHistory from "./containers/Provider/ProviderHistory/ProviderHistory";
 import Appointments from "./containers/Appointments/Appointments";
+// import UserProfile from "/containers/User/UserProfile/UserProfile";
 import * as actions from "./store/actions";
+import UserProfile from "./containers/User/UserProfile/UserProfile";
 
 function App(props) {
   const { isAuthenticated, role, stompClient, onDisconnectWebSocket } = props;
@@ -66,6 +71,11 @@ function App(props) {
         exact
         render={(props) => <Login loginType={AUTH_ROLE.provider} {...props} />}
       />
+    <Route
+        path={PATH_USER_PROFILE}
+        exact
+        render={(props) => <UserProfile {...props} />}
+    />
       <Route
         path={PATH_TEST}
         render={(props) => <SampleContainer {...props} />}
@@ -93,6 +103,7 @@ function App(props) {
             exact
             render={(props) => <Login loginType={AUTH_ROLE.user} {...props} />}
           />
+          <Route path={PATH_USER_PROFILE} exact component={UserProfile} />
           <Route
             path={PATH_TEST}
             render={(props) => <SampleContainer {...props} />}
