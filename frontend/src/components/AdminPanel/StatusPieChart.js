@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-
+import React, {useState, useEffect} from 'react';
+import * as actions from "../../store/actions";
+import { connect } from "react-redux";
 import PieChart, {
     Series,
     Label,
@@ -9,35 +10,29 @@ import PieChart, {
     Export
 } from 'devextreme-react/pie-chart';
 
-let dataSource = [{
-    language: 'English',
-    percent: 50,
-}, {
-    language: 'Chinese',
-    percent: 10,
-}, {
-    language: 'Spanish',
-    percent: 10,
-}];
-
-
 function StatusPieChart(props) {
-    // const{serviceCount} = props;
-    // const {statusCount, total} = serviceCount;
-    // const [serviceCount, setServiceCount] = useState("");
-    //
-    // statusCount.forEach(item => {item.count = 100 * item.count / total});
+    const{
+        onFetchStatistics,
+        loading,
+        userId,
+        statList,
+    } = props;
+
+    useEffect(() => {
+        onFetchStatistics(userId);
+    },[]);
+
     return (
         <PieChart
             id="pie"
             // to replace dataSource with statusCount
-            dataSource={dataSource}
+            dataSource={statList}
             palette="Bright"
-            title="Top internet languages">
+            title="SERVICE STATUS STATISTICS">
 
             <Series
-                argumentField="language"
-                valueField="percent"
+                argumentField="status"
+                valueField="counts"
                 customizeText={"abc"}>
 
                 <Label visible={true} customizeText={formatLabel} format="fixedPoint">
@@ -55,4 +50,22 @@ function formatLabel(arg) {
     return `${arg.argumentText}: ${arg.valueText}%`;
 }
 
-export default StatusPieChart;
+const mapStateToProps = (state) => {
+    return {
+        userId: state.auth.userId,
+        loading: state.admin.loading,
+        statList: state.admin.statList,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFetchStatistics: (userId) => {
+            dispatch(
+                actions.fetchStatistics(userId)
+            )
+        },
+    };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(StatusPieChart);

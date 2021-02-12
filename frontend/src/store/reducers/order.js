@@ -54,7 +54,7 @@ const fetchOrdersSuccess = (state, action) => {
 const fetchOrdersFail = (state, action) => {
   if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
     return updateObject(state, {
-      appointments: sampleUpcomingAppointment,
+      upcomingOrders: sampleUpcomingAppointment,
       loading: false,
     });
   } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
@@ -65,8 +65,24 @@ const fetchOrdersFail = (state, action) => {
   }
   return updateObject(state, {
     orderHistory: sampleOrderHistory,
-    appointments: sampleUpcomingAppointment,
+    upcomingOrders: sampleUpcomingAppointment,
     loading: false,
+  });
+};
+
+const clearFetchedOrders = (state, action) => {
+  if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
+    return updateObject(state, {
+      upcomingOrders: sampleUpcomingAppointment,
+    });
+  } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
+    return updateObject(state, {
+      orderHistory: sampleOrderHistory,
+    });
+  }
+  return updateObject(state, {
+    orderHistory: sampleOrderHistory,
+    upcomingOrders: sampleUpcomingAppointment,
   });
 };
 
@@ -243,6 +259,8 @@ const reducer = (state = initialState, action) => {
       return fetchOrdersSuccess(state, action);
     case actionTypes.FETCH_ORDERS_FAIL:
       return fetchOrdersFail(state, action);
+    case actionTypes.CLEAR_FETCHED_ORDERS:
+      return clearFetchedOrders(state, action);
     case actionTypes.USER_UPDATE_ORDER_STATUS.start:
       return userUpdateOrderStatusStart(state, action);
     case actionTypes.USER_UPDATE_ORDER_STATUS.success:

@@ -22,6 +22,7 @@ export {
   resetStatus,
   clearCart,
   fetchOrders,
+  clearFetchedOrders,
   userUpdateOrderStatus,
 } from "./order";
 
@@ -35,8 +36,13 @@ export { onSwitch } from "./providerProfile";
 
 export {
   fetchServices,
+  clearFetchedServices,
   updateServiceStatus,
   declineRequest,
   addPushedRequest,
   clearPushedRequest,
 } from "./provider";
+
+export {
+  fetchStatistics,
+} from "./admin";

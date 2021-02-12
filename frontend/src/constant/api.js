@@ -18,7 +18,8 @@ export const API_PATH_PROVIDER_ACCEPT_REQUEST = "/services/";
 export const API_PATH_PROVIDER_AVAILABILITY = "/availability";
 
 export const API_PATH_ADMIN_LOGIN = "/admins/login";
-export const API_PATH_ADMIN_DETAIL = "/admins/"
+export const API_PATH_ADMIN_DETAIL = "/admins/";
+export const API_PATH_ADMIN_FETCH_STATISTICS = "/services/status?adminId=";
 
 export const WS_PATH_CONNECT = "/ws";
 export const WS_PATH_USER = "/user/";

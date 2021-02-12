@@ -105,7 +105,11 @@ export const login = (username, password, role) => {
         const { data } = response;
         dispatch(setUserDetail(data, role));
         const firstName =
-          role === AUTH_ROLE.user ? data.firstName : data.provider.firstName;
+          role === AUTH_ROLE.user ? data.firstName
+              :
+          role === AUTH_ROLE.provider ? data.provider.firstName
+              :
+          data.firstName;
         dispatch(setMessage(MESSAGE_TYPE.info, "Welcome back, " + firstName));
       })
       .catch((error) => {

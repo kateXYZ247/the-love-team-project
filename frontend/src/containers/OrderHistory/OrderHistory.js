@@ -33,19 +33,15 @@ const TableTitleCell = withStyles((theme) => ({
 }))(TableCell);
 
 function OrderHistory(props) {
-  const {
-    userId,
-    loading,
-    onFetchOrders,
-    // onMessageClose,
-    orders,
-  } = props;
+  const { userId, loading, onFetchOrders, orders, onUmount } = props;
 
   const classes = useStyles();
 
   useEffect(() => {
     onFetchOrders(userId);
-  }, [userId, onFetchOrders]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return loading ? (
     <ProgressCircle label={"Loading Order History ..."} />
@@ -90,9 +86,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrders: (userId) => dispatch(actions.fetchOrders(
-      FETCH_ORDERS_TYPE.historicalOrders,
-      userId)),
+    onFetchOrders: (userId) =>
+      dispatch(actions.fetchOrders(FETCH_ORDERS_TYPE.historicalOrders, userId)),
+    onUmount: () =>
+      dispatch(actions.clearFetchedOrders(FETCH_ORDERS_TYPE.historicalOrders)),
   };
 };
 

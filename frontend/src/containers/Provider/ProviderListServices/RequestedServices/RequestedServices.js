@@ -18,12 +18,15 @@ function RequestedServices(props) {
     onFetchRequests,
     onAcceptRequest,
     onDeclineRequest,
+    onUmount,
   } = props;
   const [deleted, setDeleted] = useState(requests.map(() => false));
 
   useEffect(() => {
     onFetchRequests(userId);
-  }, [userId, onFetchRequests]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => setDeleted(requests.map(() => false)), [requests]);
 
@@ -73,6 +76,10 @@ const mapDispatchToProps = (dispatch) => {
     onFetchRequests: (userId) =>
       dispatch(
         actions.fetchServices(PROVIDER_FETCH_SERVICES_TYPE.requests, userId)
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedServices(PROVIDER_FETCH_SERVICES_TYPE.requests)
       ),
     onDeclineRequest: (index) =>
       dispatch(

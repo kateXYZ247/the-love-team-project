@@ -6,6 +6,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
 import Login from "./containers/Login/Login";
+import Admin from "./containers/Admin/Admin";
 import SampleContainer from "./containers/Sample/SampleContainer";
 
 import Register from "./containers/Register/Register";
@@ -149,6 +150,27 @@ function App(props) {
           <Redirect to={PATH_HOME} />
         </Switch>
       );
+    } else {
+        routes = (
+            <Switch>
+                <LabeledRoute path={PATH_PROVIDER_LOGIN}>
+                    <Login loginType={AUTH_ROLE.provider} />
+                </LabeledRoute>
+                <LabeledRoute path={PATH_TEST}>
+                    <SampleContainer />
+                </LabeledRoute>
+                <Route
+                    path={PATH_HOME}
+                    exact
+                    render={() => (
+                        <RouteComponent path={PATH_HOME}>
+                            <Admin/>
+                        </RouteComponent>
+                    )}
+                />
+                <Redirect to={PATH_HOME} />
+            </Switch>
+        );
     }
   } else {
     if (role === AUTH_ROLE.user) {

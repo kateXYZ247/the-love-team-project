@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ProductDetail from "../../../components/Products/ProductDetail/ProductDetail";
 import ProductsGrid from "../../../components/Products/ProductsGrid/ProductsGrid";
+import Box from "@material-ui/core/Box";
 
 function Products(props) {
   const {
@@ -56,9 +57,11 @@ function Products(props) {
     <React.Fragment>
       <Grid container justify="space-around" alignItems="center">
         <Grid item xs={12} align="center">
-          <Typography variant="h5">
-            Select one or multiple services to start booking
-          </Typography>
+          <Box p={5}>
+            <Typography variant="h5">
+              Select one or multiple services to start booking
+            </Typography>
+          </Box>
         </Grid>
         <Grid item xs={12}>
           <ProductsGrid
