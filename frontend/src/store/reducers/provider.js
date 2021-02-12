@@ -45,6 +45,19 @@ const fetchServicesFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
 
+const clearFetchedServices = (state, action) => {
+  if (action.source === PROVIDER_FETCH_SERVICES_TYPE.requests) {
+    return updateObject(state, { requests: [] });
+  } else if (action.source === PROVIDER_FETCH_SERVICES_TYPE.upcomingServices) {
+    return updateObject(state, { services: [] });
+  } else if (
+    action.source === PROVIDER_FETCH_SERVICES_TYPE.historicalServices
+  ) {
+    return updateObject(state, { histories: [] });
+  }
+  return state;
+};
+
 const declineRequest = (state, action) => {
   if (action.source === SERVICE_UPDATE_SOURCE.fetchedRequests) {
     return updateObject(state, {
@@ -130,6 +143,8 @@ const reducer = (state = initialState, action) => {
       return fetchServicesSuccess(state, action);
     case actionTypes.PROVIDER_FETCH_SERVICES.fail:
       return fetchServicesFail(state, action);
+    case actionTypes.PROVIDER_CLEAR_FETCHED_SERVICES:
+      return clearFetchedServices(state, action);
     case actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.start:
       return updateServiceStatusStart(state, action);
     case actionTypes.PROVIDER_UPDATE_SERVICE_STATUS.success:

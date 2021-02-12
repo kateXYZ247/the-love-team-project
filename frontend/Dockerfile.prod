@@ -3,6 +3,7 @@ FROM node:alpine as builder
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ENV REACT_APP_BACKEND_URL http://localhost:8080
+ENV REACT_APP_MAP_API_KEY GOOGLE_MAP_JAVASCRIPT_API_KEY
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm ci --silent

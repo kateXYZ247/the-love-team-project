@@ -12,7 +12,6 @@ import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 import { FETCH_ORDERS_TYPE } from "../../constant/order";
 
-
 export const addToCart = (product) => {
   return {
     type: actionTypes.ORDER_ADD_TO_CART,
@@ -139,11 +138,11 @@ export const fetchOrdersStart = () => {
 export const fetchOrders = (type, userId) => {
   return (dispatch) => {
     dispatch(fetchOrdersStart());
-    let url = ''
+    let url = "";
     switch (type) {
       case FETCH_ORDERS_TYPE.upcomingAppointments:
         url = API_PATH_FETCH_USER_UPCOMING_ORDER;
-        url += userId + "&status=upcoming"
+        url += userId + "&status=upcoming";
         break;
       case FETCH_ORDERS_TYPE.historicalOrders:
         url = API_PATH_FETCH_USER_ORDER;
@@ -168,6 +167,13 @@ export const fetchOrders = (type, userId) => {
         dispatch(fetchOrdersFail(type));
         dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
       });
+  };
+};
+
+export const clearFetchedOrders = (source) => {
+  return {
+    type: actionTypes.CLEAR_FETCHED_ORDERS,
+    source: source,
   };
 };
 
@@ -220,4 +226,3 @@ export const userUpdateOrderStatus = (
       });
   };
 };
-

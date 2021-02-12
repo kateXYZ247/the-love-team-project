@@ -72,6 +72,13 @@ export const fetchServices = (type, userId) => {
   };
 };
 
+export const clearFetchedServices = (source) => {
+  return {
+    type: actionTypes.PROVIDER_CLEAR_FETCHED_SERVICES,
+    source: source,
+  };
+};
+
 export const declineRequest = (removeIndex, source) => {
   return {
     type: actionTypes.PROVIDER_DECLINE_REQUEST,

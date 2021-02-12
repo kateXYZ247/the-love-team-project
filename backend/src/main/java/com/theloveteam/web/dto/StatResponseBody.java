@@ -1,0 +1,19 @@
+
+package com.theloveteam.web.dto;
+
+import com.theloveteam.web.model.StatDetail;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+
+import java.util.List;
+
+@Getter
+@AllArgsConstructor
+@Builder
+@Data
+public class StatResponseBody {
+    private List<StatDetail> statList;
+    private Long total;
+}

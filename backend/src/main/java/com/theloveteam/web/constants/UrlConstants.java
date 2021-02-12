@@ -5,7 +5,7 @@ public class UrlConstants {
 
     public static final String PRODUCTS = "/products";
     public static final String USERS_REGISTER = "/users/register";
-    public static final String LOGIN = "/**/login";
+    public static final String LOGIN= "/**/login";
     public static final String USERS_DETAILS = "/users/{userId}";
     public static final String SERVICES_BY_QUERY = "/services";
     public static final String SERVICES_BY_SERVICE_ID = "/services/{serviceId}";
@@ -27,4 +27,10 @@ public class UrlConstants {
 
     // GeoLocation related
     public static String GEOCLIENT_URL = "https://api.opencagedata.com/geocode/v1/json?key=b9b9f8ad3cbd45cea0b3502da2401680&q={address}&pretty=1&no_annotations=1";
+
+
+    // admin
+    public static final String STATUS_COUNT_BY_ADMIN = "/services/status";
+    public static final String ADMINS_DETAILS = "/admins/{adminId}";
+    public static final String GEO_GET_BY_ADMIN = "/services/geo";
 }
