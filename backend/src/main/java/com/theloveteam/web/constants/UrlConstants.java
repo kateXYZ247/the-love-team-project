@@ -5,7 +5,7 @@ public class UrlConstants {
 
     public static final String PRODUCTS = "/products";
     public static final String USERS_REGISTER = "/users/register";
-    public static final String LOGIN = "/**/login";
+    public static final String LOGIN= "/**/login";
     public static final String USERS_DETAILS = "/users/{userId}";
     public static final String SERVICES_BY_QUERY = "/services";
     public static final String SERVICES_BY_SERVICE_ID = "/services/{serviceId}";
@@ -30,6 +30,7 @@ public class UrlConstants {
 
 
     // admin
-    public static final String ADMIN_LOGIN = "/admins/{adminId}";
+//    public static final String ADMIN_LOGIN = "/admins/{adminId}";
     public static final String STATUS_COUNT_BY_ADMIN = "/services/status";
+    public static final String ADMINS_DETAILS = "/admins/{adminId}";
 }
