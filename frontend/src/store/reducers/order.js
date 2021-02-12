@@ -12,10 +12,7 @@ import {
 
 const setInitialDate = (date) => {
   const initialDate = date.toString();
-  const time = "12:00:00 GMT-0600 (北美中部标准时间)"
-  // console.log(initialDate);
-  // console.log(initialDate.substr(0,16));
-  // console.log(initialDate.substr(0,16).concat(time));
+  const time = "12:00:00 GMT-0600 (北美中部标准时间)";
   return initialDate.substr(0,16).concat(time);
 }
 
