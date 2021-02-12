@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   GoogleMap,
   Circle,
@@ -39,6 +39,22 @@ function SmallGoogleMap(props) {
     }
   };
 
+  const directionService = useMemo(
+    () =>
+      origin &&
+      destination && (
+        <DirectionsService
+          options={{
+            destination: destination,
+            origin: origin,
+            travelMode: "DRIVING",
+          }}
+          callback={directionsCallback}
+        />
+      ),
+    [origin, destination]
+  );
+
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
       {/* Child components, such as markers, info windows, etc. */}
@@ -53,16 +69,7 @@ function SmallGoogleMap(props) {
         />
       )}
       {markerCenter && <Marker position={markerCenter} title={markerTitle} />}
-      {origin && destination && (
-        <DirectionsService
-          options={{
-            destination: destination,
-            origin: origin,
-            travelMode: "DRIVING",
-          }}
-          callback={directionsCallback}
-        />
-      )}
+      {directionService}
       {directionResponse !== null && (
         <DirectionsRenderer
           options={{
