@@ -1,5 +1,11 @@
-import React from "react";
-import { GoogleMap, Circle, Marker } from "@react-google-maps/api";
+import React, { useState } from "react";
+import {
+  GoogleMap,
+  Circle,
+  Marker,
+  DirectionsService,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 import { useTheme } from "@material-ui/core/styles";
 
 const containerStyle = {
@@ -8,8 +14,27 @@ const containerStyle = {
 };
 
 function SmallGoogleMap(props) {
-  const { center, circleCenter, markerCenter, markerTitle } = props;
+  const {
+    center,
+    circleCenter,
+    markerCenter,
+    markerTitle,
+    origin,
+    destination,
+  } = props;
   const theme = useTheme();
+
+  const [directionResponse, setDirectionResponse] = useState(null);
+
+  const directionsCallback = (response) => {
+    if (response !== null) {
+      if (response.status === "OK") {
+        setDirectionResponse(response);
+      } else {
+        console.log("response: ", response);
+      }
+    }
+  };
 
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
@@ -25,6 +50,23 @@ function SmallGoogleMap(props) {
         />
       )}
       {markerCenter && <Marker position={markerCenter} title={markerTitle} />}
+      {origin && destination && (
+        <DirectionsService
+          options={{
+            destination: destination,
+            origin: origin,
+            travelMode: "DRIVING",
+          }}
+          callback={directionsCallback}
+        />
+      )}
+      {directionResponse !== null && (
+        <DirectionsRenderer
+          options={{
+            directions: directionResponse,
+          }}
+        />
+      )}
     </GoogleMap>
   );
 }

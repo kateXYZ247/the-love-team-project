@@ -12,7 +12,7 @@ import SmallGoogleMap from "../SmallGoogleMap/SmallGoogleMap";
 import ColorButton from "../UI/Buttons/ColorButton";
 
 function ProviderUpcomingServiceCard(props) {
-  const { service, onAction } = props;
+  const { service, providerLocation, onAction } = props;
 
   const startTime = new Date(service.startTime);
   const currentTime = new Date();
@@ -57,6 +57,35 @@ function ProviderUpcomingServiceCard(props) {
       </ColorButton>
     );
   }
+
+  // prepare map depends on service status
+  let map;
+  const center = {
+    lat: service.latitude,
+    lng: service.longitude,
+  };
+  if (cancelable) {
+    map = <SmallGoogleMap center={center} circleCenter={center} />;
+  } else if (service.status !== SERVICE_STATUS.started) {
+    const destination = service.latitude + "," + service.longitude;
+    const origin = providerLocation.latitude + "," + providerLocation.longitude;
+    map = (
+      <SmallGoogleMap
+        center={center}
+        origin={origin}
+        destination={destination}
+      />
+    );
+  } else {
+    map = (
+      <SmallGoogleMap
+        center={center}
+        markerCenter={center}
+        markerTitle={service.address}
+      />
+    );
+  }
+
   return (
     <Grid item xs={12} md={8} lg={6} xl={4} container justify="center">
       <Grid item xs={12}>
@@ -115,30 +144,7 @@ function ProviderUpcomingServiceCard(props) {
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={7} container justify="center">
-                  {cancelable ? (
-                    <SmallGoogleMap
-                      center={{
-                        lat: service.latitude,
-                        lng: service.longitude,
-                      }}
-                      circleCenter={{
-                        lat: service.latitude,
-                        lng: service.longitude,
-                      }}
-                    />
-                  ) : (
-                    <SmallGoogleMap
-                      center={{
-                        lat: service.latitude,
-                        lng: service.longitude,
-                      }}
-                      markerCenter={{
-                        lat: service.latitude,
-                        lng: service.longitude,
-                      }}
-                      markerTitle={service.address}
-                    />
-                  )}
+                  {map}
                 </Grid>
               </Grid>
             </Box>

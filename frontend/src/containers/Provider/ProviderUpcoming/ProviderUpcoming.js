@@ -13,6 +13,8 @@ function ProviderUpcoming(props) {
     userId,
     loading,
     services,
+    providerLatitude,
+    providerLongitude,
     onFetchUpcomingServices,
     onUpdateServiceStatus,
   } = props;
@@ -38,6 +40,10 @@ function ProviderUpcoming(props) {
           {services.map((service, index) => (
             <ProviderUpcomingServiceCard
               service={service}
+              providerLocation={{
+                latitude: providerLatitude,
+                longitude: providerLongitude,
+              }}
               key={index}
               onContact={() => contactHandler(service.userId)}
               onAction={(updatedStatus) =>
@@ -61,6 +67,8 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     loading: state.provider.loading,
     services: state.provider.services,
+    providerLatitude: state.auth.userDetail.latitude,
+    providerLongitude: state.auth.userDetail.longitude,
   };
 };
 
