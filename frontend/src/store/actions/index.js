@@ -22,6 +22,7 @@ export {
   resetStatus,
   clearCart,
   fetchOrders,
+  clearFetchedOrders,
   userUpdateOrderStatus,
 } from "./order";
 

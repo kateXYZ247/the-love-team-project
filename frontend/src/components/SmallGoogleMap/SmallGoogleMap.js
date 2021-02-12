@@ -26,8 +26,6 @@ function SmallGoogleMap(props) {
 
   const [directionResponse, setDirectionResponse] = useState(null);
 
-  console.log("map rendered: ", center);
-
   const directionsCallback = (response) => {
     if (response !== null) {
       console.log(response);
