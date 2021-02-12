@@ -52,7 +52,7 @@ public class GetAdminDetailHandler extends AbstractRequestHandler<String, Admin>
         if (admin == null) {
             throw new UserNotFoundException(userId);
         } else {
-            // Clean up un-public user data
+            // Clean up un-public admin data
             admin.setPassword(null);
         }
     }
