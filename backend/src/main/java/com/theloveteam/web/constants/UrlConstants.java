@@ -30,7 +30,7 @@ public class UrlConstants {
 
 
     // admin
-//    public static final String ADMIN_LOGIN = "/admins/{adminId}";
     public static final String STATUS_COUNT_BY_ADMIN = "/services/status";
     public static final String ADMINS_DETAILS = "/admins/{adminId}";
+    public static final String GEO_GET_BY_ADMIN = "/services/geo";
 }
