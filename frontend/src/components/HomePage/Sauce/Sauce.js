@@ -2,10 +2,10 @@ import React from "react";
 import classes from "./Sauce.module.css";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import SauceCard from "./SauceCard/SauceCard";
-import { Button } from "@material-ui/core";
 import { sauceList } from "../../../constant/homepage";
 import { Link } from "react-router-dom";
 import { PATH_ORDER } from "../../../constant/path";
+import ColorButton from "../../UI/Buttons/ColorButton";
 
 function Sauce(props) {
   return (
@@ -22,7 +22,7 @@ function Sauce(props) {
         ))}
       </div>
       <div className={classes.button}>
-        <Button
+        <ColorButton
           component={Link}
           to={PATH_ORDER}
           variant="contained"
@@ -30,7 +30,7 @@ function Sauce(props) {
           size="large"
         >
           Get Started
-        </Button>
+        </ColorButton>
       </div>
     </div>
   );

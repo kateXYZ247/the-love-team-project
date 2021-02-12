@@ -9,7 +9,6 @@ export const API_PATH_FETCH_USER_UPCOMING_ORDER = "/orders?userId=";
 
 export const API_PATH_USER_UPDATE_ORDER = "/orders/";
 
-
 export const API_PATH_PROVIDER_LOGIN = "/providers/login";
 export const API_PATH_PROVIDER_DETAIL = "/providers/";
 export const API_PATH_PROVIDER_FETCH_SERVICES = "/services/?providerId=";
@@ -24,3 +23,6 @@ export const WS_PATH_REPLY = "/reply";
 export const WS_PATH_PROVIDERS = "/topic/providers";
 
 export const HTTP_STATUS_OK = 200;
+
+export const GOOGLE_MAP_SCRIPT_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}&libraries=places`;
+export const GOOGLE_MAP_CALL_DELAY = 500;

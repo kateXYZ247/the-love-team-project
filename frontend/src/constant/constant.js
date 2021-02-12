@@ -15,3 +15,8 @@ export const LOCAL_TIME_OPTIONS = {
   hour: "2-digit",
   minute: "2-digit",
 };
+
+export const LOCAL_SHORT_TIME_OPTIONS = {
+  hour: "numeric",
+  minute: "2-digit",
+};

@@ -21,9 +21,10 @@ function ProductsGrid(props) {
       .sort(function (p1, p2) {
         return parseInt(p1.productId) - parseInt(p2.productId);
       })
-      .map((product) => (
-        <Grid container justify={"center"} key={product.productId}>
+      .map((product, index) => (
+        <Grid container justify={"center"} key={index}>
           <ProductCard
+            withBar={index === 0}
             product={product}
             productDetailOpen={productDetailOpen}
             productDetailClose={productDetailClose}
@@ -37,8 +38,8 @@ function ProductsGrid(props) {
   }
 
   return (
-    <Box p={2}>
-      <Grid container direction="row" justify="space-around" spacing={2}>
+    <Box p={5}>
+      <Grid container direction="row" justify="center" spacing={3}>
         <Grid item xs={11} md={5} lg={3}>
           <CategoryCard title={"BLOWOUTS"} />
           {cardGenerator("Blowouts")}
