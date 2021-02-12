@@ -21,9 +21,10 @@ function ProductsGrid(props) {
       .sort(function (p1, p2) {
         return parseInt(p1.productId) - parseInt(p2.productId);
       })
-      .map((product) => (
-        <Grid container justify={"center"} key={product.productId}>
+      .map((product, index) => (
+        <Grid container justify={"center"} key={index}>
           <ProductCard
+            withBar={index === 0}
             product={product}
             productDetailOpen={productDetailOpen}
             productDetailClose={productDetailClose}
