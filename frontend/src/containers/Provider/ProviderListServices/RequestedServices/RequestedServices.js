@@ -8,6 +8,7 @@ import {
   SERVICE_STATUS,
   SERVICE_UPDATE_SOURCE,
 } from "../../../../constant/service";
+import { PATH_PROVIDER_LIST_SERVICES } from '../../../../constant/path'
 import ProviderListRequestCard from "../../../../components/ProviderListRequestCard/ProviderListRequestCard";
 
 function RequestedServices(props) {
@@ -18,6 +19,7 @@ function RequestedServices(props) {
     onFetchRequests,
     onAcceptRequest,
     onDeclineRequest,
+    onSetRedirectPath
     onUmount,
   } = props;
   const [deleted, setDeleted] = useState(requests.map(() => false));
@@ -29,6 +31,10 @@ function RequestedServices(props) {
   }, []);
 
   useEffect(() => setDeleted(requests.map(() => false)), [requests]);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_LIST_SERVICES);
+  }, [onSetRedirectPath]);
 
   const declineButtonClickedHandler = (index) => {
     setDeleted(deleted.map((e, i) => (i === index ? true : e)));
@@ -73,6 +79,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchRequests: (userId) =>
       dispatch(
         actions.fetchServices(PROVIDER_FETCH_SERVICES_TYPE.requests, userId)

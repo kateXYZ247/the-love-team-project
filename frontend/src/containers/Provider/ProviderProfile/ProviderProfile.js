@@ -4,6 +4,7 @@ import ProviderPhoto from "../../../components/ProviderProfile/ProviderPhoto";
 import { Box, Grid } from "@material-ui/core";
 import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
+import { PATH_PROVIDER_PROFILE } from '../../../constant/path'
 
 function ProviderProfile(props) {
   const {
@@ -16,11 +17,16 @@ function ProviderProfile(props) {
     providerProfile,
     onSwitch,
     avail,
+    onSetRedirectPath
   } = props;
 
   // useEffect(() => {
   //   providerProfile(userId);
   // }, [userId, providerProfile]);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_PROFILE);
+  }, [onSetRedirectPath]);
 
   function handleSwitch(availability) {
     onSwitch(userId, availability);
@@ -60,6 +66,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     // providerProfile: (userId) => dispatch(actions.providerProfile(userId)),
     onSwitch: (userId, availability) =>
       dispatch(actions.onSwitch(userId, availability)),

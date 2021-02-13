@@ -21,6 +21,7 @@ import BackdropProgressCircle from "../../../components/UI/BackdropProgressCircl
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../constant/provider";
 import MuiAlert from "@material-ui/lab/Alert";
 import ColorButton from "../../../components/UI/Buttons/ColorButton";
+import { PATH_PROVIDER_HISTORY } from '../../../constant/path'
 
 const useStyles = makeStyles({
   table: {
@@ -42,7 +43,7 @@ function Alert(props) {
 }
 
 function ProviderHistory(props) {
-  const { userId, loading, services, onFetchHistoryServices, onUmount } = props;
+  const { userId, loading, services, onFetchHistoryServices, onUmount, onSetRedirectPath } = props;
 
   const classes = useStyles();
 
@@ -51,6 +52,10 @@ function ProviderHistory(props) {
     return () => onUmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_HISTORY);
+  }, [onSetRedirectPath]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -125,6 +130,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchHistoryServices: (userId) =>
       dispatch(
         actions.fetchServices(
