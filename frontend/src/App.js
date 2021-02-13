@@ -212,22 +212,39 @@ function App(props) {
     } else if (role === AUTH_ROLE.provider) {
       routes = (
         <Switch>
-
           <LabeledRoute path={PATH_TEST}>
             <SampleContainer />
           </LabeledRoute>
+          <Route
+              path={PATH_PROVIDER_LOGIN}
+              exact
+              render={() => (
+                 <RouteComponent path={PATH_PROVIDER_LOGIN}>
+                     <Login loginType={AUTH_ROLE.provider} />
+                 </RouteComponent>
+              )}
+          />
           <Redirect to={PATH_PROVIDER_LOGIN} />
         </Switch>
       );
-    } else if (role === AUTH_ROLE.admin){
+    } else {
         routes = (
             <Switch>
-                <LabeledRoute path = {PATH_ADMIN_LOGIN} exact>
-                    <Login loginType={AUTH_ROLE.admin} />
+                <LabeledRoute path={PATH_TEST}>
+                    <SampleContainer />
                 </LabeledRoute>
-                <Redirect to={PATH_PROVIDER_LOGIN}/>
+                <Route
+                    path={PATH_ADMIN_LOGIN}
+                    exact
+                    render={() => (
+                        <RouteComponent path={PATH_ADMIN_LOGIN}>
+                            <Login loginType={AUTH_ROLE.admin} />
+                        </RouteComponent>
+                    )}
+                />
+                <Redirect to={PATH_ADMIN_LOGIN}/>
             </Switch>
-        )
+        );
     }
   }
 
