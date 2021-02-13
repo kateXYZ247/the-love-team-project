@@ -10,12 +10,21 @@ import {
   FETCH_ORDERS_TYPE,
 } from "../../constant/order";
 
+
+const setInitialDate = (date) => {
+  const initialDate = date.toString();
+  const time = "12:00:00 GMT-0600 (北美中部标准时间)";
+  return initialDate.substr(0,16).concat(time);
+}
+
+
+
 const initialState = {
   error: false,
   loading: false,
   status: ORDER_STATUS.ADD_TO_CART,
   order: {
-    startTime: new Date(),
+    startTime: setInitialDate(new Date()),
     address: "",
     apartment: "",
     pets: "",
@@ -30,6 +39,8 @@ const initialState = {
   orderHistory: [],
   upcomingOrders: [],
 };
+
+
 
 const fetchOrdersStart = (state, action) => {
   return updateObject(state, { loading: true });

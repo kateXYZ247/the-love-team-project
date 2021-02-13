@@ -6,6 +6,7 @@ import { Box } from "@material-ui/core";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
 
+
 function OrderInfo(props) {
   const {
     oldOrderDate,
@@ -21,6 +22,10 @@ function OrderInfo(props) {
     onAppointmentModalOpen,
     onSetBackStatus,
     onResetStatus,
+    validAddress,
+    checkAddress,
+    fetchCurAddress,
+    setValidAddress,
   } = props;
 
   const [date, setDate] = useState(oldOrderDate);
@@ -33,11 +38,15 @@ function OrderInfo(props) {
   const [addressType, setAddressType] = useState(oldAddressType);
 
   const dateChangedHandler = (updatedDate) => {
+    console.log(date);
     setDate(updatedDate);
   };
 
   const addressChangedHandler = (updatedAddress) => {
+
+    fetchCurAddress(updatedAddress);
     setAddress(updatedAddress);
+    setValidAddress("");
   };
 
   const latitudeLongitudeChangedHandler = (lat, lng) => {
@@ -98,6 +107,8 @@ function OrderInfo(props) {
           onDirectionChange={directionChangedHandler}
           addressType={addressType}
           onAddressTypeChange={addressTypeChangedHandler}
+          validAddress={validAddress}
+          checkAddress={checkAddress}
         />
       </Box>
       <BottomAction
