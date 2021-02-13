@@ -23,10 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -171,24 +170,29 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         StringBuilder sb = new StringBuilder();
         User user = userRepository.findUserByID(orderRequest.getUserId());
         List<Long> servIdList = new ArrayList<>();
-        ;
         for (Serv serv : orderRequest.getServs()) {
             servIdList.add(serv.getProductId());
         }
         List<Product> products = productRepository.findByProductIds(servIdList);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat printFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
-        sb.append("Dear " + user.getLastName() +
-                ",\n\nYou placed an new order: \n\n\n");
-        for (Product product : products) {
-            sb.append(product.getProductName() + "\n");
-        }
-        sb.append("\n\nTotal Price: $" + String.format("%.2f", orderRequest.getTotalPrice()));
-        sb.append("\n\nAppointment Time: " + orderRequest.getServs().get(0).getStartTime());
-        sb.append("\n\nAddress: " + orderRequest.getServs().get(0).getAddress());
-        sb.append("\n\n\nThank you very much! \n\n\n\n -The Love Team");
-        String body = sb.toString();
-
-        sendEmailService.sendEmail(user.getEmail(), body, "The Love Team: New Order");
-        twilioService.sendSms(user.getPhone(), body);
+        try {
+            sb.append("Dear " + user.getLastName() +
+                    ",\n\nYou placed an new order: \n\n\n");
+            for (Product product : products) {
+                sb.append(product.getProductName() + "\n");
+            }
+            sb.append("\n\nTotal Price: $" + String.format("%.2f", orderRequest.getTotalPrice()));
+            Date startTime = formatter.parse(orderRequest.getServs().get(0).getStartTime());
+            sb.append("\n\nAppointment Time: " + printFormatter.format(startTime));
+            sb.append("\n\nAddress: " + orderRequest.getServs().get(0).getAddress());
+            sb.append("\n\n\nThank you very much! \n\n\n\n -The Love Team");
+            String body = sb.toString();
+            sendEmailService.sendEmail(user.getEmail(), body, "The Love Team: New Order");
+            twilioService.sendSms(user.getPhone(), body);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        };
     }
 }
