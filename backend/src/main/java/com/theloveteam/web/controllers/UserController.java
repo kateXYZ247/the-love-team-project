@@ -12,16 +12,11 @@ import com.theloveteam.web.services.UserService;
 import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -69,17 +64,20 @@ public class UserController {
         // if there isn't any error, save data and give success message
         userService.registerAccount(registerRequestBody);
         responseBody.setSuccessMessage("Congrats! You've successfully completed your registration.");
-        sendEmailandSmsAfterNewUser(registerRequestBody);
+        try {
+            sendEmailAndSmsAfterNewUser(registerRequestBody);
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
         return ResponseEntity.ok(responseBody);
     }
 
-    private void sendEmailandSmsAfterNewUser(RegisterRequestBody registerRequestBody) {
+    private void sendEmailAndSmsAfterNewUser(RegisterRequestBody registerRequestBody) {
         String body = "Dear " + registerRequestBody.getLastName() +
                 ",\n\n Congrats! You've successfully completed your registration. \n\n" +
                 "Welcome to The Love Team.";
-//        sendEmailService.sendEmail(registerRequestBody.getEmail(), body, "Welcome to The Love Team");
-//        twilioService.sendSms(registerRequestBody.getPhone(), body);
-        sendEmailService.sendEmail("jediwjr@gmail.com", body, "Welcome to The Love Team");
-        twilioService.sendSms("8122293609", body);
+        sendEmailService.sendEmail(registerRequestBody.getEmail(), body, "Welcome to The Love Team");
+        twilioService.sendSms(registerRequestBody.getPhone(), body);
     }
 }

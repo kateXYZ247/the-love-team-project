@@ -102,7 +102,6 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 }
             } catch (HttpClientErrorException e) {
                 // TODO: handle error correctly instead of print
-                System.out.println(e);
             }
 
             servService.createService(serv);
@@ -110,7 +109,12 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             pushNotificationToProviders(serv, providerIds);
         }
 
-        sendEmailAndSmsAfterNewOrder(orderRequest);
+
+        try {
+            sendEmailAndSmsAfterNewOrder(orderRequest);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         return "Order is Successfully Placed!";
     }

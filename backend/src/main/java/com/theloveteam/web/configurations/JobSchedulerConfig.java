@@ -13,7 +13,7 @@ public class JobSchedulerConfig {
     SendEmailAndSmsUpcomingOrderService sendEmailAndSmsUpcomingOrderService;
 
 //    @Scheduled(fixedDelay = 600000L)  //6 hours
-//    public void SendEmailAndSmsUpcomingOrderJob() {
-//        sendEmailAndSmsUpcomingOrderService.start();
-//    }
+    public void SendEmailAndSmsUpcomingOrderJob() {
+        sendEmailAndSmsUpcomingOrderService.start();
+    }
 }

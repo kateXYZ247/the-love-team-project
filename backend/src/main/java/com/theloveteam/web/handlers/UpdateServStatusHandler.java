@@ -79,7 +79,13 @@ public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRe
                 || (status.equals(ServiceStatus.ended.name()) && currentStatus.equals(ServiceStatus.started.name()))) {
             //CASE 3: started/ended -> only update status
             serviceRepository.updateServStatusByServId(serviceId, status);
-            sendEmailAndSmsAfterUpdateServiceStatus(updateServRequestBody, service);
+            try {
+                sendEmailAndSmsAfterUpdateServiceStatus(updateServRequestBody, service);
+            } catch (Exception e) {
+                //  TODO
+                System.out.println(e);
+            }
+
             return UpdateServResponseBody.builder().response("Update Success!").build();
         } else {
             throw new UnknownRequestException();
