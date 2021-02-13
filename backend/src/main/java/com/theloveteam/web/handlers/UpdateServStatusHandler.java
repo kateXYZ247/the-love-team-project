@@ -10,8 +10,12 @@ import com.theloveteam.web.exceptions.UnknownRequestException;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.ServiceStatus;
 import com.theloveteam.web.model.TokenSubject;
+<<<<<<< HEAD
 import com.theloveteam.web.repositories.ProductRepository;
 import com.theloveteam.web.repositories.ProviderRepository;
+=======
+import com.theloveteam.web.repositories.OrderRepository;
+>>>>>>> develop
 import com.theloveteam.web.repositories.ServiceRepository;
 import com.theloveteam.web.services.SendEmailService;
 import com.theloveteam.web.services.TwilioService;
@@ -19,11 +23,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @Component
 public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRequestBody, UpdateServResponseBody> {
 
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
     @Autowired
     ProviderRepository providerRepository;
@@ -77,7 +87,7 @@ public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRe
             return UpdateServResponseBody.builder().response("Update Success!").build();
         } else if ((status.equals(ServiceStatus.started.name()) && currentStatus.equals(ServiceStatus.accepted.name()))
                 || (status.equals(ServiceStatus.ended.name()) && currentStatus.equals(ServiceStatus.started.name()))) {
-            //CASE 3: started/ended -> only update status
+            //CASE 3: started/ended-> only update status
             serviceRepository.updateServStatusByServId(serviceId, status);
             try {
                 sendEmailAndSmsAfterUpdateServiceStatus(updateServRequestBody, service);
@@ -95,6 +105,7 @@ public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRe
         //User Service Interaction
     }
 
+<<<<<<< HEAD
     private void sendEmailAndSmsAfterUpdateServiceStatus(UpdateServRequestBody updateServRequestBody, Serv service) {
         StringBuilder sb = new StringBuilder();
         Product product = productRepository.findByProductId(service.getProductId());
@@ -110,5 +121,39 @@ public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRe
 
         sendEmailService.sendEmail(provider.getEmail(), body, "The Love Team: " + updateServRequestBody.getStatus() + " a Service");
         twilioService.sendSms(provider.getPhone(), body);
+=======
+    @Override
+    protected void validatePermissionAndResponseAfterProcess(UpdateServRequestBody updateServRequestBody,
+                                                             UpdateServResponseBody updateServResponseBody) {
+        Long serviceId = Long.parseLong(updateServRequestBody.getServiceId());
+        Serv service = serviceRepository.getServiceByServiceId(serviceId);
+        Long orderId = service.getOrderId();
+        String status = updateServRequestBody.getStatus();
+        List<Serv> servList = serviceRepository.getServiceByOrderId(orderId);
+        //Update order status, if all services ended
+        if (status.equals(ServiceStatus.ended.name())) {
+            //check other service in same order
+            List<Long> endedServiceIds = servList.stream()
+                    .filter(Objects::nonNull)
+                    .filter(serv -> ServiceStatus.ended.name().equals(serv.getStatus()))
+                    .map(Serv::getServiceId)
+                    .collect(Collectors.toList());
+            if(endedServiceIds.size() == servList.size()) {
+                orderRepository.updateStatusByOrderId(orderId, ServiceStatus.finished.name());
+            }
+        }
+        //Update order status, if all services accepted
+        if (status.equals(ServiceStatus.accepted.name())) {
+            //check other service in same order
+            List<Long> endedServiceIds = servList.stream()
+                    .filter(Objects::nonNull)
+                    .filter(serv -> ServiceStatus.accepted.name().equals(serv.getStatus()))
+                    .map(Serv::getServiceId)
+                    .collect(Collectors.toList());
+            if(endedServiceIds.size() == servList.size()) {
+                orderRepository.updateStatusByOrderId(orderId, ServiceStatus.accepted.name());
+            }
+        }
+>>>>>>> develop
     }
 }

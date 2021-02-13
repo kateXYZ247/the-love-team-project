@@ -4,14 +4,25 @@ package com.theloveteam.web.handlers;
 import com.theloveteam.web.constants.UrlConstants;
 import ch.hsr.geohash.GeoHash;
 import com.theloveteam.web.dao.*;
+<<<<<<< HEAD
+=======
+import com.theloveteam.web.exceptions.ProviderNotFoundException;
+>>>>>>> develop
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
+<<<<<<< HEAD
 import com.theloveteam.web.repositories.ProductRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
 import com.theloveteam.web.repositories.UserRepository;
 import com.theloveteam.web.services.*;
+=======
+import com.theloveteam.web.repositories.ProviderRepository;
+import com.theloveteam.web.services.OrderService;
+import com.theloveteam.web.services.ProviderService;
+import com.theloveteam.web.services.ServService;
+>>>>>>> develop
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +31,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, String> {
@@ -40,6 +54,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
     private GeoClient geoClient;
 
     @Autowired
+<<<<<<< HEAD
     private UserRepository userRepository;
 
     @Autowired
@@ -53,6 +68,9 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
 
     @Autowired
     private TwilioService twilioService;
+=======
+    private ProviderRepository providerRepository;
+>>>>>>> develop
 
     @Override
     protected String processRequest(OrderRequest orderRequest) {
@@ -133,10 +151,26 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         if (providerIds == null || providerIds.size() == 0) {
             return;
         }
-        serv = servService.removeAddressInfo(serv);
+        String validGeo = serv.getGeohash().substring(0, 3);
+        //match provider supported products
         List<Long> validProviderIds = providerService.getProviderIdsByProductId(serv.getProductId(), providerIds);
-        System.out.println("available providers: " + serv.getProductId().toString() + ", " + validProviderIds.toString());
-        for (Long providerId : validProviderIds) {
+        //match provider geoHash
+        List<Provider> providerList = validProviderIds.stream()
+                .filter(Objects::nonNull)
+                .map(id -> providerRepository.findProviderByID(id).orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        List<Provider> supportedProviderList = providerList.stream()
+                .filter(provider -> provider.getGeohash() != null)
+                .filter(provider -> provider.getGeohash().substring(0, 3).equals(validGeo))
+                .collect(Collectors.toList());
+        List<Long> supportedProviderIds = supportedProviderList.stream()
+                .map(Provider::getProviderId)
+                .collect(Collectors.toList());
+
+        System.out.println("available providers: " + serv.getProductId().toString() + ", " + supportedProviderIds.toString());
+        serv = servService.removeAddressInfo(serv);
+        for (Long providerId : supportedProviderIds) {
             simpMessagingTemplate.convertAndSendToUser(
                     Long.toString(providerId), UrlConstants.WS_REPLY, serv);
         }
