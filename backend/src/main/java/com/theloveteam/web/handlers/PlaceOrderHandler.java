@@ -3,23 +3,22 @@ package com.theloveteam.web.handlers;
 
 import com.theloveteam.web.constants.UrlConstants;
 import ch.hsr.geohash.GeoHash;
-import com.theloveteam.web.dao.GeoData;
-import com.theloveteam.web.dao.Order;
-import com.theloveteam.web.dao.OrderRequest;
-import com.theloveteam.web.dao.Serv;
+import com.theloveteam.web.dao.*;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
-import com.theloveteam.web.services.OrderService;
-import com.theloveteam.web.services.ProviderService;
-import com.theloveteam.web.services.ServService;
+import com.theloveteam.web.repositories.ProductRepository;
+import com.theloveteam.web.repositories.ServiceRepository;
+import com.theloveteam.web.repositories.UserRepository;
+import com.theloveteam.web.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -40,6 +39,21 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
     @Autowired
     private GeoClient geoClient;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    ServiceRepository serviceRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    private SendEmailService sendEmailService;
+
+    @Autowired
+    private TwilioService twilioService;
+
     @Override
     protected String processRequest(OrderRequest orderRequest) {
         Long userId = orderRequest.getUserId();
@@ -54,26 +68,26 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         System.out.println("provider Ids: " + providerIds.toString());
         for (int i = 0; i < orderRequest.getServs().size(); i++) {
             Serv serv = Serv.builder().orderId(orderId)
-                .userId(userId)
-                .startTime(orderRequest.getServs().get(i).getStartTime())
-                .endTime(orderRequest.getServs().get(i).getEndTime())
-                .productId(orderRequest.getServs().get(i).getProductId())
-                .productName(orderRequest.getServs().get(i).getProductName())
-                .productPrice(orderRequest.getServs().get(i).getProductPrice())
-                .address(orderRequest.getServs().get(i).getAddress())
-                .latitude(orderRequest.getServs().get(i).getLatitude())
-                .longitude(orderRequest.getServs().get(i).getLongitude())
-                .status("requested")
-                .apartment(orderRequest.getServs().get(i).getApartment())
-                .pets(orderRequest.getServs().get(i).getPets())
-                .direction(orderRequest.getServs().get(i).getDirection())
-                .addressType(orderRequest.getServs().get(i).getAddressType())
-                .build();
+                    .userId(userId)
+                    .startTime(orderRequest.getServs().get(i).getStartTime())
+                    .endTime(orderRequest.getServs().get(i).getEndTime())
+                    .productId(orderRequest.getServs().get(i).getProductId())
+                    .productName(orderRequest.getServs().get(i).getProductName())
+                    .productPrice(orderRequest.getServs().get(i).getProductPrice())
+                    .address(orderRequest.getServs().get(i).getAddress())
+                    .latitude(orderRequest.getServs().get(i).getLatitude())
+                    .longitude(orderRequest.getServs().get(i).getLongitude())
+                    .status("requested")
+                    .apartment(orderRequest.getServs().get(i).getApartment())
+                    .pets(orderRequest.getServs().get(i).getPets())
+                    .direction(orderRequest.getServs().get(i).getDirection())
+                    .addressType(orderRequest.getServs().get(i).getAddressType())
+                    .build();
 
             try {
                 if (serv.getLatitude() == null || serv.getLongitude() == null) {
                     GeoData geoData = geoClient.getGeoData(orderRequest.getServs().get(i).getAddress() + " united " +
-                        "states");
+                            "states");
                     if (geoData != null && geoData.getTotalResults() >= 1) {
                         Double lat = geoData.getResults().get(0).getGeometry().getLat();
                         Double lng = geoData.getResults().get(0).getGeometry().getLng();
@@ -83,7 +97,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
                 }
                 if (serv.getLatitude() != null && serv.getLongitude() != null) {
                     String geohash = GeoHash.geoHashStringWithCharacterPrecision(serv.getLatitude(),
-                        serv.getLongitude(), 12);
+                            serv.getLongitude(), 12);
                     serv.setGeohash(geohash);
                 }
             } catch (HttpClientErrorException e) {
@@ -96,15 +110,17 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             pushNotificationToProviders(serv, providerIds);
         }
 
+        sendEmailAndSmsAfterNewOrder(orderRequest);
+
         return "Order is Successfully Placed!";
     }
 
     @Override
     protected void validatePermissionBeforeProcess(OrderRequest orderRequest) {
         TokenSubject tokenSubject =
-            (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!Role.user.equals(tokenSubject.getRole())
-            || !tokenSubject.getUserId().equals(orderRequest.getUserId().toString())) {
+                || !tokenSubject.getUserId().equals(orderRequest.getUserId().toString())) {
             throw new RoleNotMatchException();
         }
     }
@@ -118,7 +134,32 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         System.out.println("available providers: " + serv.getProductId().toString() + ", " + validProviderIds.toString());
         for (Long providerId : validProviderIds) {
             simpMessagingTemplate.convertAndSendToUser(
-                Long.toString(providerId), UrlConstants.WS_REPLY, serv);
+                    Long.toString(providerId), UrlConstants.WS_REPLY, serv);
         }
+    }
+
+    private void sendEmailAndSmsAfterNewOrder(OrderRequest orderRequest) {
+        StringBuilder sb = new StringBuilder();
+        User user = userRepository.findUserByID(orderRequest.getUserId());
+        List<Long> servIdList = new ArrayList<>();
+        ;
+        for (Serv serv : orderRequest.getServs()) {
+            servIdList.add(serv.getProductId());
+        }
+        List<Product> products = productRepository.findByProductIds(servIdList);
+
+        sb.append("Dear " + user.getLastName() +
+                ",\n\nYou placed an new order: \n\n\n");
+        for (Product product : products) {
+            sb.append(product.getProductName() + "\n");
+        }
+        sb.append("\n\nTotal Price: $" + String.format("%.2f", orderRequest.getTotalPrice()));
+        sb.append("\n\nAppointment Time: " + orderRequest.getServs().get(0).getStartTime());
+        sb.append("\n\nAddress: " + orderRequest.getServs().get(0).getAddress());
+        sb.append("\n\n\nThank you very much! \n\n\n\n -The Love Team");
+        String body = sb.toString();
+
+        sendEmailService.sendEmail(user.getEmail(), body, "The Love Team: New Order");
+        twilioService.sendSms(user.getPhone(), body);
     }
 }
