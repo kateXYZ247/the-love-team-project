@@ -11,7 +11,7 @@ import { Redirect } from "react-router-dom";
 import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
 
 import {checkValidity} from "../../shared/utility";
-import AddressCard from "../../components/Order/AddressCard/AddressCard";
+
 
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 
@@ -50,24 +50,18 @@ function Order(props) {
   const [showAppointments, setShowAppointments] = useState(false);
 
   const [validAddress, setValidAddress] = useState("initial");
-  const [validApartment, setValidApartment] = useState("initial");
   const [curAddress, setCurAddress] = useState(oldAddress === "" ? "" : oldAddress);
-  const [curApartment, setCurApartment] = useState(oldApartment === "" ? "" : oldApartment);
+
 
   function fetchCurAddress(value) {
     setCurAddress(value);
   }
-  function fetchCurApartment(value) {
-    setCurApartment(value);
-  }
+
   function validateAddress(e) {
     const value = e.target.value;
     setValidAddress(checkValidity("address", value));
   }
-  function validateApartment(e) {
-    const value = e.target.value;
-    setValidApartment(checkValidity("address", value));
-  }
+
 
   const appointmentModalOpenedHandler = () => {
     setShowAppointments(true);
@@ -85,11 +79,10 @@ function Order(props) {
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
     onUpdateServiceInfo(date, addressObject);
-    if (isAuthenticated && curAddress && curApartment) {
+    if (isAuthenticated && curAddress) {
       onSwitchToPayment();
-    } else if (!curAddress || !curApartment) {
+    } else if (!curAddress) {
       curAddress === "" ? setValidAddress("null") : setValidAddress("");
-      curApartment === "" ? setValidApartment("null") : setValidApartment("");
     } else{
       props.history.push(PATH_LOGIN);
     }
@@ -124,12 +117,8 @@ function Order(props) {
           onResetStatus={onResetStatus}
           validAddress={validAddress}
           checkAddress={validateAddress}
-          validApartment={validApartment}
-          checkApartment={validateApartment}
           fetchCurAddress={fetchCurAddress}
-          fetchCurApartment={fetchCurApartment}
           setValidAddress={setValidAddress}
-          setValidApartment={setValidApartment}
         />
       );
       break;

@@ -10,18 +10,21 @@ import Divider from "../Divider/DividerText.js";
 import Button from "@material-ui/core/Button";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import CheckboxLabels from "../CheckBox/CheckBox.js";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, withStyles} from "@material-ui/core/styles";
 import { FormHelperText } from '@material-ui/core';
+import {blue} from "@material-ui/core/colors";
 
-const useStyles = makeStyles((theme) => ({
-  errorMessage: {
-    textAlign: "center",
-    color: "red",
+
+const ColorButtonDarkBlue = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(blue[900]),
+    backgroundColor: blue[900],
+    "&:hover": {
+      backgroundColor: blue[900],
+    },
   },
-}));
-
+}))(Button);
 function RegisterForm(props) {
-  // const classes = useStyles();
   const { user,
     handleChange,
     checkedBoxHandleChange,
@@ -151,11 +154,6 @@ function RegisterForm(props) {
                         fullWidth
                         variant="outlined"
                       />
-                      <div>
-                        {/*{submitted  &&*/}
-                        {/*<div>email already in use</div>*/}
-                        {/*}*/}
-                      </div>
                     </Grid>
 
                     <Grid item xs={2} sm={2}>
@@ -183,7 +181,7 @@ function RegisterForm(props) {
                             variant="outlined"
                           />
                           <div className={classes.password}>
-                            Password must be at least 6 characters long
+                            Password must be at least 3 characters long
                           </div>
 
                     </Grid>
@@ -199,7 +197,7 @@ function RegisterForm(props) {
                           id="confirmPassword"
                           label="Confirm your Password"
                           name="confirmPW"
-                          // defaultValue={user.password}
+                          defaultValue={user.password}
                           onChange={handleChange}
                           FormHelperTextProps={{
                             error: true,
@@ -216,14 +214,24 @@ function RegisterForm(props) {
                       <Divider spacing={1}>OR</Divider>
                     </Grid>
                     <Box textAlign="center">
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        className={classes.button}
-                        endIcon={<FacebookIcon color={"secondary"} />}
+                      {/*<Button*/}
+                      {/*  variant="contained"*/}
+                      {/*  // color="primary"*/}
+                      {/*  fullWidth*/}
+                      {/*  size="large"*/}
+                      {/*  className={classes.facebook}*/}
+                      {/*  endIcon={<FacebookIcon />}*/}
+                      {/*>*/}
+                      {/*  Continue with Facebook*/}
+                      {/*</Button>*/}
+                      <ColorButtonDarkBlue
+                          variant="contained"
+                          fullWidth
+                          size="large"
+                          endIcon={<FacebookIcon />}
                       >
                         Continue with Facebook
-                      </Button>
+                      </ColorButtonDarkBlue>
                     </Box>
                   </Grid>
                   <Box p={2} textAlign="center">

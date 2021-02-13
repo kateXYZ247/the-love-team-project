@@ -37,7 +37,7 @@ function DateTimePicker(props) {
                     margin="normal"
                     id="time-picker"
                     label="Pick Service Time"
-                    minutesStep={5}
+                    minutesStep={10}
                     value={date}
                     onChange={dateChangedHandler}
                     KeyboardButtonProps={{

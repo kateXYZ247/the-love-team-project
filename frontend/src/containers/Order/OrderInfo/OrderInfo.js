@@ -5,7 +5,7 @@ import AddressCard from "../../../components/Order/AddressCard/AddressCard";
 import { Box } from "@material-ui/core";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
-import {checkValidity} from "../../../shared/utility";
+
 
 function OrderInfo(props) {
   const {
@@ -24,12 +24,8 @@ function OrderInfo(props) {
     onResetStatus,
     validAddress,
     checkAddress,
-    validApartment,
-    checkApartment,
     fetchCurAddress,
-    fetchCurApartment,
     setValidAddress,
-    setValidApartment,
   } = props;
 
   const [date, setDate] = useState(oldOrderDate);
@@ -59,9 +55,7 @@ function OrderInfo(props) {
   };
 
   const apartmentChangedHandler = (updatedApartment) => {
-    fetchCurApartment(updatedApartment);
     setApartment(updatedApartment);
-    setValidApartment("");
   };
 
   const petsChangedHandler = (updatedPets) => {
@@ -115,8 +109,6 @@ function OrderInfo(props) {
           onAddressTypeChange={addressTypeChangedHandler}
           validAddress={validAddress}
           checkAddress={checkAddress}
-          validApartment={validApartment}
-          checkApartment={checkApartment}
         />
       </Box>
       <BottomAction

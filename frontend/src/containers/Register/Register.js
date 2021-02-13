@@ -83,7 +83,8 @@ function Register(props) {
       !validLName &&
       !validPhone &&
       !validPW &&
-      !confirmPW
+      !confirmPW &&
+      user.isAgree
     ) {
       onRegister(user);
     } else {

@@ -30,8 +30,6 @@ function AddressCard(props) {
     onAddressTypeChange,
     validAddress,
     checkAddress,
-    validApartment,
-    checkApartment,
   } = props;
   return (
     <Grid container justify="center">
@@ -43,25 +41,12 @@ function AddressCard(props) {
               <Box p={3}>
                 <Grid container justify="space-around" spacing={3}>
                   <Grid item xs={12}>
-
-                    <TextField
-                      id="main-address"
-                      label="Your Full Address"
-                      defaultValue={address}
-                      onChange={(event) => onAddressChange(event.target.value)}
-                      FormHelperTextProps={{
-                        error: true,
-                      }}
-                      onBlur={checkAddress}
-                      helperText={validAddress === "null" ? 'Address is required' : ''}
-                      fullWidth
-                      variant="outlined"
-
                     <AddressInput
                       initAddress={address}
                       onAddressChange={onAddressChange}
+                      validAddress={validAddress}
+                      checkAddress={checkAddress}
                       onLatLngChange={onLatLngChange}
-
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -72,11 +57,6 @@ function AddressCard(props) {
                       onChange={(event) =>
                         onApartmentChange(event.target.value)
                       }
-                      FormHelperTextProps={{
-                        error: true,
-                      }}
-                      onBlur={checkApartment}
-                      helperText={validApartment === "null" ? 'Apartment is required' : ''}
                       fullWidth
                       variant="outlined"
                     />
