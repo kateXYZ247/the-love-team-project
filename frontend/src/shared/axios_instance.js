@@ -2,12 +2,7 @@ import axios from "axios";
 import {LOCAL_STORAGE_TOKEN_KEY} from "../constant/auth";
 import jwtDecode from 'jwt-decode';
 import store from '../index';
-import { AUTH_LOGOUT } from '../store/actions/actionTypes';
-import {logoutAndMessage} from '../store/actions'
-import * as actions from '../store/actions'
 import {logout} from '../store/actions/auth'
-import {setMessage} from '../store/actions/message'
-import {MESSAGE_TYPE} from '../constant/message'
 
 
 const instance = axios.create({
