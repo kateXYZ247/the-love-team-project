@@ -26,11 +26,11 @@ function ProviderPhoto(props) {
   };
   const classes = useStyles();
   return (
-    <Grid container justify={"space-around"}>
-      <Grid item xs={4}>
+    <Grid container justify="center">
+      <Grid item xs={12} container justify="center">
         <Avatar alt="Cindy Baker" src={photo} className={classes.large} />
       </Grid>
-      <Grid item xs={6} className={classes.approve}>
+      <Grid item xs={12} className={classes.approve}>
         <Box minWidth={"250px"} align={"center"}>
           <Box mt={3}>
             <Chip

@@ -11,14 +11,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetUserDetailHandler extends AbstractRequestHandler<String, User>{
+public class GetUserDetailHandler extends AbstractRequestHandler<String, User> {
 
     @Autowired
     private UserService userService;
 
     @Override
     protected void validatePermissionBeforeProcess(String userId) {
-        TokenSubject tokenSubject = (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TokenSubject tokenSubject =
+            (TokenSubject) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (Role.admin.equals(tokenSubject.getRole())) {
             // admins have permission to view all users' detail

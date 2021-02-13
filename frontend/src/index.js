@@ -8,6 +8,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
+import routeReducer from "./store/reducers/route";
 import authReducer from "./store/reducers/auth";
 import productsReducer from "./store/reducers/products";
 import orderReducer from "./store/reducers/order";
@@ -15,7 +16,9 @@ import registerReducer from "./store/reducers/register";
 import providerReducer from "./store/reducers/provider";
 import messageReducer from "./store/reducers/message";
 import providerProfileReducer from "./store/reducers/providerProfile";
+import adminReducer from "./store/reducers/admin";
 import { BrowserRouter } from "react-router-dom";
+
 
 const theme = createMuiTheme({
   palette: {
@@ -24,6 +27,11 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: "#A0D2E8",
+    },
+  },
+  typography: {
+    button: {
+      textTransform: "none",
     },
   },
 });
@@ -40,14 +48,15 @@ const rootReducer = combineReducers({
   register: registerReducer,
   provider: providerReducer,
   message: messageReducer,
-
   providerProfile: providerProfileReducer,
+  admin: adminReducer,
 });
 
 const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+export default store;
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

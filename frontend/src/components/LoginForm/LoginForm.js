@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, TextField } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function LoginForm(props) {
   const {
@@ -12,6 +13,10 @@ function LoginForm(props) {
     setPassword,
     keepSignedIn,
     setKeepSignedIn,
+    validUsername,
+    checkUsername,
+    validPW,
+    checkPW,
   } = props;
   return (
     <form noValidate autoComplete="off" onSubmit={onSubmit}>
@@ -26,17 +31,24 @@ function LoginForm(props) {
           >
             Login
           </Box>
-          <Box p={2} height="40px">
+          <Box p={3} height="40px">
             <TextField
               id="userName"
               label="UserName"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              FormHelperTextProps={{
+                error: true,
+              }}
+              onBlur={checkUsername}
+              helperText={validUsername === "invalid" ? 'please enter a valid userName' :
+                  validUsername === "null" ? 'userName is required' : ''
+              }
               fullWidth
               variant="outlined"
             />
           </Box>
-          <Box p={2} height="40px">
+          <Box p={3} height="40px">
             <TextField
               id="Password"
               label="Password"
@@ -44,6 +56,13 @@ function LoginForm(props) {
               autoComplete="on"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              FormHelperTextProps={{
+                error: true,
+              }}
+              onBlur={checkPW}
+              helperText={validPW === "invalid" ? 'please enter a valid password' :
+                  validPW === "null" ? 'password is required' : ''
+              }
               fullWidth
               variant="outlined"
             />
@@ -61,15 +80,15 @@ function LoginForm(props) {
             />
           </Box>
           <Box p={2} height="30px">
-            <Button
+            <ColorButton
               variant="contained"
-              color="primary"
               type="submit"
               fullWidth
               size="large"
+              color="primary"
             >
               LOG IN
-            </Button>
+            </ColorButton>
           </Box>
         </Grid>
       </Grid>

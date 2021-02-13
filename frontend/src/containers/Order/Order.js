@@ -10,8 +10,14 @@ import Products from "./Products/Products";
 import { Redirect } from "react-router-dom";
 import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
 
+import {checkValidity} from "../../shared/utility";
+
+
+import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
+
+
 function Order(props) {
-  const { order, orderStatus, isAuthenticated, userId } = props;
+  const { loading, order, orderStatus, isAuthenticated, userId } = props;
   const {
     onSetRedirectPath,
     onUpdateServiceInfo,
@@ -23,6 +29,7 @@ function Order(props) {
     onSetBackStatus,
     onResetStatus,
     onUpdateCart,
+    onClearCart,
   } = props;
 
   // set redirect path to <Order>
@@ -34,11 +41,27 @@ function Order(props) {
   const orderServicesCount = order.services.length;
   const oldOrderDate = order.startTime;
   const oldAddress = order.address;
+  const oldLatitude = order.latitude;
+  const oldLongitude = order.longitude;
   const oldApartment = order.apartment;
   const oldPets = order.pets;
   const oldDirection = order.direction;
   const oldAddressType = order.addressType;
   const [showAppointments, setShowAppointments] = useState(false);
+
+  const [validAddress, setValidAddress] = useState("initial");
+  const [curAddress, setCurAddress] = useState(oldAddress === "" ? "" : oldAddress);
+
+
+  function fetchCurAddress(value) {
+    setCurAddress(value);
+  }
+
+  function validateAddress(e) {
+    const value = e.target.value;
+    setValidAddress(checkValidity("address", value));
+  }
+
 
   const appointmentModalOpenedHandler = () => {
     setShowAppointments(true);
@@ -56,15 +79,22 @@ function Order(props) {
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
     onUpdateServiceInfo(date, addressObject);
-    if (isAuthenticated) {
+    if (isAuthenticated && curAddress) {
       onSwitchToPayment();
-    } else {
+    } else if (!curAddress) {
+      curAddress === "" ? setValidAddress("null") : setValidAddress("");
+    } else{
       props.history.push(PATH_LOGIN);
     }
   };
 
   const orderPlacedHandler = () => {
     onPlaceOrder(order, userId);
+  };
+
+  const leftConfirmationPageHandler = () => {
+    onClearCart();
+    onResetStatus();
   };
 
   let content;
@@ -74,6 +104,8 @@ function Order(props) {
         <OrderInfo
           oldOrderDate={oldOrderDate}
           oldAddress={oldAddress}
+          oldLatitude={oldLatitude}
+          oldLongitude={oldLongitude}
           oldApartment={oldApartment}
           oldPets={oldPets}
           oldDirection={oldDirection}
@@ -83,6 +115,10 @@ function Order(props) {
           onAppointmentModalOpen={appointmentModalOpenedHandler}
           onSetBackStatus={onSetBackStatus}
           onResetStatus={onResetStatus}
+          validAddress={validAddress}
+          checkAddress={validateAddress}
+          fetchCurAddress={fetchCurAddress}
+          setValidAddress={setValidAddress}
         />
       );
       break;
@@ -105,7 +141,10 @@ function Order(props) {
       break;
     case ORDER_STATUS.CONFIRMED:
       content = (
-        <OrderConfirmation orderTime={oldOrderDate} onUnmount={onResetStatus} />
+        <OrderConfirmation
+          order={order}
+          onUnmount={leftConfirmationPageHandler}
+        />
       );
       break;
     case ORDER_STATUS.ADD_TO_CART:
@@ -123,6 +162,7 @@ function Order(props) {
 
   return (
     <React.Fragment>
+      <BackdropProgressCircle open={loading} />
       <AppointmentsModal
         open={showAppointments}
         onAddServices={newServicesClickedHandler}
@@ -141,6 +181,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.token !== null,
     orderStatus: state.order.status,
     order: state.order.order,
+    loading: state.order.loading,
   };
 };
 
@@ -160,6 +201,7 @@ const mapDispatchToProps = (dispatch) => {
     onAddToCart: (product) => dispatch(actions.addToCart(product)),
     onSetBackStatus: () => dispatch(actions.setBackStatus()),
     onResetStatus: () => dispatch(actions.resetStatus()),
+    onClearCart: () => dispatch(actions.clearCart()),
   };
 };
 

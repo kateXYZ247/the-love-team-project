@@ -14,13 +14,14 @@ import {
   TableRow,
   Typography,
   withStyles,
-  Button,
 } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import ProviderHistoryForm from "../../../components/ProviderHistoryForm/ProviderHistoryForm";
 import BackdropProgressCircle from "../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../constant/provider";
 import MuiAlert from "@material-ui/lab/Alert";
+import ColorButton from "../../../components/UI/Buttons/ColorButton";
+import { PATH_PROVIDER_HISTORY } from '../../../constant/path'
 
 const useStyles = makeStyles({
   table: {
@@ -42,13 +43,19 @@ function Alert(props) {
 }
 
 function ProviderHistory(props) {
-  const { userId, loading, services, onFetchHistoryServices } = props;
+  const { userId, loading, services, onFetchHistoryServices, onUmount, onSetRedirectPath } = props;
 
   const classes = useStyles();
 
   useEffect(() => {
     onFetchHistoryServices(userId);
-  }, [userId, onFetchHistoryServices]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_HISTORY);
+  }, [onSetRedirectPath]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -95,14 +102,14 @@ function ProviderHistory(props) {
         </Grid>
       </Grid>
       <Box p={5} height="30px" display="flex" justifyContent="flex-end">
-        <Button
+        <ColorButton
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={handleClick}
           size="large"
         >
           Request Payment
-        </Button>
+        </ColorButton>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success">
             Request Sent!
@@ -123,11 +130,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchHistoryServices: (userId) =>
       dispatch(
         actions.fetchServices(
           PROVIDER_FETCH_SERVICES_TYPE.historicalServices,
           userId
+        )
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedServices(
+          PROVIDER_FETCH_SERVICES_TYPE.historicalServices
         )
       ),
   };

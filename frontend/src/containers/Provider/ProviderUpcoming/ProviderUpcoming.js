@@ -7,19 +7,30 @@ import { Box, Typography } from "@material-ui/core";
 import ProviderUpcomingServiceCard from "../../../components/ProviderUpcomingServiceCard/ProviderUpcomingServiceCard";
 import Grid from "@material-ui/core/Grid";
 import { SERVICE_UPDATE_SOURCE } from "../../../constant/service";
+import { PATH_PROVIDER_UPCOMING_SERVICES } from '../../../constant/path'
 
 function ProviderUpcoming(props) {
   const {
     userId,
     loading,
     services,
+    providerLatitude,
+    providerLongitude,
     onFetchUpcomingServices,
     onUpdateServiceStatus,
+    onUmount,
+    onSetRedirectPath
   } = props;
 
   useEffect(() => {
     onFetchUpcomingServices(userId);
-  }, [userId, onFetchUpcomingServices]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_UPCOMING_SERVICES);
+  }, [onSetRedirectPath]);
 
   const contactHandler = (customerUserId) => {
     console.log(customerUserId);
@@ -33,11 +44,15 @@ function ProviderUpcoming(props) {
           Upcoming Services
         </Typography>
       </Box>
-      <Box p={3}>
-        <Grid container spacing={2} justify="space-around">
+      <Box p={5}>
+        <Grid container justify="center" spacing={5}>
           {services.map((service, index) => (
             <ProviderUpcomingServiceCard
               service={service}
+              providerLocation={{
+                latitude: providerLatitude,
+                longitude: providerLongitude,
+              }}
               key={index}
               onContact={() => contactHandler(service.userId)}
               onAction={(updatedStatus) =>
@@ -61,16 +76,25 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     loading: state.provider.loading,
     services: state.provider.services,
+    providerLatitude: state.auth.userDetail.latitude,
+    providerLongitude: state.auth.userDetail.longitude,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchUpcomingServices: (userId) =>
       dispatch(
         actions.fetchServices(
           PROVIDER_FETCH_SERVICES_TYPE.upcomingServices,
           userId
+        )
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedServices(
+          PROVIDER_FETCH_SERVICES_TYPE.upcomingServices
         )
       ),
     onUpdateServiceStatus: (

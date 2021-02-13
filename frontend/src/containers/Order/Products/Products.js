@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ProductDetail from "../../../components/Products/ProductDetail/ProductDetail";
 import ProductsGrid from "../../../components/Products/ProductsGrid/ProductsGrid";
+import Box from "@material-ui/core/Box";
 
 function Products(props) {
   const {
@@ -23,7 +24,7 @@ function Products(props) {
   } = props;
 
   const [showProductDetail, setShowProductDetail] = useState(false);
-  const [product, setProduct] = useState('');
+  const [product, setProduct] = useState("");
   const [clientsCounter, setClientCounter] = useState(1);
 
   const productDetailOpenedHandler = () => {
@@ -35,11 +36,11 @@ function Products(props) {
   };
 
   const clientCounterIncrementHandler = () => {
-    setClientCounter(clientsCounter + 1)
+    setClientCounter(clientsCounter + 1);
   };
 
   const clientCounterDecrementHandler = () => {
-    setClientCounter(clientsCounter - 1)
+    setClientCounter(clientsCounter - 1);
   };
 
   const nextButtonClickedHandler = () => {
@@ -50,48 +51,48 @@ function Products(props) {
     onFetchProducts();
   }, [onFetchProducts]);
 
-
-
   return loading ? (
     <ProgressCircle label={"Loading Product List ..."} />
   ) : (
-      <React.Fragment>
-        <Grid container justify="space-around" alignItems="center">
-          <Grid item xs={12} align="center">
+    <React.Fragment>
+      <Grid container justify="space-around" alignItems="center">
+        <Grid item xs={12} align="center">
+          <Box p={5}>
             <Typography variant="h5">
               Select one or multiple services to start booking
-          </Typography>
-          </Grid>
-          <Grid item>
-            <ProductsGrid
-              productList={productList}
-              onSetProduct={setProduct}
-              productDetailOpen={productDetailOpenedHandler}
-              productDetailClose={productDetailClosedHandler}
-              onUpdateCart={onUpdateCart}
-              orderServicesCount={orderServicesCount}
-              onAppointmentModalOpen={onAppointmentModalOpen}
-            />
-          </Grid>
+            </Typography>
+          </Box>
         </Grid>
-        <ProductDetail
-          open={showProductDetail}
-          handleClose={productDetailClosedHandler}
-          product={product}
-          clientsCounter={clientsCounter}
-          setClientCounter={setClientCounter}
-          clientCounterIncrement={clientCounterIncrementHandler}
-          clientCounterDecrement={clientCounterDecrementHandler}
-          addProductToCart={addProductToCart}
-        />
-        <BottomAction
-          buttonText={orderProductsPageButtonText}
-          numServices={orderServicesCount}
-          onEditCart={onAppointmentModalOpen}
-          onClickNext={nextButtonClickedHandler}
-        />
-      </React.Fragment>
-    );
+        <Grid item xs={12}>
+          <ProductsGrid
+            productList={productList}
+            onSetProduct={setProduct}
+            productDetailOpen={productDetailOpenedHandler}
+            productDetailClose={productDetailClosedHandler}
+            onUpdateCart={onUpdateCart}
+            orderServicesCount={orderServicesCount}
+            onAppointmentModalOpen={onAppointmentModalOpen}
+          />
+        </Grid>
+      </Grid>
+      <ProductDetail
+        open={showProductDetail}
+        handleClose={productDetailClosedHandler}
+        product={product}
+        clientsCounter={clientsCounter}
+        setClientCounter={setClientCounter}
+        clientCounterIncrement={clientCounterIncrementHandler}
+        clientCounterDecrement={clientCounterDecrementHandler}
+        addProductToCart={addProductToCart}
+      />
+      <BottomAction
+        buttonText={orderProductsPageButtonText}
+        numServices={orderServicesCount}
+        onEditCart={onAppointmentModalOpen}
+        onClickNext={nextButtonClickedHandler}
+      />
+    </React.Fragment>
+  );
 }
 
 const mapStateToProps = (state) => {
