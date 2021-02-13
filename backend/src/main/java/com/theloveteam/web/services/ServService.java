@@ -29,4 +29,9 @@ public class ServService {
         serv.setLongitude(serv.getLongitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
         return serv;
     }
+
+    public void randomizeProviderLocation(Serv serv) {
+        serv.setProviderLatitude(serv.getProviderLatitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
+        serv.setProviderLongitude(serv.getProviderLongitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
+    }
 }

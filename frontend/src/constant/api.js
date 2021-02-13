@@ -16,6 +16,7 @@ export const API_PARAMETER_PROVIDER_FETCH_REQUESTS = "&status=requested";
 export const API_PARAMETER_PROVIDER_FETCH_UPCOMING = "&status=upcoming";
 export const API_PATH_PROVIDER_ACCEPT_REQUEST = "/services/";
 export const API_PATH_PROVIDER_AVAILABILITY = "/availability";
+export const API_SUB_PATH_PROVIDER_LOCATION = "/location";
 
 export const WS_PATH_CONNECT = "/ws";
 export const WS_PATH_USER = "/user/";
