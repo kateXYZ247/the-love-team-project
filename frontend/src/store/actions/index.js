@@ -43,3 +43,7 @@ export {
   addPushedRequest,
   clearPushedRequest,
 } from "./provider";
+
+export {
+  fetchStatistics,
+} from "./admin";

@@ -5,72 +5,63 @@ import { Redirect } from "react-router-dom";
 import CustomerLoginForm from "../../components/CustomerLoginForm/CustomerLoginForm";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import ProviderLoginForm from "../../components/ProviderLogin/ProviderLoginForm";
+import AdminLoginForm from "../../components/AdminLogin/AdminLoginForm";
 import { AUTH_ROLE } from "../../constant/auth";
-import {checkValidity} from "../../shared/utility";
-import RegisterForm from "../../components/Register/RegisterForm/RegisterForm";
 
 function Login(props) {
   const { loading, onLogin, isAuthenticated, redirectPath, loginType } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
-  const [validUsername, setValidUsername] = useState("initial");
-  const [validPW, setValidPW] = useState("initial");
 
   const submittedHandler = (e) => {
     e.preventDefault();
-    if (!validUsername && !validPW ) {
-      onLogin(username, password, loginType);
-    } else {
-      setValidUsername(checkValidity("email", username));
-      setValidPW(checkValidity("password", password));
-    }
+    onLogin(username, password, loginType);
   };
 
-  function validateUsername(e) {
-    const value = e.target.value;
-    setValidUsername(checkValidity("email", value));
-  }
-  function validatePW(e) {
-    const value = e.target.value;
-    setValidPW(checkValidity("password", value));
-  }
+  let customerLoginForm = <CustomerLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+  />;
+
+  let providerLoginForm = <ProviderLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+  />;
+
+  let adminLoginForm = <AdminLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+  />
 
   return isAuthenticated ? (
     <Redirect to={redirectPath} />
   ) : (
-    <React.Fragment>
-      <BackdropProgressCircle open={loading} />
-      {loginType === AUTH_ROLE.user ? (
-        <CustomerLoginForm
-          onSubmit={submittedHandler}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          keepSignedIn={keepSignedIn}
-          setKeepSignedIn={setKeepSignedIn}
-          validUsername={validUsername}
-          checkUsername={validateUsername}
-          validPW={validPW}
-          checkPW={validatePW}
-        />
-      ) : (
-        <ProviderLoginForm
-          onSubmit={submittedHandler}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          keepSignedIn={keepSignedIn}
-          setKeepSignedIn={setKeepSignedIn}
-          validUsername={validUsername}
-          checkUsername={validateUsername}
-          validPW={validPW}
-          checkPW={validatePW}
-        />
-      )}
-    </React.Fragment>
+      <React.Fragment>
+        <BackdropProgressCircle open={loading} />
+        {
+          loginType === AUTH_ROLE.user ? customerLoginForm
+              :
+              loginType === AUTH_ROLE.provider ? providerLoginForm
+                  :
+                  adminLoginForm
+        }
+      </React.Fragment>
   );
 }
 
