@@ -23,6 +23,7 @@ public class UpdateAccountRequestBody {
     @NotBlank(message = "Your last name should not be empty")
     private String lastName;
 
+    @NotBlank(message = "Your address should not be empty")
     private String address;
 
     private String zip;

@@ -199,9 +199,10 @@ export const profileUpdateSuccess = (firstName, lastName, address, phone) => {
 };
 
 
-export const profileUpdateFail = () => {
+export const profileUpdateFail = (error) => {
   return {
     type: actionTypes.USER_PROFILE_UPDATE_STATUS.fail,
+    error: error,
   };
 };
 
@@ -223,15 +224,19 @@ export const profileUpdate = (userId, firstName, lastName, address, phone) => {
     })
         .then((response) => {
           console.log(response);
+          if (response.status !== 200) {
+            throw new Error("Profile Update Failed!")
+          }
           const { successMsg } = response.data;
           dispatch(profileUpdateSuccess(userId, firstName, lastName, address, phone));
           dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
         })
         .catch((error) => {
           console.log(error);
-          const { errorMsg } = error.data;
-          dispatch(profileUpdateFail());
-          dispatch(setMessage(MESSAGE_TYPE.error, errorMsg));
+          const { errors } = error.response.data;
+          console.log(errors);
+          dispatch(profileUpdateFail(error));
+          dispatch(setMessage(MESSAGE_TYPE.error, errors[0].message));
         });
   };
 };

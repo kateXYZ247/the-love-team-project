@@ -32,12 +32,12 @@ function UserProfile(props) {
 
     function handleUpdate(e) {
         e.preventDefault();
-        if (user.firstName &&
-            user.lastName &&
-            user.address &&
-            user.phone) {
+        // if (user.firstName &&
+        //     user.lastName &&
+        //     user.address &&
+        //     user.phone) {
             profileUpdate(userId, user.firstName, user.lastName, user.address, user.phone);
-        }
+        // }
     }
 
     return(

@@ -81,7 +81,7 @@ const clearStompClient = (state, action) => {
 };
 
 const profileUpdateStart = (state, action) => {
-  return updateObject(state, {});
+  return state;
 };
 
 
