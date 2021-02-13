@@ -6,9 +6,8 @@ import Products from "../../components/HomePage/Products/Products";
 import Box from "@material-ui/core/Box";
 
 function Home(props) {
-  // TODO: change to responsive design, optimize for mobile device
   return (
-    <Box p={5}>
+    <Box mx={5}>
       <Book />
       <Sauce />
       <Process />
