@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ProviderInfo from "../../../components/ProviderProfile/ProviderInfo";
 import ProviderPhoto from "../../../components/ProviderProfile/ProviderPhoto";
 import { Box, Grid } from "@material-ui/core";
@@ -13,7 +13,6 @@ function ProviderProfile(props) {
     phone,
     address,
     productName,
-    providerProfile,
     onSwitch,
     avail,
   } = props;

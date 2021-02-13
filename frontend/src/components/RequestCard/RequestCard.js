@@ -67,10 +67,13 @@ function RequestCard(props) {
                     lat: request.latitude,
                     lng: request.longitude,
                   }}
-                  circleCenter={{
-                    lat: request.latitude,
-                    lng: request.longitude,
-                  }}
+                  circleCenters={[
+                    {
+                      lat: request.latitude,
+                      lng: request.longitude,
+                      productName: request.productName,
+                    },
+                  ]}
                 />
               </Grid>
             </Grid>

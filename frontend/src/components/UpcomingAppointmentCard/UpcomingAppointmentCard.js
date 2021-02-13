@@ -5,6 +5,7 @@ import { Box } from "@material-ui/core";
 import { LOCAL_SHORT_TIME_OPTIONS } from "../../constant/constant";
 import {
   SERVICE_CANCELABLE_MIN_DAYS,
+  SERVICE_START_MIN_HOURS,
   SERVICE_STATUS,
 } from "../../constant/service";
 import { ORDER_STATUS } from "../../constant/order";
@@ -34,6 +35,17 @@ function UpcomingAppointmentCard(props) {
         </ColorButton>
       </Box>
     ) : null;
+
+  let providers = [];
+  if (startTime - currentTime < SERVICE_START_MIN_HOURS) {
+    providers = services
+      .filter((serv) => serv.status === SERVICE_STATUS.accepted)
+      .map((serv) => ({
+        productName: serv.productName,
+        lat: serv.providerLatitude,
+        lng: serv.providerLongitude,
+      }));
+  }
 
   return (
     <Grid item xs={12} md={8} lg={6} xl={4} container justify="center">
@@ -81,6 +93,7 @@ function UpcomingAppointmentCard(props) {
                         lng: services[0].longitude,
                       }}
                       markerTitle={services[0].address}
+                      circleCenters={providers}
                     />
                   }
                 </Grid>
