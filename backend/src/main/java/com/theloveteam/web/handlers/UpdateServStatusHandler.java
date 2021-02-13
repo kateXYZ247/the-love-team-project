@@ -109,7 +109,7 @@ public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRe
         StringBuilder sb = new StringBuilder();
         Product product = productRepository.findByProductId(service.getProductId());
         Provider provider = providerRepository.findProviderById(Long.parseLong(updateServRequestBody.getProviderId()));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat printFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         try {
             Date startTime = formatter.parse(service.getStartTime());

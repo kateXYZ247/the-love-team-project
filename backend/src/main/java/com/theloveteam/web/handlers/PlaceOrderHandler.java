@@ -174,7 +174,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             servIdList.add(serv.getProductId());
         }
         List<Product> products = productRepository.findByProductIds(servIdList);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat printFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
         try {

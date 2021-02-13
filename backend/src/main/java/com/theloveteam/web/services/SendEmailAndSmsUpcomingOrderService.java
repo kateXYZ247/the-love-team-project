@@ -42,7 +42,7 @@ public class SendEmailAndSmsUpcomingOrderService {
 
     public void start() {
         List<Order> Orders = orderRepository.gerAllUpcomingOrders();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date currentTime = new Date(System.currentTimeMillis());
         int BUFFER = 360;   // 6 hours
         for (Order order : Orders) {
