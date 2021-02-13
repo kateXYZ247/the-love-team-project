@@ -18,7 +18,7 @@ import ColorButton from "../UI/Buttons/ColorButton";
 function ProviderInfo(props) {
   const { firstName, lastName, phone, address, productName } = props;
   return (
-    <Box p={5}>
+    <Box p={2} mt={2}>
       <Grid container justify="center">
         <Grid className="form-group" item xs={12} lg={8}>
           <Card variant={"outlined"}>

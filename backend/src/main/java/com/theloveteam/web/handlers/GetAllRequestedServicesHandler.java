@@ -103,11 +103,12 @@ public class GetAllRequestedServicesHandler extends AbstractRequestHandler<Strin
         //final providerSupportedProductServs match provider's productIds, and match first 3 digit of provider's geoHash
         List<Serv> providerSupportedServs = servList.stream()
             .filter(serv -> providerSupportedProductIds.contains(serv.getProductId()))
-            .map(servService::removeAddressInfo)
             .filter(serv -> serv.getGeohash() != null)
             .filter(serv -> serv.getGeohash().substring(0, 3).equals(providerGeo))
+            .map(servService::removeAddressInfo)
             .collect(Collectors.toList());
-        System.out.println(providerSupportedServs);
+        System.out.println("servList " + servList);
+        System.out.println("providerSupportedServs" + providerSupportedServs);
         return new ServsResponseBody(providerSupportedServs);
     }
 }

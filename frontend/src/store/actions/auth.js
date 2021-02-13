@@ -7,6 +7,7 @@ import {
   API_PATH_PROVIDER_LOGIN,
   API_PATH_USER_DETAIL,
   API_PATH_USER_LOGIN,
+  API_SUB_PATH_PROVIDER_LOCATION,
   HTTP_STATUS_OK,
   WS_PATH_CONNECT,
   WS_PATH_PROVIDERS,
@@ -25,6 +26,59 @@ export const setRedirectPath = (path) => {
   return {
     type: actionTypes.AUTH_SET_REDIRECT_PATH,
     path: path,
+  };
+};
+
+const providerUpdateLocationStart = () => {
+  return {
+    type: actionTypes.PROVIDER_UPDATE_LOCATION.start,
+  };
+};
+
+const providerUpdateLocationSuccess = (latitude, longitude) => {
+  return {
+    type: actionTypes.PROVIDER_UPDATE_LOCATION.success,
+    latitude: latitude,
+    longitude: longitude,
+  };
+};
+
+const providerUpdateLocationFail = () => {
+  return {
+    type: actionTypes.PROVIDER_UPDATE_LOCATION.fail,
+  };
+};
+
+export const providerUpdateLocation = (providerId, latitude, longitude) => {
+  return (dispatch) => {
+    dispatch(providerUpdateLocationStart());
+    const data = {
+      providerId: providerId,
+      latitude: latitude,
+      longitude: longitude,
+    };
+    axios
+      .patch(
+        API_PATH_PROVIDER_DETAIL + providerId + API_SUB_PATH_PROVIDER_LOCATION,
+        data
+      )
+      .then((response) => {
+        if (response.status === HTTP_STATUS_OK) {
+          const { data } = response;
+          dispatch(
+            providerUpdateLocationSuccess(data.latitude, data.longitude)
+          );
+          dispatch(
+            setMessage(MESSAGE_TYPE.success, "Location Successfully Updated!")
+          );
+        } else {
+          throw new Error(response.statusText);
+        }
+      })
+      .catch((error) => {
+        dispatch(providerUpdateLocationFail());
+        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+      });
   };
 };
 
@@ -126,7 +180,7 @@ export const logoutAndMessage = () => {
   };
 };
 
-const logout = () => {
+export const logout = () => {
   return {
     type: actionTypes.AUTH_LOGOUT,
   };

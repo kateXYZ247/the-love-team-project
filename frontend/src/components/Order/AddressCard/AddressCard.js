@@ -9,7 +9,11 @@ import {
 } from "@material-ui/core";
 import CardTitle from "../../UI/CardTitle/CardTitle";
 import { addressTypes } from "../../../constant/order";
+
+import OrderInfo from "../../../containers/Order/OrderInfo/OrderInfo";
+
 import AddressInput from "../AddressInput/AddressInput";
+
 
 function AddressCard(props) {
   const {
@@ -24,6 +28,8 @@ function AddressCard(props) {
     onDirectionChange,
     addressType,
     onAddressTypeChange,
+    validAddress,
+    checkAddress,
   } = props;
   return (
     <Grid container justify="center">
@@ -38,6 +44,8 @@ function AddressCard(props) {
                     <AddressInput
                       initAddress={address}
                       onAddressChange={onAddressChange}
+                      validAddress={validAddress}
+                      checkAddress={checkAddress}
                       onLatLngChange={onLatLngChange}
                     />
                   </Grid>

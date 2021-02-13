@@ -65,7 +65,12 @@ function ProviderUpcomingServiceCard(props) {
     lng: service.longitude,
   };
   if (cancelable) {
-    map = <SmallGoogleMap center={center} circleCenter={center} />;
+    map = (
+      <SmallGoogleMap
+        center={center}
+        circleCenters={[{ ...center, productName: service.productName }]}
+      />
+    );
   } else if (service.status !== SERVICE_STATUS.started) {
     const destination = service.latitude + "," + service.longitude;
     const origin = providerLocation.latitude + "," + providerLocation.longitude;

@@ -4,7 +4,18 @@ import CardTitle from "../../UI/CardTitle/CardTitle";
 import Cards from "react-credit-cards";
 
 function CreditCardInfo(props) {
-  const { creditCard, onInputChange, onFocusChange } = props;
+  const { creditCard, onInputChange, onFocusChange,
+    // validCreditNumber,
+    // checkCreditNumber,
+    // validCreditName,
+    // checkCreditName,
+    // validCreditDate,
+    // checkCreditDate,
+    // validCreditCVC,
+    // checkCreditCVC,
+    validCreditInfo,
+    checkCreditInfo,
+  } = props;
 
   return (
     <Grid container justify="center">
@@ -39,6 +50,13 @@ function CreditCardInfo(props) {
                           defaultValue=""
                           onChange={onInputChange}
                           onFocus={onFocusChange}
+                          FormHelperTextProps={{
+                            error: true,
+                          }}
+                          onBlur={checkCreditInfo}
+                          helperText={validCreditInfo.number === "invalid" ? 'please enter a valid credit card' :
+                              validCreditInfo.number === "null" ? 'credit card is required' : ''
+                          }
                           fullWidth
                           variant="outlined"
                         />
@@ -52,6 +70,13 @@ function CreditCardInfo(props) {
                           defaultValue=""
                           onChange={onInputChange}
                           onFocus={onFocusChange}
+                          FormHelperTextProps={{
+                            error: true,
+                          }}
+                          onBlur={checkCreditInfo}
+                          helperText={validCreditInfo.name === "invalid" ? 'Please enter a valid card owner' :
+                              validCreditInfo.name === "null" ? 'Credit card owner is required' : ''
+                          }
                           fullWidth
                           variant="outlined"
                         />
@@ -66,6 +91,13 @@ function CreditCardInfo(props) {
                           defaultValue=""
                           onChange={onInputChange}
                           onFocus={onFocusChange}
+                          FormHelperTextProps={{
+                            error: true,
+                          }}
+                          onBlur={checkCreditInfo}
+                          helperText={validCreditInfo.expiry === "invalid" ? 'Please enter a valid expiration date' :
+                              validCreditInfo.expiry === "null" ? 'Expiration date is required' : ''
+                          }
                           fullWidth
                           variant="outlined"
                         />
@@ -80,6 +112,13 @@ function CreditCardInfo(props) {
                           defaultValue=""
                           onChange={onInputChange}
                           onFocus={onFocusChange}
+                          FormHelperTextProps={{
+                            error: true,
+                          }}
+                          onBlur={checkCreditInfo}
+                          helperText={validCreditInfo.cvc === "invalid" ? 'Please enter a valid CVC number' :
+                              validCreditInfo.cvc === "null" ? 'CVC number is required' : ''
+                          }
                           fullWidth
                           variant="outlined"
                         />

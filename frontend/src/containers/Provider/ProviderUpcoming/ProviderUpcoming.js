@@ -7,6 +7,7 @@ import { Box, Typography } from "@material-ui/core";
 import ProviderUpcomingServiceCard from "../../../components/ProviderUpcomingServiceCard/ProviderUpcomingServiceCard";
 import Grid from "@material-ui/core/Grid";
 import { SERVICE_UPDATE_SOURCE } from "../../../constant/service";
+import { PATH_PROVIDER_UPCOMING_SERVICES } from '../../../constant/path'
 
 function ProviderUpcoming(props) {
   const {
@@ -18,6 +19,7 @@ function ProviderUpcoming(props) {
     onFetchUpcomingServices,
     onUpdateServiceStatus,
     onUmount,
+    onSetRedirectPath
   } = props;
 
   useEffect(() => {
@@ -25,6 +27,10 @@ function ProviderUpcoming(props) {
     return () => onUmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_UPCOMING_SERVICES);
+  }, [onSetRedirectPath]);
 
   const contactHandler = (customerUserId) => {
     console.log(customerUserId);
@@ -77,6 +83,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchUpcomingServices: (userId) =>
       dispatch(
         actions.fetchServices(

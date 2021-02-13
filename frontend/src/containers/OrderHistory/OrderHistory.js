@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import OrderHistoryTableRow from "../../components/Order/OrderHistoryTableRow/OrderHistoryTableRow";
 import { FETCH_ORDERS_TYPE } from "../../constant/order";
+import { PATH_HISTORY } from '../../constant/path'
 
 const useStyles = makeStyles({
   table: {
@@ -33,7 +34,7 @@ const TableTitleCell = withStyles((theme) => ({
 }))(TableCell);
 
 function OrderHistory(props) {
-  const { userId, loading, onFetchOrders, orders, onUmount } = props;
+  const { userId, loading, onFetchOrders, orders, onUmount, onSetRedirectPath } = props;
 
   const classes = useStyles();
 
@@ -42,6 +43,9 @@ function OrderHistory(props) {
     return () => onUmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    onSetRedirectPath(PATH_HISTORY);
+  }, [onSetRedirectPath]);
 
   return loading ? (
     <ProgressCircle label={"Loading Order History ..."} />
@@ -86,6 +90,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchOrders: (userId) =>
       dispatch(actions.fetchOrders(FETCH_ORDERS_TYPE.historicalOrders, userId)),
     onUmount: () =>

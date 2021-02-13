@@ -22,11 +22,16 @@ public class ServService {
     public Serv removeAddressInfo(Serv serv) {
         serv.setAddress(null);
         serv.setAddressType(null);
-        serv.setGeohash(null);
+        //serv.setGeohash(null);
         serv.setApartment(null);
         serv.setDirection(null);
         serv.setLatitude(serv.getLatitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
         serv.setLongitude(serv.getLongitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
         return serv;
+    }
+
+    public void randomizeProviderLocation(Serv serv) {
+        serv.setProviderLatitude(serv.getProviderLatitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
+        serv.setProviderLongitude(serv.getProviderLongitude() + (rand.nextDouble() - 0.5) * ServConstants.GEO_LOCATION_OFFSET_AMPLITUDE);
     }
 }

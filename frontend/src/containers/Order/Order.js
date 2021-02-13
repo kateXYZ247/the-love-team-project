@@ -9,7 +9,12 @@ import OrderConfirmation from "../../components/Order/OrderConfirmation/OrderCon
 import Products from "./Products/Products";
 import { Redirect } from "react-router-dom";
 import { PATH_LOGIN, PATH_ORDER } from "../../constant/path";
+
+import {checkValidity} from "../../shared/utility";
+
+
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
+
 
 function Order(props) {
   const { loading, order, orderStatus, isAuthenticated, userId } = props;
@@ -44,6 +49,20 @@ function Order(props) {
   const oldAddressType = order.addressType;
   const [showAppointments, setShowAppointments] = useState(false);
 
+  const [validAddress, setValidAddress] = useState("initial");
+  const [curAddress, setCurAddress] = useState(oldAddress === "" ? "" : oldAddress);
+
+
+  function fetchCurAddress(value) {
+    setCurAddress(value);
+  }
+
+  function validateAddress(e) {
+    const value = e.target.value;
+    setValidAddress(checkValidity("address", value));
+  }
+
+
   const appointmentModalOpenedHandler = () => {
     setShowAppointments(true);
   };
@@ -60,9 +79,11 @@ function Order(props) {
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
     onUpdateServiceInfo(date, addressObject);
-    if (isAuthenticated) {
+    if (isAuthenticated && curAddress) {
       onSwitchToPayment();
-    } else {
+    } else if (!curAddress) {
+      curAddress === "" ? setValidAddress("null") : setValidAddress("");
+    } else{
       props.history.push(PATH_LOGIN);
     }
   };
@@ -94,6 +115,10 @@ function Order(props) {
           onAppointmentModalOpen={appointmentModalOpenedHandler}
           onSetBackStatus={onSetBackStatus}
           onResetStatus={onResetStatus}
+          validAddress={validAddress}
+          checkAddress={validateAddress}
+          fetchCurAddress={fetchCurAddress}
+          setValidAddress={setValidAddress}
         />
       );
       break;
