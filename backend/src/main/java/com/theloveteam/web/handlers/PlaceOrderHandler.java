@@ -4,25 +4,19 @@ package com.theloveteam.web.handlers;
 import com.theloveteam.web.constants.UrlConstants;
 import ch.hsr.geohash.GeoHash;
 import com.theloveteam.web.dao.*;
-<<<<<<< HEAD
-=======
 import com.theloveteam.web.exceptions.ProviderNotFoundException;
->>>>>>> develop
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
-<<<<<<< HEAD
 import com.theloveteam.web.repositories.ProductRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
 import com.theloveteam.web.repositories.UserRepository;
 import com.theloveteam.web.services.*;
-=======
 import com.theloveteam.web.repositories.ProviderRepository;
 import com.theloveteam.web.services.OrderService;
 import com.theloveteam.web.services.ProviderService;
 import com.theloveteam.web.services.ServService;
->>>>>>> develop
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,7 +48,6 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
     private GeoClient geoClient;
 
     @Autowired
-<<<<<<< HEAD
     private UserRepository userRepository;
 
     @Autowired
@@ -68,9 +61,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
 
     @Autowired
     private TwilioService twilioService;
-=======
     private ProviderRepository providerRepository;
->>>>>>> develop
 
     @Override
     protected String processRequest(OrderRequest orderRequest) {
