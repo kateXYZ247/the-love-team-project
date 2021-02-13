@@ -84,7 +84,7 @@ function Register(props) {
       !validPhone &&
       !validPW &&
       !confirmPW &&
-        user.isAgree
+       user.isAgree
     ) {
       onRegister(user);
     } else {

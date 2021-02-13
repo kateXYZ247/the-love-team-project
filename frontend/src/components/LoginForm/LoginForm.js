@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, TextField } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function LoginForm(props) {
   const {
@@ -79,15 +80,15 @@ function LoginForm(props) {
             />
           </Box>
           <Box p={2} height="30px">
-            <Button
+            <ColorButton
               variant="contained"
-              color="primary"
               type="submit"
               fullWidth
               size="large"
+              color="primary"
             >
               LOG IN
-            </Button>
+            </ColorButton>
           </Box>
         </Grid>
       </Grid>

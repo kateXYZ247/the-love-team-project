@@ -3,6 +3,7 @@ import BottomDivider from "../../UI/BottomDivider/BottomDivider";
 import { Badge, Box, Button, Grid } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import ColorButton from "../../UI/Buttons/ColorButton";
 
 function BottomAction(props) {
   const { numServices, onEditCart, buttonText, onClickNext } = props;
@@ -19,7 +20,7 @@ function BottomAction(props) {
               startIcon={
                 <Badge
                   badgeContent={numServices}
-                  color="primary"
+                  color="secondary"
                   anchorOrigin={{
                     vertical: "top",
                     horizontal: "left",
@@ -35,7 +36,7 @@ function BottomAction(props) {
         </Grid>
         <Grid item xs={10} md={5} align="center">
           <Box>
-            <Button
+            <ColorButton
               size="large"
               onClick={onClickNext}
               variant="contained"
@@ -43,7 +44,7 @@ function BottomAction(props) {
               endIcon={<ArrowForwardIcon />}
             >
               {buttonText}
-            </Button>
+            </ColorButton>
           </Box>
         </Grid>
       </Grid>

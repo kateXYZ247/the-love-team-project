@@ -5,12 +5,14 @@ import AddressCard from "../../../components/Order/AddressCard/AddressCard";
 import { Box } from "@material-ui/core";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
-import {checkValidity} from "../../../shared/utility";
+
 
 function OrderInfo(props) {
   const {
     oldOrderDate,
     oldAddress,
+    oldLatitude,
+    oldLongitude,
     oldApartment,
     oldPets,
     oldDirection,
@@ -22,16 +24,14 @@ function OrderInfo(props) {
     onResetStatus,
     validAddress,
     checkAddress,
-    validApartment,
-    checkApartment,
     fetchCurAddress,
-    fetchCurApartment,
     setValidAddress,
-    setValidApartment,
   } = props;
 
   const [date, setDate] = useState(oldOrderDate);
   const [address, setAddress] = useState(oldAddress);
+  const [latitude, setLatitude] = useState(oldLatitude);
+  const [longitude, setLongitude] = useState(oldLongitude);
   const [apartment, setApartment] = useState(oldApartment);
   const [pets, setPets] = useState(oldPets);
   const [direction, setDirection] = useState(oldDirection);
@@ -49,10 +49,13 @@ function OrderInfo(props) {
     setValidAddress("");
   };
 
+  const latitudeLongitudeChangedHandler = (lat, lng) => {
+    setLatitude(lat);
+    setLongitude(lng);
+  };
+
   const apartmentChangedHandler = (updatedApartment) => {
-    fetchCurApartment(updatedApartment);
     setApartment(updatedApartment);
-    setValidApartment("");
   };
 
   const petsChangedHandler = (updatedPets) => {
@@ -70,6 +73,8 @@ function OrderInfo(props) {
   const nextButtonClickedHandler = () => {
     const addressObject = {
       address: address,
+      latitude: latitude,
+      longitude: longitude,
       apartment: apartment,
       pets: pets,
       direction: direction,
@@ -93,6 +98,7 @@ function OrderInfo(props) {
         <AddressCard
           address={address}
           onAddressChange={addressChangedHandler}
+          onLatLngChange={latitudeLongitudeChangedHandler}
           apartment={apartment}
           onApartmentChange={apartmentChangedHandler}
           pets={pets}
@@ -103,8 +109,6 @@ function OrderInfo(props) {
           onAddressTypeChange={addressTypeChangedHandler}
           validAddress={validAddress}
           checkAddress={checkAddress}
-          validApartment={validApartment}
-          checkApartment={checkApartment}
         />
       </Box>
       <BottomAction
