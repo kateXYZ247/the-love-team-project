@@ -4,6 +4,7 @@ import ProviderPhoto from "../../../components/ProviderProfile/ProviderPhoto";
 import { Box, Grid } from "@material-ui/core";
 import * as actions from "../../../store/actions";
 import { connect } from "react-redux";
+import ProviderLocationMap from "../../../components/ProviderLocationMap/ProviderLocationMap";
 
 function ProviderProfile(props) {
   const {
@@ -15,24 +16,37 @@ function ProviderProfile(props) {
     productName,
     onSwitch,
     avail,
+    latitude,
+    longitude,
+    onLocationUpdate,
   } = props;
-
-  // useEffect(() => {
-  //   providerProfile(userId);
-  // }, [userId, providerProfile]);
 
   function handleSwitch(availability) {
     onSwitch(userId, availability);
   }
 
-  return (
-    <React.Fragment>
-      <Grid container justify="center">
-        <Box display="flex" mt={3} align="flex-start">
-          <ProviderPhoto avail={avail} handleSwitch={handleSwitch} />
-        </Box>
+  const locationUpdatedHandler = (latitude, longitude) => {
+    onLocationUpdate(userId, latitude, longitude);
+  };
 
-        <Box mt={3}>
+  return (
+    <Box mx={5}>
+      <Grid container justify="center" alignItems="center">
+        <Grid item container justify="center" spacing={5} alignItems="center">
+          <Grid item xs={12} md={3}>
+            <Box display="flex" p={2} mt={3} align="flex-end">
+              <ProviderPhoto avail={avail} handleSwitch={handleSwitch} />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} container justify="center">
+            <ProviderLocationMap
+              latitude={latitude}
+              longitude={longitude}
+              onLocationChange={locationUpdatedHandler}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
           <ProviderInfo
             firstName={firstName}
             lastName={lastName}
@@ -40,9 +54,9 @@ function ProviderProfile(props) {
             address={address}
             productName={productName}
           />
-        </Box>
+        </Grid>
       </Grid>
-    </React.Fragment>
+    </Box>
   );
 }
 
@@ -55,6 +69,8 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     productName: state.auth.userDetail.productName,
     avail: state.providerProfile.avail,
+    latitude: state.auth.userDetail.latitude,
+    longitude: state.auth.userDetail.longitude,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -62,6 +78,8 @@ const mapDispatchToProps = (dispatch) => {
     // providerProfile: (userId) => dispatch(actions.providerProfile(userId)),
     onSwitch: (userId, availability) =>
       dispatch(actions.onSwitch(userId, availability)),
+    onLocationUpdate: (providerId, latitude, longitude) =>
+      dispatch(actions.providerUpdateLocation(providerId, latitude, longitude)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProviderProfile);

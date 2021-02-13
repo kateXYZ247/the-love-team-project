@@ -8,6 +8,7 @@ export {
   logoutAndMessage,
   setRedirectPath,
   disconnectWebSocket,
+  providerUpdateLocation,
 } from "./auth";
 
 export {

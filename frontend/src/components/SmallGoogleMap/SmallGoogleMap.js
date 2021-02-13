@@ -57,8 +57,6 @@ function SmallGoogleMap(props) {
     }
   }, [origin, destination]);
 
-  console.log(circleCenters);
-
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
       {/* Child components, such as markers, info windows, etc. */}
