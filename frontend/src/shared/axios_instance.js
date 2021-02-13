@@ -1,7 +1,13 @@
 import axios from "axios";
 import {LOCAL_STORAGE_TOKEN_KEY} from "../constant/auth";
 import jwtDecode from 'jwt-decode';
+import store from '../index';
 import { AUTH_LOGOUT } from '../store/actions/actionTypes';
+import {logoutAndMessage} from '../store/actions'
+import * as actions from '../store/actions'
+import {logout} from '../store/actions/auth'
+import {setMessage} from '../store/actions/message'
+import {MESSAGE_TYPE} from '../constant/message'
 
 
 const instance = axios.create({
@@ -12,9 +18,9 @@ const instance = axios.create({
 instance.interceptors.request.use(function (config) {
   const token = sessionStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
   const decodeToken = token ? jwtDecode(token) : "";
-  console.log("decoded token is", decodeToken);
-  console.log(decodeToken.sub.toString().includes(':"user"'));
-  console.log(decodeToken.sub.toString().includes(':"provider"'));
+  //console.log("decoded token is", decodeToken);
+  //console.log("is_user: " ,decodeToken.sub.toString().includes(':"user"'));
+  //console.log("is_provider: " ,decodeToken.sub.toString().includes(':"provider"'));
   config.headers.Authorization = token ? `Bearer ${token}` : "";
   return config;
 });
@@ -34,11 +40,12 @@ instance.interceptors.response.use(
         if (decodeToken.sub.toString().includes(':"provider"')) {
           localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
           sessionStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-          window.location ="/provider/login";
+          store.dispatch(logout());
+          //window.location ="/provider/login";
         }else if (decodeToken.sub.includes(':"user"')) {
           localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
           sessionStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-          window.location = "/login";
+          store.dispatch(logout());
         } //else admin
       } else {
         return new Promise((resolve, reject) => {
