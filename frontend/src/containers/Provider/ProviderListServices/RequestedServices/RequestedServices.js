@@ -19,8 +19,8 @@ function RequestedServices(props) {
     onFetchRequests,
     onAcceptRequest,
     onDeclineRequest,
-    onSetRedirectPath
-    onUmount,
+    onSetRedirectPath,
+    onUmount
   } = props;
   const [deleted, setDeleted] = useState(requests.map(() => false));
 
