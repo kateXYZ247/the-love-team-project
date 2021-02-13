@@ -1,6 +1,7 @@
 package com.theloveteam.web.repositories;
 
 import com.theloveteam.web.dao.Serv;
+import com.theloveteam.web.model.GeoDetail;
 import com.theloveteam.web.model.ServiceStatus;
 import com.theloveteam.web.model.StatDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,6 +32,12 @@ public interface ServiceRepository extends JpaRepository<Serv, Long> {
 
     @Query("select count (serviceId) from Serv")
     Long getAllServiceNumber();
+
+//    @Query("select latitude, longitude from Serv")
+//    List<?> getAllGeoByAdminId();
+
+    @Query("select new com.theloveteam.web.model.GeoDetail(s.latitude, s.longitude) from Serv s")
+    List<GeoDetail> getAllGeoByAdminId();
 
     //update status
     @Transactional

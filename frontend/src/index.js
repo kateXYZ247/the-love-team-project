@@ -16,7 +16,7 @@ import registerReducer from "./store/reducers/register";
 import providerReducer from "./store/reducers/provider";
 import messageReducer from "./store/reducers/message";
 import providerProfileReducer from "./store/reducers/providerProfile";
-import userProfileReducer from "./store/reducers/userProfile";
+import adminReducer from "./store/reducers/admin";
 import { BrowserRouter } from "react-router-dom";
 
 const theme = createMuiTheme({
@@ -49,12 +49,14 @@ const rootReducer = combineReducers({
   provider: providerReducer,
   message: messageReducer,
   providerProfile: providerProfileReducer,
+  admin: adminReducer,
 });
 
 const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+export default store;
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

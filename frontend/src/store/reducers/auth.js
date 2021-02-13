@@ -102,6 +102,28 @@ const profileUpdateFail = (state, action) => {
   return state;
 };
 
+const providerUpdateLocationStart = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
+
+const providerUpdateLocationSuccess = (state, action) => {
+  return updateObject(state, {
+    userDetail: updateObject(state.userDetail, {
+      latitude: action.latitude,
+      longitude: action.longitude,
+    }),
+    loading: false,
+  });
+};
+
+const providerUpdateLocationFail = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_LOGIN_START:
@@ -126,6 +148,12 @@ const reducer = (state = initialState, action) => {
       return profileUpdateSuccess(state, action);
     case actionTypes.USER_PROFILE_UPDATE_STATUS.fail:
       return profileUpdateFail(state, action);
+    case actionTypes.PROVIDER_UPDATE_LOCATION.start:
+      return providerUpdateLocationStart(state, action);
+    case actionTypes.PROVIDER_UPDATE_LOCATION.success:
+      return providerUpdateLocationSuccess(state, action);
+    case actionTypes.PROVIDER_UPDATE_LOCATION.fail:
+      return providerUpdateLocationFail(state, action);
     default:
       return state;
   }

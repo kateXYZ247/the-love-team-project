@@ -62,6 +62,12 @@ public class Serv {
 
     private Double longitude;
 
+    @Formula("(select p.latitude from providers p where p.provider_id = provider_id and status = 'accepted')")
+    private Double providerLatitude;
+
+    @Formula("(select p.longitude from providers p where p.provider_id = provider_id and status = 'accepted')")
+    private Double providerLongitude;
+    
     private String address;
 
     private String note;

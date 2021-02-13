@@ -22,6 +22,8 @@ export const PATH_PROVIDER_HISTORY = "/provider/history";
 export const PATH_PROVIDER_UPCOMING_SERVICES = "/provider/services";
 export const PATH_PROVIDER_PROFILE = "/provider/profile";
 
+export const PATH_ADMIN_LOGIN = "/admin/login";
+
 export const NAV_BAR_DEFAULT_PATH_ITEMS = [
   {
     label: "Home",

@@ -11,6 +11,7 @@ import CardTitle from "../../UI/CardTitle/CardTitle";
 
 function DateTimePicker(props) {
   const { date, dateChangedHandler } = props;
+  const today = new Date();
   return (
     <Grid container justify="center">
       <Grid item xs={10} lg={6}>
@@ -21,6 +22,7 @@ function DateTimePicker(props) {
               <Box p={5}>
                 <Grid container justify="space-around" spacing={3}>
                   <KeyboardDatePicker
+                      minDate={today}
                     margin="normal"
                     id="date-picker-dialog"
                     label="Pick Service Date"
@@ -35,7 +37,7 @@ function DateTimePicker(props) {
                     margin="normal"
                     id="time-picker"
                     label="Pick Service Time"
-                    minutesStep={5}
+                    minutesStep={10}
                     value={date}
                     onChange={dateChangedHandler}
                     KeyboardButtonProps={{

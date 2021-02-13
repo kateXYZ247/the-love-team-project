@@ -13,6 +13,10 @@ function LoginForm(props) {
     setPassword,
     keepSignedIn,
     setKeepSignedIn,
+    validUsername,
+    checkUsername,
+    validPW,
+    checkPW,
   } = props;
   return (
     <form noValidate autoComplete="off" onSubmit={onSubmit}>
@@ -27,17 +31,24 @@ function LoginForm(props) {
           >
             Login
           </Box>
-          <Box p={2} height="40px">
+          <Box p={3} height="40px">
             <TextField
               id="userName"
               label="UserName"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              FormHelperTextProps={{
+                error: true,
+              }}
+              onBlur={checkUsername}
+              helperText={validUsername === "invalid" ? 'please enter a valid userName' :
+                  validUsername === "null" ? 'userName is required' : ''
+              }
               fullWidth
               variant="outlined"
             />
           </Box>
-          <Box p={2} height="40px">
+          <Box p={3} height="40px">
             <TextField
               id="Password"
               label="Password"
@@ -45,6 +56,13 @@ function LoginForm(props) {
               autoComplete="on"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              FormHelperTextProps={{
+                error: true,
+              }}
+              onBlur={checkPW}
+              helperText={validPW === "invalid" ? 'please enter a valid password' :
+                  validPW === "null" ? 'password is required' : ''
+              }
               fullWidth
               variant="outlined"
             />

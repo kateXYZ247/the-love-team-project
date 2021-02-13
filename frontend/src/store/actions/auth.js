@@ -2,10 +2,13 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
   API_PATH_USER_UPDATE_ACCOUNT,
+  API_PATH_ADMIN_DETAIL,
+  API_PATH_ADMIN_LOGIN,
   API_PATH_PROVIDER_DETAIL,
   API_PATH_PROVIDER_LOGIN,
   API_PATH_USER_DETAIL,
   API_PATH_USER_LOGIN,
+  API_SUB_PATH_PROVIDER_LOCATION,
   HTTP_STATUS_OK,
   WS_PATH_CONNECT,
   WS_PATH_PROVIDERS,
@@ -24,6 +27,59 @@ export const setRedirectPath = (path) => {
   return {
     type: actionTypes.AUTH_SET_REDIRECT_PATH,
     path: path,
+  };
+};
+
+const providerUpdateLocationStart = () => {
+  return {
+    type: actionTypes.PROVIDER_UPDATE_LOCATION.start,
+  };
+};
+
+const providerUpdateLocationSuccess = (latitude, longitude) => {
+  return {
+    type: actionTypes.PROVIDER_UPDATE_LOCATION.success,
+    latitude: latitude,
+    longitude: longitude,
+  };
+};
+
+const providerUpdateLocationFail = () => {
+  return {
+    type: actionTypes.PROVIDER_UPDATE_LOCATION.fail,
+  };
+};
+
+export const providerUpdateLocation = (providerId, latitude, longitude) => {
+  return (dispatch) => {
+    dispatch(providerUpdateLocationStart());
+    const data = {
+      providerId: providerId,
+      latitude: latitude,
+      longitude: longitude,
+    };
+    axios
+      .patch(
+        API_PATH_PROVIDER_DETAIL + providerId + API_SUB_PATH_PROVIDER_LOCATION,
+        data
+      )
+      .then((response) => {
+        if (response.status === HTTP_STATUS_OK) {
+          const { data } = response;
+          dispatch(
+            providerUpdateLocationSuccess(data.latitude, data.longitude)
+          );
+          dispatch(
+            setMessage(MESSAGE_TYPE.success, "Location Successfully Updated!")
+          );
+        } else {
+          throw new Error(response.statusText);
+        }
+      })
+      .catch((error) => {
+        dispatch(providerUpdateLocationFail());
+        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+      });
   };
 };
 
@@ -69,9 +125,9 @@ export const login = (username, password, role) => {
       password: password,
     };
     const urlLogin =
-      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : API_PATH_PROVIDER_LOGIN;
+      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : role === AUTH_ROLE.provider ? API_PATH_PROVIDER_LOGIN : API_PATH_ADMIN_LOGIN;
     const urlDetail =
-      role === AUTH_ROLE.user ? API_PATH_USER_DETAIL : API_PATH_PROVIDER_DETAIL;
+      role === AUTH_ROLE.user ? API_PATH_USER_DETAIL : role === AUTH_ROLE.provider ? API_PATH_PROVIDER_DETAIL : API_PATH_ADMIN_DETAIL;
     axios
       .post(urlLogin, data)
       .then((response) => {
@@ -104,7 +160,11 @@ export const login = (username, password, role) => {
         const { data } = response;
         dispatch(setUserDetail(data, role));
         const firstName =
-          role === AUTH_ROLE.user ? data.firstName : data.provider.firstName;
+          role === AUTH_ROLE.user ? data.firstName
+              :
+          role === AUTH_ROLE.provider ? data.provider.firstName
+              :
+          data.firstName;
         dispatch(setMessage(MESSAGE_TYPE.info, "Welcome back, " + firstName));
       })
       .catch((error) => {
@@ -121,7 +181,7 @@ export const logoutAndMessage = () => {
   };
 };
 
-const logout = () => {
+export const logout = () => {
   return {
     type: actionTypes.AUTH_LOGOUT,
   };

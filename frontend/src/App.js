@@ -6,6 +6,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Order from "./containers/Order/Order";
 import Login from "./containers/Login/Login";
+import Admin from "./containers/Admin/Admin";
 import SampleContainer from "./containers/Sample/SampleContainer";
 
 import Register from "./containers/Register/Register";
@@ -27,6 +28,7 @@ import {
   PATH_PROVIDER_UPCOMING_SERVICES,
   PATH_REGISTER,
   PATH_TEST,
+  PATH_ADMIN_LOGIN,
 } from "./constant/path";
 import { AUTH_ROLE } from "./constant/auth";
 import ProviderListServices from "./containers/Provider/ProviderListServices/ProviderListServices";
@@ -71,6 +73,9 @@ function App(props) {
       </LabeledRoute>
       <LabeledRoute path={PATH_PROVIDER_LOGIN} exact>
         <Login loginType={AUTH_ROLE.provider} />
+      </LabeledRoute>
+      <LabeledRoute path = {PATH_ADMIN_LOGIN} exact>
+        <Login loginType={AUTH_ROLE.admin} />
       </LabeledRoute>
       <LabeledRoute path={PATH_TEST} exact>
         <SampleContainer />
@@ -154,6 +159,27 @@ function App(props) {
           <Redirect to={PATH_HOME} />
         </Switch>
       );
+    } else {
+        routes = (
+            <Switch>
+                <LabeledRoute path={PATH_PROVIDER_LOGIN}>
+                    <Login loginType={AUTH_ROLE.provider} />
+                </LabeledRoute>
+                <LabeledRoute path={PATH_TEST}>
+                    <SampleContainer />
+                </LabeledRoute>
+                <Route
+                    path={PATH_HOME}
+                    exact
+                    render={() => (
+                        <RouteComponent path={PATH_HOME}>
+                            <Admin/>
+                        </RouteComponent>
+                    )}
+                />
+                <Redirect to={PATH_HOME} />
+            </Switch>
+        );
     }
   } else {
     if (role === AUTH_ROLE.user) {
@@ -170,6 +196,9 @@ function App(props) {
           </LabeledRoute>
           <LabeledRoute path={PATH_PROVIDER_LOGIN}>
             <Login loginType={AUTH_ROLE.provider} />
+          </LabeledRoute>
+          <LabeledRoute path={PATH_ADMIN_LOGIN}>
+            <Login loginType={AUTH_ROLE.admin} />
           </LabeledRoute>
           <LabeledRoute path={PATH_TEST}>
             <SampleContainer />
@@ -196,17 +225,35 @@ function App(props) {
             <SampleContainer />
           </LabeledRoute>
           <Route
-            path={PATH_PROVIDER_LOGIN}
-            exact
-            render={() => (
-              <RouteComponent path={PATH_PROVIDER_LOGIN}>
-                <Login loginType={AUTH_ROLE.provider} />
-              </RouteComponent>
-            )}
+              path={PATH_PROVIDER_LOGIN}
+              exact
+              render={() => (
+                 <RouteComponent path={PATH_PROVIDER_LOGIN}>
+                     <Login loginType={AUTH_ROLE.provider} />
+                 </RouteComponent>
+              )}
           />
           <Redirect to={PATH_PROVIDER_LOGIN} />
         </Switch>
       );
+    } else {
+        routes = (
+            <Switch>
+                <LabeledRoute path={PATH_TEST}>
+                    <SampleContainer />
+                </LabeledRoute>
+                <Route
+                    path={PATH_ADMIN_LOGIN}
+                    exact
+                    render={() => (
+                        <RouteComponent path={PATH_ADMIN_LOGIN}>
+                            <Login loginType={AUTH_ROLE.admin} />
+                        </RouteComponent>
+                    )}
+                />
+                <Redirect to={PATH_ADMIN_LOGIN}/>
+            </Switch>
+        );
     }
   }
 

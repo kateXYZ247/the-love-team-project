@@ -66,8 +66,13 @@ export const fetchServices = (type, userId) => {
         }
       })
       .catch((error) => {
+        console.log("error -> ", error);
+        if (error.toString().includes("Cannot read property 'hasOwnProperty' of undefined")) {
+          dispatch(setMessage(MESSAGE_TYPE.warning, "TIME OUT! PLEASE LOG IN AGAIN!"));
+        } else {
         dispatch(fetchServicesFail(type));
         dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
       });
   };
 };

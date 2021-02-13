@@ -12,7 +12,7 @@ import AddressSuggestion from "./AddressSuggestion/AddressSuggestion";
 const autocompleteService = { current: null };
 
 function AddressInput(props) {
-  const { initAddress, onAddressChange, onLatLngChange } = props;
+  const { initAddress, onAddressChange, onLatLngChange, checkAddress, validAddress } = props;
 
   const [value, setValue] = useState({ description: initAddress });
   const [inputValue, setInputValue] = useState(initAddress);
@@ -94,14 +94,19 @@ function AddressInput(props) {
       filterSelectedOptions
       value={value}
       onChange={valueChangedHandler}
+      onBlur={checkAddress}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
         <TextField
           {...params}
+          FormHelperTextProps={{
+            error: true,
+          }}
           label="Your Full Address"
           variant="outlined"
+          helperText={validAddress === "null" ? 'Address is required' : ''}
           fullWidth
         />
       )}
