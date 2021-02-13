@@ -38,7 +38,7 @@ function StatusPieChart(props) {
                 <Label visible={true} customizeText={formatLabel} format="fixedPoint">
                     <Connector visible={true} width={0.5} />
                 </Label>
-                <SmallValuesGrouping threshold={4.5} mode="smallValueThreshold" />
+                <SmallValuesGrouping threshold={0} mode="smallValueThreshold" />
             </Series>
             <Legend horizontalAlignment="center" verticalAlignment="bottom" />
             <Export enabled={true} />
