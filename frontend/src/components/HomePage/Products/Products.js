@@ -1,19 +1,17 @@
 import React from "react";
-import classes from "./Products.module.css";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import ProductCard from "./ProductCard/ProductCard";
 import { productList } from "../../../constant/homepage";
+import Grid from "@material-ui/core/Grid";
 
 function Products(props) {
   return (
-    <React.Fragment>
+    <Grid container justify="center" spacing={5}>
       <SectionTitle title={"Just a few of our popular services"} />
-      <div className={classes.container}>
-        {productList.map((item) => (
-          <ProductCard item={item} key={item.name} />
-        ))}
-      </div>
-    </React.Fragment>
+      {productList.map((item) => (
+        <ProductCard item={item} key={item.name} />
+      ))}
+    </Grid>
   );
 }
 
