@@ -1,22 +1,32 @@
 import React, { useEffect } from "react";
 import StatusPieChart from "../../components/AdminPanel/StatusPieChart";
 import ServiceMap from "../../components/AdminPanel/ServiceMap";
-import ServiceMapCluster from "../../components/AdminPanel/ServiceMapCluster";
-import { Grid, Box} from "@material-ui/core"
+import {Grid, Box, Paper} from "@material-ui/core"
+import {makeStyles} from "@material-ui/core/styles"
 
+const useStyles = makeStyles((theme) => ({
+    box: {
+        height: 600,
+    },
+    map: {
+        height: 600,
+    }
+}));
 
 function Admin() {
+    const classes = useStyles();
     return (
-        <Grid spacing={2} container justify="center">
-            <Grid xs={3} container justify="center">
-                <StatusPieChart/>
+        <Grid container spacing={2} justify={"center"}>
+            <Grid item xs={3} lg={3} justify={"center"}>
+                <Paper elevation={5} className={classes.box}>
+                    <StatusPieChart/>
+                </Paper>
             </Grid>
-
-            <Grid xs={9} container justify="center">
-                {/*<ServiceMapCluster/>*/}
-                <ServiceMap
-                    center={{ lat: 37, lng: -100 }}
-                />
+            <Grid item xs={3} lg={6} justify="center" >
+                    <Paper elevation={5} className={classes.map}>
+                        {/*<ServiceMapCluster/>*/}
+                        <ServiceMap center={{ lat: 37, lng: -100 }}/>
+                    </Paper>
             </Grid>
         </Grid>
     );

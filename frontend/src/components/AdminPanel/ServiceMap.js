@@ -6,8 +6,8 @@ import { GoogleMap, Circle, Marker } from "@react-google-maps/api";
 
 function ServiceMap(props) {
     const containerStyle = {
-        width: "1200px",
-        height: "600px",
+        minWidth: "300px",
+        minHeight: "600px",
     };
     const{
         center,
@@ -22,7 +22,7 @@ function ServiceMap(props) {
     }, []);
 
     return (
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4.5}>
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
             {/* Child components, such as markers, info windows, etc. */}
             {markerCenter &&
                 markerCenter.map((c, i) => (
