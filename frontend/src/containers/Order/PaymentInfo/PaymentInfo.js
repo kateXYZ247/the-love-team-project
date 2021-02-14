@@ -48,6 +48,7 @@ function PaymentInfo(props) {
   function validateCreditInfo(e) {
     const name = e.target.name;
     const value = e.target.value;
+    // console.log(value.length);
     setValidCreditInfo((prevState) =>
         updateObject(prevState, {[name]: checkValidity(name, value) })
     );

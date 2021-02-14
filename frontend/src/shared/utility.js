@@ -73,7 +73,8 @@ export const checkValidity = (field, value) => {
     case "number":
       if (value.trim() === "") {
         isValid = "null";
-      } else if (value.length < 19 || value.length > 22) {
+        //amex length == 17, visa length == 19
+      } else if (value.length < 17 || value.length > 22) {
         isValid = "invalid";
       }
         return isValid;
