@@ -13,7 +13,7 @@ import {
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import { orderCreditCardPageButtonText } from "../../../constant/order";
 import OrderConfirmationDialog from "../../../components/Order/OrderConfirmationDialog/OrderConfirmationDialog";
-import {checkValidity} from "../../../shared/utility";
+import { checkValidity } from "../../../shared/utility";
 
 function PaymentInfo(props) {
   const {
@@ -38,20 +38,18 @@ function PaymentInfo(props) {
     expiry: "initial",
     name: "initial",
     number: "initial",
-  })
+  });
   const [openConfirmation, setOpenConfirmation] = useState(false);
-  const [validCreditNumber, setValidCreditNumber] = useState("initial");
-  const [validCreditName, setValidCreditName] = useState("initial");
-  const [validCreditDate, setValidCreditDate] = useState("initial");
-  const [validCreditCVC, setValidCreditCVC] = useState("initial");
 
   function validateCreditInfo(e) {
     const name = e.target.name;
     const value = e.target.value;
+    // console.log(value.length);
     setValidCreditInfo((prevState) =>
-        updateObject(prevState, {[name]: checkValidity(name, value) })
+      updateObject(prevState, { [name]: checkValidity(name, value) })
     );
   }
+
   // function validateCreditNumber(e) {
   //   const value = e.target.value;
   //   setValidCreditNumber(checkValidity("creditNumber", value));
@@ -83,9 +81,7 @@ function PaymentInfo(props) {
     setCreditCard((prevState) =>
       updateObject(prevState, { [name]: e.target.value })
     );
-    setValidCreditInfo((prevState) =>
-        updateObject(prevState, {[name]:"" })
-    );
+    setValidCreditInfo((prevState) => updateObject(prevState, { [name]: "" }));
   };
 
   const focusChangeHandler = (e) => {
@@ -96,18 +92,31 @@ function PaymentInfo(props) {
 
   const nextButtonClickedHandler = () => {
     if (orderServicesCount !== 0) {
-      if (validCreditInfo.expiry || validCreditInfo.name || validCreditInfo.number || validCreditInfo.cvc) {
+      if (
+        validCreditInfo.expiry ||
+        validCreditInfo.name ||
+        validCreditInfo.number ||
+        validCreditInfo.cvc
+      ) {
         setValidCreditInfo((prevState) =>
-            updateObject(prevState, {["expiry"]: checkValidity("expiry", creditCard.expiry) })
+          updateObject(prevState, {
+            expiry: checkValidity("expiry", creditCard.expiry),
+          })
         );
         setValidCreditInfo((prevState) =>
-            updateObject(prevState, {["name"]: checkValidity("name", creditCard.name) })
+          updateObject(prevState, {
+            name: checkValidity("name", creditCard.name),
+          })
         );
         setValidCreditInfo((prevState) =>
-            updateObject(prevState, {["number"]: checkValidity("number", creditCard.number) })
+          updateObject(prevState, {
+            number: checkValidity("number", creditCard.number),
+          })
         );
         setValidCreditInfo((prevState) =>
-            updateObject(prevState, {["cvc"]: checkValidity("cvc", creditCard.cvc) })
+          updateObject(prevState, {
+            cvc: checkValidity("cvc", creditCard.cvc),
+          })
         );
       } else {
         const card = `${creditCard.number},${creditCard.cvc},${creditCard.expiry},${creditCard.name}`;

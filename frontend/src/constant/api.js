@@ -8,6 +8,7 @@ export const API_PATH_FETCH_USER_ORDER = "/orders?userId=";
 export const API_PATH_FETCH_USER_UPCOMING_ORDER = "/orders?userId=";
 
 export const API_PATH_USER_UPDATE_ORDER = "/orders/";
+export const API_PATH_USER_UPDATE_ACCOUNT = "/accounts";
 
 export const API_PATH_PROVIDER_LOGIN = "/providers/login";
 export const API_PATH_PROVIDER_DETAIL = "/providers/";

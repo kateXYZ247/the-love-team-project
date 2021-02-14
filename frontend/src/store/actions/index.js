@@ -1,6 +1,10 @@
 export { setPath } from "./route";
 
 export {
+  profileUpdate,
+  profileUpdateStart,
+  profileUpdateSuccess,
+  profileUpdateFail,
   login,
   loginStart,
   loginSuccess,

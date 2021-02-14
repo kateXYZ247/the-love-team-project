@@ -12,7 +12,10 @@ import SampleContainer from "./containers/Sample/SampleContainer";
 import Register from "./containers/Register/Register";
 
 import OrderHistory from "./containers/OrderHistory/OrderHistory";
+
+// cant add userprofile path properly
 import {
+  PATH_USER_PROFILE,
   PATH_APPOINTMENTS,
   PATH_HISTORY,
   PATH_HOME,
@@ -33,11 +36,14 @@ import ProviderUpcoming from "./containers/Provider/ProviderUpcoming/ProviderUpc
 import ProviderProfile from "./containers/Provider/ProviderProfile/ProviderProfile";
 import ProviderHistory from "./containers/Provider/ProviderHistory/ProviderHistory";
 import Appointments from "./containers/Appointments/Appointments";
+// import UserProfile from "/containers/User/UserProfile/UserProfile";
 import * as actions from "./store/actions";
+import UserProfile from "./containers/User/UserProfile/UserProfile";
 import LabeledRoute from "./hoc/LabeledRoute/LabeledRoute";
 import RouteComponent from "./hoc/RouteComponent/RouteComponent";
 import useScript from "./hooks/useScript";
 import { GOOGLE_MAP_SCRIPT_URL } from "./constant/api";
+
 
 function App(props) {
   const { isAuthenticated, role, stompClient, onDisconnectWebSocket } = props;
@@ -108,7 +114,10 @@ function App(props) {
           <LabeledRoute path={PATH_TEST}>
             <SampleContainer />
           </LabeledRoute>
-          <Route
+          <LabeledRoute path={PATH_USER_PROFILE}>
+              <UserProfile />
+          </LabeledRoute>
+            <Route
             path={PATH_HOME}
             exact
             render={() => (
