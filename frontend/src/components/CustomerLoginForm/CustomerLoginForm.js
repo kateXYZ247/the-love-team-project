@@ -40,6 +40,8 @@ function CustomerLoginForm(props) {
     checkUsername,
     validPW,
     checkPW,
+    setValidUsername,
+    setValidPW,
   } = props;
 
   return (
@@ -60,8 +62,10 @@ function CustomerLoginForm(props) {
                   setKeepSignedIn={setKeepSignedIn}
                   validUsername={validUsername}
                   checkUsername={checkUsername}
+                  setValidUsername={setValidUsername}
                   validPW={validPW}
                   checkPW={checkPW}
+                  setValidPW={setValidPW}
                 />
               </Grid>
               <Grid item xs={11} md={5}>

@@ -10,7 +10,6 @@ import {
 import CardTitle from "../../UI/CardTitle/CardTitle";
 import { addressTypes } from "../../../constant/order";
 
-import OrderInfo from "../../../containers/Order/OrderInfo/OrderInfo";
 
 import AddressInput from "../AddressInput/AddressInput";
 

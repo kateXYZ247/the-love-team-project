@@ -17,6 +17,8 @@ function LoginForm(props) {
     checkUsername,
     validPW,
     checkPW,
+    setValidUsername,
+    setValidPW,
   } = props;
   return (
     <form noValidate autoComplete="off" onSubmit={onSubmit}>
@@ -36,7 +38,7 @@ function LoginForm(props) {
               id="userName"
               label="UserName"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {setUsername(e.target.value);setValidUsername("")}}
               FormHelperTextProps={{
                 error: true,
               }}
@@ -55,7 +57,7 @@ function LoginForm(props) {
               type="password"
               autoComplete="on"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {setPassword(e.target.value);setValidPW("");}}
               FormHelperTextProps={{
                 error: true,
               }}
