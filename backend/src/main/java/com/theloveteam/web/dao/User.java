@@ -52,4 +52,16 @@ public class User {
     @Column(nullable = false)
     private String role; //user is default to be user when register
 
+    @Override
+    public String toString() {
+        return "RegisterRequestBody{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
 }
