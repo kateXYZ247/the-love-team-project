@@ -10,10 +10,8 @@ import Divider from "../Divider/DividerText.js";
 import Button from "@material-ui/core/Button";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import CheckboxLabels from "../CheckBox/CheckBox.js";
-import {makeStyles, withStyles} from "@material-ui/core/styles";
-import { FormHelperText } from '@material-ui/core';
-import {blue} from "@material-ui/core/colors";
-
+import { withStyles } from "@material-ui/core/styles";
+import { blue } from "@material-ui/core/colors";
 
 const ColorButtonDarkBlue = withStyles((theme) => ({
   root: {
@@ -24,8 +22,10 @@ const ColorButtonDarkBlue = withStyles((theme) => ({
     },
   },
 }))(Button);
+
 function RegisterForm(props) {
-  const { user,
+  const {
+    user,
     handleChange,
     checkedBoxHandleChange,
     handleSubmit,
@@ -79,8 +79,12 @@ function RegisterForm(props) {
                         FormHelperTextProps={{
                           error: true,
                         }}
-                        helperText={validFName === "invalid" ? 'Please enter a valid firstName' :
-                            validFName === "null" ? 'FirstName is required' : ''
+                        helperText={
+                          validFName === "invalid"
+                            ? "Please enter a valid firstName"
+                            : validFName === "null"
+                            ? "FirstName is required"
+                            : ""
                         }
                         fullWidth
                         variant="outlined"
@@ -97,8 +101,12 @@ function RegisterForm(props) {
                         FormHelperTextProps={{
                           error: true,
                         }}
-                        helperText={validLName === "invalid" ? 'Please enter a valid lastName' :
-                            validLName === "null" ? 'LastName is required' : ''
+                        helperText={
+                          validLName === "invalid"
+                            ? "Please enter a valid lastName"
+                            : validLName === "null"
+                            ? "LastName is required"
+                            : ""
                         }
                         fullWidth
                         variant="outlined"
@@ -122,8 +130,12 @@ function RegisterForm(props) {
                         FormHelperTextProps={{
                           error: true,
                         }}
-                        helperText={validPhone === "invalid" ? 'Please enter a valid phone number' :
-                            validPhone === "null" ? 'Phone number is required' : ''
+                        helperText={
+                          validPhone === "invalid"
+                            ? "Please enter a valid phone number"
+                            : validPhone === "null"
+                            ? "Phone number is required"
+                            : ""
                         }
                         fullWidth
                         variant="outlined"
@@ -147,10 +159,13 @@ function RegisterForm(props) {
                           error: true,
                         }}
                         onBlur={checkEmail}
-                        helperText={validEmail === "invalid" ? 'Please enter a valid email' :
-                            validEmail === "null" ? 'Email is required' : ''
+                        helperText={
+                          validEmail === "invalid"
+                            ? "Please enter a valid email"
+                            : validEmail === "null"
+                            ? "Email is required"
+                            : ""
                         }
-
                         fullWidth
                         variant="outlined"
                       />
@@ -163,51 +178,58 @@ function RegisterForm(props) {
                       />
                     </Grid>
                     <Grid item xs={10} sm={10}>
-                          <TextField
-                            type="password"
-                            id="Password"
-                            label="Create a Password"
-                            name="password"
-                            defaultValue={user.password}
-                            FormHelperTextProps={{
-                              error: true,
-                            }}
-                            onChange={handleChange}
-                            onBlur={checkPW}
-                            helperText={validPW === "invalid" ? 'Please enter a valid password' :
-                                validPW === "null" ? 'Password is required' : ''
-                            }
-                            fullWidth
-                            variant="outlined"
-                          />
-                          <div className={classes.password}>
-                            Password must be at least 3 characters long
-                          </div>
-
+                      <TextField
+                        type="password"
+                        id="Password"
+                        label="Create a Password"
+                        name="password"
+                        defaultValue={user.password}
+                        FormHelperTextProps={{
+                          error: true,
+                        }}
+                        onChange={handleChange}
+                        onBlur={checkPW}
+                        helperText={
+                          validPW === "invalid"
+                            ? "Please enter a valid password"
+                            : validPW === "null"
+                            ? "Password is required"
+                            : ""
+                        }
+                        fullWidth
+                        variant="outlined"
+                      />
+                      <div className={classes.password}>
+                        Password must be at least 3 characters long
+                      </div>
                     </Grid>
                     <Grid item xs={2} sm={2}>
                       <LockOutlinedIcon
-                          color={"primary"}
-                          style={{ fontSize: 50 }}
+                        color={"primary"}
+                        style={{ fontSize: 50 }}
                       />
                     </Grid>
                     <Grid item xs={10} sm={10}>
                       <TextField
-                          type="password"
-                          id="confirmPassword"
-                          label="Confirm your Password"
-                          name="confirmPW"
-                          defaultValue={user.password}
-                          onChange={handleChange}
-                          FormHelperTextProps={{
-                            error: true,
-                          }}
-                          onBlur={checkConfirmPW}
-                          helperText={confirmPW === "invalid" ? 'Your passwords don\'t match ':
-                              confirmPW === "null" ? 'Please reconfirm your password' : ''
-                          }
-                          fullWidth
-                          variant="outlined"
+                        type="password"
+                        id="confirmPassword"
+                        label="Confirm your Password"
+                        name="confirmPW"
+                        defaultValue={user.password}
+                        onChange={handleChange}
+                        FormHelperTextProps={{
+                          error: true,
+                        }}
+                        onBlur={checkConfirmPW}
+                        helperText={
+                          confirmPW === "invalid"
+                            ? "Your passwords don't match "
+                            : confirmPW === "null"
+                            ? "Please reconfirm your password"
+                            : ""
+                        }
+                        fullWidth
+                        variant="outlined"
                       />
                     </Grid>
                     <Grid item xs={12} sm={12}>
@@ -225,10 +247,10 @@ function RegisterForm(props) {
                       {/*  Continue with Facebook*/}
                       {/*</Button>*/}
                       <ColorButtonDarkBlue
-                          variant="contained"
-                          fullWidth
-                          size="large"
-                          endIcon={<FacebookIcon />}
+                        variant="contained"
+                        fullWidth
+                        size="large"
+                        endIcon={<FacebookIcon />}
                       >
                         Continue with Facebook
                       </ColorButtonDarkBlue>
