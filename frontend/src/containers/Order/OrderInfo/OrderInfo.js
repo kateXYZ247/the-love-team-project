@@ -24,7 +24,7 @@ function OrderInfo(props) {
     onResetStatus,
     validAddress,
     checkAddress,
-    fetchCurAddress,
+    // fetchCurAddress,
     setValidAddress,
   } = props;
 
@@ -44,7 +44,7 @@ function OrderInfo(props) {
 
   const addressChangedHandler = (updatedAddress) => {
 
-    fetchCurAddress(updatedAddress);
+    // fetchCurAddress(updatedAddress);
     setAddress(updatedAddress);
     setValidAddress("");
   };

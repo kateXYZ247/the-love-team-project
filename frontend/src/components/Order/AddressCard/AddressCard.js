@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import CardTitle from "../../UI/CardTitle/CardTitle";
 import { addressTypes } from "../../../constant/order";
-
 import AddressInput from "../AddressInput/AddressInput";
 
 function AddressCard(props) {

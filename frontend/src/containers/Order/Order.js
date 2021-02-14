@@ -50,12 +50,12 @@ function Order(props) {
   const [showAppointments, setShowAppointments] = useState(false);
 
   const [validAddress, setValidAddress] = useState("initial");
-  const [curAddress, setCurAddress] = useState(oldAddress === "" ? "" : oldAddress);
+  // const [curAddress, setCurAddress] = useState(oldAddress === "" ? "" : oldAddress);
 
 
-  function fetchCurAddress(value) {
-    setCurAddress(value);
-  }
+  // function fetchCurAddress(value) {
+  //   setCurAddress(value);
+  // }
 
   function validateAddress(e) {
     const value = e.target.value;
@@ -79,10 +79,10 @@ function Order(props) {
   // always save user input, but only switch to payment page if user is authenticated
   const dateAddressUpdatedHandler = (date, addressObject) => {
     onUpdateServiceInfo(date, addressObject);
-    if (isAuthenticated && curAddress) {
+    if (isAuthenticated && !validAddress) {
       onSwitchToPayment();
-    } else if (!curAddress) {
-      curAddress === "" ? setValidAddress("null") : setValidAddress("");
+    } else if (validAddress) {
+      setValidAddress("null");
     } else{
       props.history.push(PATH_LOGIN);
     }
@@ -117,7 +117,7 @@ function Order(props) {
           onResetStatus={onResetStatus}
           validAddress={validAddress}
           checkAddress={validateAddress}
-          fetchCurAddress={fetchCurAddress}
+          // fetchCurAddress={fetchCurAddress}
           setValidAddress={setValidAddress}
         />
       );
