@@ -117,13 +117,7 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             servService.createService(serv);
             // push notification to online providers
             pushNotificationToProviders(serv, providerIds);
-        }
-
-
-        try {
             sendEmailAndSmsAfterNewOrder(orderRequest);
-        } catch (Exception e) {
-            System.out.println(e);
         }
 
         return "Order is Successfully Placed!";

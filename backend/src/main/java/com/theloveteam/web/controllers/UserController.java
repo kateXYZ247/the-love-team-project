@@ -67,6 +67,7 @@ public class UserController {
         // if there isn't any error, save data and give success message
         userService.registerAccount(registerRequestBody);
         responseBody.setSuccessMessage("Congrats! You've successfully completed your registration.");
+
         try {
             sendEmailAndSmsAfterNewUser(registerRequestBody);
         } catch (Exception e) {
@@ -76,13 +77,13 @@ public class UserController {
     }
 
     private void sendEmailAndSmsAfterNewUser(RegisterRequestBody registerRequestBody) {
-        String body = "Dear " + registerRequestBody.getLastName() +
+        String body = "Dear " + registerRequestBody.getFirstName() +
                 ",\n\n Congrats! You've successfully completed your registration. \n\n" +
                 "Welcome to The Love Team.";
         sendEmailService.sendEmail(registerRequestBody.getEmail(), body, "Welcome to The Love Team");
         twilioService.sendSms(registerRequestBody.getPhone(), body);
     }
-    
+
     @PutMapping("/users/{id}/accounts")
     public ResponseEntity<?> accountUpdate(@PathVariable String id,
                                            @Valid @RequestBody UpdateAccountRequestBody accountRequestBody) {

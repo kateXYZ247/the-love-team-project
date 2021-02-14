@@ -45,7 +45,7 @@ public class UserAcctUpdateHandler extends AbstractRequestHandler<UpdateAccountR
         UpdateAccountResponseBody accountResponseBody = new UpdateAccountResponseBody();
         String userId = accountRequestBody.getUserId();
         Optional<User> searchResult = userService.getUserByUserId(Long.parseLong(userId));
-        if(searchResult != null) {
+        if (searchResult != null) {
             userService.updateProfile(accountRequestBody, searchResult);
             accountResponseBody.setSuccessMsg("You've successfully updated your profile!");
             return accountResponseBody;
