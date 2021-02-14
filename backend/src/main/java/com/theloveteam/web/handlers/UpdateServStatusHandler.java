@@ -20,9 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -109,23 +112,22 @@ public class UpdateServStatusHandler extends AbstractRequestHandler<UpdateServRe
         StringBuilder sb = new StringBuilder();
         Product product = productRepository.findByProductId(service.getProductId());
         Provider provider = providerRepository.findProviderById(Long.parseLong(updateServRequestBody.getProviderId()));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        SimpleDateFormat printFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-        try {
-            Date startTime = formatter.parse(service.getStartTime());
-            Date endTime = formatter.parse(service.getEndTime());
-            sb.append("You " + updateServRequestBody.getStatus() + " a service: \n\n\n");
-            sb.append(product.getProductName() + "\n");
-            sb.append("\n\nAppointment Time: " + printFormatter.format(startTime));
-            sb.append("\n\nEnd Time: " + printFormatter.format(endTime));
-            sb.append("\n\nAddress: " + service.getAddress());
-            sb.append("\n\n\nHave a good one! \n\n\n\n -The Love Team");
-            String body = sb.toString();
-            sendEmailService.sendEmail(provider.getEmail(), body, "The Love Team: " + updateServRequestBody.getStatus() + " a Service");
-            twilioService.sendSms(provider.getPhone(), body);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        };
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        DateTimeFormatter printFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        LocalDateTime startTime = LocalDateTime.parse(service.getStartTime(), formatter);
+        LocalDateTime endTime = LocalDateTime.parse(service.getEndTime(), formatter);
+        ZonedDateTime PSTStartTime = ZonedDateTime.ofInstant(startTime, ZoneOffset.UTC, ZoneId.of("America/Los_Angeles"));
+        ZonedDateTime PSTEndTime = ZonedDateTime.ofInstant(endTime, ZoneOffset.UTC, ZoneId.of("America/Los_Angeles"));
+
+        sb.append("You " + updateServRequestBody.getStatus() + " a service: \n\n\n");
+        sb.append(product.getProductName() + "\n");
+        sb.append("\n\nAppointment Time: " + printFormatter.format(PSTStartTime) + " PST");
+        sb.append("\n\nEnd Time: " + printFormatter.format(PSTEndTime) + " PST");
+        sb.append("\n\nAddress: " + service.getAddress());
+        sb.append("\n\n\nHave a good one! \n\n\n\n -The Love Team");
+        String body = sb.toString();
+        sendEmailService.sendEmail(provider.getEmail(), body, "The Love Team: " + updateServRequestBody.getStatus() + " a Service");
+        twilioService.sendSms(provider.getPhone(), body);
     }
 
     @Override

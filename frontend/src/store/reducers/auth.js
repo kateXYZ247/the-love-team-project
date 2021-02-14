@@ -52,6 +52,7 @@ const setUserDetail = (state, action) => {
   });
 };
 
+
 const loginGetInfoFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
@@ -77,6 +78,28 @@ const setStompClient = (state, action) => {
 
 const clearStompClient = (state, action) => {
   return updateObject(state, { stompClient: null });
+};
+
+const profileUpdateStart = (state, action) => {
+  return state;
+};
+
+
+const profileUpdateSuccess = (state, action) => {
+  // update the old object with the newly updated object
+  return updateObject(state, {
+    // create a userDetail object with update fields
+    userDetail: updateObject(state.userDetail, {
+      firstName: action.firstName,
+      lastName: action.lastName,
+      address: action.address,
+      phone: action.phone,
+    })
+  });
+};
+
+const profileUpdateFail = (state, action) => {
+  return state;
 };
 
 const providerUpdateLocationStart = (state, action) => {
@@ -119,6 +142,12 @@ const reducer = (state = initialState, action) => {
       return setStompClient(state, action);
     case actionTypes.AUTH_CLEAR_STOMP_CLIENT:
       return clearStompClient(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.start:
+      return profileUpdateStart(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.success:
+      return profileUpdateSuccess(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.fail:
+      return profileUpdateFail(state, action);
     case actionTypes.PROVIDER_UPDATE_LOCATION.start:
       return providerUpdateLocationStart(state, action);
     case actionTypes.PROVIDER_UPDATE_LOCATION.success:

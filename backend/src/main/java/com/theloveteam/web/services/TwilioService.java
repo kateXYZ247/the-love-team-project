@@ -22,8 +22,6 @@ public class TwilioService {
         try {
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
             Message message = Message.creator(new PhoneNumber(to), new PhoneNumber(PHONE_NUMBER), body).create();
-            System.out.println(message);
-            System.out.println(message.getSid());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -12,7 +12,7 @@ public class JobSchedulerConfig {
     @Autowired
     SendEmailAndSmsUpcomingOrderService sendEmailAndSmsUpcomingOrderService;
 
-//    @Scheduled(fixedDelay = 600000L)  //6 hours
+    @Scheduled(fixedDelay = 21000000L)  //6 hours
     public void SendEmailAndSmsUpcomingOrderJob() {
         sendEmailAndSmsUpcomingOrderService.start();
     }

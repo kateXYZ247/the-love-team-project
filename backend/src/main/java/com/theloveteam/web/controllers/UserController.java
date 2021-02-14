@@ -4,10 +4,12 @@ import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dao.User;
 import com.theloveteam.web.dto.RegisterRequestBody;
 import com.theloveteam.web.dto.RegisterResponseBody;
+import com.theloveteam.web.dto.UpdateAccountRequestBody;
 import com.theloveteam.web.exceptions.UserAlreadyExistsException;
 import com.theloveteam.web.handlers.GetUserDetailHandler;
 import com.theloveteam.web.services.SendEmailService;
 import com.theloveteam.web.services.TwilioService;
+import com.theloveteam.web.handlers.UserAcctUpdateHandler;
 import com.theloveteam.web.services.UserService;
 import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ public class UserController {
 
     @Autowired
     private TwilioService twilioService;
+    private UserAcctUpdateHandler acctUpdateHandler;
 
     @GetMapping(UrlConstants.USERS_DETAILS)
     public ResponseEntity<User> getUserDetail(@PathVariable String userId) {
@@ -66,8 +69,7 @@ public class UserController {
         responseBody.setSuccessMessage("Congrats! You've successfully completed your registration.");
         try {
             sendEmailAndSmsAfterNewUser(registerRequestBody);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
         return ResponseEntity.ok(responseBody);
@@ -79,5 +81,12 @@ public class UserController {
                 "Welcome to The Love Team.";
         sendEmailService.sendEmail(registerRequestBody.getEmail(), body, "Welcome to The Love Team");
         twilioService.sendSms(registerRequestBody.getPhone(), body);
+    }
+    
+    @PutMapping("/users/{id}/accounts")
+    public ResponseEntity<?> accountUpdate(@PathVariable String id,
+                                           @Valid @RequestBody UpdateAccountRequestBody accountRequestBody) {
+        accountRequestBody.setUserId(id);
+        return acctUpdateHandler.handle(accountRequestBody);
     }
 }

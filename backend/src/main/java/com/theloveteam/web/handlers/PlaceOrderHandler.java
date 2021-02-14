@@ -1,10 +1,8 @@
 package com.theloveteam.web.handlers;
 
-
 import com.theloveteam.web.constants.UrlConstants;
 import ch.hsr.geohash.GeoHash;
 import com.theloveteam.web.dao.*;
-import com.theloveteam.web.exceptions.ProviderNotFoundException;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
@@ -23,8 +21,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -174,25 +176,23 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             servIdList.add(serv.getProductId());
         }
         List<Product> products = productRepository.findByProductIds(servIdList);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        SimpleDateFormat printFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        DateTimeFormatter printFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        LocalDateTime startTime = LocalDateTime.parse(orderRequest.getServs().get(0).getStartTime(), formatter);
+        ZonedDateTime PSTStartTime = ZonedDateTime.ofInstant(startTime, ZoneOffset.UTC, ZoneId.of("America/Los_Angeles"));
 
-        try {
-            sb.append("Dear " + user.getLastName() +
-                    ",\n\nYou placed an new order: \n\n\n");
-            for (Product product : products) {
-                sb.append(product.getProductName() + "\n");
-            }
-            sb.append("\n\nTotal Price: $" + String.format("%.2f", orderRequest.getTotalPrice()));
-            Date startTime = formatter.parse(orderRequest.getServs().get(0).getStartTime());
-            sb.append("\n\nAppointment Time: " + printFormatter.format(startTime));
-            sb.append("\n\nAddress: " + orderRequest.getServs().get(0).getAddress());
-            sb.append("\n\n\nThank you very much! \n\n\n\n -The Love Team");
-            String body = sb.toString();
-            sendEmailService.sendEmail(user.getEmail(), body, "The Love Team: New Order");
-            twilioService.sendSms(user.getPhone(), body);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        };
+
+        sb.append("Dear " + user.getLastName() +
+                ",\n\nYou placed an new order: \n\n\n");
+        for (Product product : products) {
+            sb.append(product.getProductName() + "\n");
+        }
+        sb.append("\n\nTotal Price: $" + String.format("%.2f", orderRequest.getTotalPrice()));
+        sb.append("\n\nAppointment Time: " + printFormatter.format(PSTStartTime) + " PST");
+        sb.append("\n\nAddress: " + orderRequest.getServs().get(0).getAddress());
+        sb.append("\n\n\nThank you very much! \n\n\n\n -The Love Team");
+        String body = sb.toString();
+        sendEmailService.sendEmail(user.getEmail(), body, "The Love Team: New Order");
+        twilioService.sendSms(user.getPhone(), body);
     }
 }
