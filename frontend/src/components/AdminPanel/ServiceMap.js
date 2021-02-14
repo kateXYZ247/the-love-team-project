@@ -1,8 +1,8 @@
 import React, { useEffect }from "react";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
-import { GoogleMap, Circle, Marker } from "@react-google-maps/api";
-// import { useTheme } from "@material-ui/core/styles";
+import { GoogleMap, Marker } from "@react-google-maps/api";
+import BackdropProgressCircle from "../UI/BackdropProgressCircle/BackdropProgressCircle"
 
 function ServiceMap(props) {
     const containerStyle = {
@@ -22,9 +22,11 @@ function ServiceMap(props) {
     }, []);
 
     return (
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
-            {/* Child components, such as markers, info windows, etc. */}
-            {markerCenter &&
+        <React.Fragment>
+            <BackdropProgressCircle open={loading} />
+            <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
+                {/* Child components, such as markers, info windows, etc. */}
+                {markerCenter &&
                 markerCenter.map((c, i) => (
                     <Marker
                         key={i}
@@ -32,7 +34,8 @@ function ServiceMap(props) {
                         position={{lat: c.latitude, lng: c.longitude}}
                     />
                 ))}
-        </GoogleMap>
+            </GoogleMap>
+        </React.Fragment>
     );
 }
 
