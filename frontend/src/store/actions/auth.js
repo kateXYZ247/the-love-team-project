@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../shared/axios_instance";
 import {
+  API_PATH_USER_UPDATE_ACCOUNT,
   API_PATH_ADMIN_DETAIL,
   API_PATH_ADMIN_LOGIN,
   API_PATH_PROVIDER_DETAIL,
@@ -237,5 +238,65 @@ export const disconnectWebSocket = (stompClient) => {
 const clearStompClient = () => {
   return {
     type: AUTH_CLEAR_STOMP_CLIENT,
+  };
+};
+
+export const profileUpdateStart = () => {
+  return {
+    type: actionTypes.USER_PROFILE_UPDATE_STATUS.start,
+  };
+};
+
+// is this the correct way to use it?
+export const profileUpdateSuccess = (firstName, lastName, address, phone) => {
+  return {
+    type: actionTypes.USER_PROFILE_UPDATE_STATUS.success,
+    firstName: firstName,
+    lastName: lastName,
+    address: address,
+    phone: phone,
+  };
+};
+
+
+export const profileUpdateFail = (error) => {
+  return {
+    type: actionTypes.USER_PROFILE_UPDATE_STATUS.fail,
+    error: error,
+  };
+};
+
+// sending request to the backend
+
+export const profileUpdate = (userId, firstName, lastName, address, phone) => {
+  console.log(firstName);
+  return (dispatch) => {
+    dispatch(profileUpdateStart);
+    axios(API_PATH_USER_DETAIL + userId + API_PATH_USER_UPDATE_ACCOUNT, {
+      // UI updated data for backend to update
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        phone: phone,
+      },
+      method: "put",
+    })
+        .then((response) => {
+          console.log(response);
+          if (response.status !== 200) {
+            throw new Error("Profile Update Failed!")
+          }
+          const { successMsg } = response.data;
+          dispatch(profileUpdateSuccess(userId, firstName, lastName, address, phone));
+          dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
+        })
+        .catch((error) => {
+          console.log(error);
+          const { errors } = error.response.data;
+          console.log(errors);
+          dispatch(profileUpdateFail(error));
+          dispatch(setMessage(MESSAGE_TYPE.error, errors[0].message));
+        });
   };
 };
