@@ -25,7 +25,7 @@ function ProductCard(props) {
   const { name, description, price } = props.item;
   return (
     <Grid item xs={12} sm={10} md={7} lg={4} container justify="center">
-      <Paper elevation={5}>
+      <Paper elevation={2}>
         <Box p={3}>
           <TitleTypography variant="h5">{name}</TitleTypography>
           <ContentTypography variant="h6">{description}</ContentTypography>
