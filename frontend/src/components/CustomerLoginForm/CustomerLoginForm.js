@@ -68,7 +68,7 @@ function CustomerLoginForm(props) {
                 <Box p={2} height="20px" align="center" fontSize={18}>
                   Click the button below to register now
                 </Box>
-                <Box p={2} height="40px">
+                <Box p={3} height="40px">
                   <ColorButtonBlack
                     variant="contained"
                     color="primary"
@@ -80,7 +80,7 @@ function CustomerLoginForm(props) {
                     Create Account
                   </ColorButtonBlack>
                 </Box>
-                <Box p={2} height="30px" align="center" fontSize={18}>
+                <Box p={3} height="30px" align="center" fontSize={18}>
                   OR
                 </Box>
                 <Box p={2} height="30px">

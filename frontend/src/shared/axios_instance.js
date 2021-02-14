@@ -20,8 +20,7 @@ instance.interceptors.request.use(function (config) {
 });
 
 instance.interceptors.response.use(
-  (response) =>
-    new Promise((resolve, reject) => {
+    (response) => new Promise((resolve, reject) => {
       resolve(response);
     }),
   (error) => {

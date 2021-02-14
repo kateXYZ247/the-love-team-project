@@ -3,14 +3,13 @@ package com.theloveteam.web.handlers;
 
 import com.theloveteam.web.constants.UrlConstants;
 import ch.hsr.geohash.GeoHash;
-import com.theloveteam.web.dao.GeoData;
-import com.theloveteam.web.dao.Order;
-import com.theloveteam.web.dao.OrderRequest;
-import com.theloveteam.web.dao.Serv;
+import com.theloveteam.web.dao.*;
+import com.theloveteam.web.exceptions.ProviderNotFoundException;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
+import com.theloveteam.web.repositories.ProviderRepository;
 import com.theloveteam.web.services.OrderService;
 import com.theloveteam.web.services.ProviderService;
 import com.theloveteam.web.services.ServService;
@@ -21,6 +20,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, String> {
@@ -39,6 +41,9 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
 
     @Autowired
     private GeoClient geoClient;
+
+    @Autowired
+    private ProviderRepository providerRepository;
 
     @Override
     protected String processRequest(OrderRequest orderRequest) {
@@ -113,10 +118,26 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
         if (providerIds == null || providerIds.size() == 0) {
             return;
         }
-        serv = servService.removeAddressInfo(serv);
+        String validGeo = serv.getGeohash().substring(0, 3);
+        //match provider supported products
         List<Long> validProviderIds = providerService.getProviderIdsByProductId(serv.getProductId(), providerIds);
-        System.out.println("available providers: " + serv.getProductId().toString() + ", " + validProviderIds.toString());
-        for (Long providerId : validProviderIds) {
+        //match provider geoHash
+        List<Provider> providerList = validProviderIds.stream()
+                .filter(Objects::nonNull)
+                .map(id -> providerRepository.findProviderByID(id).orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        List<Provider> supportedProviderList = providerList.stream()
+                .filter(provider -> provider.getGeohash() != null)
+                .filter(provider -> provider.getGeohash().substring(0, 3).equals(validGeo))
+                .collect(Collectors.toList());
+        List<Long> supportedProviderIds = supportedProviderList.stream()
+                .map(Provider::getProviderId)
+                .collect(Collectors.toList());
+
+        System.out.println("available providers: " + serv.getProductId().toString() + ", " + supportedProviderIds.toString());
+        serv = servService.removeAddressInfo(serv);
+        for (Long providerId : supportedProviderIds) {
             simpMessagingTemplate.convertAndSendToUser(
                 Long.toString(providerId), UrlConstants.WS_REPLY, serv);
         }
