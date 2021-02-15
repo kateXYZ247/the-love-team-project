@@ -293,9 +293,7 @@ export const profileUpdate = (userId, firstName, lastName, address, phone) => {
           throw new Error("Profile Update Failed!");
         }
         const { successMsg } = response.data;
-        dispatch(
-          profileUpdateSuccess(userId, firstName, lastName, address, phone)
-        );
+        dispatch(profileUpdateSuccess(firstName, lastName, address, phone));
         dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
       })
       .catch((error) => {
