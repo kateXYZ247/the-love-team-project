@@ -17,7 +17,8 @@ const setInitialDate = (date) => {
   // console.log(initialDate);
   // console.log(initialHour);
   const time = ":00:00 GMT-0600 (北美中部标准时间)";
-  return initialDate.substr(0,16).concat(initialHour).concat(time);
+  console.log(new Date(initialDate.substr(0,16).concat(initialHour).concat(time)));
+  return new Date(initialDate.substr(0,16).concat(initialHour).concat(time));
 }
 
 
