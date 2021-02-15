@@ -24,8 +24,9 @@ function OrderInfo(props) {
     onResetStatus,
     validAddress,
     checkAddress,
-    // fetchCurAddress,
     setValidAddress,
+    validTime,
+    setValidTime,
   } = props;
 
   const [date, setDate] = useState(oldOrderDate);
@@ -37,10 +38,24 @@ function OrderInfo(props) {
   const [direction, setDirection] = useState(oldDirection);
   const [addressType, setAddressType] = useState(oldAddressType);
 
+
   const dateChangedHandler = (updatedDate) => {
-    console.log(date);
+    setValidTime(true);
     setDate(updatedDate);
+    const month = updatedDate.getMonth();
+    const date = updatedDate.getDate();
+    const hour = updatedDate.getHours();
+    // const minute = updatedDate.getMinutes();
+    const curTime = new Date();
+    if (month > curTime.getMonth() || date > curTime.getDate() || (hour > curTime.getHours() + 1)) {
+      setValidTime(true);
+    } else {
+      setValidTime(false);
+    }
   };
+
+
+
 
   const addressChangedHandler = (updatedAddress) => {
 
@@ -92,7 +107,12 @@ function OrderInfo(props) {
         />
       </Box>
       <Box mt={3}>
-        <DateTimePicker date={date} dateChangedHandler={dateChangedHandler} />
+        <DateTimePicker
+            date={date}
+            dateChangedHandler={dateChangedHandler}
+            validTime={validTime}
+            // validateTime={validateTime()}
+        />
       </Box>
       <Box mt={5}>
         <AddressCard
