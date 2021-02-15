@@ -50,4 +50,5 @@ export {
 
 export {
   fetchStatistics,
+  fetchGeo,
 } from "./admin";
