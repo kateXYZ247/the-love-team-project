@@ -85,27 +85,30 @@ public class UpdateServStatusHandler extends AbstractRequestHandler <UpdateServR
         Long orderId = service.getOrderId();
         String status = updateServRequestBody.getStatus();
         List<Serv> servList = serviceRepository.getServiceByOrderId(orderId);
+        List<Serv> currentServList = servList.stream()
+                .filter(serv -> !serv.getServiceId().equals(serviceId))
+                .collect(Collectors.toList());
         //Update order status, if all services ended
         if (status.equals(ServiceStatus.ended.name())) {
             //check other service in same order
-            List<Long> endedServiceIds = servList.stream()
+            List<Long> endedServiceIds = currentServList.stream()
                     .filter(Objects::nonNull)
                     .filter(serv -> ServiceStatus.ended.name().equals(serv.getStatus()))
                     .map(Serv::getServiceId)
                     .collect(Collectors.toList());
-            if(endedServiceIds.size() == servList.size()) {
+            if(endedServiceIds.size() == currentServList.size()) {
                 orderRepository.updateStatusByOrderId(orderId, ServiceStatus.finished.name());
             }
         }
         //Update order status, if all services accepted
         if (status.equals(ServiceStatus.accepted.name())) {
             //check other service in same order
-            List<Long> endedServiceIds = servList.stream()
+            List<Long> endedServiceIds = currentServList.stream()
                     .filter(Objects::nonNull)
                     .filter(serv -> ServiceStatus.accepted.name().equals(serv.getStatus()))
                     .map(Serv::getServiceId)
                     .collect(Collectors.toList());
-            if(endedServiceIds.size() == servList.size()) {
+            if(endedServiceIds.size() == currentServList.size()) {
                 orderRepository.updateStatusByOrderId(orderId, ServiceStatus.accepted.name());
             }
         }
