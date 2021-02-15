@@ -26,27 +26,27 @@ public class OrderService {
 
         for (int i = 0; i < orders.size(); i++) {
             List<Serv> servs = serviceRepository.getServiceByOrderId(orders.get(i).getOrderId());
-            String status = "requested";
-            int requested = 0, accepted = 0;
-            for (Serv serv : servs) {
-                if (serv.getStatus().equals("requested")) {
-                    requested++;
-                } else if (serv.getStatus().equals("accepted") || serv.getStatus().equals("started") || serv.getStatus().equals("ended")) {
-                    accepted++;
-                }
-            }
-            if (requested == 0 && accepted == 0) {
-                status = "finished";
-            } else if (requested == 0 && accepted != 0) {
-                status = "accepted";
-            }
+//            String status = "requested";
+//            int requested = 0, accepted = 0;
+//            for (Serv serv : servs) {
+//                if (serv.getStatus().equals("requested")) {
+//                    requested++;
+//                } else if (serv.getStatus().equals("accepted") || serv.getStatus().equals("started") || serv.getStatus().equals("ended")) {
+//                    accepted++;
+//                }
+//            }
+//            if (requested == 0 && accepted == 0) {
+//                status = "finished";
+//            } else if (requested == 0 && accepted != 0) {
+//                status = "accepted";
+//            }
 
             OrderHistory orderHistory = OrderHistory.builder()
                 .orderId(orders.get(i).getOrderId())
                 .userId(orders.get(i).getUserId())
                 .createdAt(orders.get(i).getCreatedAt())
                 .totalPrice(orders.get(i).getTotalPrice())
-                .status(status)
+                .status(orders.get(i).getStatus())
                 .servs(servs)
                 .build();
             orderHistoryList.add(orderHistory);

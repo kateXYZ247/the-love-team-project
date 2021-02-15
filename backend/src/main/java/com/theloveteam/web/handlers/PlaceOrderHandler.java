@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -57,7 +58,9 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
 
         List<Long> providerIds = providerService.getOnlineProviderIds();
         System.out.println("provider Ids: " + providerIds.toString());
+        List<Serv> servs = new ArrayList<>();
         for (int i = 0; i < orderRequest.getServs().size(); i++) {
+
             Serv serv = Serv.builder().orderId(orderId)
                 .userId(userId)
                 .startTime(orderRequest.getServs().get(i).getStartTime())
@@ -97,9 +100,12 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             }
 
             servService.createService(serv);
-            // push notification to online providers
-            pushNotificationToProviders(serv, providerIds);
+            servs.add(serv);
+
         }
+        servs.stream().forEach(serv ->
+                // push notification to online providers
+                pushNotificationToProviders(serv, providerIds));
 
         return "Order is Successfully Placed!";
     }
