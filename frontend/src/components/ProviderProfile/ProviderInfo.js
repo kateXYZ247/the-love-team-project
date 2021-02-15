@@ -107,13 +107,14 @@ function ProviderInfo(props) {
                     <FaceIcon color={"primary"} style={{ fontSize: 50 }} />
                   </Grid>
                   <Grid item xs={10} container justify="space-around">
-                    {productName.map((p, index) => (
-                      <Box key={index} p={1} component={"span"}>
-                        <Grid container>
-                          <Chip label={p} color="primary" />
-                        </Grid>
-                      </Box>
-                    ))}
+                    {productName &&
+                      productName.map((p, index) => (
+                        <Box key={index} p={1} component={"span"}>
+                          <Grid container>
+                            <Chip label={p} color="primary" />
+                          </Grid>
+                        </Box>
+                      ))}
                   </Grid>
 
                   <Box textAlign="center">
