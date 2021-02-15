@@ -12,13 +12,23 @@ import {
 
 
 const setInitialDate = (date) => {
-  const initialDate = date.toString();
-  const initialHour = date.getHours() + 2;
+  let initialDate = date.getDate();
+  let initialHour = date.getHours() + 2;
+  if (initialHour > 24) {
+    initialHour = initialHour - 24;
+    initialDate = initialDate + 1;
+  }
+  date.setDate(initialDate);
+  date.setHours(initialHour);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  let DateStr = date.toString();
   // console.log(initialDate);
   // console.log(initialHour);
-  const time = ":00:00 GMT-0600 (北美中部标准时间)";
-  console.log(new Date(initialDate.substr(0,16).concat(initialHour).concat(time)));
-  return new Date(initialDate.substr(0,16).concat(initialHour).concat(time));
+  // const time = ":00:00 GMT-0600 (北美中部标准时间)";
+  console.log(DateStr);
+  // return new Date(initialDateStr.substr(0,16).concat(initialHour.toString()).concat(time));
+  return date;
 }
 
 
