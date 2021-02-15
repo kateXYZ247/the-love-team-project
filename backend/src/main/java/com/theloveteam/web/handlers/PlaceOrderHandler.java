@@ -60,6 +60,8 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
 
     @Autowired
     private TwilioService twilioService;
+
+    @Autowired
     private ProviderRepository providerRepository;
 
     @Override
