@@ -1,5 +1,5 @@
 # The Love Team
-## This branch adds Email and SMS notification function to the develop branch
+ This branch adds Email and SMS notification function to the develop branch
 
 ## Setup
 
@@ -37,16 +37,8 @@ twilio.auth_token=twilio_auth_token
 twilio.trial_number=twilio_trial_number
 ```
 
-And add
-- Gmail address (spring_mail_username)
-- App Passwords (spring_mail_password)
-- ACCOUNT SID (twilio_account_SID)
-- AUTH TOKEN(twilio_auth_token)
-- (twilio_trial_number)
 
-to your environment variables.
-
-And add
+### And add
 ```
 spring_mail_username= GMAIL_ADDRESS;
 spring_mail_password= GOOGLE_APP_PASSWORDS;
