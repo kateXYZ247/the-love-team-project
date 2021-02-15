@@ -6,7 +6,6 @@ import { Box } from "@material-ui/core";
 import BottomAction from "../../../components/Order/BottomAction/BottomAction";
 import TopAction from "../../../components/Order/TopAction/TopAction";
 
-
 function OrderInfo(props) {
   const {
     oldOrderDate,
@@ -38,7 +37,6 @@ function OrderInfo(props) {
   const [direction, setDirection] = useState(oldDirection);
   const [addressType, setAddressType] = useState(oldAddressType);
 
-
   const dateChangedHandler = (updatedDate) => {
     setValidTime(true);
     setDate(updatedDate);
@@ -54,11 +52,7 @@ function OrderInfo(props) {
     }
   };
 
-
-
-
   const addressChangedHandler = (updatedAddress) => {
-
     // fetchCurAddress(updatedAddress);
     setAddress(updatedAddress);
     setValidAddress("");

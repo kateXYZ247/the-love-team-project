@@ -9,7 +9,7 @@ function Sample(props) {
         Button OK
       </ColorButton>
       <Chip color="primary" label="Chip OK" onClick={props.clicked} />
-      <span>REACT_APP_SAMPLE: {process.env.REACT_APP_SAMPLE}</span>
+      <div>REACT_APP_SAMPLE: {process.env.REACT_APP_SAMPLE}</div>
     </div>
   );
 }
