@@ -1,37 +1,31 @@
 package com.theloveteam.web.handlers;
 
-import com.theloveteam.web.constants.UrlConstants;
 import ch.hsr.geohash.GeoHash;
+import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dao.*;
 import com.theloveteam.web.exceptions.RoleNotMatchException;
 import com.theloveteam.web.external.GeoClient;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.TokenSubject;
 import com.theloveteam.web.repositories.ProductRepository;
+import com.theloveteam.web.repositories.ProviderRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
 import com.theloveteam.web.repositories.UserRepository;
 import com.theloveteam.web.services.*;
-import com.theloveteam.web.repositories.ProviderRepository;
-import com.theloveteam.web.services.OrderService;
-import com.theloveteam.web.services.ProviderService;
-import com.theloveteam.web.services.ServService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
