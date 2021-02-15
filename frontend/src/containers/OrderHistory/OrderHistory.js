@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import OrderHistoryTableRow from "../../components/Order/OrderHistoryTableRow/OrderHistoryTableRow";
 import { FETCH_ORDERS_TYPE } from "../../constant/order";
-import { PATH_HISTORY } from '../../constant/path'
+import { PATH_HISTORY } from "../../constant/path";
 
 const useStyles = makeStyles({
   table: {
@@ -34,7 +34,14 @@ const TableTitleCell = withStyles((theme) => ({
 }))(TableCell);
 
 function OrderHistory(props) {
-  const { userId, loading, onFetchOrders, orders, onUmount, onSetRedirectPath } = props;
+  const {
+    userId,
+    loading,
+    onFetchOrders,
+    orders,
+    onUmount,
+    onSetRedirectPath,
+  } = props;
 
   const classes = useStyles();
 
@@ -65,13 +72,9 @@ function OrderHistory(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order, index) => {
-                return (
-                  <React.Fragment key={index}>
-                    <OrderHistoryTableRow key={order.orderId} order={order} />
-                  </React.Fragment>
-                );
-              })}
+              {orders.map((order, index) => (
+                <OrderHistoryTableRow key={index} order={order} />
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

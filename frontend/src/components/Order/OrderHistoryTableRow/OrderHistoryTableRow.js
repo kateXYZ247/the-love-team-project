@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { lighten } from "@material-ui/core";
 import { LOCAL_TIME_OPTIONS } from "../../../constant/constant";
+import { ORDER_STATUS } from "../../../constant/order";
 
 const MainTableRow = withStyles((theme) => ({
   hover: {
@@ -54,25 +55,24 @@ function OrderHistoryTableRow(props) {
   const serviceEndDate =
     servs.length === 0 ? new Date(0) : new Date(servs[0].endTime);
   const diff = serviceEndDate - serviceDate; // milliseconds
-  const durationInMintues = diff / 1000 / 60;
+  const durationInMinutes = diff / 1000 / 60;
   let orderStatus = order.status;
   const numberOfService = servs.length;
-  const acceptedService = servs.filter((serv) => serv.status === "accepted");
-  const endedService = servs.filter((serv) => serv.status === "ended");
-  const finishedService = servs.filter((serv) => serv.status === "finished");
-  const canceledService = servs.filter((serv) => serv.status === "canceled");
+  const requestedService = servs.filter(
+    (serv) => serv.status === ORDER_STATUS.requested
+  );
 
   const servicesNames = [
     ...servs.reduce((acc, s) => acc.add(s.productName), new Set()).values(),
   ].join(", ");
 
-  if (finishedService.length === numberOfService) {
-    orderStatus = "finished";
-  } else if (canceledService.length === numberOfService) {
-    orderStatus = "canceled";
-  } else {
+  if (orderStatus !== ORDER_STATUS.finished) {
     orderStatus =
-      "(" + (acceptedService.length + endedService.length + finishedService.length) + "/" + numberOfService + ") accepted";
+      "(" +
+      (numberOfService - requestedService.length) +
+      "/" +
+      numberOfService +
+      ") accepted";
   }
 
   const rowClickedHandler = () => {
@@ -80,7 +80,7 @@ function OrderHistoryTableRow(props) {
   };
 
   return (
-    <React.Fragment key={order.orderId}>
+    <React.Fragment>
       <MainTableRow hover onClick={rowClickedHandler}>
         <TableCell>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -123,7 +123,7 @@ function OrderHistoryTableRow(props) {
                         )}
                       </TableCell>
                       <TableCell>
-                        {Math.round(durationInMintues / 5) * 5}
+                        {Math.round(durationInMinutes / 5) * 5}
                       </TableCell>
                       <TableCell>{service.status}</TableCell>
                       <TableCell align="right">
