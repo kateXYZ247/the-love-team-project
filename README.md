@@ -1,5 +1,11 @@
 # The Love Team
- This branch adds Email and SMS notification function to the develop branch
+ This branch adds Email and SMS notification function to the develop branch.
+ 
+ User and provider will receive notifications within 6 hours before the upcoming order/service.
+ 
+ The user will receive a notification after registration and placed an order.
+ 
+ The provider will receive notification after a status update of a service.
 
 ## Setup
 
