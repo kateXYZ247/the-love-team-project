@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs } from "@material-ui/core";
 import { AUTH_ROLE } from "../../../constant/auth";
 import {
+  NAV_BAR_ADMIN_PATH_ITEMS,
   NAV_BAR_DEFAULT_PATH_ITEMS,
   NAV_BAR_PROVIDER_PATH_ITEMS,
   NAV_BAR_USER_PATH_ITEMS,
@@ -35,6 +36,16 @@ function NavigationItems(props) {
         : null}
       {isAuthenticated && role === AUTH_ROLE.provider
         ? NAV_BAR_PROVIDER_PATH_ITEMS.map((item) => (
+            <LinkTab
+              key={item.path}
+              label={item.label}
+              to={item.path}
+              value={item.path}
+            />
+          ))
+        : null}
+      {isAuthenticated && role === AUTH_ROLE.admin
+        ? NAV_BAR_ADMIN_PATH_ITEMS.map((item) => (
             <LinkTab
               key={item.path}
               label={item.label}

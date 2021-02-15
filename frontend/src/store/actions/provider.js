@@ -77,7 +77,6 @@ export const fetchServices = (type, userId) => {
         }
       })
       .catch((error) => {
-        console.log("error -> ", error);
         if (
           error
             .toString()

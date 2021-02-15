@@ -1,10 +1,10 @@
 import React from "react";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
-import StatusPieChart from "../../components/AdminPanel/StatusPieChart";
+import Sample from "../../components/Sample/Sample";
 
 function SampleContainer(props) {
-  return <StatusPieChart />;
+  return <Sample />;
 }
 
 const mapStateToProps = (state) => {

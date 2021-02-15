@@ -17,13 +17,13 @@ function Admin() {
   const classes = useStyles();
   return (
     <Box p={5}>
-      <Grid container spacing={2} justify={"center"}>
-        <Grid item xs={12} md={6} lg={3} justify={"center"}>
+      <Grid container spacing={2} justify="center">
+        <Grid item xs={12} md={6} lg={4}>
           <Paper elevation={5} className={classes.box}>
             <StatusPieChart />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} lg={6} justify="center">
+        <Grid item xs={12} md={6} lg={6}>
           <Paper elevation={5} className={classes.map}>
             <ServiceMap center={{ lat: 37, lng: -100 }} />
           </Paper>
