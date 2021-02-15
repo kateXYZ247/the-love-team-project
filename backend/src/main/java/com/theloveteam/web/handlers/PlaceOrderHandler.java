@@ -28,6 +28,10 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -76,7 +80,9 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
 
         List<Long> providerIds = providerService.getOnlineProviderIds();
         System.out.println("provider Ids: " + providerIds.toString());
+        List<Serv> servs = new ArrayList<>();
         for (int i = 0; i < orderRequest.getServs().size(); i++) {
+
             Serv serv = Serv.builder().orderId(orderId)
                     .userId(userId)
                     .startTime(orderRequest.getServs().get(i).getStartTime())
@@ -115,10 +121,14 @@ public class PlaceOrderHandler extends AbstractRequestHandler<OrderRequest, Stri
             }
 
             servService.createService(serv);
-            // push notification to online providers
-            pushNotificationToProviders(serv, providerIds);
-            sendEmailAndSmsAfterNewOrder(orderRequest);
+            servs.add(serv);
+
         }
+        servs.stream().forEach(serv ->
+                // push notification to online providers
+                pushNotificationToProviders(serv, providerIds));
+
+        sendEmailAndSmsAfterNewOrder(orderRequest);
 
         return "Order is Successfully Placed!";
     }

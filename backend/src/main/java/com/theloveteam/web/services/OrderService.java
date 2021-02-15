@@ -21,48 +21,29 @@ public class OrderService {
     private ServiceRepository serviceRepository;
 
     public List<OrderHistory> getOrderByUserId(Long id) {
-        List<Order> orders = orderRepository.gerAllOrderByUserId(id);
+        return getServicesForOrders(orderRepository.gerAllOrderByUserId(id));
+    }
+
+    public List<OrderHistory> getUpcomingOrderByUserId(Long id) {
+        return getServicesForOrders(orderRepository.getUpcomingOrderByUserId(id));
+    }
+
+    private List<OrderHistory> getServicesForOrders(List<Order> orders) {
         List<OrderHistory> orderHistoryList = new ArrayList<>();
 
-        for (int i = 0; i < orders.size(); i++) {
-            List<Serv> servs = serviceRepository.getServiceByOrderId(orders.get(i).getOrderId());
-            String status = "requested";
-            int requested = 0, accepted = 0;
-            for (Serv serv : servs) {
-                if (serv.getStatus().equals("requested")) {
-                    requested++;
-                } else if (serv.getStatus().equals("accepted") || serv.getStatus().equals("started") || serv.getStatus().equals("ended")) {
-                    accepted++;
-                }
-            }
-            if (requested == 0 && accepted == 0) {
-                status = "finished";
-            } else if (requested == 0 && accepted != 0) {
-                status = "accepted";
-            }
-
+        for (Order order : orders) {
+            List<Serv> servs = serviceRepository.getServiceByOrderId(order.getOrderId());
             OrderHistory orderHistory = OrderHistory.builder()
-                .orderId(orders.get(i).getOrderId())
-                .userId(orders.get(i).getUserId())
-                .createdAt(orders.get(i).getCreatedAt())
-                .totalPrice(orders.get(i).getTotalPrice())
-                .status(status)
+                .orderId(order.getOrderId())
+                .userId(order.getUserId())
+                .createdAt(order.getCreatedAt())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getStatus())
                 .servs(servs)
                 .build();
             orderHistoryList.add(orderHistory);
         }
         return orderHistoryList;
-    }
-
-    public List<OrderHistory> getUpcomingOrderByUserId(Long id) {
-        List<OrderHistory> upcomingOrders = new ArrayList<>();
-        List<OrderHistory> orderHistories= getOrderByUserId(id);
-        for (OrderHistory orderHistory : orderHistories) {
-            if (orderHistory.getStatus() != "finished") {
-                upcomingOrders.add(orderHistory);
-            }
-        }
-        return upcomingOrders;
     }
 
     public void deleteOrderById(Long id) {

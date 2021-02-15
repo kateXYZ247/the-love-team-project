@@ -25,7 +25,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("update Order o set o.status = :status where o.orderId = :id")
     void updateStatusByOrderId(Long id, String status);
 
+    @Query("select o from Order o where o.userId = ?1 and o.status <> 'finished'")
+    List<Order> getUpcomingOrderByUserId(Long id);
+
     @Query("select o from Order o where o.status = 'requested' order by o.createdAt desc")
     List<Order> gerAllUpcomingOrders();
-
 }

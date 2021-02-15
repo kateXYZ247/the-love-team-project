@@ -106,8 +106,8 @@ function Register(props) {
   ) : (
     <React.Fragment>
       <BackdropProgressCircle open={loading} />
-      <Grid container justify="center">
-        <Box component="span" mt={1}>
+      {/*<Grid container justify="center">*/}
+        <Box component="span" mt={3} >
           <SignIn />
         </Box>
         <Box mt={3}>
@@ -132,7 +132,7 @@ function Register(props) {
             checkConfirmPW={handleConfirm}
           />
         </Box>
-      </Grid>
+      {/*</Grid>*/}
     </React.Fragment>
   );
 }

@@ -16,6 +16,8 @@ function ProviderLoginForm(props) {
     checkUsername,
     validPW,
     checkPW,
+    setValidUsername,
+    setValidPW,
   } = props;
   return (
     <Grid container justify="center">
@@ -35,8 +37,10 @@ function ProviderLoginForm(props) {
                   setKeepSignedIn={setKeepSignedIn}
                   validUsername={validUsername}
                   checkUsername={checkUsername}
+                  setValidUsername={setValidUsername}
                   validPW={validPW}
                   checkPW={checkPW}
+                  setValidPW={setValidPW}
                 />
               </Grid>
             </Grid>

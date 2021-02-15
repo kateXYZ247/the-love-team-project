@@ -11,6 +11,16 @@ import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
 
+function DateComparator(service1, service2) {
+  if (service1.startTime < service2.startTime) {
+    return -1;
+  } else if (service1.startTime > service2.startTime) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 const fetchServicesSuccess = (fetchType, services) => {
   return {
     type: actionTypes.PROVIDER_FETCH_SERVICES.success,
@@ -60,6 +70,7 @@ export const fetchServices = (type, userId) => {
             serv.endTime = new Date(serv.endTime);
             return serv;
           });
+          servList.sort(DateComparator);
           dispatch(fetchServicesSuccess(type, servList));
         } else {
           throw new Error("Invalid data!");
@@ -67,11 +78,17 @@ export const fetchServices = (type, userId) => {
       })
       .catch((error) => {
         console.log("error -> ", error);
-        if (error.toString().includes("Cannot read property 'hasOwnProperty' of undefined")) {
-          dispatch(setMessage(MESSAGE_TYPE.warning, "TIME OUT! PLEASE LOG IN AGAIN!"));
+        if (
+          error
+            .toString()
+            .includes("Cannot read property 'hasOwnProperty' of undefined")
+        ) {
+          dispatch(
+            setMessage(MESSAGE_TYPE.warning, "TIME OUT! PLEASE LOG IN AGAIN!")
+          );
         } else {
-        dispatch(fetchServicesFail(type));
-        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+          dispatch(fetchServicesFail(type));
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
         }
       });
   };

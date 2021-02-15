@@ -1,51 +1,53 @@
-import { GoogleMap, Circle, Marker } from "@react-google-maps/api";
+import React, { useEffect } from "react";
+import * as actions from "../../store/actions";
+import { connect } from "react-redux";
+import { GoogleMap, Marker } from "@react-google-maps/api";
+import BackdropProgressCircle from "../UI/BackdropProgressCircle/BackdropProgressCircle";
 
-function initMap() {
-    return
-    // const map = new google.maps.Map(document.getElementById("map"), {
-    //     zoom: 3,
-    //     center: { lat: -28.024, lng: 140.887 },
-    // });
-    // // Create an array of alphabetical characters used to label the markers.
-    // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    // // Add some markers to the map.
-    // // Note: The code uses the JavaScript Array.prototype.map() method to
-    // // create an array of markers based on a given "locations" array.
-    // // The map() method here has nothing to do with the Google Maps API.
-    // const markers = locations.map((location, i) => {
-    //     return new google.maps.Marker({
-    //         position: location,
-    //         label: labels[i % labels.length],
-    //     });
-    // });
-    // // Add a marker clusterer to manage the markers.
-    // new MarkerClusterer(map, markers, {
-    //     imagePath:
-    //         "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-    // });
+function ServiceMap(props) {
+  const containerStyle = {
+    minWidth: "300px",
+    minHeight: "600px",
+  };
+  const { center, markerCenter, onFetchGeo, loading, userId } = props;
+
+  useEffect(() => {
+    onFetchGeo(userId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <React.Fragment>
+      <BackdropProgressCircle open={loading} />
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={4}>
+        {/* Child components, such as markers, info windows, etc. */}
+        {markerCenter &&
+          markerCenter.map((c, i) => (
+            <Marker
+              key={i}
+              opacity={0.8}
+              position={{ lat: c.latitude, lng: c.longitude }}
+            />
+          ))}
+      </GoogleMap>
+    </React.Fragment>
+  );
 }
-const locations = [
-    { lat: -31.56391, lng: 147.154312 },
-    { lat: -33.718234, lng: 150.363181 },
-    { lat: -33.727111, lng: 150.371124 },
-    { lat: -33.848588, lng: 151.209834 },
-    { lat: -33.851702, lng: 151.216968 },
-    { lat: -34.671264, lng: 150.863657 },
-    { lat: -35.304724, lng: 148.662905 },
-    { lat: -36.817685, lng: 175.699196 },
-    { lat: -36.828611, lng: 175.790222 },
-    { lat: -37.75, lng: 145.116667 },
-    { lat: -37.759859, lng: 145.128708 },
-    { lat: -37.765015, lng: 145.133858 },
-    { lat: -37.770104, lng: 145.143299 },
-    { lat: -37.7737, lng: 145.145187 },
-    { lat: -37.774785, lng: 145.137978 },
-    { lat: -37.819616, lng: 144.968119 },
-    { lat: -38.330766, lng: 144.695692 },
-    { lat: -39.927193, lng: 175.053218 },
-    { lat: -41.330162, lng: 174.865694 },
-    { lat: -42.734358, lng: 147.439506 },
-    { lat: -42.734358, lng: 147.501315 },
-    { lat: -42.735258, lng: 147.438 },
-    { lat: -43.999792, lng: 170.463352 },
-];
+
+const mapStateToProps = (state) => {
+  return {
+    userId: state.auth.userId,
+    loading: state.admin.loading,
+    markerCenter: state.admin.geoList,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchGeo: (userId) => {
+      dispatch(actions.fetchGeo(userId));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceMap);
