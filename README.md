@@ -20,7 +20,7 @@ for more information (https://www.twilio.com/docs/usage/tutorials/how-to-use-you
 
 
 
-### Make sure the following codes are in the application-test.properties, 
+### Make sure the following codes are in the application-test.properties
 ```
 #Mail
 spring.mail.protocol=smtp
