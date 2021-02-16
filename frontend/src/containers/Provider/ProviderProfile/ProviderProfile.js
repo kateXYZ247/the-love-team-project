@@ -41,7 +41,7 @@ function ProviderProfile(props) {
         <Grid item container justify="center" spacing={5} alignItems="center">
           <Grid item xs={12} md={3}>
             <Box display="flex" p={2} mt={3} align="flex-end">
-              <ProviderPhoto avail={avail} handleSwitch={handleSwitch} />
+              <ProviderPhoto avail={avail} handleSwitch={handleSwitch} userId={userId}/>
             </Box>
           </Grid>
           <Grid item xs={12} md={6} container justify="center">

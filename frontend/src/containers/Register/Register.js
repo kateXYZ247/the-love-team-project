@@ -7,10 +7,12 @@ import { Redirect } from "react-router-dom";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import * as actions from "../../store/actions";
 import {checkValidity} from "../../shared/utility";
+import {setMessage} from "../../store/actions";
+import {MESSAGE_TYPE} from "../../constant/message";
 
 
 function Register(props) {
-  const { loading, flag, onRegister, onResetForm } = props;
+  const { loading, flag, onRegister, onResetForm, agreePolicy } = props;
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -28,6 +30,7 @@ function Register(props) {
   const [validPhone, setValidPhone] = useState("initial");
   const [validPW, setValidPW] = useState("initial");
   const [confirmPW, setConfirmPW] = useState("initial");
+  // const [validBox, setValidBox] = useState("initial");
 
   function handleConfirm(e) {
     const value = e.target.value;
@@ -71,6 +74,7 @@ function Register(props) {
     const name = e.target.name;
     const value = e.target.checked;
     setUser((user) => ({ ...user, [name]: value }));
+    // setValidBox("");
     setSubmit(false);
   }
 
@@ -97,6 +101,9 @@ function Register(props) {
         setConfirmPW("null");
       } else if (user.confirmPW !== user.password) {
         setConfirmPW("invalid");
+      }
+      if (!user.isAgree) {
+        agreePolicy();
       }
     }
   }
@@ -130,6 +137,7 @@ function Register(props) {
             checkPW={validatePW}
             confirmPW={confirmPW}
             checkConfirmPW={handleConfirm}
+            // validBox={validBox}
           />
         </Box>
       {/*</Grid>*/}
@@ -149,6 +157,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onRegister: (user) => dispatch(actions.register(user)),
     onResetForm: () => dispatch(actions.registerReset()),
+    agreePolicy: () => dispatch(actions.setMessage(MESSAGE_TYPE.error, "please agree the policy"))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
