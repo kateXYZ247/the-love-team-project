@@ -128,14 +128,14 @@ export const login = (username, password, role) => {
       role === AUTH_ROLE.user
         ? API_PATH_USER_LOGIN
         : role === AUTH_ROLE.provider
-        ? API_PATH_PROVIDER_LOGIN
-        : API_PATH_ADMIN_LOGIN;
+          ? API_PATH_PROVIDER_LOGIN
+          : API_PATH_ADMIN_LOGIN;
     const urlDetail =
       role === AUTH_ROLE.user
         ? API_PATH_USER_DETAIL
         : role === AUTH_ROLE.provider
-        ? API_PATH_PROVIDER_DETAIL
-        : API_PATH_ADMIN_DETAIL;
+          ? API_PATH_PROVIDER_DETAIL
+          : API_PATH_ADMIN_DETAIL;
     axios
       .post(urlLogin, data)
       .then((response) => {
@@ -171,8 +171,8 @@ export const login = (username, password, role) => {
           role === AUTH_ROLE.user
             ? data.firstName
             : role === AUTH_ROLE.provider
-            ? data.provider.firstName
-            : data.firstName;
+              ? data.provider.firstName
+              : data.firstName;
         dispatch(setMessage(MESSAGE_TYPE.info, "Welcome back, " + firstName));
       })
       .catch((error) => {
@@ -297,9 +297,13 @@ export const profileUpdate = (userId, firstName, lastName, address, phone) => {
         dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
       })
       .catch((error) => {
-        const { errors } = error.response.data;
         dispatch(profileUpdateFail(error));
-        dispatch(setMessage(MESSAGE_TYPE.error, errors[0].message));
+        if (error.response) {
+          const { errors } = error.response.data;
+          dispatch(setMessage(MESSAGE_TYPE.warning, errors[0].message));
+        } else {
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
       });
   };
 };
