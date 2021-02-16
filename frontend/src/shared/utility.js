@@ -41,21 +41,27 @@ export const checkValidity = (field, value) => {
         }
         return isValid;
       case "name":
-        if (/^[a-zA-Z -]/.test(value)) {
-          return isValid;
-        }
         if (value.trim() === "") {
           isValid = "null";
+          return isValid;
+        }
+         if (/^[a-zA-Z -]/.test(value)) {
+          return isValid;
         } else {
           isValid = "invalid";
         }
         return isValid;
     case "phone":
-      if (/[^a-zA-Z -]/.test(value)) {
-        return isValid;
-      }
+      // if (/[^a-zA-Z -]/.test(value)) {
+      //   return isValid;
+      // }
       if (value.trim() === "") {
         isValid = "null";
+        return isValid;
+      }
+      // if (/^\(?([0-9]{3})\)?[-]+([0-9]{3})[-]+([0-9]{4})$/.test(value)) {
+      if (/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(value)) {
+        return isValid;
       } else {
         isValid = "invalid";
       }

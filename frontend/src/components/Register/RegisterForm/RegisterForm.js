@@ -12,6 +12,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import CheckboxLabels from "../CheckBox/CheckBox.js";
 import { withStyles } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const ColorButtonDarkBlue = withStyles((theme) => ({
   root: {
@@ -122,7 +123,7 @@ function RegisterForm(props) {
                     <Grid item xs={10} sm={10}>
                       <TextField
                         id="Phone-Number"
-                        label="Phone Number"
+                        label="Phone Number: xxx-xxx-xxxx"
                         name="phone"
                         defaultValue={user.phone}
                         onChange={handleChange}
