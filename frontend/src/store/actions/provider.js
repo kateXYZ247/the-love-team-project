@@ -10,7 +10,6 @@ import {
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
-import { ControlCameraOutlined } from "@material-ui/icons";
 
 function DateComparator(service1, service2) {
   if (service1.startTime < service2.startTime) {
