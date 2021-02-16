@@ -10,6 +10,7 @@ import {
 import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../constant/provider";
+import { ControlCameraOutlined } from "@material-ui/icons";
 
 function DateComparator(service1, service2) {
   if (service1.startTime < service2.startTime) {
@@ -164,7 +165,8 @@ export const updateServiceStatus = (
       })
       .catch((error) => {
         dispatch(updateServiceStatusFail());
-        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        const { errors } = error.response.data;
+        dispatch(setMessage(MESSAGE_TYPE.warning, errors[0].message));
       });
   };
 };
