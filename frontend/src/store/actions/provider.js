@@ -164,8 +164,12 @@ export const updateServiceStatus = (
       })
       .catch((error) => {
         dispatch(updateServiceStatusFail());
-        const { errors } = error.response.data;
-        dispatch(setMessage(MESSAGE_TYPE.warning, errors[0].message));
+        if (error.response) {
+          const { errors } = error.response.data;
+          dispatch(setMessage(MESSAGE_TYPE.warning, errors[0].message));
+        } else {
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
       });
   };
 };

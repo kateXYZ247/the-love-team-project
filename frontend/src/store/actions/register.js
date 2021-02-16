@@ -49,9 +49,13 @@ export const register = (user) => {
         dispatch(registerSuccess());
       })
       .catch((error) => {
-        const { errors } = error.response.data;
         dispatch(registerFail(error));
-        dispatch(setMessage(MESSAGE_TYPE.error, errors[0].message));
+        if (error.response) {
+          const { errors } = error.response.data;
+          dispatch(setMessage(MESSAGE_TYPE.warning, errors[0].message));
+        } else {
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
       });
   };
 };
