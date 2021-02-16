@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import userAvatar from "../../assets/images/user_avatar.svg";
+import userAvatar from "../../assets/images/userAvatar.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "center",
   },
   large: {
-    width: theme.spacing(23),
-    height: theme.spacing(23),
+    width: theme.spacing(15),
+    height: theme.spacing(15),
     margin: "auto",
     padding: 15,
   },
@@ -24,7 +24,7 @@ function UserProfAvatar() {
 
   return (
     <div className={classes.root}>
-      <Avatar alt="Doggy Pooh" src={userAvatar} className={classes.large} />
+      <Avatar alt="Person" src={userAvatar} className={classes.large} />
     </div>
   );
 }
