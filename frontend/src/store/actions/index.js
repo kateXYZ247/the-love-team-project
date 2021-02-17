@@ -1,4 +1,10 @@
+export { setPath } from "./route";
+
 export {
+  profileUpdate,
+  profileUpdateStart,
+  profileUpdateSuccess,
+  profileUpdateFail,
   login,
   loginStart,
   loginSuccess,
@@ -6,6 +12,7 @@ export {
   logoutAndMessage,
   setRedirectPath,
   disconnectWebSocket,
+  providerUpdateLocation,
 } from "./auth";
 
 export {
@@ -20,6 +27,7 @@ export {
   resetStatus,
   clearCart,
   fetchOrders,
+  clearFetchedOrders,
   userUpdateOrderStatus,
 } from "./order";
 
@@ -27,23 +35,20 @@ export { fetchProducts } from "./products";
 
 export { register, registerReset } from "./register";
 
-export { clearMessage } from "./message";
-
-
-
-
+export { setMessage, clearMessage } from "./message";
 
 export { onSwitch } from "./providerProfile";
 
-
-
-
-
 export {
   fetchServices,
+  clearFetchedServices,
   updateServiceStatus,
   declineRequest,
   addPushedRequest,
   clearPushedRequest,
 } from "./provider";
 
+export {
+  fetchStatistics,
+  fetchGeo,
+} from "./admin";

@@ -7,19 +7,45 @@ import {
   sampleOrderTotalPrice,
   sampleOrderHistory,
   sampleUpcomingAppointment,
-  FETCH_ORDERS_TYPE
+  FETCH_ORDERS_TYPE,
 } from "../../constant/order";
+
+
+const setInitialDate = (date) => {
+  let initialDate = date.getDate();
+  let initialHour = date.getHours() + 2;
+  if (initialHour > 24) {
+    initialHour = initialHour - 24;
+    initialDate = initialDate + 1;
+  }
+  date.setDate(initialDate);
+  date.setHours(initialHour);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  let DateStr = date.toString();
+  // console.log(initialDate);
+  // console.log(initialHour);
+  // const time = ":00:00 GMT-0600 (北美中部标准时间)";
+  console.log(DateStr);
+  // return new Date(initialDateStr.substr(0,16).concat(initialHour.toString()).concat(time));
+  return date;
+}
+
+
+
 const initialState = {
   error: false,
   loading: false,
   status: ORDER_STATUS.ADD_TO_CART,
   order: {
-    startTime: new Date(),
+    startTime: setInitialDate(new Date()),
     address: "",
     apartment: "",
     pets: "",
     note: "",
     direction: "",
+    latitude: null,
+    longitude: null,
     addressType: addressTypes[0].value,
     services: sampleOrderServices,
     totalPrice: sampleOrderTotalPrice,
@@ -28,42 +54,35 @@ const initialState = {
   upcomingOrders: [],
 };
 
+
+
 const fetchOrdersStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
 const fetchOrdersSuccess = (state, action) => {
-  if (
-    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
-  ) {
+  if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
     return updateObject(state, {
       // upcomingOrders: upcomingOrders,
       upcomingOrders: action.orders,
-      loading: false
+      loading: false,
     });
-  } else if (
-    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
-  ) {
+  } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
     return updateObject(state, {
       orderHistory: action.orders,
-      loading: false
+      loading: false,
     });
   }
   return updateObject(state, { loading: false });
 };
 
 const fetchOrdersFail = (state, action) => {
-
-  if (
-    action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments
-  ) {
+  if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
     return updateObject(state, {
-      appointments: sampleUpcomingAppointment,
+      upcomingOrders: sampleUpcomingAppointment,
       loading: false,
     });
-  } else if (
-    action.fetchType === FETCH_ORDERS_TYPE.historicalOrders
-  ) {
+  } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
     return updateObject(state, {
       orderHistory: sampleOrderHistory,
       loading: false,
@@ -71,11 +90,26 @@ const fetchOrdersFail = (state, action) => {
   }
   return updateObject(state, {
     orderHistory: sampleOrderHistory,
-    appointments: sampleUpcomingAppointment,
+    upcomingOrders: sampleUpcomingAppointment,
     loading: false,
   });
 };
 
+const clearFetchedOrders = (state, action) => {
+  if (action.fetchType === FETCH_ORDERS_TYPE.upcomingAppointments) {
+    return updateObject(state, {
+      upcomingOrders: sampleUpcomingAppointment,
+    });
+  } else if (action.fetchType === FETCH_ORDERS_TYPE.historicalOrders) {
+    return updateObject(state, {
+      orderHistory: sampleOrderHistory,
+    });
+  }
+  return updateObject(state, {
+    orderHistory: sampleOrderHistory,
+    upcomingOrders: sampleUpcomingAppointment,
+  });
+};
 
 const addToCart = (state, action) => {
   const updatedServices = [...state.order.services, action.product];
@@ -116,6 +150,8 @@ const updateServiceTimeAddress = (state, action) => {
     order: updateObject(state.order, {
       startTime: action.startTime,
       address: action.address.address,
+      latitude: action.address.latitude,
+      longitude: action.address.longitude,
       apartment: action.address.apartment,
       pets: action.address.pets,
       direction: action.address.direction,
@@ -142,6 +178,8 @@ const updatePaymentInfo = (state, action) => {
       startTime: startTime,
       endTime: endTime,
       address: oldOrder.address,
+      latitude: oldOrder.latitude,
+      longitude: oldOrder.longitude,
       apartment: oldOrder.apartment,
       pets: oldOrder.pets,
       direction: oldOrder.direction,
@@ -182,7 +220,6 @@ export const placeOrderSuccess = (state, action) => {
   return updateObject(state, {
     loading: false,
     status: ORDER_STATUS.CONFIRMED,
-    order: initialState.order,
   });
 };
 
@@ -247,6 +284,8 @@ const reducer = (state = initialState, action) => {
       return fetchOrdersSuccess(state, action);
     case actionTypes.FETCH_ORDERS_FAIL:
       return fetchOrdersFail(state, action);
+    case actionTypes.CLEAR_FETCHED_ORDERS:
+      return clearFetchedOrders(state, action);
     case actionTypes.USER_UPDATE_ORDER_STATUS.start:
       return userUpdateOrderStatusStart(state, action);
     case actionTypes.USER_UPDATE_ORDER_STATUS.success:

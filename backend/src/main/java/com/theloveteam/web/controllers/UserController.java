@@ -4,22 +4,19 @@ import com.theloveteam.web.constants.UrlConstants;
 import com.theloveteam.web.dao.User;
 import com.theloveteam.web.dto.RegisterRequestBody;
 import com.theloveteam.web.dto.RegisterResponseBody;
+import com.theloveteam.web.dto.UpdateAccountRequestBody;
 import com.theloveteam.web.exceptions.UserAlreadyExistsException;
 import com.theloveteam.web.handlers.GetUserDetailHandler;
+import com.theloveteam.web.handlers.UserAcctUpdateHandler;
 import com.theloveteam.web.services.UserService;
 import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +29,9 @@ public class UserController {
 
     @Autowired
     private GetUserDetailHandler getUserDetailHandler;
+
+    @Autowired
+    private UserAcctUpdateHandler acctUpdateHandler;
 
     @GetMapping(UrlConstants.USERS_DETAILS)
     public ResponseEntity<User> getUserDetail(@PathVariable String userId) {
@@ -62,6 +62,12 @@ public class UserController {
         userService.registerAccount(registerRequestBody);
         responseBody.setSuccessMessage("Congrats! You've successfully completed your registration.");
         return ResponseEntity.ok(responseBody);
+    }
 
+    @PutMapping("/users/{id}/accounts")
+    public ResponseEntity<?> accountUpdate(@PathVariable String id,
+                                           @Valid @RequestBody UpdateAccountRequestBody accountRequestBody) {
+        accountRequestBody.setUserId(id);
+        return acctUpdateHandler.handle(accountRequestBody);
     }
 }

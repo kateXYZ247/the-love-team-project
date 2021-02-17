@@ -4,6 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
 import DoneIcon from "@material-ui/icons/Done";
 import photo from "../../assets/images/providerAvatar.jpg";
+import photo2 from "../../assets/images/providerAvatar2.jpg";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
@@ -19,18 +20,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProviderPhoto(props) {
-  const { handleSwitch, avail } = props;
+  const { handleSwitch, avail, userId } = props;
 
   const handleChange = (event) => {
     handleSwitch(!avail);
   };
   const classes = useStyles();
   return (
-    <Grid container justify={"space-around"}>
-      <Grid item xs={4}>
-        <Avatar alt="Cindy Baker" src={photo} className={classes.large} />
+    <Grid container justify="center">
+      <Grid item xs={12} container justify="center">
+        <Avatar alt="Cindy Baker" src={userId % 2 === 0 ? photo : photo2} className={classes.large} />
       </Grid>
-      <Grid item xs={6} className={classes.approve}>
+      <Grid item xs={12} className={classes.approve}>
         <Box minWidth={"250px"} align={"center"}>
           <Box mt={3}>
             <Chip

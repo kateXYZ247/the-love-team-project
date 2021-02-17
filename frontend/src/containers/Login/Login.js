@@ -5,46 +5,99 @@ import { Redirect } from "react-router-dom";
 import CustomerLoginForm from "../../components/CustomerLoginForm/CustomerLoginForm";
 import BackdropProgressCircle from "../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import ProviderLoginForm from "../../components/ProviderLogin/ProviderLoginForm";
+import AdminLoginForm from "../../components/AdminLogin/AdminLoginForm";
 import { AUTH_ROLE } from "../../constant/auth";
+import {checkValidity} from "../../shared/utility";
 
 function Login(props) {
   const { loading, onLogin, isAuthenticated, redirectPath, loginType } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
+  const [validUsername, setValidUsername] = useState("initial");
+  const [validPW, setValidPW] = useState("initial");
+
+  function validateUsername(e) {
+    const value = e.target.value;
+    setValidUsername(checkValidity("email", value));
+  }
+
+  function validatePW(e) {
+    const value = e.target.value;
+    setValidPW(checkValidity("password", value));
+  }
 
   const submittedHandler = (e) => {
     e.preventDefault();
-    onLogin(username, password, loginType);
+    if (!validUsername && !validPW) {
+      onLogin(username, password, loginType);
+    } else {
+      setValidUsername(checkValidity("email", username));
+      setValidPW(checkValidity("password", password));
+    }
   };
+
+  let customerLoginForm = <CustomerLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+      validUsername={validUsername}
+      checkUsername={validateUsername}
+      setValidUsername={setValidUsername}
+      validPW={validPW}
+      checkPW={validatePW}
+      setValidPW={setValidPW}
+  />;
+
+  let providerLoginForm = <ProviderLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+      validUsername={validUsername}
+      checkUsername={validateUsername}
+      setValidUsername={setValidUsername}
+      validPW={validPW}
+      checkPW={validatePW}
+      setValidPW={setValidPW}
+  />;
+
+  let adminLoginForm = <AdminLoginForm
+      onSubmit={submittedHandler}
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      keepSignedIn={keepSignedIn}
+      setKeepSignedIn={setKeepSignedIn}
+      validUsername={validUsername}
+      checkUsername={validateUsername}
+      setValidUsername={setValidUsername}
+      validPW={validPW}
+      checkPW={validatePW}
+      setValidPW={setValidPW}
+  />
 
   return isAuthenticated ? (
     <Redirect to={redirectPath} />
   ) : (
-    <React.Fragment>
-      <BackdropProgressCircle open={loading} />
-      {loginType === AUTH_ROLE.user ? (
-        <CustomerLoginForm
-          onSubmit={submittedHandler}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          keepSignedIn={keepSignedIn}
-          setKeepSignedIn={setKeepSignedIn}
-        />
-      ) : (
-        <ProviderLoginForm
-          onSubmit={submittedHandler}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          keepSignedIn={keepSignedIn}
-          setKeepSignedIn={setKeepSignedIn}
-        />
-      )}
-    </React.Fragment>
+      <React.Fragment>
+        <BackdropProgressCircle open={loading} />
+        {
+          loginType === AUTH_ROLE.user ? customerLoginForm
+              :
+              loginType === AUTH_ROLE.provider ? providerLoginForm
+                  :
+                  adminLoginForm
+        }
+      </React.Fragment>
   );
 }
 

@@ -10,16 +10,23 @@ import com.theloveteam.web.exceptions.UnknownRequestException;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.model.ServiceStatus;
 import com.theloveteam.web.model.TokenSubject;
+import com.theloveteam.web.repositories.OrderRepository;
 import com.theloveteam.web.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class UpdateServStatusHandler extends AbstractRequestHandler <UpdateServRequestBody, UpdateServResponseBody> {
 
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
     @Override
     protected void validatePermissionBeforeProcess(UpdateServRequestBody updateServRequestBody) {
@@ -59,7 +66,7 @@ public class UpdateServStatusHandler extends AbstractRequestHandler <UpdateServR
             return UpdateServResponseBody.builder().response("Update Success!").build();
         } else if ((status.equals(ServiceStatus.started.name()) && currentStatus.equals(ServiceStatus.accepted.name()))
                 || (status.equals(ServiceStatus.ended.name()) && currentStatus.equals(ServiceStatus.started.name()))) {
-            //CASE 3: started/ended -> only update status
+            //CASE 3: started/ended-> only update status
             serviceRepository.updateServStatusByServId(serviceId, status);
             return UpdateServResponseBody.builder().response("Update Success!").build();
         } else {
@@ -68,5 +75,42 @@ public class UpdateServStatusHandler extends AbstractRequestHandler <UpdateServR
         //update time stamp in future
 
         //User Service Interaction
+    }
+
+    @Override
+    protected void validatePermissionAndResponseAfterProcess(UpdateServRequestBody updateServRequestBody,
+                                                             UpdateServResponseBody updateServResponseBody) {
+        Long serviceId = Long.parseLong(updateServRequestBody.getServiceId());
+        Serv service = serviceRepository.getServiceByServiceId(serviceId);
+        Long orderId = service.getOrderId();
+        String status = updateServRequestBody.getStatus();
+        List<Serv> servList = serviceRepository.getServiceByOrderId(orderId);
+        List<Serv> currentServList = servList.stream()
+                .filter(serv -> !serv.getServiceId().equals(serviceId))
+                .collect(Collectors.toList());
+        //Update order status, if all services ended
+        if (status.equals(ServiceStatus.ended.name())) {
+            //check other service in same order
+            List<Long> endedServiceIds = currentServList.stream()
+                    .filter(Objects::nonNull)
+                    .filter(serv -> ServiceStatus.ended.name().equals(serv.getStatus()))
+                    .map(Serv::getServiceId)
+                    .collect(Collectors.toList());
+            if(endedServiceIds.size() == currentServList.size()) {
+                orderRepository.updateStatusByOrderId(orderId, ServiceStatus.finished.name());
+            }
+        }
+        //Update order status, if all services accepted
+        if (status.equals(ServiceStatus.accepted.name())) {
+            //check other service in same order
+            List<Long> endedServiceIds = currentServList.stream()
+                    .filter(Objects::nonNull)
+                    .filter(serv -> ServiceStatus.accepted.name().equals(serv.getStatus()))
+                    .map(Serv::getServiceId)
+                    .collect(Collectors.toList());
+            if(endedServiceIds.size() == currentServList.size()) {
+                orderRepository.updateStatusByOrderId(orderId, ServiceStatus.accepted.name());
+            }
+        }
     }
 }

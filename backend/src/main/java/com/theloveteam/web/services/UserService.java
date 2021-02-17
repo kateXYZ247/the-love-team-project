@@ -2,6 +2,7 @@ package com.theloveteam.web.services;
 
 import com.theloveteam.web.dao.User;
 import com.theloveteam.web.dto.RegisterRequestBody;
+import com.theloveteam.web.dto.UpdateAccountRequestBody;
 import com.theloveteam.web.model.Role;
 import com.theloveteam.web.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,15 @@ public class UserService {
 
     public Optional<User> getUserByUserId(Long userId) {
         return userRepository.findById(userId);
+    }
+
+    public void updateProfile(UpdateAccountRequestBody accountRequestBody,Optional<User> searchResult) {
+        User user = searchResult.get();
+        user.setFirstName(accountRequestBody.getFirstName());
+        user.setLastName(accountRequestBody.getLastName());
+        user.setAddress(accountRequestBody.getAddress());
+        user.setZip(accountRequestBody.getZip());
+        user.setPhone(accountRequestBody.getPhone());
+        userRepository.save(user);
     }
 }

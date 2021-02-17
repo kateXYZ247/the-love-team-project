@@ -1,42 +1,15 @@
 import React, { useEffect, useState } from "react";
 import * as actions from "../../../../store/actions";
 import { connect } from "react-redux";
-import {
-  Box,
-  Grid,
-  makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
-import ProviderListServicesTableRow from "../../../../components/ProviderListServicesTableRow/ProviderListServicesTableRow";
+import { Box, Grid, Typography } from "@material-ui/core";
 import BackdropProgressCircle from "../../../../components/UI/BackdropProgressCircle/BackdropProgressCircle";
 import { PROVIDER_FETCH_SERVICES_TYPE } from "../../../../constant/provider";
 import {
   SERVICE_STATUS,
   SERVICE_UPDATE_SOURCE,
 } from "../../../../constant/service";
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-});
-
-const TableTitleCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.primary.contrastText,
-    fontSize: 20,
-  },
-  body: {},
-}))(TableCell);
+import { PATH_PROVIDER_LIST_SERVICES } from '../../../../constant/path'
+import ProviderListRequestCard from "../../../../components/ProviderListRequestCard/ProviderListRequestCard";
 
 function RequestedServices(props) {
   const {
@@ -46,15 +19,22 @@ function RequestedServices(props) {
     onFetchRequests,
     onAcceptRequest,
     onDeclineRequest,
+    onSetRedirectPath,
+    onUmount
   } = props;
-  const classes = useStyles();
   const [deleted, setDeleted] = useState(requests.map(() => false));
 
   useEffect(() => {
     onFetchRequests(userId);
-  }, [userId, onFetchRequests]);
+    return () => onUmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => setDeleted(requests.map(() => false)), [requests]);
+
+  useEffect(() => {
+    onSetRedirectPath(PATH_PROVIDER_LIST_SERVICES);
+  }, [onSetRedirectPath]);
 
   const declineButtonClickedHandler = (index) => {
     setDeleted(deleted.map((e, i) => (i === index ? true : e)));
@@ -72,36 +52,19 @@ function RequestedServices(props) {
           New Customer Requests
         </Typography>
       </Box>
-      <Grid container justify="center">
-        <Grid item xs={11}>
-          <TableContainer component={Paper}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableTitleCell>Date</TableTitleCell>
-                  <TableTitleCell>Location</TableTitleCell>
-                  <TableTitleCell>Service</TableTitleCell>
-                  <TableTitleCell>Pets</TableTitleCell>
-                  <TableTitleCell align="center">Actions</TableTitleCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {requests.map((request, index) => (
-                  <ProviderListServicesTableRow
-                    key={index}
-                    request={request}
-                    onAccept={() =>
-                      requestAcceptedHandler(index, request.serviceId)
-                    }
-                    onDecline={() => declineButtonClickedHandler(index)}
-                    onDelete={deleted[index]}
-                  />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+      <Box p={5}>
+        <Grid container justify="center" spacing={5}>
+          {requests.map((request, index) => (
+            <ProviderListRequestCard
+              key={index}
+              request={request}
+              onAccept={() => requestAcceptedHandler(index, request.serviceId)}
+              onDecline={() => declineButtonClickedHandler(index)}
+              onDelete={deleted[index]}
+            />
+          ))}
         </Grid>
-      </Grid>
+      </Box>
     </React.Fragment>
   );
 }
@@ -116,9 +79,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onSetRedirectPath: (path) => dispatch(actions.setRedirectPath(path)),
     onFetchRequests: (userId) =>
       dispatch(
         actions.fetchServices(PROVIDER_FETCH_SERVICES_TYPE.requests, userId)
+      ),
+    onUmount: () =>
+      dispatch(
+        actions.clearFetchedServices(PROVIDER_FETCH_SERVICES_TYPE.requests)
       ),
     onDeclineRequest: (index) =>
       dispatch(

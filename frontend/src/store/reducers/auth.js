@@ -1,36 +1,31 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updateObject} from "../../shared/utility";
-import {AUTH_ROLE, LOCAL_STORAGE_TOKEN_KEY} from "../../constant/auth";
-import {PATH_PROVIDER_LIST_SERVICES} from "../../constant/path";
+import { updateObject } from "../../shared/utility";
+import { AUTH_ROLE, LOCAL_STORAGE_TOKEN_KEY } from "../../constant/auth";
 
 const initialState = {
   token: null,
   userId: null,
   userDetail: {
-    firstName: null,
+    firstName: "",
     lastName: null,
     role: AUTH_ROLE.user,
     address: "",
     zip: "",
     email: "",
-    lastLoggedInTime: new Date()
+    lastLoggedInTime: new Date(),
   },
   loading: false,
   authRedirectPath: "/",
-  stompClient: null
+  stompClient: null,
 };
 
 const setRedirectPath = (state, action) => {
-  return updateObject(state, {authRedirectPath: action.path});
+  return updateObject(state, { authRedirectPath: action.path });
 };
 
 const loginStart = (state, action) => {
   return updateObject(state, {
     loading: true,
-    authRedirectPath:
-        action.role === AUTH_ROLE.provider
-            ? PATH_PROVIDER_LIST_SERVICES
-            : state.authRedirectPath
   });
 };
 
@@ -39,26 +34,27 @@ const loginSuccess = (state, action) => {
   sessionStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.token);
   return updateObject(state, {
     userId: action.userId,
-    token: action.token
+    token: action.token,
   });
 };
 
 const setUserDetail = (state, action) => {
-  const {role} = action;
-  let {data} = action;
+  const { role } = action;
+  let { data } = action;
   if (role === AUTH_ROLE.provider) {
     data = updateObject(action.data.provider, {
-      productName: action.data.productName
+      productName: action.data.productName,
     });
   }
   return updateObject(state, {
     userDetail: data,
-    loading: false
+    loading: false,
   });
 };
 
+
 const loginGetInfoFail = (state, action) => {
-  return updateObject(state, {loading: false});
+  return updateObject(state, { loading: false });
 };
 
 const logout = (state, action) => {
@@ -68,20 +64,64 @@ const logout = (state, action) => {
     token: null,
     userId: null,
     userDetail: updateObject(initialState.userDetail, {
-      role: state.userDetail.role
+      role: state.userDetail.role,
     }),
-    loading: false
+    loading: false,
   });
 };
 
 const setStompClient = (state, action) => {
   return updateObject(state, {
-    stompClient: action.stompClient
+    stompClient: action.stompClient,
   });
 };
 
 const clearStompClient = (state, action) => {
-  return updateObject(state, {stompClient: null});
+  return updateObject(state, { stompClient: null });
+};
+
+const profileUpdateStart = (state, action) => {
+  return state;
+};
+
+
+const profileUpdateSuccess = (state, action) => {
+  // update the old object with the newly updated object
+  return updateObject(state, {
+    // create a userDetail object with update fields
+    userDetail: updateObject(state.userDetail, {
+      firstName: action.firstName,
+      lastName: action.lastName,
+      address: action.address,
+      phone: action.phone,
+    })
+  });
+};
+
+const profileUpdateFail = (state, action) => {
+  return state;
+};
+
+const providerUpdateLocationStart = (state, action) => {
+  return updateObject(state, {
+    loading: true,
+  });
+};
+
+const providerUpdateLocationSuccess = (state, action) => {
+  return updateObject(state, {
+    userDetail: updateObject(state.userDetail, {
+      latitude: action.latitude,
+      longitude: action.longitude,
+    }),
+    loading: false,
+  });
+};
+
+const providerUpdateLocationFail = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+  });
 };
 
 const reducer = (state = initialState, action) => {
@@ -102,6 +142,18 @@ const reducer = (state = initialState, action) => {
       return setStompClient(state, action);
     case actionTypes.AUTH_CLEAR_STOMP_CLIENT:
       return clearStompClient(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.start:
+      return profileUpdateStart(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.success:
+      return profileUpdateSuccess(state, action);
+    case actionTypes.USER_PROFILE_UPDATE_STATUS.fail:
+      return profileUpdateFail(state, action);
+    case actionTypes.PROVIDER_UPDATE_LOCATION.start:
+      return providerUpdateLocationStart(state, action);
+    case actionTypes.PROVIDER_UPDATE_LOCATION.success:
+      return providerUpdateLocationSuccess(state, action);
+    case actionTypes.PROVIDER_UPDATE_LOCATION.fail:
+      return providerUpdateLocationFail(state, action);
     default:
       return state;
   }

@@ -12,6 +12,30 @@ import { setMessage } from "./message";
 import { MESSAGE_TYPE } from "../../constant/message";
 import { FETCH_ORDERS_TYPE } from "../../constant/order";
 
+function DateComparator(order1, order2) {
+  if (
+    !order1.hasOwnProperty("servs") ||
+    order1.servs.length === 0 ||
+    !order1.servs[0].hasOwnProperty("startTime")
+  ) {
+    return 1;
+  } else if (
+    !order2.hasOwnProperty("servs") ||
+    order2.servs.length === 0 ||
+    !order2.servs[0].hasOwnProperty("startTime")
+  ) {
+    return -1;
+  }
+  const startTime1 = new Date(order1.servs[0].startTime);
+  const startTime2 = new Date(order2.servs[0].startTime);
+  if (startTime1 < startTime2) {
+    return -1;
+  } else if (startTime1 > startTime2) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
 export const addToCart = (product) => {
   return {
@@ -139,11 +163,11 @@ export const fetchOrdersStart = () => {
 export const fetchOrders = (type, userId) => {
   return (dispatch) => {
     dispatch(fetchOrdersStart());
-    let url = ''
+    let url = "";
     switch (type) {
       case FETCH_ORDERS_TYPE.upcomingAppointments:
         url = API_PATH_FETCH_USER_UPCOMING_ORDER;
-        url += userId + "&status=upcoming"
+        url += userId + "&status=upcoming";
         break;
       case FETCH_ORDERS_TYPE.historicalOrders:
         url = API_PATH_FETCH_USER_ORDER;
@@ -159,15 +183,33 @@ export const fetchOrders = (type, userId) => {
           response.data.hasOwnProperty("orderHistoryResponseBody")
         ) {
           const fetchedOrders = response.data.orderHistoryResponseBody;
+          fetchedOrders.sort(DateComparator);
           dispatch(fetchOrdersSuccess(type, fetchedOrders));
         } else {
           throw new Error("Invalid data!");
         }
       })
       .catch((error) => {
-        dispatch(fetchOrdersFail(type));
-        dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        if (
+          error
+            .toString()
+            .includes("Cannot read property 'hasOwnProperty' of undefined")
+        ) {
+          dispatch(
+            setMessage(MESSAGE_TYPE.warning, "TIME OUT! PLEASE LOG IN AGAIN!")
+          );
+        } else {
+          dispatch(fetchOrdersFail(type));
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
       });
+  };
+};
+
+export const clearFetchedOrders = (source) => {
+  return {
+    type: actionTypes.CLEAR_FETCHED_ORDERS,
+    source: source,
   };
 };
 
@@ -220,4 +262,3 @@ export const userUpdateOrderStatus = (
       });
   };
 };
-

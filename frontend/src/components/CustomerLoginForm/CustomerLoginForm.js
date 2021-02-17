@@ -36,11 +36,17 @@ function CustomerLoginForm(props) {
     setPassword,
     keepSignedIn,
     setKeepSignedIn,
+    validUsername,
+    checkUsername,
+    validPW,
+    checkPW,
+    setValidUsername,
+    setValidPW,
   } = props;
 
   return (
     <Grid container justify="center">
-      <Grid item xs={10} lg={6}>
+      <Grid item xs={10} lg={7}>
         <Card>
           <CardTitle title="Sign in to access your account" />
           <CardContent>
@@ -54,13 +60,19 @@ function CustomerLoginForm(props) {
                   setPassword={setPassword}
                   keepSignedIn={keepSignedIn}
                   setKeepSignedIn={setKeepSignedIn}
+                  validUsername={validUsername}
+                  checkUsername={checkUsername}
+                  setValidUsername={setValidUsername}
+                  validPW={validPW}
+                  checkPW={checkPW}
+                  setValidPW={setValidPW}
                 />
               </Grid>
               <Grid item xs={11} md={5}>
                 <Box p={2} height="20px" align="center" fontSize={18}>
                   Click the button below to register now
                 </Box>
-                <Box p={2} height="40px">
+                <Box p={3} height="40px">
                   <ColorButtonBlack
                     variant="contained"
                     color="primary"
@@ -72,7 +84,7 @@ function CustomerLoginForm(props) {
                     Create Account
                   </ColorButtonBlack>
                 </Box>
-                <Box p={2} height="30px" align="center" fontSize={18}>
+                <Box p={3} height="30px" align="center" fontSize={18}>
                   OR
                 </Box>
                 <Box p={2} height="30px">

@@ -1,14 +1,15 @@
 import React from "react";
-import { Button, Chip } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
+import ColorButton from "../UI/Buttons/ColorButton";
 
 function Sample(props) {
   return (
     <div>
-      <Button color="primary" onClick={props.clicked}>
+      <ColorButton color="primary" onClick={props.clicked}>
         Button OK
-      </Button>
+      </ColorButton>
       <Chip color="primary" label="Chip OK" onClick={props.clicked} />
-      <span>REACT_APP_SAMPLE: {process.env.REACT_APP_SAMPLE}</span>
+      <div>REACT_APP_SAMPLE: {process.env.REACT_APP_SAMPLE}</div>
     </div>
   );
 }

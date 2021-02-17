@@ -1,6 +1,6 @@
 import React from "react";
 import "date-fns";
-import { Box, Card, CardContent, Grid } from "@material-ui/core";
+import {Box, Card, CardContent, Grid, TextField} from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -10,7 +10,8 @@ import {
 import CardTitle from "../../UI/CardTitle/CardTitle";
 
 function DateTimePicker(props) {
-  const { date, dateChangedHandler } = props;
+  const { date, dateChangedHandler,validTime, validateTime} = props;
+  const today = new Date();
   return (
     <Grid container justify="center">
       <Grid item xs={10} lg={6}>
@@ -21,6 +22,7 @@ function DateTimePicker(props) {
               <Box p={5}>
                 <Grid container justify="space-around" spacing={3}>
                   <KeyboardDatePicker
+                    minDate={today}
                     margin="normal"
                     id="date-picker-dialog"
                     label="Pick Service Date"
@@ -35,9 +37,17 @@ function DateTimePicker(props) {
                     margin="normal"
                     id="time-picker"
                     label="Pick Service Time"
-                    minutesStep={5}
+                    minutesStep={10}
                     value={date}
                     onChange={dateChangedHandler}
+                    FormHelperTextProps={{
+                      error: true,
+                    }}
+                    helperText={
+                      validTime === false
+                          ? "Please enter a valid time"
+                          : ""
+                    }
                     KeyboardButtonProps={{
                       "aria-label": "change time",
                     }}

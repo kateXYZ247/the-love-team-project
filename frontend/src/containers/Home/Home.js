@@ -3,17 +3,21 @@ import Book from "../../components/HomePage/Book/Book";
 import Sauce from "../../components/HomePage/Sauce/Sauce";
 import Process from "../../components/HomePage/Process/Process";
 import Products from "../../components/HomePage/Products/Products";
-import classes from "./Home.module.css";
+import Box from "@material-ui/core/Box";
+import { Hidden } from "@material-ui/core";
+import JoinUs from "../../components/HomePage/JoinUs/JoinUs";
 
 function Home(props) {
-  // TODO: change to responsive design, optimize for mobile device
   return (
-    <div className={classes.container}>
+    <Box mx={5}>
       <Book />
       <Sauce />
-      <Process />
+      <Hidden mdDown>
+        <Process />
+      </Hidden>
       <Products />
-    </div>
+      <JoinUs />
+    </Box>
   );
 }
 

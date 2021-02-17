@@ -71,7 +71,16 @@ export const onSwitch = (userId, avail) => {
         dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
       })
       .catch((error) => {
-        dispatch(switchFail());
+        if (
+          error.toString().includes("Cannot read property 'data' of undefined")
+        ) {
+          dispatch(
+            setMessage(MESSAGE_TYPE.warning, "TIME OUT! PLEASE LOG IN AGAIN!")
+          );
+        } else {
+          dispatch(switchFail());
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
       });
   };
 };
