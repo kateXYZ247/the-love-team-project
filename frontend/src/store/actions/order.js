@@ -190,7 +190,6 @@ export const fetchOrders = (type, userId) => {
         }
       })
       .catch((error) => {
-        console.log("error is ", error);
         if (
           error
             .toString()

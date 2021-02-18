@@ -13,7 +13,7 @@ export const PATH_ORDER = "/order";
 export const PATH_HISTORY = "/history";
 export const PATH_APPOINTMENTS = "/appointments";
 
-export const PATH_USER_PROFILE = "/users/profile";
+export const PATH_USER_PROFILE = "/profile";
 
 export const PATH_PROVIDER_HOME = "/provider";
 export const PATH_PROVIDER_LOGIN = "/provider/login";
@@ -62,7 +62,7 @@ export const NAV_BAR_USER_PATH_ITEMS = [
     label: "Profile",
     path: PATH_USER_PROFILE,
     icon: <PersonIcon />,
-  }
+  },
 ];
 
 export const NAV_BAR_PROVIDER_PATH_ITEMS = [
@@ -85,5 +85,13 @@ export const NAV_BAR_PROVIDER_PATH_ITEMS = [
     label: "Profile",
     path: PATH_PROVIDER_PROFILE,
     icon: <PersonIcon />,
+  },
+];
+
+export const NAV_BAR_ADMIN_PATH_ITEMS = [
+  {
+    label: "Home",
+    path: PATH_HOME,
+    icon: <HomeIcon />,
   },
 ];

@@ -1,11 +1,12 @@
 import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { TextField } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import classes from "./CheckBox.module.css";
 
 function CheckboxLabels(props) {
-  const { user, checkedBoxHandleChange } = props;
+  const { user, checkedBoxHandleChange,} = props;
   const preventDefault = (event) => event.preventDefault();
 
   return (
@@ -26,6 +27,9 @@ function CheckboxLabels(props) {
         </div >
       }
     />
+
+
+
   );
 }
 

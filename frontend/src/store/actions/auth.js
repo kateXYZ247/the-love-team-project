@@ -125,9 +125,17 @@ export const login = (username, password, role) => {
       password: password,
     };
     const urlLogin =
-      role === AUTH_ROLE.user ? API_PATH_USER_LOGIN : role === AUTH_ROLE.provider ? API_PATH_PROVIDER_LOGIN : API_PATH_ADMIN_LOGIN;
+      role === AUTH_ROLE.user
+        ? API_PATH_USER_LOGIN
+        : role === AUTH_ROLE.provider
+          ? API_PATH_PROVIDER_LOGIN
+          : API_PATH_ADMIN_LOGIN;
     const urlDetail =
-      role === AUTH_ROLE.user ? API_PATH_USER_DETAIL : role === AUTH_ROLE.provider ? API_PATH_PROVIDER_DETAIL : API_PATH_ADMIN_DETAIL;
+      role === AUTH_ROLE.user
+        ? API_PATH_USER_DETAIL
+        : role === AUTH_ROLE.provider
+          ? API_PATH_PROVIDER_DETAIL
+          : API_PATH_ADMIN_DETAIL;
     axios
       .post(urlLogin, data)
       .then((response) => {
@@ -160,11 +168,11 @@ export const login = (username, password, role) => {
         const { data } = response;
         dispatch(setUserDetail(data, role));
         const firstName =
-          role === AUTH_ROLE.user ? data.firstName
-              :
-          role === AUTH_ROLE.provider ? data.provider.firstName
-              :
-          data.firstName;
+          role === AUTH_ROLE.user
+            ? data.firstName
+            : role === AUTH_ROLE.provider
+              ? data.provider.firstName
+              : data.firstName;
         dispatch(setMessage(MESSAGE_TYPE.info, "Welcome back, " + firstName));
       })
       .catch((error) => {
@@ -258,7 +266,6 @@ export const profileUpdateSuccess = (firstName, lastName, address, phone) => {
   };
 };
 
-
 export const profileUpdateFail = (error) => {
   return {
     type: actionTypes.USER_PROFILE_UPDATE_STATUS.fail,
@@ -269,7 +276,6 @@ export const profileUpdateFail = (error) => {
 // sending request to the backend
 
 export const profileUpdate = (userId, firstName, lastName, address, phone) => {
-  console.log(firstName);
   return (dispatch) => {
     dispatch(profileUpdateStart);
     axios(API_PATH_USER_DETAIL + userId + API_PATH_USER_UPDATE_ACCOUNT, {
@@ -282,21 +288,22 @@ export const profileUpdate = (userId, firstName, lastName, address, phone) => {
       },
       method: "put",
     })
-        .then((response) => {
-          console.log(response);
-          if (response.status !== 200) {
-            throw new Error("Profile Update Failed!")
-          }
-          const { successMsg } = response.data;
-          dispatch(profileUpdateSuccess(userId, firstName, lastName, address, phone));
-          dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
-        })
-        .catch((error) => {
-          console.log(error);
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error("Profile Update Failed!");
+        }
+        const { successMsg } = response.data;
+        dispatch(profileUpdateSuccess(firstName, lastName, address, phone));
+        dispatch(setMessage(MESSAGE_TYPE.info, successMsg));
+      })
+      .catch((error) => {
+        dispatch(profileUpdateFail(error));
+        if (error.response) {
           const { errors } = error.response.data;
-          console.log(errors);
-          dispatch(profileUpdateFail(error));
-          dispatch(setMessage(MESSAGE_TYPE.error, errors[0].message));
-        });
+          dispatch(setMessage(MESSAGE_TYPE.warning, errors[0].message));
+        } else {
+          dispatch(setMessage(MESSAGE_TYPE.warning, error.message));
+        }
+      });
   };
 };
